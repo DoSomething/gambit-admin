@@ -1,5 +1,6 @@
 import React from 'react';
 import Request from 'react-http-request';
+import { Grid, PageHeader, Well, Table } from 'react-bootstrap';
 
 //const url = 'https://ds-mdata-responder-staging.herokuapp.com/v1/campaigns';
 // const url = 'https://gambit-conversations-prod.herokuapp.com/api/v1/messages';
@@ -57,15 +58,15 @@ export default class UserDetail extends React.Component {
 
   renderUserDetail(user) {
     return (
-      <div>
-        <h1>{ user._id }</h1>
-        <div>Platform: { user.platform }</div>
-        <div>Current Campaign: { user.campaignId }</div>
-        <div>
-          <h2>History</h2>
-          { this.renderUserMessages(user) }
-        </div>
-      </div>
+      <Grid>
+        <PageHeader>{ user._id }</PageHeader>
+        <Well>
+          <div>Platform: { user.platform }</div>
+          <div>Current Campaign: { user.campaignId }</div>
+        </Well>
+        <h2>History</h2>
+        { this.renderUserMessages(user) }
+      </Grid>
     );
   }
 
@@ -88,7 +89,7 @@ export default class UserDetail extends React.Component {
               return <div>{ JSON.stringify(error) }</div>;
             } else {
               return (
-                <table>
+                <Table striped bordered condensed hover>
                   <tbody>
                   <tr>
                     <th>Direction</th>
@@ -98,7 +99,7 @@ export default class UserDetail extends React.Component {
                   </tr>
                   { result.body.map(message => renderMessage(message)) }
                   </tbody>
-                </table>
+                </Table>
               );
             }
           }
