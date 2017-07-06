@@ -4,9 +4,9 @@ import {Link} from 'react-router-dom';
 
 //const url = 'https://ds-mdata-responder-staging.herokuapp.com/v1/campaigns';
 // const url = 'https://gambit-conversations-prod.herokuapp.com/api/v1/messages';
-const url = 'http://localhost:5100/api/v1/messages?sort=-date';
+const url = 'http://localhost:5100/api/v1/users';
 
-export default class Home extends React.Component {
+export default class UserList extends React.Component {
   render() {
     return (
       <Request
@@ -25,12 +25,13 @@ export default class Home extends React.Component {
               return (
                 <table>
                   <tr>
-                    <th>User</th>
-                    <th>Direction</th>
-                    <th>Text</th>
-                    <th>Date</th>
+                    <th>ID</th>
+                    <th>Platform</th>
+                    <th>Campaign</th>
+                    <th>Topic</th>
+                    <th>Last Reply Template</th>
                   </tr>
-                  { result.body.map(message => this.renderMessage(message)) }
+                  { result.body.map(user => this.renderUser(user)) }
                 </table>
               );
             }
@@ -39,16 +40,14 @@ export default class Home extends React.Component {
       </Request>
     );
   }
-
-  renderMessage(message) {
-    const uri = `users/${message.userId}`;
-
+  renderUser(user) {
     return (
-      <tr key={ message._id }>
-        <td><Link to={uri}>{ message.userId }</Link></td>
-        <td>{ message.direction }</td>
-        <td>{ message.text }</td>
-        <td>{ message.date }</td>
+      <tr key={ user._id }>
+        <td><Link to={`users/${user._id}`}>{ user._id }</Link></td>
+        <td>{ user.platform }</td>
+        <td>{ user.campaignId }</td>
+        <td>{ user.topic }</td>
+        <td>{ user.lastReplyTemplate }</td>
       </tr>
     );
   }
