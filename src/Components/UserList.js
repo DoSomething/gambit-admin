@@ -3,9 +3,7 @@ import Request from 'react-http-request';
 import {Link} from 'react-router-dom';
 import { Grid, PageHeader, Table } from 'react-bootstrap';
 
-//const url = 'https://ds-mdata-responder-staging.herokuapp.com/v1/campaigns';
-// const url = 'https://gambit-conversations-prod.herokuapp.com/api/v1/messages';
-const url = 'http://localhost:5100/api/v1/users';
+const gambit = require('../gambit');
 
 export default class UserList extends React.Component {
   render() {
@@ -19,7 +17,7 @@ export default class UserList extends React.Component {
   renderUserList() {
     return (
       <Request
-        url={url}
+        url={ gambit.url('users') }
         method='get'
         accept='application/json'
         verbose={true}
