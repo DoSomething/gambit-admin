@@ -35,7 +35,8 @@ export default class UserList extends React.Component {
                   <tr>
                     <th>ID</th>
                     <th>Platform</th>
-                    <th>Campaign</th>
+                    <th>Platform ID</th>
+                    <th>Current Campaign</th>
                     <th>Topic</th>
                     <th>Last Reply Template</th>
                   </tr>
@@ -54,6 +55,7 @@ export default class UserList extends React.Component {
       <tr key={ user._id }>
         <td><Link to={`users/${user._id}`}>{ user._id }</Link></td>
         <td>{ user.platform }</td>
+        <td>{ user.platformId }</td>
         <td>{ user.campaignId }</td>
         <td>{ user.topic }</td>
         <td>{ user.lastReplyTemplate }</td>
