@@ -8,7 +8,7 @@ const url = 'http://localhost:5100/api/v1/';
 
 function getMessagesUrl(platformId) {
   const query = encodeURIComponent(`"userId":"${platformId}"`);
-  return `${url}messages?query={${query}}`;
+  return `${url}messages?sort=-date&query={${query}}`;
 }
 
 function renderMessage(message) {
@@ -17,6 +17,7 @@ function renderMessage(message) {
       <td>{ message.direction }</td>
       <td>{ message.text }</td>
       <td>{ message.topic }</td>
+      <td>{ message.template }</td>
       <td>{ message.date }</td>
     </tr>
   );
@@ -64,7 +65,7 @@ export default class UserDetail extends React.Component {
           <div>Platform: { user.platform }</div>
           <div>Current Campaign: { user.campaignId }</div>
         </Well>
-        <h2>History</h2>
+        <h2>Latest messages</h2>
         { this.renderUserMessages(user) }
       </Grid>
     );
@@ -95,6 +96,7 @@ export default class UserDetail extends React.Component {
                     <th>Direction</th>
                     <th>Text</th>
                     <th>Topic</th>
+                    <th>Template</th>
                     <th>Date</th>
                   </tr>
                   { result.body.map(message => renderMessage(message)) }

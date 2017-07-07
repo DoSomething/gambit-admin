@@ -36,10 +36,12 @@ export default class Home extends React.Component {
                 <Table striped bordered>
                   <tbody>
                     <tr>
+                      <th>Date</th>
                       <th>User</th>
                       <th>Direction</th>
                       <th>Text</th>
-                      <th>Date</th>
+                      <th>Topic</th>
+                      <th>Template</th>
                     </tr>
                     { result.body.map(message => this.renderMessage(message)) }
                   </tbody>
@@ -57,10 +59,12 @@ export default class Home extends React.Component {
 
     return (
       <tr key={ message._id }>
+        <td>{ message.date }</td>
         <td><Link to={uri}>{ message.userId }</Link></td>
         <td>{ message.direction }</td>
         <td>{ message.text }</td>
-        <td>{ message.date }</td>
+        <td>{ message.topic }</td>
+        <td>{ message.template }</td>
       </tr>
     );
   }
