@@ -28,7 +28,7 @@ export default class UserDetail extends React.Component {
     this.messagesUrl = gambit.url(`messages?sort=-date&query={${query}}`);
   }
 
-  render() {
+  get() {
     return (
       <Request
         url={this.userUrl}
