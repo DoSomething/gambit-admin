@@ -8,6 +8,8 @@ import registerServiceWorker from './registerServiceWorker'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 
+require('dotenv').config();
+
 ReactDOM.render((
   <BrowserRouter>
     <App />

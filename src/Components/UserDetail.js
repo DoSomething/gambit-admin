@@ -2,14 +2,7 @@ import React from 'react';
 import Request from 'react-http-request';
 import { Grid, PageHeader, Well, Table } from 'react-bootstrap';
 
-//const url = 'https://ds-mdata-responder-staging.herokuapp.com/v1/campaigns';
-// const url = 'https://gambit-conversations-prod.herokuapp.com/api/v1/messages';
-const url = 'http://localhost:5100/api/v1/';
-
-function getMessagesUrl(platformId) {
-  const query = encodeURIComponent(`"userId":"${platformId}"`);
-  return `${url}messages?sort=-date&query={${query}}`;
-}
+const gambit = require('../gambit');
 
 function renderMessage(message) {
   return (
@@ -23,15 +16,16 @@ function renderMessage(message) {
   );
 }
 
-
 export default class UserDetail extends React.Component {
   constructor(props) {
     super(props);
+
     this.userId = this.props.match.params.userId;
-    this.userUrl = `${url}users/${this.userId}`;
+    this.userUrl = gambit.url(`users/${this.userId}`);
+    console.log(this.userUrl);
+
     const query = encodeURIComponent(`"userId":"${this.userId}"`);
-    this.messagesUrl = `${url}messages?query={${query}}`;
-    console.log(this.messagesUrl);
+    this.messagesUrl = gambit.url(`messages?sort=-date&query={${query}}`);
   }
 
   render() {
@@ -47,7 +41,7 @@ export default class UserDetail extends React.Component {
             if (loading) {
               return <div>loading...</div>;
             } else if (error) {
-              return <div>{ JSON.stringify(error) }</div>;
+              return <code>{ JSON.stringify(error) }</code>;
             } else {
               return this.renderUserDetail(result.body);
             }
@@ -72,12 +66,9 @@ export default class UserDetail extends React.Component {
   }
 
   renderUserMessages(user) {
-    const url = getMessagesUrl(user._id);
-    console.log(url);
-
     return (
       <Request
-        url={url}
+        url={this.messagesUrl}
         method='get'
         accept='application/json'
         verbose={true}

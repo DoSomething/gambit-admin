@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "3",
+    "dotenv": "^4.0.0",
     "eslint-config-react-app": "^1.0.5",
     "eslint-plugin-react": "^7.1.0",
     "react": "^15.6.1",
