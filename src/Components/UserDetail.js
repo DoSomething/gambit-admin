@@ -1,37 +1,22 @@
 import React from 'react';
 import Request from 'react-http-request';
-import { Grid, PageHeader, Well, Table } from 'react-bootstrap';
+import { Col, ControlLabel, Form, FormControl, FormGroup, Grid, PageHeader } from 'react-bootstrap';
+import MessageList from './MessageList';
 
 const gambit = require('../gambit');
-
-function renderMessage(message) {
-  return (
-    <tr key={ message._id }>
-      <td>{ message.direction }</td>
-      <td>{ message.text }</td>
-      <td>{ message.topic }</td>
-      <td>{ message.template }</td>
-      <td>{ message.date }</td>
-    </tr>
-  );
-}
 
 export default class UserDetail extends React.Component {
   constructor(props) {
     super(props);
 
     this.userId = this.props.match.params.userId;
-    this.userUrl = gambit.url(`users/${this.userId}`);
-    console.log(this.userUrl);
-
-    const query = encodeURIComponent(`"userId":"${this.userId}"`);
-    this.messagesUrl = gambit.url(`messages?sort=-date&query={${query}}`);
+    this.requestUrl = gambit.url(`users/${this.userId}`);
   }
 
-  get() {
+  render() {
     return (
       <Request
-        url={this.userUrl}
+        url={this.requestUrl}
         method='get'
         accept='application/json'
         verbose={true}
@@ -55,49 +40,27 @@ export default class UserDetail extends React.Component {
     return (
       <Grid>
         <PageHeader>{ user._id }</PageHeader>
-        <Well>
-          <div>Platform: { user.platform }</div>
-          <div>Current Campaign: { user.campaignId }</div>
-        </Well>
+        <Form horizontal>
+          <FormGroup>
+            <Col sm={2}>
+              <ControlLabel>Platform</ControlLabel>
+            </Col>
+            <Col sm={10}>
+              <FormControl.Static>{ user.platform }</FormControl.Static>
+            </Col>
+          </FormGroup>
+          <FormGroup>
+            <Col sm={2}>
+              <ControlLabel>Platform Id</ControlLabel>
+            </Col>
+            <Col sm={10}>
+              <FormControl.Static>{ user.platformId }</FormControl.Static>
+            </Col>
+          </FormGroup>
+        </Form>
         <h2>Latest messages</h2>
-        { this.renderUserMessages(user) }
+        <MessageList userId={this.userId} />
       </Grid>
     );
-  }
-
-  renderUserMessages(user) {
-    return (
-      <Request
-        url={this.messagesUrl}
-        method='get'
-        accept='application/json'
-        verbose={true}
-      >
-        {
-          ({error, result, loading}) => {
-            if (loading) {
-              return <div>loading...</div>;
-            } else if (error) {
-              return <div>{ JSON.stringify(error) }</div>;
-            } else {
-              return (
-                <Table striped bordered condensed hover>
-                  <tbody>
-                  <tr>
-                    <th>Direction</th>
-                    <th>Text</th>
-                    <th>Topic</th>
-                    <th>Template</th>
-                    <th>Date</th>
-                  </tr>
-                  { result.body.map(message => renderMessage(message)) }
-                  </tbody>
-                </Table>
-              );
-            }
-          }
-        }
-      </Request>
-    ); 
   }
 }

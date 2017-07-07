@@ -4,21 +4,22 @@ import {Link} from 'react-router-dom';
 import {Table} from 'react-bootstrap';
 
 const gambit = require('../gambit');
-let url = gambit.url('messages?sort=-date');
 
-/**
- * @param {string} userId
- */
 export default class MessageList extends React.Component {
-  render() {
-    let includeUser = false;
-    if (this.props.userId) {
-      includeUser = true;
-    }
+  constructor(props) {
+    super(props);
 
+    this.requestUrl = gambit.url('messages?sort=-date');
+    if (this.props.userId) {
+       const query = encodeURIComponent(`"userId":"${this.props.userId}"`);
+       this.requestUrl = `${this.requestUrl}&query={${query}}`;
+    }
+  }
+
+  render() {
     return (
       <Request
-        url={ url }
+        url={ this.requestUrl }
         method='get'
         accept='application/json'
         verbose={true}
@@ -33,8 +34,8 @@ export default class MessageList extends React.Component {
               return (
                 <Table striped bordered>
                   <tbody>
-                    { this.renderHeader(includeUser) }
-                    { result.body.map(message => this.renderMessage(message, includeUser)) }
+                    { this.renderHeader() }
+                    { result.body.map(message => this.renderMessage(message)) }
                   </tbody>
                 </Table>
               );
@@ -45,30 +46,37 @@ export default class MessageList extends React.Component {
     );
   }
 
-  renderHeader(includeUser) {
+  renderHeader() {
+    let userCell;
+    if (! this.props.userId) {
+      userCell = <th>User</th>;
+    }
+
     return (
       <tr>
         <th>Date</th>
-        <th>User</th>
+        { userCell }
         <th>Direction</th>
         <th>Text</th>
-        <th>Topic</th>
         <th>Campaign</th>
         <th>Template</th>
       </tr>
     );
   }
 
-  renderMessage(message, includeUser) {
-    const uri = `users/${message.userId}`;
+  renderMessage(message) {
+    let userCell;
+    if (! this.props.userId) {
+      const uri = `/users/${message.userId}`;
+      userCell = <td><Link to={uri}>{ message.userId }</Link></td>;
+    }
 
     return (
       <tr key={ message._id }>
-        <td>{ message.date }</td>
-        <td><Link to={uri}>{ message.userId }</Link></td>
+        <td><small>{ message.date }</small></td>
+        { userCell }
         <td>{ message.direction }</td>
         <td>{ message.text }</td>
-        <td>{ message.topic }</td>
         <td>{ message.campaignId }</td>
         <td>{ message.template }</td>
       </tr>
