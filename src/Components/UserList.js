@@ -2,6 +2,8 @@ import React from 'react';
 import Request from 'react-http-request';
 import {Link} from 'react-router-dom';
 import { Grid, PageHeader, Table } from 'react-bootstrap';
+import RequestError from './RequestError';
+import RequestLoading from './RequestLoading';
 
 const gambit = require('../gambit');
 
@@ -14,6 +16,7 @@ export default class UserList extends React.Component {
       </Grid>
     );
   }
+
   renderUserList() {
     return (
       <Request
@@ -25,9 +28,9 @@ export default class UserList extends React.Component {
         {
           ({error, result, loading}) => {
             if (loading) {
-              return <div>loading...</div>;
+              return <RequestLoading />;
             } else if (error) {
-              return <div>{ JSON.stringify(error) }</div>;
+              return <RequestError error={error} />
             } else {
               return (
                 <Table striped bordered hover>
@@ -50,6 +53,7 @@ export default class UserList extends React.Component {
       </Request>
     );
   }
+
   renderUser(user) {
     return (
       <tr key={ user._id }>

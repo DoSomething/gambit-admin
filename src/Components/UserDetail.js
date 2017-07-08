@@ -2,6 +2,8 @@ import React from 'react';
 import Request from 'react-http-request';
 import { Col, ControlLabel, Form, FormControl, FormGroup, Grid, PageHeader } from 'react-bootstrap';
 import MessageList from './MessageList';
+import RequestError from './RequestError';
+import RequestLoading from './RequestLoading';
 
 const gambit = require('../gambit');
 
@@ -24,9 +26,9 @@ export default class UserDetail extends React.Component {
         {
           ({error, result, loading}) => {
             if (loading) {
-              return <div>loading...</div>;
+              return <RequestLoading />;
             } else if (error) {
-              return <code>{ JSON.stringify(error) }</code>;
+              return <RequestError error={error} />
             } else {
               return this.renderUserDetail(result.body);
             }

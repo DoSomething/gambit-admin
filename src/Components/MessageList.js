@@ -2,6 +2,8 @@ import React from 'react';
 import Request from 'react-http-request';
 import {Link} from 'react-router-dom';
 import {Table} from 'react-bootstrap';
+import RequestError from './RequestError';
+import RequestLoading from './RequestLoading';
 
 const gambit = require('../gambit');
 
@@ -27,9 +29,9 @@ export default class MessageList extends React.Component {
         {
           ({error, result, loading}) => {
             if (loading) {
-              return <div>loading...</div>;
+              return <RequestLoading />;
             } else if (error) {
-              return <div>{ JSON.stringify(error) }</div>;
+              return <RequestError error={error} />
             } else {
               return (
                 <Table striped bordered>
