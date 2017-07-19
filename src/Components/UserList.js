@@ -11,7 +11,7 @@ export default class UserList extends React.Component {
   render() {
     return (
       <Grid>
-        <PageHeader>Users</PageHeader>
+        <PageHeader>Conversations</PageHeader>
         { this.renderUserList() }
       </Grid>
     );
@@ -38,10 +38,10 @@ export default class UserList extends React.Component {
                   <tr>
                     <th>ID</th>
                     <th>Platform</th>
-                    <th>Platform ID</th>
+                    <th>Platform User ID</th>
                     <th>Current Campaign</th>
                     <th>Topic</th>
-                    <th>Last Reply Template</th>
+                    <th>Last Outbound Template</th>
                   </tr>
                   { result.body.map(user => this.renderUser(user)) }
                   </tbody>

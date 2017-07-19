@@ -51,7 +51,7 @@ export default class MessageList extends React.Component {
   renderHeader() {
     let userCell;
     if (! this.props.userId) {
-      userCell = <th>User</th>;
+      userCell = <th>Conversation</th>;
     }
 
     return (

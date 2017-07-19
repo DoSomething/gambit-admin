@@ -9,7 +9,7 @@ const Header = () => (
       </Navbar.Brand>
     </Navbar.Header>
     <Nav>
-      <NavItem eventKey={1} href="/users">Users</NavItem>
+      <NavItem eventKey={1} href="/users">Conversations</NavItem>
     </Nav>
   </Navbar>
 );

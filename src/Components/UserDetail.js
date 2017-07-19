@@ -53,7 +53,7 @@ export default class UserDetail extends React.Component {
           </FormGroup>
           <FormGroup>
             <Col sm={2}>
-              <ControlLabel>Platform Id</ControlLabel>
+              <ControlLabel>Platform User Id</ControlLabel>
             </Col>
             <Col sm={10}>
               <FormControl.Static>{ user.platformId }</FormControl.Static>
