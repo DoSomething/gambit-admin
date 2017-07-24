@@ -7,12 +7,12 @@ import RequestLoading from './RequestLoading';
 
 const gambit = require('../gambit');
 
-export default class UserDetail extends React.Component {
+export default class ConversationDetail extends React.Component {
   constructor(props) {
     super(props);
 
-    this.userId = this.props.match.params.userId;
-    this.requestUrl = gambit.url(`users/${this.userId}`);
+    this.conversationId = this.props.match.params.conversationId;
+    this.requestUrl = gambit.url(`conversations/${this.conversationId}`);
   }
 
   render() {
@@ -30,7 +30,7 @@ export default class UserDetail extends React.Component {
             } else if (error) {
               return <RequestError error={error} />
             } else {
-              return this.renderUserDetail(result.body);
+              return this.renderDetail(result.body);
             }
           }
         }
@@ -38,30 +38,22 @@ export default class UserDetail extends React.Component {
     );
   }
 
-  renderUserDetail(user) {
+  renderDetail(conversation) {
     return (
       <Grid>
-        <PageHeader>{ user._id }</PageHeader>
+        <PageHeader>{ conversation.userId } <small>{ conversation.medium } </small></PageHeader>
         <Form horizontal>
           <FormGroup>
             <Col sm={2}>
-              <ControlLabel>Platform</ControlLabel>
+              <ControlLabel>Conversation Id</ControlLabel>
             </Col>
             <Col sm={10}>
-              <FormControl.Static>{ user.platform }</FormControl.Static>
-            </Col>
-          </FormGroup>
-          <FormGroup>
-            <Col sm={2}>
-              <ControlLabel>Platform User Id</ControlLabel>
-            </Col>
-            <Col sm={10}>
-              <FormControl.Static>{ user.platformId }</FormControl.Static>
+              <FormControl.Static>{ conversation._id }</FormControl.Static>
             </Col>
           </FormGroup>
         </Form>
         <h2>Latest messages</h2>
-        <MessageList userId={this.userId} />
+        <MessageList conversationId={this.conversationId} />
       </Grid>
     );
   }

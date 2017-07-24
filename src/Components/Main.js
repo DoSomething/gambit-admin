@@ -2,15 +2,15 @@ import React from 'react';
 import { Switch, Route, } from 'react-router-dom';
 
 import Home from './Home';
-import UserList from './UserList';
-import UserDetail from './UserDetail';
+import ConversationList from './ConversationList';
+import ConversationDetail from './ConversationDetail';
 
 // The Roster component matches one of two different routes
 // depending on the full pathname
-const Users = () => (
+const Conversations = () => (
   <Switch>
-    <Route exact path='/users' component={UserList}/>
-    <Route path='/users/:userId' component={UserDetail}/>
+    <Route exact path='/conversations' component={ConversationList}/>
+    <Route path='/conversations/:conversationId' component={ConversationDetail}/>
   </Switch>
 )
 
@@ -18,7 +18,7 @@ const Main = () => (
   <main>
     <Switch>
       <Route exact path='/' component={Home}/>
-      <Route path='/users' component={Users}/>
+      <Route path='/conversations' component={Conversations}/>
     </Switch>
   </main>
 );

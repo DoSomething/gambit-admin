@@ -12,8 +12,8 @@ export default class MessageList extends React.Component {
     super(props);
 
     this.requestUrl = gambit.url('messages?sort=-date');
-    if (this.props.userId) {
-       const query = encodeURIComponent(`"userId":"${this.props.userId}"`);
+    if (this.props.conversationId) {
+       const query = encodeURIComponent(`"conversation":"${this.props.conversationId}"`);
        this.requestUrl = `${this.requestUrl}&query={${query}}`;
     }
   }
@@ -50,8 +50,8 @@ export default class MessageList extends React.Component {
 
   renderHeader() {
     let userCell;
-    if (! this.props.userId) {
-      userCell = <th>Conversation</th>;
+    if (! this.props.conversationId) {
+      userCell = <th>User</th>;
     }
 
     return (
@@ -68,8 +68,8 @@ export default class MessageList extends React.Component {
 
   renderMessage(message) {
     let userCell;
-    if (! this.props.userId) {
-      const uri = `/users/${message.userId}`;
+    if (! this.props.conversationId) {
+      const uri = `/conversations/${message.conversation}`;
       userCell = <td><Link to={uri}>{ message.userId }</Link></td>;
     }
 

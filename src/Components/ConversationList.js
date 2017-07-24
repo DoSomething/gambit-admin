@@ -7,20 +7,20 @@ import RequestLoading from './RequestLoading';
 
 const gambit = require('../gambit');
 
-export default class UserList extends React.Component {
+export default class ConversationList extends React.Component {
   render() {
     return (
       <Grid>
         <PageHeader>Conversations</PageHeader>
-        { this.renderUserList() }
+        { this.renderList() }
       </Grid>
     );
   }
 
-  renderUserList() {
+  renderList() {
     return (
       <Request
-        url={ gambit.url('users') }
+        url={ gambit.url('conversations') }
         method='get'
         accept='application/json'
         verbose={true}
@@ -36,14 +36,13 @@ export default class UserList extends React.Component {
                 <Table striped bordered hover>
                   <tbody>
                   <tr>
-                    <th>ID</th>
                     <th>Platform</th>
                     <th>Platform User ID</th>
                     <th>Current Campaign</th>
                     <th>Topic</th>
                     <th>Last Outbound Template</th>
                   </tr>
-                  { result.body.map(user => this.renderUser(user)) }
+                  { result.body.map(conversation => this.renderSummary(conversation)) }
                   </tbody>
                 </Table>
               );
@@ -54,15 +53,14 @@ export default class UserList extends React.Component {
     );
   }
 
-  renderUser(user) {
+  renderSummary(conversation) {
     return (
-      <tr key={ user._id }>
-        <td><Link to={`users/${user._id}`}>{ user._id }</Link></td>
-        <td>{ user.platform }</td>
-        <td>{ user.platformId }</td>
-        <td>{ user.campaignId }</td>
-        <td>{ user.topic }</td>
-        <td>{ user.lastReplyTemplate }</td>
+      <tr key={ conversation._id }>
+        <td>{ conversation.medium }</td>
+        <td><Link to={`conversations/${conversation._id}`}>{ conversation.userId }</Link></td>
+        <td>{ conversation.campaignId }</td>
+        <td>{ conversation.topic }</td>
+        <td>{ conversation.lastReplyTemplate }</td>
       </tr>
     );
   }
