@@ -7,10 +7,10 @@ import UserDetail from './UserDetail';
 
 // The Roster component matches one of two different routes
 // depending on the full pathname
-const Users = () => (
+const Conversations = () => (
   <Switch>
-    <Route exact path='/users' component={UserList}/>
-    <Route path='/users/:userId' component={UserDetail}/>
+    <Route exact path='/conversations' component={UserList}/>
+    <Route path='/conversations/:conversationId' component={UserDetail}/>
   </Switch>
 )
 
@@ -18,7 +18,7 @@ const Main = () => (
   <main>
     <Switch>
       <Route exact path='/' component={Home}/>
-      <Route path='/users' component={Users}/>
+      <Route path='/conversations' component={Conversations}/>
     </Switch>
   </main>
 );

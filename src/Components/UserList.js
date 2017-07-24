@@ -12,15 +12,15 @@ export default class UserList extends React.Component {
     return (
       <Grid>
         <PageHeader>Conversations</PageHeader>
-        { this.renderUserList() }
+        { this.renderList() }
       </Grid>
     );
   }
 
-  renderUserList() {
+  renderList() {
     return (
       <Request
-        url={ gambit.url('users') }
+        url={ gambit.url('conversations') }
         method='get'
         accept='application/json'
         verbose={true}
@@ -36,7 +36,6 @@ export default class UserList extends React.Component {
                 <Table striped bordered hover>
                   <tbody>
                   <tr>
-                    <th>ID</th>
                     <th>Platform</th>
                     <th>Platform User ID</th>
                     <th>Current Campaign</th>
@@ -54,15 +53,14 @@ export default class UserList extends React.Component {
     );
   }
 
-  renderUser(user) {
+  renderUser(conversation) {
     return (
-      <tr key={ user._id }>
-        <td><Link to={`users/${user._id}`}>{ user._id }</Link></td>
-        <td>{ user.platform }</td>
-        <td>{ user.platformId }</td>
-        <td>{ user.campaignId }</td>
-        <td>{ user.topic }</td>
-        <td>{ user.lastReplyTemplate }</td>
+      <tr key={ conversation._id }>
+        <td>{ conversation.medium }</td>
+        <td><Link to={`conversations/${conversation._id}`}>{ conversation.userId }</Link></td>
+        <td>{ conversation.campaignId }</td>
+        <td>{ conversation.topic }</td>
+        <td>{ conversation.lastReplyTemplate }</td>
       </tr>
     );
   }
