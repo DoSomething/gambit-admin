@@ -7,7 +7,7 @@ import RequestLoading from './RequestLoading';
 
 const gambit = require('../gambit');
 
-export default class UserList extends React.Component {
+export default class ConversationList extends React.Component {
   render() {
     return (
       <Grid>
@@ -42,7 +42,7 @@ export default class UserList extends React.Component {
                     <th>Topic</th>
                     <th>Last Outbound Template</th>
                   </tr>
-                  { result.body.map(user => this.renderUser(user)) }
+                  { result.body.map(conversation => this.renderSummary(conversation)) }
                   </tbody>
                 </Table>
               );
@@ -53,7 +53,7 @@ export default class UserList extends React.Component {
     );
   }
 
-  renderUser(conversation) {
+  renderSummary(conversation) {
     return (
       <tr key={ conversation._id }>
         <td>{ conversation.medium }</td>

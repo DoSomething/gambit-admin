@@ -7,7 +7,7 @@ import RequestLoading from './RequestLoading';
 
 const gambit = require('../gambit');
 
-export default class UserDetail extends React.Component {
+export default class ConversationDetail extends React.Component {
   constructor(props) {
     super(props);
 
