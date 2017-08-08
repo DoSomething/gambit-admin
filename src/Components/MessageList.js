@@ -73,12 +73,17 @@ export default class MessageList extends React.Component {
       userCell = <td><Link to={uri}>{ message.userId }</Link></td>;
     }
 
+    let messageText = message.text;
+    if (message.direction === 'inbound') {
+      messageText = <strong>{ messageText }</strong>;
+    }
+
     return (
       <tr key={ message._id }>
         <td><small>{ message.date }</small></td>
         { userCell }
         <td>{ message.direction }</td>
-        <td>{ message.text }</td>
+        <td>{ messageText }</td>
         <td>{ message.campaignId }</td>
         <td>{ message.template }</td>
       </tr>
