@@ -6,7 +6,7 @@ export default class Home extends React.Component {
   render() {
     return (
       <Grid>
-        <PageHeader>Latest messages</PageHeader>
+        <PageHeader>Latest reply messages</PageHeader>
         <MessageList />
       </Grid>
     );

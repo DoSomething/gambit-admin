@@ -52,7 +52,7 @@ export default class ConversationDetail extends React.Component {
             </Col>
           </FormGroup>
         </Form>
-        <h2>Latest messages</h2>
+        <h2>Messages</h2>
         <MessageList conversationId={this.conversationId} />
       </Grid>
     );
