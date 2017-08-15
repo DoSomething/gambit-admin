@@ -20,7 +20,7 @@ export default class ConversationList extends React.Component {
   renderList() {
     return (
       <Request
-        url={ gambit.url('conversations') }
+        url={ gambit.conversationsUrl('conversations') }
         method='get'
         accept='application/json'
         verbose={true}

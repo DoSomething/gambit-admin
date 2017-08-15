@@ -12,7 +12,7 @@ export default class ConversationDetail extends React.Component {
     super(props);
 
     this.conversationId = this.props.match.params.conversationId;
-    this.requestUrl = gambit.url(`conversations/${this.conversationId}`);
+    this.requestUrl = gambit.conversationsUrl(`conversations/${this.conversationId}`);
   }
 
   render() {
