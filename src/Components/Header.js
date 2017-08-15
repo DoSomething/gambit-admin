@@ -1,11 +1,13 @@
 import React from 'react';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 
+const siteName = process.env.SITE_NAME || 'Gambit Local';
+
 const Header = () => (
   <Navbar>
     <Navbar.Header>
       <Navbar.Brand>
-        <a href="/">Gambit</a>
+        <a href="/">{ siteName }</a>
       </Navbar.Brand>
     </Navbar.Header>
     <Nav>
