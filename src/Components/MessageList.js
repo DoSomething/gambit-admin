@@ -2,6 +2,7 @@ import React from 'react';
 import Request from 'react-http-request';
 import {Link} from 'react-router-dom';
 import {Table} from 'react-bootstrap';
+import Moment from 'react-moment';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
 
@@ -11,7 +12,7 @@ export default class MessageList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.requestUrl = gambit.conversationsUrl('messages?sort=-date');
+    this.requestUrl = gambit.conversationsUrl('messages?sort=-createdAt');
     if (this.props.conversationId) {
        const query = encodeURIComponent(`"conversation":"${this.props.conversationId}"`);
        this.requestUrl = `${this.requestUrl}&query={${query}}`;
@@ -78,9 +79,19 @@ export default class MessageList extends React.Component {
       messageText = <strong>{ messageText }</strong>;
     }
 
+    const dateFormat = `MMMM Do YYYY, h:mm:ss a`;
+    let createdAtCell;
+    if (message.createdAt) {
+      createdAtCell = <Moment format={dateFormat}>{ message.createdAt }</Moment>
+    }else if(message.date){
+      createdAtCell = <Moment format={dateFormat}>{ message.date }</Moment>
+    }
+
     return (
       <tr key={ message._id }>
-        <td><small>{ message.date }</small></td>
+        <td className='date'>
+          <small>{ createdAtCell }</small>
+        </td>
         { userCell }
         <td>{ message.direction }</td>
         <td>{ messageText }</td>
