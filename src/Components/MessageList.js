@@ -61,6 +61,7 @@ export default class MessageList extends React.Component {
         { userCell }
         <th>Direction</th>
         <th>Text</th>
+        <th>Topic</th>
         <th>Campaign</th>
         <th>Template</th>
       </tr>
@@ -95,6 +96,7 @@ export default class MessageList extends React.Component {
         { userCell }
         <td>{ message.direction }</td>
         <td>{ messageText }</td>
+        <td>{ message.topic }</td>
         <td>{ message.campaignId }</td>
         <td>{ message.template }</td>
       </tr>
