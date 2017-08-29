@@ -41,7 +41,7 @@ export default class ConversationDetail extends React.Component {
   renderDetail(conversation) {
     return (
       <Grid>
-        <PageHeader>{ conversation.userId } <small>{ conversation.medium } </small></PageHeader>
+        <PageHeader>{ conversation.platformUserId } <small>{ conversation.platform } </small></PageHeader>
         <Form horizontal>
           <FormGroup>
             <Col sm={2}>

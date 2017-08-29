@@ -14,7 +14,7 @@ export default class MessageList extends React.Component {
 
     this.requestUrl = gambit.conversationsUrl('messages?sort=-createdAt');
     if (this.props.conversationId) {
-       const query = encodeURIComponent(`"conversation":"${this.props.conversationId}"`);
+       const query = encodeURIComponent(`"conversationId":"${this.props.conversationId}"`);
        this.requestUrl = `${this.requestUrl}&query={${query}}`;
     }
   }
@@ -52,7 +52,7 @@ export default class MessageList extends React.Component {
   renderHeader() {
     let userCell;
     if (! this.props.conversationId) {
-      userCell = <th>User</th>;
+      userCell = <th>Conversation</th>;
     }
 
     return (
@@ -71,8 +71,8 @@ export default class MessageList extends React.Component {
   renderMessage(message) {
     let userCell;
     if (! this.props.conversationId) {
-      const uri = `/conversations/${message.conversation}`;
-      userCell = <td><Link to={uri}>{ message.userId }</Link></td>;
+      const uri = `/conversations/${message.conversationId}`;
+      userCell = <td><small><Link to={uri}>{ message.conversationId }</Link></small></td>;
     }
 
     let messageText = message.text;
@@ -94,11 +94,17 @@ export default class MessageList extends React.Component {
           <small>{ createdAtCell }</small>
         </td>
         { userCell }
-        <td>{ message.direction }</td>
+        <td>
+          <small>{ message.direction }</small>
+        </td>
         <td>{ messageText }</td>
-        <td>{ message.topic }</td>
+        <td>
+          <small>{ message.topic }</small>
+        </td>
         <td>{ message.campaignId }</td>
-        <td>{ message.template }</td>
+        <td>
+          <small>{ message.template }</small>
+        </td>
       </tr>
     );
   }
