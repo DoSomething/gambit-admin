@@ -36,6 +36,7 @@ export default class ConversationList extends React.Component {
                 <Table striped bordered hover>
                   <tbody>
                   <tr>
+                    <th>ID</th>
                     <th>Platform</th>
                     <th>Platform User ID</th>
                     <th>Current Campaign</th>
@@ -56,8 +57,9 @@ export default class ConversationList extends React.Component {
   renderSummary(conversation) {
     return (
       <tr key={ conversation._id }>
-        <td>{ conversation.medium }</td>
-        <td><Link to={`conversations/${conversation._id}`}>{ conversation.userId }</Link></td>
+        <td><Link to={`conversations/${conversation._id}`}>{ conversation._id }</Link></td>
+        <td>{ conversation.platform }</td>
+        <td><Link to={`conversations/${conversation._id}`}>{ conversation.platformUserId }</Link></td>
         <td>{ conversation.campaignId }</td>
         <td>{ conversation.topic }</td>
         <td>{ conversation.lastReplyTemplate }</td>
