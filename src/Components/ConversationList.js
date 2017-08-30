@@ -2,9 +2,11 @@ import React from 'react';
 import Request from 'react-http-request';
 import {Link} from 'react-router-dom';
 import { Grid, PageHeader, Table } from 'react-bootstrap';
+import Moment from 'react-moment';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
 
+const config = require('../config');
 const gambit = require('../gambit');
 
 export default class ConversationList extends React.Component {
@@ -20,7 +22,7 @@ export default class ConversationList extends React.Component {
   renderList() {
     return (
       <Request
-        url={ gambit.conversationsUrl('conversations') }
+        url={ gambit.conversationsUrl('conversations?sort=-updatedAt') }
         method='get'
         accept='application/json'
         verbose={true}
@@ -36,6 +38,7 @@ export default class ConversationList extends React.Component {
                 <Table striped bordered hover>
                   <tbody>
                   <tr>
+                    <th>Last Updated</th>
                     <th>ID</th>
                     <th>Platform</th>
                     <th>Platform User ID</th>
@@ -57,12 +60,21 @@ export default class ConversationList extends React.Component {
   renderSummary(conversation) {
     return (
       <tr key={ conversation._id }>
+        <td>
+          <small><Moment format={ config.dateFormat }>{ conversation.updatedAt }</Moment></small>
+        </td>
         <td><Link to={`conversations/${conversation._id}`}>{ conversation._id }</Link></td>
-        <td>{ conversation.platform }</td>
+        <td>
+          <small>{ conversation.platform }</small>
+        </td>
         <td><Link to={`conversations/${conversation._id}`}>{ conversation.platformUserId }</Link></td>
         <td>{ conversation.campaignId }</td>
-        <td>{ conversation.topic }</td>
-        <td>{ conversation.lastOutboundTemplate }</td>
+        <td>
+          <small>{ conversation.topic }</small>
+        </td>
+        <td>
+          <small>{ conversation.lastOutboundTemplate }</small>
+        </td>
       </tr>
     );
   }
