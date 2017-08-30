@@ -62,7 +62,7 @@ export default class ConversationList extends React.Component {
         <td><Link to={`conversations/${conversation._id}`}>{ conversation.platformUserId }</Link></td>
         <td>{ conversation.campaignId }</td>
         <td>{ conversation.topic }</td>
-        <td>{ conversation.lastReplyTemplate }</td>
+        <td>{ conversation.lastOutboundTemplate }</td>
       </tr>
     );
   }
