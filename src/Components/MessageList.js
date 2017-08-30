@@ -6,6 +6,7 @@ import Moment from 'react-moment';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
 
+const config = require('../config');
 const gambit = require('../gambit');
 
 export default class MessageList extends React.Component {
@@ -80,7 +81,7 @@ export default class MessageList extends React.Component {
       messageText = <strong>{ messageText }</strong>;
     }
 
-    const dateFormat = `MMMM Do YYYY, h:mm:ss a`;
+    const dateFormat = config.dateFormat;
     let createdAtCell;
     if (message.createdAt) {
       createdAtCell = <Moment format={dateFormat}>{ message.createdAt }</Moment>
