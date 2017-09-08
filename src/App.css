@@ -21,6 +21,10 @@
 .date {
   min-width: 100px;
 }
+.table img {
+  width: 150px;
+  height: 150px;
+}
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
