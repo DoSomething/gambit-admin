@@ -44,7 +44,6 @@ export default class ConversationList extends React.Component {
                     <th>Platform User ID</th>
                     <th>Current Campaign</th>
                     <th>Topic</th>
-                    <th>Last Outbound Template</th>
                   </tr>
                   { result.body.map(conversation => this.renderSummary(conversation)) }
                   </tbody>
@@ -71,9 +70,6 @@ export default class ConversationList extends React.Component {
         <td>{ conversation.campaignId }</td>
         <td>
           <small>{ conversation.topic }</small>
-        </td>
-        <td>
-          <small>{ conversation.lastOutboundTemplate }</small>
         </td>
       </tr>
     );
