@@ -1,7 +1,7 @@
 import React from 'react';
 import Request from 'react-http-request';
 import {Link} from 'react-router-dom';
-import {Table} from 'react-bootstrap';
+import {Table, ListGroup, ListGroupItem} from 'react-bootstrap';
 import Moment from 'react-moment';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
@@ -39,7 +39,7 @@ export default class MessageList extends React.Component {
                 <Table striped bordered>
                   <tbody>
                     { this.renderHeader() }
-                    { result.body.map(message => this.renderMessage(message)) }
+                    { result.body.map(message => this.renderMessageRow(message)) }
                   </tbody>
                 </Table>
               );
@@ -61,7 +61,7 @@ export default class MessageList extends React.Component {
         <th>Date</th>
         { userCell }
         <th>Direction</th>
-        <th>Text</th>
+        <th>Message</th>
         <th>Topic</th>
         <th>Campaign</th>
         <th>Template</th>
@@ -69,17 +69,32 @@ export default class MessageList extends React.Component {
     );
   }
 
-  renderMessage(message) {
+  renderMessageContent(message) {
+    let text = message.text;
+    if (message.direction === 'inbound') {
+      text = <strong>{ text }</strong>;
+    }
+    let broadcast = null;
+    let broadcastId = message.broadcastId;
+    if (broadcastId) {
+      broadcast = <ListGroupItem><small>Broadcast: { broadcastId }</small></ListGroupItem>;
+    }
+
+    return (
+      <ListGroup>
+        <ListGroupItem>{ text }</ListGroupItem>
+        { broadcast }
+      </ListGroup>
+    );
+  }
+
+  renderMessageRow(message) {
     let userCell;
     if (! this.props.conversationId) {
       const uri = `/conversations/${message.conversationId}`;
       userCell = <td><small><Link to={uri}>{ message.conversationId }</Link></small></td>;
     }
 
-    let messageText = message.text;
-    if (message.direction === 'inbound') {
-      messageText = <strong>{ messageText }</strong>;
-    }
 
     const dateFormat = config.dateFormat;
     let createdAtCell;
@@ -98,7 +113,7 @@ export default class MessageList extends React.Component {
         <td>
           <small>{ message.direction }</small>
         </td>
-        <td>{ messageText }</td>
+        <td>{ this.renderMessageContent(message) }</td>
         <td>
           <small>{ message.topic }</small>
         </td>
