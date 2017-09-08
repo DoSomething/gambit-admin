@@ -79,7 +79,10 @@ export default class MessageList extends React.Component {
     if (broadcastId) {
       broadcast = <ListGroupItem><small>Broadcast: { broadcastId }</small></ListGroupItem>;
     }
-
+    let attachments = message.attachments;
+    if (!text && !attachments.length) {
+      return null;
+    }
     return (
       <ListGroup>
         <ListGroupItem>{ text }</ListGroupItem>
