@@ -1,7 +1,7 @@
 import React from 'react';
 import Request from 'react-http-request';
 import {Link} from 'react-router-dom';
-import {Table, ListGroup, ListGroupItem} from 'react-bootstrap';
+import {Table, ListGroup, ListGroupItem, Image} from 'react-bootstrap';
 import Moment from 'react-moment';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
@@ -74,19 +74,29 @@ export default class MessageList extends React.Component {
     if (message.direction === 'inbound') {
       text = <strong>{ text }</strong>;
     }
-    let broadcast = null;
+    let broadcastGroupItem = null;
     let broadcastId = message.broadcastId;
     if (broadcastId) {
-      broadcast = <ListGroupItem><small>Broadcast: { broadcastId }</small></ListGroupItem>;
+      broadcastGroupItem = <ListGroupItem><small>Broadcast: { broadcastId }</small></ListGroupItem>;
     }
     let attachments = message.attachments;
     if (!text && !attachments.length) {
       return null;
     }
+    let attachmentGroupItem = null;
+    if (attachments.length) {
+      attachmentGroupItem = (
+        <ListGroupItem>
+          { attachments.map(item => <Image src={item.url} />) }
+        </ListGroupItem>
+      );
+    }
+
     return (
       <ListGroup>
+        { attachmentGroupItem }
         <ListGroupItem>{ text }</ListGroupItem>
-        { broadcast }
+        { broadcastGroupItem }
       </ListGroup>
     );
   }
