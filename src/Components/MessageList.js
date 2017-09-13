@@ -77,7 +77,11 @@ export default class MessageList extends React.Component {
     let broadcastGroupItem = null;
     let broadcastId = message.broadcastId;
     if (broadcastId) {
-      broadcastGroupItem = <ListGroupItem><small>Broadcast: { broadcastId }</small></ListGroupItem>;
+      broadcastGroupItem = (
+        <ListGroupItem>
+          <small>Broadcast: { broadcastId }</small>
+        </ListGroupItem>
+      );
     }
     let attachments = message.attachments;
     if (!text && !attachments.length) {
@@ -91,12 +95,21 @@ export default class MessageList extends React.Component {
         </ListGroupItem>
       );
     }
+    let agentGroupItem = null;
+    if (message.agentId) {
+      agentGroupItem = (
+        <ListGroupItem>
+          <small>Agent: { message.agentId }</small>
+        </ListGroupItem>
+      );
+    }
 
     return (
       <ListGroup>
         { attachmentGroupItem }
         <ListGroupItem>{ text }</ListGroupItem>
         { broadcastGroupItem }
+        { agentGroupItem }
       </ListGroup>
     );
   }
