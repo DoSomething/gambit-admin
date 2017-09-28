@@ -40,7 +40,7 @@ export default class ConversationDetail extends React.Component {
 
   renderDetail(conversation) {
     return (
-      <Grid>
+      <Grid fluid={true}>
         <PageHeader>{ conversation.platformUserId } <small>{ conversation.platform } </small></PageHeader>
         <Form horizontal>
           <FormGroup>

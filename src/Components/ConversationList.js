@@ -12,7 +12,7 @@ const gambit = require('../gambit');
 export default class ConversationList extends React.Component {
   render() {
     return (
-      <Grid>
+      <Grid fluid={true}>
         <PageHeader>Conversations</PageHeader>
         { this.renderList() }
       </Grid>

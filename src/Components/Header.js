@@ -4,7 +4,7 @@ import { Nav, Navbar, NavItem } from 'react-bootstrap';
 export default class Header extends React.Component {
   render() {
     return (
-      <Navbar>
+      <Navbar fluid>
         <Navbar.Header>
           <Navbar.Brand>
             <a href="/">{ this.props.siteName }</a>

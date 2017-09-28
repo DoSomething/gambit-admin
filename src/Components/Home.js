@@ -5,7 +5,7 @@ import MessageList from './MessageList';
 export default class Home extends React.Component {
   render() {
     return (
-      <Grid>
+      <Grid fluid={true}>
         <PageHeader>Latest reply messages</PageHeader>
         <MessageList />
       </Grid>
