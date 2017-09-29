@@ -103,13 +103,21 @@ export default class MessageList extends React.Component {
         </ListGroupItem>
       );
     }
-
+    let matchGroupItem;
+    if (message.match) {
+      matchGroupItem = (
+        <ListGroupItem>
+          <small>Match: { message.match }</small>
+        </ListGroupItem>
+      );
+    }
     return (
       <ListGroup>
         { attachmentGroupItem }
         <ListGroupItem>{ text }</ListGroupItem>
         { broadcastGroupItem }
         { agentGroupItem }
+        { matchGroupItem }
       </ListGroup>
     );
   }
