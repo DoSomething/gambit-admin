@@ -13,7 +13,7 @@ export default class MessageList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.requestUrl = gambit.conversationsUrl('messages?sort=-createdAt');
+    this.requestUrl = gambit.conversationsUrl('messages?sort=-createdAt&limit=50');
     if (this.props.conversationId) {
        const query = encodeURIComponent(`"conversationId":"${this.props.conversationId}"`);
        this.requestUrl = `${this.requestUrl}&query={${query}}`;
