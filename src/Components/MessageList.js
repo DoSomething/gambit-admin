@@ -17,6 +17,9 @@ export default class MessageList extends React.Component {
     if (this.props.conversationId) {
        const query = encodeURIComponent(`"conversationId":"${this.props.conversationId}"`);
        this.requestUrl = `${this.requestUrl}&query={${query}}`;
+    } else if (this.props.requestId) {
+      const query = encodeURIComponent(`"metadata.requestId":"${this.props.requestId}"`);
+      this.requestUrl = `${this.requestUrl}&query={${query}}`;
     }
   }
 
@@ -47,6 +50,16 @@ export default class MessageList extends React.Component {
           }
         }
       </Request>
+    );
+  }
+
+  renderDate(message) {
+    const uri = `/requests/${message.metadata.requestId}`;
+    const dateFormat = config.dateFormat;
+    return (
+      <Link to={uri}>
+        <Moment format={dateFormat}>{ message.createdAt }</Moment>
+      </Link>
     );
   }
 
@@ -111,6 +124,14 @@ export default class MessageList extends React.Component {
         </ListGroupItem>
       );
     }
+    let retryGroupItem;
+    if (message.metadata.retryCount) {
+      retryGroupItem = (
+        <ListGroupItem>
+          <small>Retry Count: { message.metadata.retryCount }</small>
+        </ListGroupItem>
+      );
+    }
     return (
       <ListGroup>
         { attachmentGroupItem }
@@ -118,6 +139,7 @@ export default class MessageList extends React.Component {
         { broadcastGroupItem }
         { agentGroupItem }
         { matchGroupItem }
+        { retryGroupItem }
       </ListGroup>
     );
   }
@@ -129,19 +151,10 @@ export default class MessageList extends React.Component {
       userCell = <td><small><Link to={uri}>{ message.conversationId.platformUserId }</Link></small></td>;
     }
 
-
-    const dateFormat = config.dateFormat;
-    let createdAtCell;
-    if (message.createdAt) {
-      createdAtCell = <Moment format={dateFormat}>{ message.createdAt }</Moment>
-    }else if(message.date){
-      createdAtCell = <Moment format={dateFormat}>{ message.date }</Moment>
-    }
-
     return (
       <tr key={ message._id }>
         <td className='date'>
-          <small>{ createdAtCell }</small>
+          <small>{ this.renderDate(message) }</small>
         </td>
         { userCell }
         <td>
