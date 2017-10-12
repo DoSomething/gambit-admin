@@ -13,7 +13,7 @@ export default class MessageList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.requestUrl = gambit.conversationsUrl('messages?sort=-createdAt&limit=50');
+    this.requestUrl = gambit.conversationsUrl('messages?sort=-createdAt&limit=50&populate=conversationId');
     if (this.props.conversationId) {
        const query = encodeURIComponent(`"conversationId":"${this.props.conversationId}"`);
        this.requestUrl = `${this.requestUrl}&query={${query}}`;
@@ -53,7 +53,7 @@ export default class MessageList extends React.Component {
   renderHeader() {
     let userCell;
     if (! this.props.conversationId) {
-      userCell = <th>Conversation</th>;
+      userCell = <th>Platform User ID</th>;
     }
 
     return (
@@ -125,8 +125,8 @@ export default class MessageList extends React.Component {
   renderMessageRow(message) {
     let userCell;
     if (! this.props.conversationId) {
-      const uri = `/conversations/${message.conversationId}`;
-      userCell = <td><small><Link to={uri}>{ message.conversationId }</Link></small></td>;
+      const uri = `/conversations/${message.conversationId._id}`;
+      userCell = <td><small><Link to={uri}>{ message.conversationId.platformUserId }</Link></small></td>;
     }
 
 
