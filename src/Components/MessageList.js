@@ -56,7 +56,7 @@ export default class MessageList extends React.Component {
     }
 
     let rightPagerItem;
-    if (totalResultCount > pageSize) {
+    if (totalResultCount > pageSize && endNumber < totalResultCount) {
       const nextUrl = `${url}?skip=${this.skipCount + pageSize}`;
       rightPagerItem = <Pager.Item next href={ nextUrl }>Next</Pager.Item>;
     }
