@@ -43,7 +43,6 @@ export default class MessageList extends React.Component {
 
     const location = window.location;
     const url = [location.protocol, '//', location.host, location.pathname].join('');
-    console.log(url);
 
     let leftPagerItem;
     if (this.skipCount) {
