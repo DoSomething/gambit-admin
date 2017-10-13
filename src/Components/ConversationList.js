@@ -35,12 +35,10 @@ export default class ConversationList extends React.Component {
               return <RequestError error={error} />
             } else {
               return (
-                <Table striped bordered hover>
+                <Table striped hover>
                   <tbody>
                   <tr>
                     <th>Last Updated</th>
-                    <th>ID</th>
-                    <th>Platform</th>
                     <th>Platform User ID</th>
                     <th>Current Campaign</th>
                     <th>Topic</th>
@@ -61,10 +59,6 @@ export default class ConversationList extends React.Component {
       <tr key={ conversation._id }>
         <td>
           <small><Moment format={ config.dateFormat }>{ conversation.updatedAt }</Moment></small>
-        </td>
-        <td><Link to={`conversations/${conversation._id}`}>{ conversation._id }</Link></td>
-        <td>
-          <small>{ conversation.platform }</small>
         </td>
         <td><Link to={`conversations/${conversation._id}`}>{ conversation.platformUserId }</Link></td>
         <td>{ conversation.campaignId }</td>
