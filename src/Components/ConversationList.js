@@ -35,7 +35,7 @@ export default class ConversationList extends React.Component {
               return <RequestError error={error} />
             } else {
               return (
-                <Table striped bordered hover>
+                <Table striped hover>
                   <tbody>
                   <tr>
                     <th>Last Updated</th>
