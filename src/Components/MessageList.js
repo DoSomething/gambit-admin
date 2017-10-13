@@ -47,7 +47,12 @@ export default class MessageList extends React.Component {
 
     let leftPagerItem;
     if (this.skipCount) {
-      leftPagerItem = <Pager.Item previous href={ url }>Previous</Pager.Item>;
+      const prevSkip = this.skipCount - pageSize;
+      let prevUrl = url;
+      if (prevSkip > 0) {
+        prevUrl = `${url}?skip=${prevSkip}`;
+      }
+      leftPagerItem = <Pager.Item previous href={ prevUrl }>Previous</Pager.Item>;
     }
 
     let rightPagerItem;
@@ -80,16 +85,17 @@ export default class MessageList extends React.Component {
             } else if (error) {
               return <RequestError error={error} />
             } else {
-             
+              const header = this.renderTablePager(result);
               return (
                 <div>
-               { this.renderTablePager(result) }
+                { header }
                 <Table striped>
                   <tbody>
                     { this.renderHeader() }
                     { result.body.map(message => this.renderMessageRow(message)) }
                   </tbody>
                 </Table>
+                { header }
                 </div>
               );
             }
