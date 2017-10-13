@@ -1,5 +1,43 @@
 import React from 'react';
-import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import { Button, Form, FormControl, FormGroup, Glyphicon, Nav, Navbar, NavItem } from 'react-bootstrap';
+
+class SearchForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const location = window.location;
+    const url = [location.protocol, '//', location.host].join('');
+    const destination = `${url}/conversations?platformUserId=${this.state.value}`;
+    window.location.href = destination;    
+  }
+
+  render() {
+    return (
+      <Form onSubmit={ this.handleSubmit }>
+        <FormGroup>
+          <FormControl
+            type="text"
+            value={this.state.value}
+            onChange={this.handleChange}
+            placeholder="Enter mobile number"
+          />
+        </FormGroup>
+        <Button type="submit"><Glyphicon glyph="search" /></Button>
+      </Form>
+    );
+  }
+}
 
 export default class Header extends React.Component {
   render() {
@@ -13,6 +51,9 @@ export default class Header extends React.Component {
         <Nav>
           <NavItem eventKey={1} href="/conversations">Conversations</NavItem>
         </Nav>
+        <Navbar.Form pullRight>
+          <SearchForm />
+        </Navbar.Form>
       </Navbar>
     );
   }
