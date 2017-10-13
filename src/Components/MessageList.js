@@ -100,11 +100,15 @@ export default class MessageList extends React.Component {
   }
 
   renderDate(message) {
-    const uri = `/requests/${message.metadata.requestId}`;
     const dateFormat = config.dateFormat;
+    const createdAt = <Moment format={dateFormat}>{ message.createdAt }</Moment>;
+    if (!message.metadata) {
+      return createdAt;
+    }
+    const uri = `/requests/${message.metadata.requestId}`;
     return (
       <Link to={uri}>
-        <Moment format={dateFormat}>{ message.createdAt }</Moment>
+        { createdAt }
       </Link>
     );
   }
@@ -178,7 +182,7 @@ export default class MessageList extends React.Component {
       );
     }
     let retryGroupItem;
-    if (message.metadata.retryCount) {
+    if (message.metadata && message.metadata.retryCount) {
       retryGroupItem = (
         <ListGroupItem>
           <small>Retry Count: { message.metadata.retryCount }</small>
