@@ -49,7 +49,7 @@ export default class Header extends React.Component {
           </Navbar.Brand>
         </Navbar.Header>
         <Nav>
-          <NavItem eventKey={1} href="/conversations">Conversations</NavItem>
+          <NavItem eventKey={1} href="/campaigns">Campaigns</NavItem>
         </Nav>
         <Navbar.Form pullRight>
           <SearchForm />
