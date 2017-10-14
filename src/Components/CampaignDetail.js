@@ -1,6 +1,6 @@
 import React from 'react';
 import Request from 'react-http-request';
-import { Col, ControlLabel, Form, FormControl, FormGroup, Grid, Nav, NavItem, PageHeader, Panel, Table } from 'react-bootstrap';
+import { Col, ControlLabel, Form, FormControl, FormGroup, Grid, PageHeader, Panel, Tab, Tabs, Table, Well } from 'react-bootstrap';
 import Moment from 'react-moment';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
@@ -20,21 +20,23 @@ export default class CampaignDetail extends React.Component {
   render() {
     return (
       <Grid fluid={true}>
-        { this.renderCampaign() }
+        { this.fetchCampaign() }
       </Grid>
     );
   }
 
-  renderNav() {
+  renderNav(campaign) {
     return (
-      <Nav bsStyle="tabs" activeKey={1}>
-        <NavItem eventKey={1} href="/home">Details</NavItem>
-        <NavItem eventKey={2} title="Item">Messages</NavItem>
-      </Nav>
+      <Tabs defaultActiveKey={0} animation={false} id="noanim-tab-example">
+        <Tab eventKey={0} title="Details"><br />
+          { this.renderDetails(campaign) }
+        </Tab>
+        <Tab eventKey={1} title="Messages"><br />test</Tab>
+      </Tabs>
     );
   }
 
-  renderCampaign() {
+  fetchCampaign() {
     return (
       <Request
         url={ this.requestUrl }
@@ -53,11 +55,7 @@ export default class CampaignDetail extends React.Component {
               return (
                 <div>                                  
                   <PageHeader>{campaign.title}</PageHeader>
-                  { this.renderNav() }
-                  <br />
-                  { this.renderDetails(campaign) }
-                  <h2>Templates</h2>
-                  { this.renderTemplates(campaign.templates) }
+                  { this.renderNav(campaign) }
                 </div>
               );
             }
@@ -69,34 +67,38 @@ export default class CampaignDetail extends React.Component {
 
   renderDetails(campaign) {
     return (
-      <Form horizontal>
-        <FormGroup>
-          <Col sm={2}>
-            <ControlLabel>Keywords</ControlLabel>
-          </Col>
-          <Col sm={10}>
-            <FormControl.Static>{ campaign.keywords.join(',') }</FormControl.Static>
-          </Col>
-        </FormGroup>
-        <FormGroup>
-          <Col sm={2}>
-            <ControlLabel>Status</ControlLabel>
-          </Col>
-          <Col sm={10}>
-            <FormControl.Static>{ campaign.status }</FormControl.Static>
-          </Col>
-        </FormGroup>
-        <FormGroup>
-          <Col sm={2}>
-            <ControlLabel>Cached At</ControlLabel>
-          </Col>
-          <Col sm={10}>
-            <FormControl.Static>
-              <Moment format={config.dateFormat}>{ campaign.updatedAt }
-              </Moment></FormControl.Static>
-          </Col>
-        </FormGroup>
-      </Form>
+    <div>
+        <Form horizontal>
+          <FormGroup>
+            <Col sm={2}>
+              <ControlLabel>Keywords</ControlLabel>
+            </Col>
+            <Col sm={10}>
+              <FormControl.Static>{ campaign.keywords.join(',') }</FormControl.Static>
+            </Col>
+          </FormGroup>
+          <FormGroup>
+            <Col sm={2}>
+              <ControlLabel>Status</ControlLabel>
+            </Col>
+            <Col sm={10}>
+              <FormControl.Static>{ campaign.status }</FormControl.Static>
+            </Col>
+          </FormGroup>
+          <FormGroup>
+            <Col sm={2}>
+              <ControlLabel>Cached At</ControlLabel>
+            </Col>
+            <Col sm={10}>
+              <FormControl.Static>
+                <Moment format={config.dateFormat}>{ campaign.updatedAt }
+                </Moment></FormControl.Static>
+            </Col>
+          </FormGroup>
+        </Form>
+        <h2>Templates</h2>
+        { this.renderTemplates(campaign.templates) }
+      </div>
     );
   }
 
@@ -111,15 +113,5 @@ export default class CampaignDetail extends React.Component {
       );
     });
     return <Table striped><tbody>{ rows }</tbody></Table>;
-  }
-
-  renderSummary(campaign) {
-    return (
-      <tr key={ campaign._id }>
-        <td>{ campaign._id }</td>
-        <td>{ campaign.title }</td>
-        <td>{ campaign.keywords.join(',') }</td>
-      </tr>
-    );
   }
 }
