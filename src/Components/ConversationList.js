@@ -6,10 +6,24 @@ import Moment from 'react-moment';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
 
+const queryString = require('query-string');
 const config = require('../config');
 const gambit = require('../gambit');
 
 export default class ConversationList extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.requestUrl = gambit.conversationsUrl(`conversations?sort=-updatedAt}`);
+
+    const queryParams = queryString.parse(window.location.search);
+    const platformUserId = queryParams.platformUserId;
+    if (platformUserId) {
+      const query = `query={"platformUserId":{"$regex":"${platformUserId}"}}`;
+      this.requestUrl =`${this.requestUrl}&${query}`;
+    }
+  }
+
   render() {
     return (
       <Grid fluid={true}>
@@ -22,7 +36,7 @@ export default class ConversationList extends React.Component {
   renderList() {
     return (
       <Request
-        url={ gambit.conversationsUrl('conversations?sort=-updatedAt') }
+        url={ this.requestUrl }
         method='get'
         accept='application/json'
         verbose={true}
