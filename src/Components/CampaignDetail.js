@@ -2,6 +2,7 @@ import React from 'react';
 import Request from 'react-http-request';
 import { Col, ControlLabel, Form, FormControl, FormGroup, Grid, PageHeader, Panel, Tab, Tabs, Table, Well } from 'react-bootstrap';
 import Moment from 'react-moment';
+import MessageList from './MessageList';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
 
@@ -27,11 +28,11 @@ export default class CampaignDetail extends React.Component {
 
   renderNav(campaign) {
     return (
-      <Tabs defaultActiveKey={0} animation={false} id="noanim-tab-example">
-        <Tab eventKey={0} title="Details"><br />
+      <Tabs defaultActiveKey={0} animation={false} id="campaign-tabs">
+        <Tab eventKey={0} title="Messages"><br /><MessageList /></Tab>
+        <Tab eventKey={1} title="Details"><br />
           { this.renderDetails(campaign) }
-        </Tab>
-        <Tab eventKey={1} title="Messages"><br />test</Tab>
+        </Tab>   
       </Tabs>
     );
   }
@@ -54,7 +55,7 @@ export default class CampaignDetail extends React.Component {
               const campaign = result.body;
               return (
                 <div>                                  
-                  <PageHeader>{campaign.title}</PageHeader>
+                  <PageHeader>{campaign.title} <small></small></PageHeader>
                   { this.renderNav(campaign) }
                 </div>
               );
