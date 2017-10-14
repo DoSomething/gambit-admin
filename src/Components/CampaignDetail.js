@@ -1,6 +1,6 @@
 import React from 'react';
 import Request from 'react-http-request';
-import { Col, ControlLabel, Form, FormControl, FormGroup, Grid, PageHeader, Table } from 'react-bootstrap';
+import { Col, ControlLabel, Form, FormControl, FormGroup, Grid, Nav, NavItem, PageHeader, Panel, Table } from 'react-bootstrap';
 import Moment from 'react-moment';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
@@ -25,6 +25,15 @@ export default class CampaignDetail extends React.Component {
     );
   }
 
+  renderNav() {
+    return (
+      <Nav bsStyle="tabs" activeKey={1}>
+        <NavItem eventKey={1} href="/home">Details</NavItem>
+        <NavItem eventKey={2} title="Item">Messages</NavItem>
+      </Nav>
+    );
+  }
+
   renderCampaign() {
     return (
       <Request
@@ -42,10 +51,12 @@ export default class CampaignDetail extends React.Component {
             } else {
               const campaign = result.body;
               return (
-                <div>
+                <div>                                  
                   <PageHeader>{campaign.title}</PageHeader>
+                  { this.renderNav() }
+                  <br />
                   { this.renderDetails(campaign) }
-                  <h3>Templates</h3>
+                  <h2>Templates</h2>
                   { this.renderTemplates(campaign.templates) }
                 </div>
               );

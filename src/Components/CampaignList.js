@@ -63,8 +63,12 @@ export default class CampaignList extends React.Component {
     return (
       <tr key={ campaignId }>
         <td>{ campaignId }</td>
-        <td><Link to={ `campaigns/${campaignId}` }>{ campaign.title }</Link></td>
-        <td>{ campaign.keywords.join(',') }</td>
+        <td>
+          <Link to={ `campaigns/${campaignId}` }>
+            <strong>{ campaign.title }</strong>
+          </Link>
+        </td>
+        <td>{ campaign.keywords.join(', ') }</td>
       </tr>
     );
   }
