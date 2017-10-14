@@ -29,7 +29,7 @@ export default class CampaignDetail extends React.Component {
   renderNav(campaign) {
     return (
       <Tabs defaultActiveKey={0} animation={false} id="campaign-tabs">
-        <Tab eventKey={0} title="Messages"><br /><MessageList /></Tab>
+        <Tab eventKey={0} title="Messages"><br /><MessageList campaignId={this.campaignId} /></Tab>
         <Tab eventKey={1} title="Details"><br />
           { this.renderDetails(campaign) }
         </Tab>   
