@@ -25,6 +25,9 @@
   width: 150px;
   height: 150px;
 }
+td {
+  white-space: pre-line;
+}
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }

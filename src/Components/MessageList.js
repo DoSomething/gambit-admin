@@ -18,7 +18,11 @@ export default class MessageList extends React.Component {
 
     const path = `messages?sort=-createdAt&limit=${pageSize}&populate=conversationId`;
     this.requestUrl = gambit.conversationsUrl(path);
-    if (this.props.conversationId) {
+
+    if (this.props.campaignId) {
+       const query = encodeURIComponent(`"campaignId":"${this.props.campaignId}"`);
+       this.requestUrl = `${this.requestUrl}&query={${query}}`;
+    } else if (this.props.conversationId) {
        const query = encodeURIComponent(`"conversationId":"${this.props.conversationId}"`);
        this.requestUrl = `${this.requestUrl}&query={${query}}`;
     } else if (this.props.requestId) {
