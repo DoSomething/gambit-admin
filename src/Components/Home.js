@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, PageHeader} from 'react-bootstrap';
+import { Grid } from 'react-bootstrap';
 import MessageList from './MessageList';
 
 export default class Home extends React.Component {
