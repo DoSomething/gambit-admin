@@ -51,6 +51,14 @@ export default class ConversationDetail extends React.Component {
               <FormControl.Static>{ conversation._id }</FormControl.Static>
             </Col>
           </FormGroup>
+          <FormGroup>
+            <Col sm={2}>
+              <ControlLabel>Is Paused</ControlLabel>
+            </Col>
+            <Col sm={10}>
+              <FormControl.Static>{ conversation.paused ? 'yes' : 'no' }</FormControl.Static>
+            </Col>
+          </FormGroup>
         </Form>
         <MessageList conversationId={this.conversationId} />
       </Grid>

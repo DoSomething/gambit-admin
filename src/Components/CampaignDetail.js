@@ -1,6 +1,6 @@
 import React from 'react';
 import Request from 'react-http-request';
-import { Col, ControlLabel, Form, FormControl, FormGroup, Grid, PageHeader, Panel, Tab, Tabs, Table, Well } from 'react-bootstrap';
+import { Col, ControlLabel, Form, FormControl, FormGroup, Grid, PageHeader, Tab, Tabs, Table } from 'react-bootstrap';
 import Moment from 'react-moment';
 import MessageList from './MessageList';
 import RequestError from './RequestError';
