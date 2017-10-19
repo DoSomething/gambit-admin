@@ -168,9 +168,11 @@ export default class MessageList extends React.Component {
     }
     let campaignGroupItem;
     if (message.campaignId) {
+      const campaignId = message.campaignId;
+      const campaignUrl = `/campaigns/${campaignId}`;
       campaignGroupItem = (
         <ListGroupItem>
-          <small>Campaign: { message.campaignId }</small>
+          <small>Campaign: <Link to={campaignUrl}>{campaignId}</Link></small>
         </ListGroupItem>
       );
     }
