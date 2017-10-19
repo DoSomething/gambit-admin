@@ -42,7 +42,7 @@ class SearchForm extends React.Component {
 export default class Header extends React.Component {
   render() {
     return (
-      <Navbar fluid>
+      <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
             <a href="/">{ this.props.siteName }</a>

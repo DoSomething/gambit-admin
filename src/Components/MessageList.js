@@ -1,7 +1,7 @@
 import React from 'react';
 import Request from 'react-http-request';
 import {Link} from 'react-router-dom';
-import {Table, ListGroup, ListGroupItem, Image, Pager} from 'react-bootstrap';
+import {Col, Grid, Row, ListGroup, ListGroupItem, Image, Pager} from 'react-bootstrap';
 import Moment from 'react-moment';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
@@ -63,11 +63,11 @@ export default class MessageList extends React.Component {
       const nextUrl = `${url}?skip=${this.skipCount + pageSize}`;
       rightPagerItem = <Pager.Item next href={ nextUrl }>Next</Pager.Item>;
     }
-
+    const label = <small>{ startNumber }-{ endNumber } of { totalResultCount }</small>;
     return (
       <Pager>
         {leftPagerItem}
-        <small>Displaying { startNumber }-{ endNumber } of { totalResultCount } messages</small>
+        {label}
         {rightPagerItem}
       </Pager>
     );
@@ -88,17 +88,14 @@ export default class MessageList extends React.Component {
             } else if (error) {
               return <RequestError error={error} />
             } else {
-              const header = this.renderTablePager(result);
+              const pager = this.renderTablePager(result);
               return (
                 <div>
-                { header }
-                <Table striped>
-                  <tbody>
-                    { this.renderHeader() }
-                    { result.body.map(message => this.renderMessageRow(message)) }
-                  </tbody>
-                </Table>
-                { header }
+                { pager }
+                <Grid>
+                { result.body.map(message => this.renderMessageRow(message)) }
+                </Grid>
+                { pager }
                 </div>
               );
             }
@@ -122,24 +119,6 @@ export default class MessageList extends React.Component {
     );
   }
 
-  renderHeader() {
-    let userCell;
-    if (! this.props.conversationId) {
-      userCell = <th>User</th>;
-    }
-
-    return (
-      <tr>
-        <th>Date</th>
-        { userCell }
-        <th>Direction</th>
-        <th>Message</th>
-        <th>Topic</th>
-        <th>Campaign</th>
-      </tr>
-    );
-  }
-
   renderMessageContent(message) {
     let text = message.text;
     if (message.direction === 'inbound') {
@@ -155,14 +134,11 @@ export default class MessageList extends React.Component {
       );
     }
     let attachments = message.attachments;
-    if (!text && !attachments.length) {
-      return null;
-    }
     let attachmentGroupItem = null;
     if (attachments.length) {
       attachmentGroupItem = (
         <ListGroupItem>
-          { attachments.map(item => <Image src={item.url} />) }
+          { attachments.map(item => <Image src={item.url} height={200} />) }
         </ListGroupItem>
       );
     }
@@ -190,6 +166,16 @@ export default class MessageList extends React.Component {
         </ListGroupItem>
       );
     }
+    let campaignGroupItem;
+    if (message.campaignId) {
+      const campaignId = message.campaignId;
+      const campaignUrl = `/campaigns/${campaignId}`;
+      campaignGroupItem = (
+        <ListGroupItem>
+          <small>Campaign: <Link to={campaignUrl}>{campaignId}</Link></small>
+        </ListGroupItem>
+      );
+    }
     let retryGroupItem;
     if (message.metadata && message.metadata.retryCount) {
       retryGroupItem = (
@@ -202,6 +188,7 @@ export default class MessageList extends React.Component {
       <ListGroup>
         { attachmentGroupItem }
         <ListGroupItem>{ text }</ListGroupItem>
+        { campaignGroupItem }
         { broadcastGroupItem }
         { agentGroupItem }
         { matchGroupItem }
@@ -212,27 +199,19 @@ export default class MessageList extends React.Component {
   }
 
   renderMessageRow(message) {
-    let userCell;
-    if (! this.props.conversationId) {
-      const uri = `/conversations/${message.conversationId._id}`;
-      userCell = <td><small><Link to={uri}>{ message.conversationId.platformUserId }</Link></small></td>;
-    }
+    const uri = `/conversations/${message.conversationId._id}`;
+    const userLink = <Link to={uri}>{ message.conversationId.platformUserId }</Link>;
+    const isInbound = message.direction === 'inbound';
+    const offset = isInbound ? 0 : 1;
 
     return (
-      <tr key={ message._id }>
-        <td className='date'>
+      <Row key={ message._id }>
+        <Col md={2} mdOffset={2}>
+          <div>{ isInbound ? 'From' : 'To' } <strong>{userLink}</strong></div>
           <small>{ this.renderDate(message) }</small>
-        </td>
-        { userCell }
-        <td>
-          <small>{ message.direction }</small>
-        </td>
-        <td>{ this.renderMessageContent(message) }</td>
-        <td>
-          <small>{ message.topic }</small>
-        </td>
-        <td>{ message.campaignId }</td>
-      </tr>
+        </Col>
+        <Col md={4} mdOffset={offset}>{ this.renderMessageContent(message) }</Col>
+      </Row>
     );
   }
 }

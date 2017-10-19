@@ -25,8 +25,12 @@
   width: 150px;
   height: 150px;
 }
-td {
+div {
   white-space: pre-line;
+}
+ul.pager {
+  padding-bottom:10px;
+  border-bottom: 1px solid #eee;
 }
 
 @keyframes App-logo-spin {

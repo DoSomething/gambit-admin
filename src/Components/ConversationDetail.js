@@ -40,7 +40,7 @@ export default class ConversationDetail extends React.Component {
 
   renderDetail(conversation) {
     return (
-      <Grid fluid={true}>
+      <Grid>
         <PageHeader>{ conversation.platformUserId } <small>{ conversation.platform } </small></PageHeader>
         <Form horizontal>
           <FormGroup>
@@ -49,6 +49,14 @@ export default class ConversationDetail extends React.Component {
             </Col>
             <Col sm={10}>
               <FormControl.Static>{ conversation._id }</FormControl.Static>
+            </Col>
+          </FormGroup>
+          <FormGroup>
+            <Col sm={2}>
+              <ControlLabel>Is Paused</ControlLabel>
+            </Col>
+            <Col sm={10}>
+              <FormControl.Static>{ conversation.paused ? 'yes' : 'no' }</FormControl.Static>
             </Col>
           </FormGroup>
         </Form>
