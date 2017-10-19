@@ -26,7 +26,7 @@ export default class ConversationList extends React.Component {
 
   render() {
     return (
-      <Grid fluid={true}>
+      <Grid>
         <PageHeader>Conversations</PageHeader>
         { this.renderList() }
       </Grid>

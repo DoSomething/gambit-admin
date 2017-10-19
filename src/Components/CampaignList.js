@@ -16,7 +16,7 @@ export default class CampaignList extends React.Component {
 
   render() {
     return (
-      <Grid fluid={true}>
+      <Grid>
         <PageHeader>Campaigns</PageHeader>
         { this.renderList() }
       </Grid>

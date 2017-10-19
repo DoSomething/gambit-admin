@@ -20,7 +20,7 @@ export default class CampaignDetail extends React.Component {
 
   render() {
     return (
-      <Grid fluid={true}>
+      <Grid>
         { this.fetchCampaign() }
       </Grid>
     );

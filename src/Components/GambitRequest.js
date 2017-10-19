@@ -11,7 +11,7 @@ export default class GambitRequest extends React.Component {
 
   render() {
     return (
-      <Grid fluid={true}>
+      <Grid>
         <Form horizontal>
           <FormGroup>
             <Col sm={2}>
