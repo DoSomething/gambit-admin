@@ -53,6 +53,14 @@ export default class ConversationDetail extends React.Component {
           </FormGroup>
           <FormGroup>
             <Col sm={2}>
+              <ControlLabel>Topic</ControlLabel>
+            </Col>
+            <Col sm={10}>
+              <FormControl.Static>{ conversation.topic }</FormControl.Static>
+            </Col>
+          </FormGroup>
+          <FormGroup>
+            <Col sm={2}>
               <ControlLabel>Is Paused</ControlLabel>
             </Col>
             <Col sm={10}>
