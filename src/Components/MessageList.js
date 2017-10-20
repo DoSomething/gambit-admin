@@ -176,6 +176,14 @@ export default class MessageList extends React.Component {
         </ListGroupItem>
       );
     }
+    let topicGroupItem;
+    if (message.topic) {
+      topicGroupItem = (
+        <ListGroupItem>
+          <small>Topic: {message.topic}</small>
+        </ListGroupItem>
+      );
+    }
     let retryGroupItem;
     if (message.metadata && message.metadata.retryCount) {
       retryGroupItem = (
@@ -190,6 +198,7 @@ export default class MessageList extends React.Component {
         <ListGroupItem>{ text }</ListGroupItem>
         { campaignGroupItem }
         { broadcastGroupItem }
+        { topicGroupItem }
         { agentGroupItem }
         { matchGroupItem }
         { templateGroupItem }
