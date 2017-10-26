@@ -17,7 +17,12 @@ export default class MessageList extends React.Component {
     super(props);
 
     const path = `messages?sort=-createdAt&limit=${pageSize}&populate=conversationId`;
-    this.requestUrl = helpers.apiUrl(path);
+    const qry = {
+      sort: '-createdAt',
+      limit: pageSize,
+      populate: 'conversationId',
+    }
+    this.requestUrl = helpers.getMessagesUrl(qry);
 
     if (this.props.campaignId) {
        const query = encodeURIComponent(`"campaignId":"${this.props.campaignId}"`);
@@ -39,9 +44,7 @@ export default class MessageList extends React.Component {
     }
   }
 
-  renderTablePager(result) {
-    const totalResultCount = result.header['x-gambit-results-count'];
-    const pageCount = result.body.length;
+  renderTablePager(totalResultCount, pageCount) {
     const startNumber = this.skipCount + 1;
     const endNumber = startNumber + pageCount - 1;
 
@@ -88,13 +91,19 @@ export default class MessageList extends React.Component {
             } else if (error) {
               return <RequestError error={error} />
             } else {
-              const pager = this.renderTablePager(result);
+              console.log('test');
+              console.log(result);
+
+              const body = result.body;
+              const totalCount = body.pagination.total;
+              const pageSize = body.data.length;
+              const pager = this.renderTablePager(totalCount, pageSize);
               return (
                 <div>
-                { pager }
-                <Grid>
-                { result.body.map(message => this.renderMessageRow(message)) }
-                </Grid>
+                  { pager }
+                  <Grid>
+                    { body.data.map(message => this.renderMessageRow(message)) }
+                  </Grid>
                 { pager }
                 </div>
               );

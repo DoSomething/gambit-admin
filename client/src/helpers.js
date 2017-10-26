@@ -1,10 +1,24 @@
+const querystring = require('querystring');
 const config = require('./config');
 
 /**
- * Namespaces path with the localhost API uri.
+ * Returns localhost API url for given path and query object.
  * @param {string} path
+ * @param {object} query
  * @return {string}
  */
-module.exports.apiUrl = function (path) {
-  return `/api/${path}`;
+function apiUrl(path, query) {
+  const prefix = 'api';
+  let endpoint = `/${prefix}/${path}`;
+  if (query) {
+    const queryString = querystring.stringify(query);
+    endpoint = `${endpoint}?${queryString}`;
+  }
+  console.log(endpoint);
+
+  return endpoint;
+};
+
+module.exports.getMessagesUrl = function (query) {
+  return apiUrl('gambit-conversations/messages', query);
 };
