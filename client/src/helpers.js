@@ -28,8 +28,8 @@ module.exports.getConversationIdUrl = function (conversationId) {
   return apiUrl(`gambit-conversations/conversations/${conversationId}`);
 };
 
-module.exports.getCampaignsUrl = function (query) {
-  return apiUrl('gambit-campaigns/campaigns', query);
+module.exports.getConversationsUrl = function (query) {
+  return apiUrl('gambit-conversations/conversations', query);
 };
 
 module.exports.getMessagesUrl = function (query) {
