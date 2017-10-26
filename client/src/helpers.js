@@ -8,12 +8,11 @@ const config = require('./config');
  * @return {string}
  */
 function apiUrl(path, query = {}) {
-  const prefix = 'api';
-  let endpoint = `/${prefix}/${path}`;
+  const endpoint = `/${config.apiPrefix}/${path}`;
   const queryString = querystring.stringify(query);
-  endpoint = `${endpoint}?${queryString}`;
+  const result = `${endpoint}?${queryString}`;
 
-  return endpoint;
+  return result;
 };
 
 module.exports.getCampaignIdUrl = function (campaignId) {

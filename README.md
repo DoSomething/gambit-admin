@@ -6,5 +6,5 @@ A Node server and React client app for Gambit API, inspired by a [Full Stack Rea
 
 * Clone this repository
 * Install dependencies for both client and server: `npm i && cd client && npm i && cd ..`
-* Create a `.env.` with required config vars
+* Create a `.env` with required config vars
 * Run `npm start`

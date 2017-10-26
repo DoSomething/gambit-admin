@@ -1,12 +1,10 @@
 import React from 'react';
 import Request from 'react-http-request';
 import { Col, ControlLabel, Form, FormControl, FormGroup, Grid, PageHeader, Tab, Tabs, Table } from 'react-bootstrap';
-import Moment from 'react-moment';
 import MessageList from './MessageList';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
 
-const config = require('../config');
 const helpers = require('../helpers');
 
 export default class CampaignDetail extends React.Component {

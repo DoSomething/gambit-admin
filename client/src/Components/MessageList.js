@@ -16,32 +16,30 @@ export default class MessageList extends React.Component {
   constructor(props) {
     super(props);
 
-    const path = `messages?sort=-createdAt&limit=${pageSize}&populate=conversationId`;
-    const qry = {
+    const apiQuery = {
       sort: '-createdAt',
       limit: pageSize,
       populate: 'conversationId',
     }
-    this.requestUrl = helpers.getMessagesUrl(qry);
 
     if (this.props.campaignId) {
-       const query = encodeURIComponent(`"campaignId":"${this.props.campaignId}"`);
-       this.requestUrl = `${this.requestUrl}&query={${query}}`;
+      apiQuery.query = `{"campaignId":"${this.props.campaignId}"}`;
     } else if (this.props.conversationId) {
-       const query = encodeURIComponent(`"conversationId":"${this.props.conversationId}"`);
-       this.requestUrl = `${this.requestUrl}&query={${query}}`;
+      apiQuery.query = `{"conversationId":"${this.props.conversationId}"}`;
     } else if (this.props.requestId) {
-      const query = encodeURIComponent(`"metadata.requestId":"${this.props.requestId}"`);
-      this.requestUrl = `${this.requestUrl}&query={${query}}`;
+      apiQuery.query = `"{metadata.requestId":"${this.props.requestId}"}`;
     }
 
-    const query = queryString.parse(window.location.search);
-    this.skipCount = Number(query.skip);
+    // Check for skip query string parameter.
+    const clientQuery = queryString.parse(window.location.search);
+    this.skipCount = Number(clientQuery.skip);
     if (this.skipCount) {
-      this.requestUrl =`${this.requestUrl}&skip=${this.skipCount}`;
+      apiQuery.skip = this.skipCount;
     } else {
       this.skipCount = 0;
     }
+
+    this.requestUrl = helpers.getMessagesUrl(apiQuery);
   }
 
   renderTablePager(totalResultCount, pageCount) {
