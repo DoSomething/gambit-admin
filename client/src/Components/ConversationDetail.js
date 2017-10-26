@@ -5,14 +5,14 @@ import MessageList from './MessageList';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
 
-const gambit = require('../gambit');
+const helpers = require('../helpers');
 
 export default class ConversationDetail extends React.Component {
   constructor(props) {
     super(props);
 
     this.conversationId = this.props.match.params.conversationId;
-    this.requestUrl = gambit.conversationsUrl(`conversations/${this.conversationId}`);
+    this.requestUrl = helpers.apiUrl(`conversations/${this.conversationId}`);
   }
 
   render() {

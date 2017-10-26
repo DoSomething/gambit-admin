@@ -7,15 +7,14 @@ import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
 
 const config = require('../config');
-const gambit = require('../gambit');
+const helpers = require('../helpers');
 
 export default class CampaignDetail extends React.Component {
   constructor(props) {
     super(props);
 
     this.campaignId = this.props.match.params.campaignId;
-    this.requestUrl = gambit.conversationsUrl(`campaigns/${this.campaignId}`);
-    console.log(this.requestUrl);
+    this.requestUrl = helpers.apiUrl(`campaigns/${this.campaignId}`);
   }
 
   render() {
@@ -29,7 +28,9 @@ export default class CampaignDetail extends React.Component {
   renderNav(campaign) {
     return (
       <Tabs defaultActiveKey={0} animation={false} id="campaign-tabs">
-        <Tab eventKey={0} title="Messages"><br /><MessageList campaignId={this.campaignId} /></Tab>
+        <Tab eventKey={0} title="Messages"><br />
+          <MessageList campaignId={this.campaignId} />
+        </Tab>
         <Tab eventKey={1} title="Details"><br />
           { this.renderDetails(campaign) }
         </Tab>   
@@ -68,7 +69,7 @@ export default class CampaignDetail extends React.Component {
 
   renderDetails(campaign) {
     return (
-    <div>
+      <div>
         <Form horizontal>
           <FormGroup>
             <Col sm={2}>
@@ -86,16 +87,6 @@ export default class CampaignDetail extends React.Component {
               <FormControl.Static>{ campaign.status }</FormControl.Static>
             </Col>
           </FormGroup>
-          <FormGroup>
-            <Col sm={2}>
-              <ControlLabel>Cached At</ControlLabel>
-            </Col>
-            <Col sm={10}>
-              <FormControl.Static>
-                <Moment format={config.dateFormat}>{ campaign.updatedAt }
-                </Moment></FormControl.Static>
-            </Col>
-          </FormGroup>
         </Form>
         <h2>Templates</h2>
         { this.renderTemplates(campaign.templates) }
@@ -108,11 +99,14 @@ export default class CampaignDetail extends React.Component {
     const rows = templateNames.map((template) => {
       return (
         <tr>
-          <td sm={3}><strong>{ template }</strong></td>
-          <td sm={9}>{ templates[template] }</td>
+          <td sm={4}><strong>{ template }</strong></td>
+          <td sm={6}>{ templates[template].rendered }</td>
+          <td sm={2}>{ templates[template].override ? <strong>overridden</strong> : 'default' }</td>
         </tr>
       );
     });
-    return <Table striped><tbody>{ rows }</tbody></Table>;
+    return <Table striped>
+      <tbody>{ rows }</tbody>
+    </Table>;
   }
 }

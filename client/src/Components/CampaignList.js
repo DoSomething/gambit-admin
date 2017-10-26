@@ -5,13 +5,13 @@ import { Grid, PageHeader, Table } from 'react-bootstrap';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
 
-const gambit = require('../gambit');
+const helpers = require('../helpers');
 
 export default class CampaignList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.requestUrl = gambit.conversationsUrl(`campaigns?sort=title&query={"status":"active"}`);
+    this.requestUrl = helpers.apiUrl('campaigns?sort=title&query={"status":"active"}');
   }
 
   render() {
@@ -45,6 +45,7 @@ export default class CampaignList extends React.Component {
                     <th>ID</th>
                     <th>Title</th>
                     <th>Keywords</th>
+                    <th>Status</th>
                   </tr>
                   { result.body.map(campaign => this.renderSummary(campaign)) }
                   </tbody>
@@ -58,7 +59,7 @@ export default class CampaignList extends React.Component {
   }
 
   renderSummary(campaign) {
-    const campaignId = campaign._id;
+    const campaignId = campaign.id;
 
     return (
       <tr key={ campaignId }>
@@ -69,6 +70,7 @@ export default class CampaignList extends React.Component {
           </Link>
         </td>
         <td>{ campaign.keywords.join(', ') }</td>
+        <td>{ campaign.status }</td>
       </tr>
     );
   }

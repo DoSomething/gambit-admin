@@ -8,13 +8,13 @@ import RequestLoading from './RequestLoading';
 
 const queryString = require('query-string');
 const config = require('../config');
-const gambit = require('../gambit');
+const helpers = require('../helpers');
 
 export default class ConversationList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.requestUrl = gambit.conversationsUrl(`conversations?sort=-updatedAt}`);
+    this.requestUrl = helpers.apiUrl('conversations?sort=-updatedAt');
 
     const queryParams = queryString.parse(window.location.search);
     const platformUserId = queryParams.platformUserId;

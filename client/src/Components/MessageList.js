@@ -8,7 +8,7 @@ import RequestLoading from './RequestLoading';
 
 const queryString = require('query-string');
 const config = require('../config');
-const gambit = require('../gambit');
+const helpers = require('../helpers');
 
 const pageSize = config.resultsPageSize; 
 
@@ -17,7 +17,7 @@ export default class MessageList extends React.Component {
     super(props);
 
     const path = `messages?sort=-createdAt&limit=${pageSize}&populate=conversationId`;
-    this.requestUrl = gambit.conversationsUrl(path);
+    this.requestUrl = helpers.apiUrl(path);
 
     if (this.props.campaignId) {
        const query = encodeURIComponent(`"campaignId":"${this.props.campaignId}"`);
