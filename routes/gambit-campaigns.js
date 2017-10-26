@@ -7,7 +7,6 @@ const helpers = require('../lib/helpers');
 const router = express.Router();
 
 router.get('/campaigns', (req, res) => {
-  const url = `${gambitCampaignsUri}/campaigns`;
   campaigns.getCampaigns()
     .then(apiRes => res.send(apiRes.body.data))
     .catch(err => helpers.sendResponseForError(res, err));

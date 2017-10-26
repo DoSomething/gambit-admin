@@ -12,7 +12,7 @@ export default class ConversationDetail extends React.Component {
     super(props);
 
     this.conversationId = this.props.match.params.conversationId;
-    this.requestUrl = helpers.apiUrl(`conversations/${this.conversationId}`);
+    this.requestUrl = helpers.getConversationIdUrl(this.conversationId);
   }
 
   render() {
@@ -30,7 +30,7 @@ export default class ConversationDetail extends React.Component {
             } else if (error) {
               return <RequestError error={error} />
             } else {
-              return this.renderDetail(result.body);
+              return this.renderDetail(result.body.data);
             }
           }
         }

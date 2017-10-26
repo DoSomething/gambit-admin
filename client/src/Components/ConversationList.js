@@ -13,15 +13,19 @@ const helpers = require('../helpers');
 export default class ConversationList extends React.Component {
   constructor(props) {
     super(props);
-
-    this.requestUrl = helpers.apiUrl('conversations?sort=-updatedAt');
+    const query = {
+      sort: '-updatedAt',
+    };
 
     const queryParams = queryString.parse(window.location.search);
     const platformUserId = queryParams.platformUserId;
     if (platformUserId) {
-      const query = `query={"platformUserId":{"$regex":"${platformUserId}"}}`;
-      this.requestUrl =`${this.requestUrl}&${query}`;
+      query.query = {
+        platformUserId: `{"platformUserId":{"$regex":"${platformUserId}"}}`
+      }
     }
+
+    this.requestUrl = helpers.getConversationsUrl(query);
   }
 
   render() {

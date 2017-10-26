@@ -11,7 +11,7 @@ export default class CampaignList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.requestUrl = helpers.apiUrl('campaigns?sort=title&query={"status":"active"}');
+    this.requestUrl = helpers.getCampaignsUrl({ exclude: true });
   }
 
   render() {

@@ -14,7 +14,7 @@ export default class CampaignDetail extends React.Component {
     super(props);
 
     this.campaignId = this.props.match.params.campaignId;
-    this.requestUrl = helpers.apiUrl(`campaigns/${this.campaignId}`);
+    this.requestUrl = helpers.getCampaignIdUrl(this.campaignId);
   }
 
   render() {

@@ -91,9 +91,6 @@ export default class MessageList extends React.Component {
             } else if (error) {
               return <RequestError error={error} />
             } else {
-              console.log('test');
-              console.log(result);
-
               const body = result.body;
               const totalCount = body.pagination.total;
               const pageSize = body.data.length;
