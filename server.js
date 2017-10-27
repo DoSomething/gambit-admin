@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const logger = require('heroku-logger');
 
 const app = express();
 
@@ -16,5 +17,5 @@ if (process.env.NODE_ENV === 'production') {
 require('./routes')(app);
 
 app.listen(app.get('port'), () => {
-  console.log(`Gambit Admin server running at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
+  logger.info(`Gambit Admin server running at: http://localhost:${app.get('port')}/`);
 });
