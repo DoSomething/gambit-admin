@@ -27,7 +27,7 @@ export default class MessageList extends React.Component {
     } else if (this.props.conversationId) {
       apiQuery.query = `{"conversationId":"${this.props.conversationId}"}`;
     } else if (this.props.requestId) {
-      apiQuery.query = `"{metadata.requestId":"${this.props.requestId}"}`;
+      apiQuery.query = `{"metadata.requestId":"${this.props.requestId}"}`;
     }
 
     // Check for skip query string parameter.
