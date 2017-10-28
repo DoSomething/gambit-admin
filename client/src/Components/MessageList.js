@@ -64,11 +64,15 @@ export default class MessageList extends React.Component {
       const nextUrl = `${url}?skip=${this.skipCount + pageSize}`;
       rightPagerItem = <Pager.Item next href={ nextUrl }>Next</Pager.Item>;
     }
-    const label = <small>{ startNumber }-{ endNumber } of { totalResultCount }</small>;
+    let label = 'No results';
+    if (totalResultCount > 0) {
+      label = `${startNumber}-${endNumber} of ${totalResultCount}`;
+    }
+
     return (
       <Pager>
         {leftPagerItem}
-        {label}
+        <small>{label}</small>
         {rightPagerItem}
       </Pager>
     );
@@ -99,7 +103,7 @@ export default class MessageList extends React.Component {
                   <Grid>
                     { body.data.map(message => this.renderMessageRow(message)) }
                   </Grid>
-                { pager }
+                { totalCount > 10 ? pager : null }
                 </div>
               );
             }
