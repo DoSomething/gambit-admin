@@ -20,9 +20,7 @@ export default class ConversationList extends React.Component {
     const queryParams = queryString.parse(window.location.search);
     const platformUserId = queryParams.platformUserId;
     if (platformUserId) {
-      query.query = {
-        platformUserId: `{"platformUserId":{"$regex":"${platformUserId}"}}`
-      }
+      query.query = `{"platformUserId":{"$regex":"${platformUserId}"}}`;
     }
 
     this.requestUrl = helpers.getConversationsUrl(query);
@@ -61,7 +59,7 @@ export default class ConversationList extends React.Component {
                     <th>Current Campaign</th>
                     <th>Topic</th>
                   </tr>
-                  { result.body.map(conversation => this.renderSummary(conversation)) }
+                  { result.body.data.map(conversation => this.renderSummary(conversation)) }
                   </tbody>
                 </Table>
               );
