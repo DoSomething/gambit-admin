@@ -4,7 +4,7 @@ A Node server and React client app for the Gambit API.
 
 Using [https://github.com/mars/heroku-cra-node](https://github.com/mars/heroku-cra-node) as an example, this repo is composed of two npm projects, the backend server and the frontend UI, with two `package.json` configs.
 
-  1. [`package.json`](package.json) for [Node server](server/) & [Heroku deploy](https://devcenter.heroku.com/categories/deployment)
+  1. [`package.json`](package.json) for [Node server](server.js) & [Heroku deploy](https://devcenter.heroku.com/categories/deployment)
       * `heroku-postbuild` script compiles the webpack bundle during deploy
       * `cacheDirectories` includes `react-ui/node_modules/` to optimize build time
   2. [`client/package.json`](client/package.json) for [React web UI](react-ui/)
