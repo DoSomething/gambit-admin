@@ -6,11 +6,13 @@ const logger = require('heroku-logger');
 
 const app = express();
 
-require('dotenv').config()
+require('dotenv').config();
 
-app.set('port', process.env.PORT || 3000);
+const config = require('./config/server');
 
-const buildPath = 'client/build';
+app.set('port', config.port);
+
+const buildPath = config.buildPath;
 
 // Priority serve any static files.
 app.use(express.static(path.resolve(__dirname, buildPath)));
@@ -18,10 +20,10 @@ app.use(express.static(path.resolve(__dirname, buildPath)));
 require('./routes')(app);
 
 // All remaining requests return the React app, so it can handle routing.
-app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, buildPath, 'index.html'));
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, buildPath, 'index.html'));
 });
 
 app.listen(app.get('port'), () => {
-  logger.info(`Gambit Admin server running at: http://localhost:${app.get('port')}/`);
+  logger.info(`Gambit Admin server running on port ${app.get('port')}`);
 });
