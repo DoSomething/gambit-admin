@@ -2,6 +2,7 @@
 
 const express = require('express');
 const conversations = require('../lib/gambit-conversations');
+const northstar = require('../lib/northstar');
 const helpers = require('../lib/helpers');
 
 const router = express.Router();
@@ -14,7 +15,17 @@ router.get('/conversations/', (req, res) => {
 
 router.get('/conversations/:id', (req, res) => {
   conversations.getConversationById(req.params.id)
-    .then(apiRes => res.send(apiRes))
+    .then((apiRes) => {
+      req.data = apiRes.data;
+      if (req.data.platform !== 'sms') {
+        return Promise.resolve(null);
+      }
+      return northstar.getUserByMobile(req.data.platformUserId);
+    })
+    .then((user) => {
+      req.data.user = user;
+      return res.send({ data: req.data });
+    })
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
