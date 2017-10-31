@@ -29,6 +29,8 @@ npm start
 
 The React app is configured to proxy backend requests to the local Node server. (See [`"proxy"` config](client/package.json))
 
+**Note:** If the server port changes, the client package.json proxy must be updated as well.
+
 In a separate terminal from the API server, start the UI:
 
 ```bash

@@ -1,6 +1,6 @@
 import React from 'react';
 import Request from 'react-http-request';
-import { Col, ControlLabel, Form, FormControl, FormGroup, Grid, PageHeader, Tab, Tabs, Table } from 'react-bootstrap';
+import { Col, Grid, PageHeader, Panel, Row, Tab, Tabs, Table } from 'react-bootstrap';
 import MessageList from './MessageList';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
@@ -29,8 +29,8 @@ export default class CampaignDetail extends React.Component {
         <Tab eventKey={0} title="Messages"><br />
           <MessageList campaignId={this.campaignId} />
         </Tab>
-        <Tab eventKey={1} title="Details"><br />
-          { this.renderDetails(campaign) }
+        <Tab eventKey={1} title="Templates"><br />
+          { this.renderTemplates(campaign.templates) }
         </Tab>   
       </Tabs>
     );
@@ -55,6 +55,8 @@ export default class CampaignDetail extends React.Component {
               return (
                 <div>                                  
                   <PageHeader>{campaign.title} <small></small></PageHeader>
+                  <h4>{campaign.tagline}</h4>
+                  { this.renderDetails(campaign) }
                   { this.renderNav(campaign) }
                 </div>
               );
@@ -67,28 +69,16 @@ export default class CampaignDetail extends React.Component {
 
   renderDetails(campaign) {
     return (
-      <div>
-        <Form horizontal>
-          <FormGroup>
-            <Col sm={2}>
-              <ControlLabel>Keywords</ControlLabel>
-            </Col>
-            <Col sm={10}>
-              <FormControl.Static>{ campaign.keywords.join(',') }</FormControl.Static>
-            </Col>
-          </FormGroup>
-          <FormGroup>
-            <Col sm={2}>
-              <ControlLabel>Status</ControlLabel>
-            </Col>
-            <Col sm={10}>
-              <FormControl.Static>{ campaign.status }</FormControl.Static>
-            </Col>
-          </FormGroup>
-        </Form>
-        <h2>Templates</h2>
-        { this.renderTemplates(campaign.templates) }
-      </div>
+      <Panel>
+        <Row>
+          <Col sm={6}>
+            <label>Keywords:</label> {campaign.keywords.join(', ')}
+          </Col>
+          <Col sm={6}>
+            <label>Status:</label> {campaign.status}
+          </Col>
+        </Row>
+      </Panel>
     );
   }
 

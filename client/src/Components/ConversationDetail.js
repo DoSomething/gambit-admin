@@ -1,11 +1,13 @@
 import React from 'react';
 import Request from 'react-http-request';
-import { Col, ControlLabel, Form, FormControl, FormGroup, Grid, PageHeader } from 'react-bootstrap';
+import { Col, Panel, Grid, Label, PageHeader, Row } from 'react-bootstrap';
+import Moment from 'react-moment';
 import MessageList from './MessageList';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
 
 const helpers = require('../helpers');
+const config = require('../config');
 
 export default class ConversationDetail extends React.Component {
   constructor(props) {
@@ -39,37 +41,51 @@ export default class ConversationDetail extends React.Component {
   }
 
   renderDetail(conversation) {
+    let label;
+    if (conversation.paused) {
+      label =  <small><Label>paused</Label></small>;
+    }
+
     return (
       <Grid>
-        <PageHeader>{ conversation.platformUserId } <small>{ conversation.platform } </small></PageHeader>
-        <Form horizontal>
-          <FormGroup>
-            <Col sm={2}>
-              <ControlLabel>Conversation Id</ControlLabel>
-            </Col>
-            <Col sm={10}>
-              <FormControl.Static>{ conversation._id }</FormControl.Static>
-            </Col>
-          </FormGroup>
-          <FormGroup>
-            <Col sm={2}>
-              <ControlLabel>Topic</ControlLabel>
-            </Col>
-            <Col sm={10}>
-              <FormControl.Static>{ conversation.topic }</FormControl.Static>
-            </Col>
-          </FormGroup>
-          <FormGroup>
-            <Col sm={2}>
-              <ControlLabel>Is Paused</ControlLabel>
-            </Col>
-            <Col sm={10}>
-              <FormControl.Static>{ conversation.paused ? 'yes' : 'no' }</FormControl.Static>
-            </Col>
-          </FormGroup>
-        </Form>
+        <PageHeader>{ conversation.platformUserId } {label}</PageHeader>
+        {conversation.user ? this.renderUser(conversation.user) : ''}
         <MessageList conversationId={this.conversationId} />
       </Grid>
+    );
+  }
+
+  renderUser(user) {
+    const lastMessagedDate = <Moment format={config.dateFormat}>{ user.last_messaged_at }</Moment>;
+    const registrationDate = <Moment format="MM/DD/YY">{ user.created_at }</Moment>;
+    let registrationSource;
+    if (user.source) {
+      registrationSource = `via ${user.source}`;
+    }
+    return (
+      <Panel>
+        <Row>
+          <Col sm={6}>
+            <label>User:</label> {user.id}
+          </Col>
+          <Col sm={6}>
+            <label>SMS status:</label> {user.sms_status}
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={6}>
+            <label>Email:</label> {user.email}
+          </Col>
+          <Col sm={6}>
+            <label>Last inbound message:</label> {lastMessagedDate}
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={6}>
+            <label>Joined:</label> {registrationDate} {registrationSource}
+          </Col>
+        </Row>
+      </Panel>
     );
   }
 }
