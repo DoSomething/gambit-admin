@@ -44,8 +44,8 @@ export default class ConversationDetail extends React.Component {
     let label;
     if (conversation.paused) {
       label =  <small><Label>paused</Label></small>;
-    
     }
+
     return (
       <Grid>
         <PageHeader>{ conversation.platformUserId } {label}</PageHeader>
@@ -82,7 +82,7 @@ export default class ConversationDetail extends React.Component {
         </Row>
         <Row>
           <Col sm={6}>
-            Joined {registrationDate} {registrationSource}
+            <label>Joined:</label> {registrationDate} {registrationSource}
           </Col>
         </Row>
       </Panel>
