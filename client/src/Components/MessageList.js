@@ -137,7 +137,7 @@ export default class MessageList extends React.Component {
     if (broadcastId) {
       broadcastGroupItem = (
         <ListGroupItem>
-          <small>Broadcast: { broadcastId }</small>
+          <small>Broadcast: <code>{ broadcastId }</code></small>
         </ListGroupItem>
       );
     }
@@ -154,7 +154,7 @@ export default class MessageList extends React.Component {
     if (message.agentId) {
       agentGroupItem = (
         <ListGroupItem>
-          <small>Agent: { message.agentId }</small>
+          <small>Agent: <code>{ message.agentId }</code></small>
         </ListGroupItem>
       );
     }
@@ -162,7 +162,7 @@ export default class MessageList extends React.Component {
     if (message.match) {
       matchGroupItem = (
         <ListGroupItem>
-          <small>Match: { message.match }</small>
+          <small>Match: <code>{ message.match }</code></small>
         </ListGroupItem>
       );
     }
