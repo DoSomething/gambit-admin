@@ -5,6 +5,7 @@ import MessageList from './MessageList';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
 
+const queryString = require('query-string');
 const helpers = require('../helpers');
 
 export default class CampaignDetail extends React.Component {
@@ -24,14 +25,19 @@ export default class CampaignDetail extends React.Component {
   }
 
   renderNav(campaign) {
+    const queryParams = queryString.parse(window.location.search);
+    let defaultActiveKey = 0;
+    if (queryParams.skip) {
+      defaultActiveKey = 1;
+    }
     return (
-      <Tabs defaultActiveKey={0} animation={false} id="campaign-tabs">
-        <Tab eventKey={0} title="Messages"><br />
-          <MessageList campaignId={this.campaignId} />
-        </Tab>
-        <Tab eventKey={1} title="Templates"><br />
+      <Tabs defaultActiveKey={defaultActiveKey} animation={false} id="campaign-tabs">
+        <Tab eventKey={0} title="Templates"><br />
           { this.renderTemplates(campaign.templates) }
         </Tab>   
+        <Tab eventKey={1} title="Messages"><br />
+          <MessageList campaignId={this.campaignId} />
+        </Tab>
       </Tabs>
     );
   }
