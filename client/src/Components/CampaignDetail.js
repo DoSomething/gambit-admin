@@ -92,7 +92,7 @@ export default class CampaignDetail extends React.Component {
     const templateNames = Object.keys(templates).sort();
     const rows = templateNames.map((template) => {
       return (
-        <tr>
+        <tr key={template} id={template}>
           <td sm={4}><strong>{ template }</strong></td>
           <td sm={6}>{ templates[template].rendered }</td>
           <td sm={2}>{ templates[template].override ? <strong>overridden</strong> : 'default' }</td>

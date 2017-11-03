@@ -52,10 +52,7 @@ export default class MessageList extends React.Component {
     let leftPagerItem;
     if (this.skipCount) {
       const prevSkip = this.skipCount - pageSize;
-      let prevUrl = url;
-      if (prevSkip > 0) {
-        prevUrl = `${url}?skip=${prevSkip}`;
-      }
+      const prevUrl = `${url}?skip=${prevSkip}`;
       leftPagerItem = <Pager.Item previous href={ prevUrl }>Previous</Pager.Item>;
     }
 
