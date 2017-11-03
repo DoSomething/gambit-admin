@@ -1,5 +1,6 @@
 import React from 'react';
 import Request from 'react-http-request';
+import { HashLink as Link } from 'react-router-hash-link';
 import { Col, Grid, PageHeader, Panel, Row, Tab, Tabs, Table } from 'react-bootstrap';
 import MessageList from './MessageList';
 import RequestError from './RequestError';
@@ -13,6 +14,7 @@ export default class CampaignDetail extends React.Component {
     super(props);
 
     this.campaignId = this.props.match.params.campaignId;
+    this.url = `/campaigns/${this.campaignId}`;
     this.requestUrl = helpers.getCampaignIdUrl(this.campaignId);
   }
 
@@ -90,12 +92,17 @@ export default class CampaignDetail extends React.Component {
 
   renderTemplates(templates) {
     const templateNames = Object.keys(templates).sort();
-    const rows = templateNames.map((template) => {
+    const rows = templateNames.map((templateName) => {
+      const url = `${this.url}#${templateName}`;
       return (
-        <tr key={template} id={template}>
-          <td sm={4}><strong>{ template }</strong></td>
-          <td sm={6}>{ templates[template].rendered }</td>
-          <td sm={2}>{ templates[template].override ? <strong>overridden</strong> : 'default' }</td>
+        <tr key={templateName} id={templateName}>
+          <td sm={4}>
+            <Link to={url}><strong>{ templateName }</strong></Link>
+          </td>
+          <td sm={6}>{ templates[templateName].rendered }</td>
+          <td sm={2}>
+            { templates[templateName].override ? <strong>overridden</strong> : 'default' }
+          </td>
         </tr>
       );
     });
