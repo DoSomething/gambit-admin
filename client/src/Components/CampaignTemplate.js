@@ -14,7 +14,7 @@ export default class CampaignTemplate extends React.Component {
       <Row id={name} key={name}>
         <Panel>
           <ScrollableAnchor id={name}>
-          <h4><a href={`#${name}`}># {name}{suffix}</a></h4>
+            <h4><a href={`#${name}`}># {name}{suffix}</a></h4>
           </ScrollableAnchor>
           <p>{data.rendered}</p>
         </Panel>
