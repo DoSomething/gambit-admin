@@ -1,10 +1,12 @@
 import React from 'react';
 import Request from 'react-http-request';
-import { Col, Grid, PageHeader, Panel, Row, Tab, Tabs, Table } from 'react-bootstrap';
+import { Col, Grid, PageHeader, Panel, Row, Tab, Tabs } from 'react-bootstrap';
+import CampaignTemplate from './CampaignTemplate';
 import MessageList from './MessageList';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
 
+const queryString = require('query-string');
 const helpers = require('../helpers');
 
 export default class CampaignDetail extends React.Component {
@@ -12,6 +14,7 @@ export default class CampaignDetail extends React.Component {
     super(props);
 
     this.campaignId = this.props.match.params.campaignId;
+    this.url = `/campaigns/${this.campaignId}`;
     this.requestUrl = helpers.getCampaignIdUrl(this.campaignId);
   }
 
@@ -24,14 +27,19 @@ export default class CampaignDetail extends React.Component {
   }
 
   renderNav(campaign) {
+    const queryParams = queryString.parse(window.location.search);
+    let defaultActiveKey = 0;
+    if (queryParams.skip) {
+      defaultActiveKey = 1;
+    }
     return (
-      <Tabs defaultActiveKey={0} animation={false} id="campaign-tabs">
-        <Tab eventKey={0} title="Messages"><br />
-          <MessageList campaignId={this.campaignId} />
-        </Tab>
-        <Tab eventKey={1} title="Templates"><br />
+      <Tabs defaultActiveKey={defaultActiveKey} animation={false} id="campaign-tabs">
+        <Tab eventKey={0} title="Templates"><br />
           { this.renderTemplates(campaign.templates) }
         </Tab>   
+        <Tab eventKey={1} title="Messages"><br />
+          <MessageList campaignId={this.campaignId} />
+        </Tab>
       </Tabs>
     );
   }
@@ -55,7 +63,6 @@ export default class CampaignDetail extends React.Component {
               return (
                 <div>                                  
                   <PageHeader>{campaign.title} <small></small></PageHeader>
-                  <h4>{campaign.tagline}</h4>
                   { this.renderDetails(campaign) }
                   { this.renderNav(campaign) }
                 </div>
@@ -71,6 +78,9 @@ export default class CampaignDetail extends React.Component {
     return (
       <Panel>
         <Row>
+          <Col sm={12}><label>Tagline:</label> {campaign.tagline}</Col>
+        </Row>
+        <Row>
           <Col sm={6}>
             <label>Keywords:</label> {campaign.keywords.join(', ')}
           </Col>
@@ -83,18 +93,14 @@ export default class CampaignDetail extends React.Component {
   }
 
   renderTemplates(templates) {
-    const templateNames = Object.keys(templates).sort();
-    const rows = templateNames.map((template) => {
-      return (
-        <tr>
-          <td sm={4}><strong>{ template }</strong></td>
-          <td sm={6}>{ templates[template].rendered }</td>
-          <td sm={2}>{ templates[template].override ? <strong>overridden</strong> : 'default' }</td>
-        </tr>
-      );
+    const templateNames = Object.keys(templates);
+    const rows = templateNames.map((templateName) => {
+      return <CampaignTemplate key={templateName} name={templateName} data={templates[templateName]} />
     });
-    return <Table striped>
-      <tbody>{ rows }</tbody>
-    </Table>;
+    return (
+      <Grid>
+        {rows}
+      </Grid>
+    );
   }
 }
