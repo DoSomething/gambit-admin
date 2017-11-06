@@ -1,7 +1,7 @@
 import React from 'react';
 import Request from 'react-http-request';
-import { HashLink as Link } from 'react-router-hash-link';
-import { Col, Grid, PageHeader, Panel, Row, Tab, Tabs, Table } from 'react-bootstrap';
+import { Col, Grid, PageHeader, Panel, Row, Tab, Tabs } from 'react-bootstrap';
+import CampaignTemplate from './CampaignTemplate';
 import MessageList from './MessageList';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
@@ -63,7 +63,6 @@ export default class CampaignDetail extends React.Component {
               return (
                 <div>                                  
                   <PageHeader>{campaign.title} <small></small></PageHeader>
-                  <h4>{campaign.tagline}</h4>
                   { this.renderDetails(campaign) }
                   { this.renderNav(campaign) }
                 </div>
@@ -79,6 +78,9 @@ export default class CampaignDetail extends React.Component {
     return (
       <Panel>
         <Row>
+          <Col sm={12}><label>Tagline:</label> {campaign.tagline}</Col>
+        </Row>
+        <Row>
           <Col sm={6}>
             <label>Keywords:</label> {campaign.keywords.join(', ')}
           </Col>
@@ -91,23 +93,14 @@ export default class CampaignDetail extends React.Component {
   }
 
   renderTemplates(templates) {
-    const templateNames = Object.keys(templates).sort();
+    const templateNames = Object.keys(templates);
     const rows = templateNames.map((templateName) => {
-      const url = `${this.url}#${templateName}`;
-      return (
-        <tr key={templateName} id={templateName}>
-          <td sm={4}>
-            <Link to={url}><strong>{ templateName }</strong></Link>
-          </td>
-          <td sm={6}>{ templates[templateName].rendered }</td>
-          <td sm={2}>
-            { templates[templateName].override ? <strong>overridden</strong> : 'default' }
-          </td>
-        </tr>
-      );
+      return <CampaignTemplate key={templateName} name={templateName} data={templates[templateName]} />
     });
-    return <Table striped>
-      <tbody>{ rows }</tbody>
-    </Table>;
+    return (
+      <Grid>
+        {rows}
+      </Grid>
+    );
   }
 }
