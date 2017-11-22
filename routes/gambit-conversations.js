@@ -24,6 +24,10 @@ router.get('/conversations/:id', (req, res) => {
     })
     .then((user) => {
       req.data.user = user;
+      const userId = user.id;
+      req.data.user.links = {
+        aurora: helpers.getAuroraUrlForUserId(userId),
+      } ;
       return res.send({ data: req.data });
     })
     .catch(err => helpers.sendResponseForError(res, err));

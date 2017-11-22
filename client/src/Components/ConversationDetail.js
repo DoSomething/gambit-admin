@@ -66,7 +66,7 @@ export default class ConversationDetail extends React.Component {
       <Panel>
         <Row>
           <Col sm={6}>
-            <label>User:</label> <code>{user.id}</code>
+            <label>User:</label> <a href={user.links.aurora}><code>{user.id}</code></a>
           </Col>
           <Col sm={6}>
             <label>SMS status:</label> {user.sms_status}
