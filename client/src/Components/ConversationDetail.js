@@ -62,6 +62,13 @@ export default class ConversationDetail extends React.Component {
     if (user.source) {
       registrationSource = `via ${user.source}`;
     }
+
+    const rogueLink = <a href={user.links.rogue}>Rogue</a>;
+    let mobileCommonsLink = null;
+    if (user.links.mobilecommons) {
+      mobileCommonsLink = <span> | <a href={user.links.mobilecommons}>Mobile Commons</a></span>;
+    }
+
     return (
       <Panel>
         <Row>
@@ -83,6 +90,9 @@ export default class ConversationDetail extends React.Component {
         <Row>
           <Col sm={6}>
             <label>Joined:</label> {registrationDate} {registrationSource}
+          </Col>
+          <Col sm={6}>
+            <label>Profiles:</label> <a href={user.links.aurora}>Aurora</a> | {rogueLink} {mobileCommonsLink}
           </Col>
         </Row>
       </Panel>
