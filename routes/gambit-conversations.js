@@ -23,7 +23,11 @@ router.get('/conversations/:id', (req, res) => {
       return northstar.getUserByMobile(req.data.platformUserId);
     })
     .then((user) => {
+      if (!user) {
+        return res.send({ data: req.data });
+      }
       req.data.user = user;
+      const userId = user.id;
       req.data.user.links = {
         aurora: helpers.getAuroraUrlForUserId(userId),
         rogue: helpers.getRogueUrlForUserId(userId),
