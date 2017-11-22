@@ -8,9 +8,9 @@ const config = require('./config');
 
 const App = () => (
   <div>
-    <Header siteName={ config.siteName } />
+    <Header siteName={config.siteName} />
     <Main />
   </div>
-)
+);
 
-export default App
+export default App;
