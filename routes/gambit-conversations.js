@@ -3,6 +3,7 @@
 const express = require('express');
 const conversations = require('../lib/gambit-conversations');
 const northstar = require('../lib/northstar');
+const rogue = require('../lib/rogue');
 const helpers = require('../lib/helpers');
 
 const router = express.Router();
@@ -36,6 +37,10 @@ router.get('/conversations/:id', (req, res) => {
         const url = helpers.getMobileCommonsUrlForMobileCommonsId(user.mobilecommons_id);
         req.data.user.links.mobilecommons = url;
       }
+      return rogue.getSignupsForUserId(userId);
+    })
+    .then((apiRes) => {
+      req.data.user.signups = apiRes;
       return res.send({ data: req.data });
     })
     .catch(err => helpers.sendResponseForError(res, err));
