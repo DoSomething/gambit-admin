@@ -40,7 +40,9 @@ class ConversationDetail extends React.Component {
         const status = ConversationDetail.postLabel(post.status);
 
         let whyParticipated = null;
-        if (index === numPosts - 1) {
+        // Posts are ordered by ascending created date. We only ask for Why Participated if it's
+        // the User's first post for the Campaign.
+        if (index === 0) {
           whyParticipated = (
             <ListGroupItem>
               <strong>Why Participated:</strong> {signup.why_participated}
@@ -150,17 +152,23 @@ class ConversationDetail extends React.Component {
   }
 
   renderNav(conversation) {
-    const numSignups = conversation.user.signups.meta.pagination.total;
-    const signupsLabel = `Signups (${numSignups})`;
+    let signupsTab = null;
+    if (conversation.user) {
+      const numSignups = conversation.user.signups.meta.pagination.total;
+      const signupsLabel = `Signups (${numSignups})`;
+      signupsTab = (
+        <Tab eventKey={1} title={signupsLabel}><br />
+          { ConversationDetail.renderSignups(conversation.user.signups) }
+        </Tab>
+      );
+    }
 
     return (
       <Tabs defaultActiveKey={0} animation={false} id="campaign-tabs">
         <Tab eventKey={0} title="Messages"><br />
           <MessageList conversationId={this.conversationId} />
         </Tab>
-        <Tab eventKey={1} title={signupsLabel}><br />
-          { ConversationDetail.renderSignups(conversation.user.signups) }
-        </Tab>
+        {signupsTab}
       </Tabs>
     );
   }
