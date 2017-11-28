@@ -32,7 +32,11 @@ class ConversationDetail extends React.Component {
     const numPosts = signup.posts.data.length;
     if (numPosts) {
       posts = signup.posts.data.map((post, index) => {
-        const postDate = <Moment format={config.dateFormat}>{post.created_at}</Moment>;
+        const postDate = <Moment format={'MM/DD/YY'}>{post.created_at}</Moment>;
+        let postSource = null;
+        if (post.source) {
+          postSource = ` via ${post.source}`;
+        }
         const status = ConversationDetail.postLabel(post.status);
 
         let whyParticipated = null;
@@ -56,7 +60,7 @@ class ConversationDetail extends React.Component {
             </ListGroupItem>
             {whyParticipated}
             <ListGroupItem>
-              <strong>Submitted:</strong> {postDate} {status}
+              <strong>Submitted:</strong> {postDate}{postSource} {status}
             </ListGroupItem>
           </ListGroup>
         );
@@ -82,8 +86,8 @@ class ConversationDetail extends React.Component {
       <Table>
         <thead>
           <tr>
-            <th width={300}>Signup</th>
-            <th width={100}>Campaign</th>
+            <th width={250}>Signup</th>
+            <th width={150}>Campaign</th>
             <th>Posts</th>
           </tr>
         </thead>
