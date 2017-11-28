@@ -11,16 +11,30 @@ const helpers = require('../helpers');
 const config = require('../config');
 
 class ConversationDetail extends React.Component {
+  static postLabel(status) {
+    let style = 'warning';
+    if (status === 'rejected') {
+      style = 'danger';
+    } else if (status === 'accepted') {
+      style = 'success';
+    }
+    return <Label bsStyle={style}>{status}</Label>;
+  }
+
   static renderSignup(signup) {
-    const createdAt = <Moment format={config.dateFormat}>{signup.created_at}</Moment>;
+    const signupDate = <Moment format={'MM/DD/YY'}>{signup.created_at}</Moment>;
     let signupSource = null;
     if (signup.signup_source) {
-      signupSource = <p>{signup.signup_source}</p>;
+      signupSource = `via ${signup.signup_source}`;
     }
+
     let posts = null;
     const numPosts = signup.posts.data.length;
     if (numPosts) {
       posts = signup.posts.data.map((post, index) => {
+        const postDate = <Moment format={config.dateFormat}>{post.created_at}</Moment>;
+        const status = ConversationDetail.postLabel(post.status);
+
         let whyParticipated = null;
         if (index === numPosts - 1) {
           whyParticipated = (
@@ -42,17 +56,21 @@ class ConversationDetail extends React.Component {
             </ListGroupItem>
             {whyParticipated}
             <ListGroupItem>
-              <strong>Status:</strong> {post.status}
+              <strong>Submitted:</strong> {postDate} {status}
             </ListGroupItem>
           </ListGroup>
         );
       });
     }
+    const campaignId = signup.campaign_id;
+    const campaignLink = <a href={`/campaigns/${campaignId}`}>{campaignId}</a>;
     return (
       <tr key={signup.signup_id}>
-        <td>{signup.signup_id}</td>
-        <td>{signup.campaign_id}</td>
-        <td>{createdAt} {signupSource}</td>
+        <td>
+          <strong><a href={signup.url}>{signup.signup_id}</a></strong>
+          <div>{signupDate} {signupSource}</div>
+        </td>
+        <td>{campaignLink}</td>
         <td>{posts}</td>
       </tr>
     );
@@ -64,9 +82,8 @@ class ConversationDetail extends React.Component {
       <Table>
         <thead>
           <tr>
-            <th width={100}>Signup</th>
+            <th width={300}>Signup</th>
             <th width={100}>Campaign</th>
-            <th width={200}>Created</th>
             <th>Posts</th>
           </tr>
         </thead>

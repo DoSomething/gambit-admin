@@ -41,6 +41,9 @@ router.get('/conversations/:id', (req, res) => {
     })
     .then((apiRes) => {
       req.data.user.signups = apiRes;
+      req.data.user.signups.data.forEach((signup, index) => {
+        req.data.user.signups.data[index].url = helpers.getRogueUrlForSignupId(signup.signup_id);
+      });
       return res.send({ data: req.data });
     })
     .catch(err => helpers.sendResponseForError(res, err));
