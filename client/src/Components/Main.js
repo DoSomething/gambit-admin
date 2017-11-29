@@ -6,7 +6,7 @@ import CampaignList from './CampaignList';
 import CampaignDetail from './CampaignDetail';
 import ConversationList from './ConversationList';
 import ConversationDetail from './ConversationDetail';
-import GambitRequest from './GambitRequest';
+import ConversationRequest from './ConversationRequest';
 
 const Campaigns = () => (
   <Switch>
@@ -25,7 +25,7 @@ const Conversations = () => (
 const Requests = () => (
   <Switch>
     <Route exact path='/requests' component={Home}/>
-    <Route path='/requests/:requestId' component={GambitRequest}/>
+    <Route path='/requests/:requestId' component={ConversationRequest}/>
   </Switch>
 )
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, ControlLabel, Form, FormControl, FormGroup, Grid } from 'react-bootstrap';
 import MessageList from './MessageList';
 
-export default class GambitRequest extends React.Component {
+export default class ConversationRequest extends React.Component {
   constructor(props) {
     super(props);
 
