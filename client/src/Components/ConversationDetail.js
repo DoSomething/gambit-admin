@@ -1,11 +1,9 @@
 import React from 'react';
-import Request from 'react-http-request';
 import { Col, Panel, Grid, Image, Label, ListGroup, ListGroupItem, PageHeader, Row, Tab, Table, Tabs } from 'react-bootstrap';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import MessageList from './MessageList';
-import RequestError from './RequestError';
-import RequestLoading from './RequestLoading';
+import HttpRequest from './HttpRequest';
 
 const helpers = require('../helpers');
 const config = require('../config');
@@ -190,23 +188,9 @@ class ConversationDetail extends React.Component {
 
   render() {
     return (
-      <Request
-        url={this.requestUrl}
-        method="get"
-        accept="application/json"
-        verbose
-      >
-        {
-          ({ error, result, loading }) => {
-            if (loading) {
-              return <RequestLoading />;
-            } else if (error) {
-              return <RequestError error={error} />;
-            }
-            return this.renderDetail(result.body.data);
-          }
-        }
-      </Request>
+      <HttpRequest url={this.requestUrl}>
+        { res => this.renderDetail(res.data) }
+      </HttpRequest>
     );
   }
 }
