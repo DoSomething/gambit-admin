@@ -1,9 +1,7 @@
 import React from 'react';
-import Request from 'react-http-request';
 import {Link} from 'react-router-dom';
 import { Grid, PageHeader, Table } from 'react-bootstrap';
-import RequestError from './RequestError';
-import RequestLoading from './RequestLoading';
+import HttpRequest from './HttpRequest';
 
 const helpers = require('../helpers');
 
@@ -25,36 +23,23 @@ export default class CampaignList extends React.Component {
 
   renderList() {
     return (
-      <Request
-        url={ this.requestUrl }
-        method='get'
-        accept='application/json'
-        verbose={true}
-      >
+      <HttpRequest url={ this.requestUrl }>
         {
-          ({error, result, loading}) => {
-            if (loading) {
-              return <RequestLoading />;
-            } else if (error) {
-              return <RequestError error={error} />
-            } else {
-              return (
-                <Table striped hover>
-                  <tbody>
-                  <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Keywords</th>
-                    <th>Status</th>
-                  </tr>
-                  { result.body.map(campaign => this.renderSummary(campaign)) }
-                  </tbody>
-                </Table>
-              );
-            }
-          }
+          (result) => (
+            <Table striped hover>
+              <tbody>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Keywords</th>
+                <th>Status</th>
+              </tr>
+              { result.body.map(campaign => this.renderSummary(campaign)) }
+              </tbody>
+            </Table>
+          )
         }
-      </Request>
+      </HttpRequest>
     );
   }
 
