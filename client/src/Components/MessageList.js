@@ -1,10 +1,9 @@
 import React from 'react';
 import Request from 'react-http-request';
-import {Link} from 'react-router-dom';
-import {Col, Grid, Row, ListGroup, ListGroupItem, Image, Pager} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Col, Grid, Row, ListGroup, ListGroupItem, Image, Pager } from 'react-bootstrap';
 import Moment from 'react-moment';
-import RequestError from './RequestError';
-import RequestLoading from './RequestLoading';
+import HttpRequest from './HttpRequest';
 
 const queryString = require('query-string');
 const config = require('../config');
@@ -53,13 +52,13 @@ export default class MessageList extends React.Component {
     if (this.skipCount) {
       const prevSkip = this.skipCount - pageSize;
       const prevUrl = `${url}?skip=${prevSkip}`;
-      leftPagerItem = <Pager.Item previous href={ prevUrl }>Previous</Pager.Item>;
+      leftPagerItem = <Pager.Item previous href={prevUrl}>Previous</Pager.Item>;
     }
 
     let rightPagerItem;
     if (totalResultCount > pageSize && endNumber < totalResultCount) {
       const nextUrl = `${url}?skip=${this.skipCount + pageSize}`;
-      rightPagerItem = <Pager.Item next href={ nextUrl }>Next</Pager.Item>;
+      rightPagerItem = <Pager.Item next href={nextUrl}>Next</Pager.Item>;
     }
     let label = 'No results';
     if (totalResultCount > 0) {
@@ -77,36 +76,24 @@ export default class MessageList extends React.Component {
 
   render() {
     return (
-      <Request
-        url={ this.requestUrl }
-        method='get'
-        accept='application/json'
-        verbose={true}
-      >
+      <HttpRequest url={ this.requestUrl }>
         {
-          ({error, result, loading}) => {
-            if (loading) {
-              return <RequestLoading />;
-            } else if (error) {
-              return <RequestError error={error} />
-            } else {
-              const body = result.body;
-              const totalCount = body.pagination.total;
-              const pageSize = body.data.length;
-              const pager = this.renderTablePager(totalCount, pageSize);
-              return (
-                <div>
-                  { pager }
-                  <Grid>
-                    { body.data.map(message => this.renderMessageRow(message)) }
-                  </Grid>
+          res => {
+            const totalCount = res.pagination.total;
+            const pageSize = res.data.length;
+            const pager = this.renderTablePager(totalCount, pageSize);
+            return (
+              <div>
+                { pager }
+                <Grid>
+                  { res.data.map(message => this.renderMessageRow(message)) }
+                </Grid>
                 { totalCount > 10 ? pager : null }
-                </div>
-              );
-            }
+              </div>
+            );
           }
         }
-      </Request>
+      </HttpRequest>
     );
   }
 
