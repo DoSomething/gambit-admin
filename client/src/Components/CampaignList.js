@@ -33,7 +33,7 @@ export default class CampaignList extends React.Component {
     return (
       <HttpRequest url={this.requestUrl}>
         {
-          result => (<Table striped hover>
+          res => (<Table striped hover>
             <tbody>
               <tr>
                 <th>ID</th>
@@ -41,7 +41,7 @@ export default class CampaignList extends React.Component {
                 <th>Keywords</th>
                 <th>Status</th>
               </tr>
-              {result.body.map(campaign => CampaignList.renderSummary(campaign))}
+              {res.map(campaign => CampaignList.renderSummary(campaign))}
             </tbody>
           </Table>)
         }

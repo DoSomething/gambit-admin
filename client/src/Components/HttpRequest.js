@@ -21,7 +21,7 @@ class HttpRequest extends React.Component {
             if (error) {
               return <RequestError error={error} />;
             }
-            return this.props.children(result);
+            return this.props.children(result.body);
           }
         }
       </Request>

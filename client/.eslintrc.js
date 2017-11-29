@@ -4,7 +4,12 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }], 
+    'no-underscore-dangle': [
+      'error', {
+        'allow': ['_id'],
+      },
+    ],
+    'react/jsx-filename-extension': [1, { 'extensions': ['.js', '.jsx'] }],
   },
   env: {
     browser: true,
