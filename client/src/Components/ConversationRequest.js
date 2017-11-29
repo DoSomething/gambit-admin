@@ -15,12 +15,8 @@ class ConversationRequest extends React.Component {
       <Grid>
         <Form horizontal>
           <FormGroup>
-            <Col sm={2}>
-              <ControlLabel>Request Id</ControlLabel>
-            </Col>
-            <Col sm={10}>
-              <FormControl.Static>{ this.requestId }</FormControl.Static>
-            </Col>
+            <Col sm={2}><ControlLabel>Request Id</ControlLabel></Col>
+            <Col sm={10}><FormControl.Static>{this.requestId}</FormControl.Static></Col>
           </FormGroup>
         </Form>
         <MessageList requestId={this.requestId} />

@@ -4,14 +4,14 @@ import { Button, Form, FormControl, FormGroup, Glyphicon, Nav, Navbar, NavItem }
 class SearchForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: ''};
+    this.state = { value: '' };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+    this.setState({ value: event.target.value });
   }
 
   handleSubmit(event) {
@@ -19,12 +19,12 @@ class SearchForm extends React.Component {
     const location = window.location;
     const url = [location.protocol, '//', location.host].join('');
     const destination = `${url}/conversations?platformUserId=${this.state.value}`;
-    window.location.href = destination;    
+    window.location.href = destination;
   }
 
   render() {
     return (
-      <Form onSubmit={ this.handleSubmit }>
+      <Form onSubmit={this.handleSubmit}>
         <FormGroup>
           <FormControl
             type="text"
