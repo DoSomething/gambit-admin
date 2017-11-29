@@ -85,7 +85,6 @@ class CampaignDetail extends React.Component {
   }
 }
 
-
 CampaignDetail.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({ campaignId: PropTypes.string.isRequired }).isRequired,
