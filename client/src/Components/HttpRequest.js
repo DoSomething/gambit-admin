@@ -1,19 +1,20 @@
 import React from 'react';
 import Request from 'react-http-request';
+import PropTypes from 'prop-types';
 import RequestError from './RequestError';
 import RequestLoading from './RequestLoading';
 
-export default class HttpRequest extends React.Component {
+class HttpRequest extends React.Component {
   render() {
     return (
       <Request
-        url={ this.props.url }
-        method='get'
-        accept='application/json'
-        verbose={true}
+        url={this.props.url}
+        method="get"
+        accept="application/json"
+        verbose
       >
         {
-          ({error, result, loading}) => {
+          ({ error, result, loading }) => {
             if (loading) {
               return <RequestLoading />;
             }
@@ -27,3 +28,10 @@ export default class HttpRequest extends React.Component {
     );
   }
 }
+
+HttpRequest.propTypes = {
+  children: PropTypes.func.isRequired,
+  url: PropTypes.string.isRequired,
+};
+
+export default HttpRequest;
