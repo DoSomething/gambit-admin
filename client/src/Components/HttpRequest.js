@@ -1,8 +1,7 @@
 import React from 'react';
 import Request from 'react-http-request';
 import PropTypes from 'prop-types';
-import RequestError from './RequestError';
-import RequestLoading from './RequestLoading';
+import { Panel, ProgressBar } from 'react-bootstrap';
 
 class HttpRequest extends React.Component {
   render() {
@@ -16,10 +15,14 @@ class HttpRequest extends React.Component {
         {
           ({ error, result, loading }) => {
             if (loading) {
-              return <RequestLoading />;
+              return <ProgressBar active now={100} />;
             }
             if (error) {
-              return <RequestError error={error} />;
+              return (
+                <Panel header="Epic fail." bsStyle="danger">
+                  {error.message}
+                </Panel>
+              );
             }
             return this.props.children(result.body);
           }
