@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Col, ControlLabel, Form, FormControl, FormGroup, Grid } from 'react-bootstrap';
 import MessageList from './MessageList';
 
-export default class ConversationRequest extends React.Component {
+class ConversationRequest extends React.Component {
   constructor(props) {
     super(props);
 
@@ -27,3 +28,11 @@ export default class ConversationRequest extends React.Component {
     );
   }
 }
+
+ConversationRequest.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({ requestId: PropTypes.string.isRequired }).isRequired,
+  }).isRequired,
+};
+
+export default ConversationRequest;
