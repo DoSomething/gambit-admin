@@ -70,11 +70,10 @@ class ConversationDetail extends React.Component {
     const campaignLink = <a href={`/campaigns/${campaignId}`}>{campaignId}</a>;
     return (
       <tr key={signup.signup_id}>
+        <td><strong>{campaignLink}</strong></td>
         <td>
-          <strong><a href={signup.url}>{signup.signup_id}</a></strong>
-          <div>{signupDate} {signupSource}</div>
+          <a href={signup.url}>{signupDate} {signupSource}</a>
         </td>
-        <td>{campaignLink}</td>
         <td>{posts}</td>
       </tr>
     );
@@ -86,8 +85,8 @@ class ConversationDetail extends React.Component {
       <Table>
         <thead>
           <tr>
-            <th width={250}>Signup</th>
             <th width={150}>Campaign</th>
+            <th width={250}>Created</th>
             <th>Posts</th>
           </tr>
         </thead>
