@@ -13,7 +13,7 @@ function apiUrl(path, query = {}) {
   const result = `${endpoint}?${queryString}`;
 
   return result;
-};
+}
 
 module.exports.getCampaignIdUrl = function (campaignId) {
   return apiUrl(`gambit-campaigns/campaigns/${campaignId}`);
