@@ -6,7 +6,7 @@ import HttpRequest from './HttpRequest';
 const helpers = require('../helpers');
 
 export default class CampaignList extends React.Component {
-  static renderSummary(campaign) {
+  static renderRow(campaign) {
     const campaignId = campaign.id;
 
     return (
@@ -41,7 +41,7 @@ export default class CampaignList extends React.Component {
                 <th>Keywords</th>
                 <th>Status</th>
               </tr>
-              {res.map(campaign => CampaignList.renderSummary(campaign))}
+              {res.map(campaign => CampaignList.renderRow(campaign))}
             </tbody>
           </Table>)
         }

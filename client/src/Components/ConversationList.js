@@ -9,7 +9,7 @@ const config = require('../config');
 const helpers = require('../helpers');
 
 export default class ConversationList extends React.Component {
-  static renderSummary(conversation) {
+  static renderRow(conversation) {
     return (
       <tr key={conversation._id}>
         <td><Moment format={config.dateFormat}>{conversation.updatedAt}</Moment></td>
@@ -50,7 +50,7 @@ export default class ConversationList extends React.Component {
                     <th>Current Campaign</th>
                     <th>Topic</th>
                   </tr>
-                  {res.data.map(conversation => ConversationList.renderSummary(conversation))}
+                  {res.data.map(conversation => ConversationList.renderRow(conversation))}
                 </tbody>
               </Table>
             )
