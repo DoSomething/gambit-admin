@@ -29,31 +29,25 @@ export default class CampaignList extends React.Component {
     this.requestUrl = helpers.getCampaignsUrl({ exclude: true });
   }
 
-  renderList() {
-    return (
-      <HttpRequest url={this.requestUrl}>
-        {
-          res => (<Table striped hover>
-            <tbody>
-              <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Keywords</th>
-                <th>Status</th>
-              </tr>
-              {res.map(campaign => CampaignList.renderRow(campaign))}
-            </tbody>
-          </Table>)
-        }
-      </HttpRequest>
-    );
-  }
-
   render() {
     return (
       <Grid>
         <PageHeader>Campaigns</PageHeader>
-        { this.renderList() }
+        <HttpRequest url={this.requestUrl}>
+          {
+            res => (<Table striped hover>
+              <tbody>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Keywords</th>
+                  <th>Status</th>
+                </tr>
+                {res.map(campaign => CampaignList.renderRow(campaign))}
+              </tbody>
+            </Table>)
+          }
+        </HttpRequest>
       </Grid>
     );
   }
