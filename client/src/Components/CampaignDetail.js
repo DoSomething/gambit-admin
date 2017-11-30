@@ -21,7 +21,7 @@ class CampaignDetail extends React.Component {
           { CampaignDetail.renderTemplates(campaign.templates) }
         </Tab>
         <Tab eventKey={1} title="Messages"><br />
-          <MessageList campaignId={this.campaignId} />
+          <MessageList campaignId={campaign.id} />
         </Tab>
       </Tabs>
     );
