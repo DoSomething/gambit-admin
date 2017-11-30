@@ -20,12 +20,6 @@ class ConversationDetail extends React.Component {
   }
 
   static renderSignup(signup) {
-    const signupDate = <Moment format={'MM/DD/YY'}>{signup.created_at}</Moment>;
-    let signupSource = null;
-    if (signup.signup_source) {
-      signupSource = `via ${signup.signup_source}`;
-    }
-
     let posts = null;
     const numPosts = signup.posts.data.length;
     if (numPosts) {
@@ -33,7 +27,7 @@ class ConversationDetail extends React.Component {
         const postDate = <Moment format={'MM/DD/YY'}>{post.created_at}</Moment>;
         let postSource = null;
         if (post.source) {
-          postSource = ` via ${post.source}`;
+          postSource = ` via ${helpers.formatSource(post.source)}`;
         }
         const status = ConversationDetail.postLabel(post.status);
 
@@ -68,11 +62,12 @@ class ConversationDetail extends React.Component {
     }
     const campaignId = signup.campaign_id;
     const campaignLink = <a href={`/campaigns/${campaignId}`}>{campaignId}</a>;
+    const source = signup.signup_source ? ` via ${helpers.formatSource(signup.signup_source)}` : null;
     return (
       <tr key={signup.signup_id}>
         <td><strong>{campaignLink}</strong></td>
         <td>
-          <a href={signup.url}>{signupDate} {signupSource}</a>
+          <a href={signup.url}><Moment format={'MM/DD/YY'}>{signup.created_at}</Moment>{source}</a>
         </td>
         <td>{posts}</td>
       </tr>
@@ -85,8 +80,8 @@ class ConversationDetail extends React.Component {
       <Table>
         <thead>
           <tr>
-            <th width={150}>Campaign</th>
-            <th width={250}>Created</th>
+            <th width={120}>Campaign</th>
+            <th width={200}>Joined</th>
             <th>Posts</th>
           </tr>
         </thead>
@@ -102,7 +97,7 @@ class ConversationDetail extends React.Component {
     const registrationDate = <Moment format="MM/DD/YY">{ user.created_at }</Moment>;
     let registrationSource;
     if (user.source) {
-      registrationSource = `via ${user.source}`;
+      registrationSource = `via ${helpers.formatSource(user.source)}`;
     }
     const auroraLink = <a href={user.links.aurora}>Aurora</a>;
     const rogueLink = <a href={user.links.rogue}>Rogue</a>;

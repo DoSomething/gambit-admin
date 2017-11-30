@@ -35,3 +35,17 @@ module.exports.getMessagesUrl = function (query) {
   return apiUrl('gambit-conversations/messages', query);
 };
 
+/**
+ * @param {string} input
+ * @return {string}
+ */
+module.exports.formatSource = function (input) {
+  if (!input) {
+    return null;
+  }
+  const smsSource = 'sms';
+  if (input.includes(smsSource)) {
+    return smsSource;
+  }
+  return input;
+};
