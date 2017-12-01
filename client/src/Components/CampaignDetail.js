@@ -9,7 +9,7 @@ import RequestLoading from './RequestLoading';
 const queryString = require('query-string');
 const helpers = require('../helpers');
 
-export default class CampaignDetail extends React.Component {
+class CampaignDetail extends React.Component {
   constructor(props) {
     super(props);
 
@@ -36,7 +36,7 @@ export default class CampaignDetail extends React.Component {
       <Tabs defaultActiveKey={defaultActiveKey} animation={false} id="campaign-tabs">
         <Tab eventKey={0} title="Templates"><br />
           { this.renderTemplates(campaign.templates) }
-        </Tab>   
+        </Tab>
         <Tab eventKey={1} title="Messages"><br />
           <MessageList campaignId={this.campaignId} />
         </Tab>
@@ -47,17 +47,17 @@ export default class CampaignDetail extends React.Component {
   fetchCampaign() {
     return (
       <Request
-        url={ this.requestUrl }
-        method='get'
-        accept='application/json'
-        verbose={true}
+        url={this.requestUrl}
+        method="get"
+        accept="application/json"
+        verbose
       >
         {
-          ({error, result, loading}) => {
+          ({ error, result, loading }) => {
             if (loading) {
               return <RequestLoading />;
             } else if (error) {
-              return <RequestError error={error} />
+              return <RequestError error={error} />;
             } else {
               const campaign = result.body;
               return (
@@ -104,3 +104,9 @@ export default class CampaignDetail extends React.Component {
     );
   }
 }
+
+CampaignDetail.propTypes = {
+  match: { params: { campaignId: 'Number' } },
+};
+
+export default CampaignDetail;

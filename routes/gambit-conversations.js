@@ -8,7 +8,7 @@ const helpers = require('../lib/helpers');
 const router = express.Router();
 
 router.get('/conversations/', (req, res) => {
-  return conversations.getConversations(req.query)
+  conversations.getConversations(req.query)
     .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });

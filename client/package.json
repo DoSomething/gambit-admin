@@ -4,8 +4,10 @@
   "private": true,
   "proxy": "http://localhost:3000/",
   "dependencies": {
+    "@dosomething/eslint-config": "^3.1.2",
     "bootstrap": "3",
     "eslint-config-react-app": "^1.0.5",
+    "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-react": "^7.1.0",
     "moment": "^2.18.1",
     "query-string": "^5.0.0",
@@ -22,6 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "lint": "eslint --ext=.js .",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

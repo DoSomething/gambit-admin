@@ -22,12 +22,14 @@
   "license": "MIT",
   "scripts": {
     "start": "node server",
+    "lint": "eslint --ext=.js .",
     "heroku-postbuild": "cd client/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "devDependencies": {
+    "@dosomething/eslint-config": "^3.1.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "14.1.0",
-    "eslint-plugin-import": "2.2.0",
+    "eslint-plugin-import": "2.7.0",
     "eslint-plugin-jsx-a11y": "4.0.0",
     "eslint-plugin-react": "6.9.0"
   }
