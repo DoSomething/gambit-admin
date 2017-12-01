@@ -4,7 +4,13 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }], 
+    'no-underscore-dangle': [
+      'error', {
+        'allow': ['_id'],
+      },
+    ],
+    'react/jsx-filename-extension': [1, { 'extensions': ['.js', '.jsx'] }],
+    'react/prefer-stateless-function': 'off',
   },
   env: {
     browser: true,

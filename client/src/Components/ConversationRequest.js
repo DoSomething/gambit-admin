@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Col, ControlLabel, Form, FormControl, FormGroup, Grid } from 'react-bootstrap';
 import MessageList from './MessageList';
 
-export default class GambitRequest extends React.Component {
+class ConversationRequest extends React.Component {
   constructor(props) {
     super(props);
 
@@ -14,12 +15,8 @@ export default class GambitRequest extends React.Component {
       <Grid>
         <Form horizontal>
           <FormGroup>
-            <Col sm={2}>
-              <ControlLabel>Request Id</ControlLabel>
-            </Col>
-            <Col sm={10}>
-              <FormControl.Static>{ this.requestId }</FormControl.Static>
-            </Col>
+            <Col sm={2}><ControlLabel>Request Id</ControlLabel></Col>
+            <Col sm={10}><FormControl.Static>{this.requestId}</FormControl.Static></Col>
           </FormGroup>
         </Form>
         <MessageList requestId={this.requestId} />
@@ -27,3 +24,11 @@ export default class GambitRequest extends React.Component {
     );
   }
 }
+
+ConversationRequest.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({ requestId: PropTypes.string.isRequired }).isRequired,
+  }).isRequired,
+};
+
+export default ConversationRequest;
