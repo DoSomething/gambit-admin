@@ -1,45 +1,9 @@
 import React from 'react';
-import { Button, Form, FormControl, FormGroup, Glyphicon, Nav, Navbar, NavItem } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import ConversationSearchForm from './ConversationSearchForm';
 
-class SearchForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {value: ''};
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    const location = window.location;
-    const url = [location.protocol, '//', location.host].join('');
-    const destination = `${url}/conversations?platformUserId=${this.state.value}`;
-    window.location.href = destination;    
-  }
-
-  render() {
-    return (
-      <Form onSubmit={ this.handleSubmit }>
-        <FormGroup>
-          <FormControl
-            type="text"
-            value={this.state.value}
-            onChange={this.handleChange}
-            placeholder="Enter mobile number"
-          />
-        </FormGroup>
-        <Button type="submit"><Glyphicon glyph="search" /></Button>
-      </Form>
-    );
-  }
-}
-
-export default class Header extends React.Component {
+class Header extends React.Component {
   render() {
     return (
       <Navbar>
@@ -52,9 +16,15 @@ export default class Header extends React.Component {
           <NavItem eventKey={1} href="/campaigns">Campaigns</NavItem>
         </Nav>
         <Navbar.Form pullRight>
-          <SearchForm />
+          <ConversationSearchForm />
         </Navbar.Form>
       </Navbar>
     );
   }
 }
+
+Header.propTypes = {
+  siteName: PropTypes.string.isRequired,
+};
+
+export default Header;
