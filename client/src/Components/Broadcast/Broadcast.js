@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Col, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 
 function renderRow(label, data) {
@@ -11,14 +12,17 @@ function renderRow(label, data) {
 }
 
 const Broadcast = (data) => {
-  const webhook = data.broadcast.webhook;
+  const broadcast = data.broadcast;
+  const webhook = broadcast.webhook;
   const webhookBody = JSON.stringify(webhook.body, null, 2);
+  const campaignId = broadcast.campaign.campaignId;
+  const campaignLink = `/campaigns/${campaignId}`;
 
   return (
     <div>
       <Form horizontal>
-        {renderRow('Campaign', data.broadcast.campaign.campaignId)}
-        {renderRow('Message', data.broadcast.broadcast.message)}
+        {renderRow('Campaign', <Link to={campaignLink}>{campaignId}</Link>)}
+        {renderRow('Message', broadcast.broadcast.message)}
       </Form>
       <h3>Customer.io settings</h3>
       <Form horizontal>
