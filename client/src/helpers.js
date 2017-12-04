@@ -15,6 +15,10 @@ function apiUrl(path, query = {}) {
   return result;
 }
 
+module.exports.getBroadcastIdUrl = function (broadcastId) {
+  return apiUrl(`gambit-conversations/broadcasts/${broadcastId}`);
+};
+
 module.exports.getCampaignIdUrl = function (campaignId) {
   return apiUrl(`gambit-campaigns/campaigns/${campaignId}`);
 };

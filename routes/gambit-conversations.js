@@ -55,4 +55,10 @@ router.get('/messages', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
+router.get('/broadcasts/:id', (req, res) => {
+  conversations.getBroadcastById(req.params.id)
+    .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
 module.exports = router;

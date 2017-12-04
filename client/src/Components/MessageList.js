@@ -34,9 +34,10 @@ class MessageList extends React.Component {
     let broadcastGroupItem = null;
     const broadcastId = message.broadcastId;
     if (broadcastId) {
+      const broadcastUri = `/broadcasts/${broadcastId}`;
       broadcastGroupItem = (
         <ListGroupItem>
-          <small>Broadcast: <code>{ broadcastId }</code></small>
+          <small>Broadcast: <Link to={broadcastUri}><code>{ broadcastId }</code></Link></small>
         </ListGroupItem>
       );
     }
