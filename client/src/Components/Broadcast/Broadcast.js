@@ -26,7 +26,7 @@ const Broadcast = (data) => {
       </Form>
       <h3>Customer.io settings</h3>
       <Form horizontal>
-        {renderRow('URL', <code>{webhook.url}</code>)}
+        {renderRow('URL', webhook.url)}
         {renderRow('Body', <code>{webhookBody}</code>)}
       </Form>
     </div>
