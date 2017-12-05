@@ -11,23 +11,30 @@ function renderRow(label, data) {
   );
 }
 
-const Broadcast = (data) => {
-  const broadcast = data.broadcast;
+const Broadcast = (props) => {
+  const broadcast = props.broadcast;
   const webhook = broadcast.webhook;
   const webhookBody = JSON.stringify(webhook.body, null, 2);
-  const campaignId = broadcast.campaign.campaignId;
-  const campaignLink = `/campaigns/${campaignId}`;
+  let context = null;
+  if (broadcast.topic) {
+    context = renderRow('Topic', broadcast.topic);
+  } else {
+    const campaignId = broadcast.campaignId;
+    const campaignLink = `/campaigns/${campaignId}`;
+    context = renderRow('Campaign', <Link to={campaignLink}>{campaignId}</Link>);
+  }
+
 
   return (
     <div>
       <Form horizontal>
-        {renderRow('Campaign', <Link to={campaignLink}>{campaignId}</Link>)}
-        {renderRow('Message', broadcast.broadcast.message)}
+        {context}
+        {renderRow('Message', broadcast.message)}
       </Form>
       <h3>Customer.io settings</h3>
       <Form horizontal>
         {renderRow('URL', webhook.url)}
-        {renderRow('Body', <code>{webhookBody}</code>)}
+        {renderRow('Body', <pre><code>{webhookBody}</code></pre>)}
       </Form>
     </div>
   );
