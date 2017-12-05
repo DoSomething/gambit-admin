@@ -116,6 +116,9 @@ class MessageList extends React.Component {
   }
 
   static renderMessageRow(message) {
+    if (!message.conversationId) {
+      return null;
+    }
     const uri = `/conversations/${message.conversationId._id}`;
     const userLink = <Link to={uri}>{message.conversationId.platformUserId}</Link>;
     const isInbound = message.direction === 'inbound';
