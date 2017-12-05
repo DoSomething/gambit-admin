@@ -31,6 +31,11 @@ const Broadcast = (props) => {
         {context}
         {renderRow('Message', broadcast.message)}
       </Form>
+      <h3>Stats</h3>
+      <Form horizontal>
+        {renderRow('Outbound messages', broadcast.stats.totalOutboundMessages)}
+        {renderRow('Inbound messages', broadcast.stats.totalInboundMessages)}
+      </Form>
       <h3>Customer.io settings</h3>
       <Form horizontal>
         {renderRow('URL', webhook.url)}
