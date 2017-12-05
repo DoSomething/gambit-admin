@@ -7,18 +7,22 @@ const helpers = require('../helpers');
 
 export default class BroadcastList extends React.Component {
   static renderRow(broadcast) {
-    console.log(broadcast);
     const broadcastId = broadcast.id;
     const campaignId = broadcast.campaignId;
+    let context = null;
+    if (broadcast.topic) {
+      context = <small>Topic: {broadcast.topic}</small>;
+    } else {
+      const url = `/campaigns/${campaignId}`;
+      context = <small>Campaign: <Link to={url}>{campaignId}</Link></small>;
+    }
 
     return (
       <tr key={broadcastId}>
         <td>
-          <Link to={`broadcasts/${broadcastId}`}>{broadcastId}</Link>
+          <small><Link to={`broadcasts/${broadcastId}`}>{broadcastId}</Link></small>
         </td>
-        <td>
-          <Link to={`campaigns/${campaignId}`}>{campaignId}</Link>
-        </td>
+        <td>{context}</td>
         <td>{broadcast.message}</td>
       </tr>
     );
@@ -40,7 +44,7 @@ export default class BroadcastList extends React.Component {
               <tbody>
                 <tr>
                   <th>ID</th>
-                  <th>Campaign</th>
+                  <th>Context</th>
                   <th>Message</th>
                 </tr>
                 {res.data.map(broadcast => BroadcastList.renderRow(broadcast))}

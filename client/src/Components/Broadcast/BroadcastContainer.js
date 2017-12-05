@@ -17,7 +17,7 @@ class BroadcastContainer extends React.Component {
   render() {
     return (
       <Grid>
-        <PageHeader>{this.broadcastId}</PageHeader>
+        <PageHeader><small>{this.broadcastId}</small></PageHeader>
         <HttpRequest url={this.requestUrl}>
           {res => <Broadcast broadcast={res.data} />}
         </HttpRequest>

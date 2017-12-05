@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Col, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 function renderRow(label, data) {
   return (
@@ -24,7 +25,6 @@ const Broadcast = (props) => {
     context = renderRow('Campaign', <Link to={campaignLink}>{campaignId}</Link>);
   }
 
-
   return (
     <div>
       <Form horizontal>
@@ -38,6 +38,10 @@ const Broadcast = (props) => {
       </Form>
     </div>
   );
+};
+
+Broadcast.propTypes = {
+  broadcast: PropTypes.shape.isRequired,
 };
 
 export default Broadcast;
