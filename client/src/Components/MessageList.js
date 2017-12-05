@@ -28,7 +28,8 @@ class MessageList extends React.Component {
 
   static renderMessageContent(message) {
     let text = message.text;
-    if (message.direction === 'inbound') {
+    const isInbound = (message.direction === 'inbound');
+    if (isInbound) {
       text = <strong>{ text }</strong>;
     }
     let broadcastGroupItem = null;
@@ -59,7 +60,7 @@ class MessageList extends React.Component {
       );
     }
     let matchGroupItem;
-    if (message.match) {
+    if (isInbound && message.match) {
       matchGroupItem = (
         <ListGroupItem>
           <small>Match: <code>{ message.match }</code></small>
