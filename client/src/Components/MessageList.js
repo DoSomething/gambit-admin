@@ -34,9 +34,10 @@ class MessageList extends React.Component {
     let broadcastGroupItem = null;
     const broadcastId = message.broadcastId;
     if (broadcastId) {
+      const broadcastUri = `/broadcasts/${broadcastId}`;
       broadcastGroupItem = (
         <ListGroupItem>
-          <small>Broadcast: <code>{ broadcastId }</code></small>
+          <small>Broadcast: <Link to={broadcastUri}><code>{ broadcastId }</code></Link></small>
         </ListGroupItem>
       );
     }
@@ -115,6 +116,9 @@ class MessageList extends React.Component {
   }
 
   static renderMessageRow(message) {
+    if (!message.conversationId) {
+      return null;
+    }
     const uri = `/conversations/${message.conversationId._id}`;
     const userLink = <Link to={uri}>{message.conversationId.platformUserId}</Link>;
     const isInbound = message.direction === 'inbound';
