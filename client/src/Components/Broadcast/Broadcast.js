@@ -33,8 +33,8 @@ const Broadcast = (props) => {
       </Form>
       <h3>Stats</h3>
       <Form horizontal>
-        {renderRow('Outbound messages', broadcast.stats.totalOutboundMessages)}
-        {renderRow('Inbound messages', broadcast.stats.totalInboundMessages)}
+        {renderRow('Outbound messages', broadcast.stats.outbound.total.toLocaleString())}
+        {renderRow('Inbound messages', broadcast.stats.inbound.total.toLocaleString())}
       </Form>
       <h3>Customer.io settings</h3>
       <Form horizontal>
