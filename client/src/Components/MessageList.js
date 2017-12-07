@@ -27,10 +27,10 @@ class MessageList extends React.Component {
   }
 
   static renderMessageContent(message) {
-    let text = message.text;
+    let messageText = message.text;
     const isInbound = (message.direction === 'inbound');
     if (isInbound) {
-      text = <strong>{ text }</strong>;
+      messageText = <strong>{ messageText }</strong>;
     }
     let broadcastGroupItem = null;
     const broadcastId = message.broadcastId;
@@ -60,12 +60,20 @@ class MessageList extends React.Component {
       );
     }
     let matchGroupItem;
+    let macroGroupItem;
     if (isInbound && message.match) {
       matchGroupItem = (
         <ListGroupItem>
           <small>Match: <code>{ message.match }</code></small>
         </ListGroupItem>
       );
+      if (message.macro) {
+        macroGroupItem = (
+          <ListGroupItem>
+            <small>Macro: <code>{ message.macro }</code></small>
+          </ListGroupItem>
+        );
+      }
     }
     let templateGroupItem;
     if (message.template) {
@@ -75,24 +83,15 @@ class MessageList extends React.Component {
         </ListGroupItem>
       );
     }
-    let campaignGroupItem;
-    if (message.campaignId) {
+    let messageContext;
+    if (message.topic === 'campaign') {
       const campaignId = message.campaignId;
       const campaignUrl = `/campaigns/${campaignId}`;
-      campaignGroupItem = (
-        <ListGroupItem>
-          <small>Campaign: <Link to={campaignUrl}>{campaignId}</Link></small>
-        </ListGroupItem>
-      );
+      messageContext = <small>Campaign: <Link to={campaignUrl}>{campaignId}</Link></small>;
+    } else {
+      messageContext = <small>Topic: {message.topic}</small>;
     }
-    let topicGroupItem;
-    if (message.topic) {
-      topicGroupItem = (
-        <ListGroupItem>
-          <small>Topic: {message.topic}</small>
-        </ListGroupItem>
-      );
-    }
+
     let retryGroupItem;
     if (message.metadata && message.metadata.retryCount) {
       retryGroupItem = (
@@ -104,12 +103,12 @@ class MessageList extends React.Component {
     return (
       <ListGroup>
         { attachmentGroupItem }
-        <ListGroupItem>{ text }</ListGroupItem>
-        { campaignGroupItem }
+        <ListGroupItem>{ messageText }</ListGroupItem>
+        <ListGroupItem>{ messageContext }</ListGroupItem>
         { broadcastGroupItem }
-        { topicGroupItem }
         { agentGroupItem }
         { matchGroupItem }
+        { macroGroupItem }
         { templateGroupItem }
         { retryGroupItem }
       </ListGroup>
