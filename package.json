@@ -23,6 +23,7 @@
   "scripts": {
     "start": "node server",
     "lint": "eslint --ext=.js .",
+    "lint-all": "npm run lint && cd client/ && npm run lint",
     "heroku-postbuild": "cd client/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "devDependencies": {
