@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Moment from 'react-moment';
 import { Col, ControlLabel, Form, FormGroup, FormControl, Grid, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
+const config = require('../../config');
 const helpers = require('../../helpers');
 
 function renderRow(label, data) {
@@ -32,6 +34,7 @@ const Broadcast = (props) => {
       <PageHeader>{helpers.broadcastName(broadcast)}</PageHeader>
       <Form horizontal>
         {context}
+        {renderRow('Created', <Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment>)}
         {renderRow('Message', broadcast.message)}
       </Form>
       <h3>Stats</h3>

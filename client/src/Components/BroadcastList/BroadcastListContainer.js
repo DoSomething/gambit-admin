@@ -26,7 +26,12 @@ export default class BroadcastListContainer extends React.Component {
                     <th>Context</th>
                     <th>Message</th>
                   </tr>
-                  {res.data.map(broadcast => <BroadcastListItem broadcast={broadcast} />)}
+                  {res.data.map(broadcast => (
+                    <BroadcastListItem
+                      key={broadcast.id}
+                      broadcast={broadcast}
+                    />
+                  ))}
                 </tbody>
               </Table>
             )

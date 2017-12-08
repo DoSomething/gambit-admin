@@ -69,4 +69,3 @@ module.exports.broadcastName = function (broadcast) {
 
   return broadcast.id;
 };
-
