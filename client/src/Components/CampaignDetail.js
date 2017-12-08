@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Grid, PageHeader, Panel, Row, Tab, Tabs } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import CampaignTemplate from './CampaignTemplate';
-import MessageList from './MessageList';
+import MessageList from './MessageList/MessageListContainer';
 import HttpRequest from './HttpRequest';
 
 const queryString = require('query-string');

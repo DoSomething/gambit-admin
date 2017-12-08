@@ -1,5 +1,4 @@
 import React from 'react';
-import { Grid, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import HttpRequest from '../HttpRequest';
 import Broadcast from './Broadcast';
@@ -16,12 +15,9 @@ class BroadcastContainer extends React.Component {
 
   render() {
     return (
-      <Grid>
-        <PageHeader><small>{this.broadcastId}</small></PageHeader>
-        <HttpRequest url={this.requestUrl}>
-          {res => <Broadcast broadcast={res.data} />}
-        </HttpRequest>
-      </Grid>
+      <HttpRequest url={this.requestUrl}>
+        {res => <Broadcast broadcast={res.data} />}
+      </HttpRequest>
     );
   }
 }

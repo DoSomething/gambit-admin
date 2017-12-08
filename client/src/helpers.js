@@ -57,3 +57,15 @@ module.exports.formatSource = function (input) {
   }
   return input;
 };
+
+/**
+ * @param {object} broadcast
+ * @return {string}
+ */
+module.exports.broadcastName = function (broadcast) {
+  if (broadcast.name) {
+    return broadcast.name;
+  }
+
+  return broadcast.id;
+};
