@@ -24,7 +24,7 @@ function renderPager(totalResultCount, skipCount, pageCount, pageSize) {
   }
   let label = 'No results';
   if (totalResultCount > 0) {
-    label = `${startNumber}-${endNumber} of ${totalResultCount}`;
+    label = `${startNumber}-${endNumber} of ${totalResultCount.toLocaleString()}`;
   }
 
   return (
