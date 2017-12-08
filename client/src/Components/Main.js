@@ -7,7 +7,7 @@ import CampaignDetail from './CampaignDetail';
 import ConversationList from './ConversationList';
 import ConversationDetail from './ConversationDetail';
 import ConversationRequest from './ConversationRequest';
-import BroadcastList from './BroadcastList';
+import BroadcastList from './BroadcastList/BroadcastListContainer';
 import BroadcastDetail from './Broadcast/BroadcastContainer';
 
 const Campaigns = () => (
