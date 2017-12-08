@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Col, Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { Col, ControlLabel, Form, FormGroup, FormControl, Grid, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+
+const helpers = require('../../helpers');
 
 function renderRow(label, data) {
   return (
@@ -26,7 +28,8 @@ const Broadcast = (props) => {
   }
 
   return (
-    <div>
+    <Grid>
+      <PageHeader>{helpers.broadcastName(broadcast)}</PageHeader>
       <Form horizontal>
         {context}
         {renderRow('Message', broadcast.message)}
@@ -41,7 +44,7 @@ const Broadcast = (props) => {
         {renderRow('URL', webhook.url)}
         {renderRow('Body', <pre><code>{webhookBody}</code></pre>)}
       </Form>
-    </div>
+    </Grid>
   );
 };
 
