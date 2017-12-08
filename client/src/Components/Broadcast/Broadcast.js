@@ -4,7 +4,6 @@ import Moment from 'react-moment';
 import { Col, ControlLabel, Form, FormGroup, FormControl, Grid, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const config = require('../../config');
 const helpers = require('../../helpers');
 
 function renderRow(label, data) {

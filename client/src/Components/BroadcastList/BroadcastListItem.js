@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Moment from 'react-moment';
 
 const helpers = require('../../helpers');
 
@@ -19,9 +20,10 @@ const BroadcastListItem = (props) => {
   return (
     <tr key={broadcastId}>
       <td>
-        <small>
-          <Link to={`broadcasts/${broadcastId}`}>{helpers.broadcastName(broadcast)}</Link>
-        </small>
+        <Link to={`broadcasts/${broadcastId}`}>{helpers.broadcastName(broadcast)}</Link>
+        <div>
+          <small><Moment format="MM/DD/YYYY">{broadcast.createdAt}</Moment></small>
+        </div>
       </td>
       <td>{context}</td>
       <td>{broadcast.message}</td>
