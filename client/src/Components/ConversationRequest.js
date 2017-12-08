@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, ControlLabel, Form, FormControl, FormGroup, Grid } from 'react-bootstrap';
-import MessageList from './MessageList';
+import MessageList from './MessageList/MessageListContainer';
 
 class ConversationRequest extends React.Component {
   constructor(props) {
