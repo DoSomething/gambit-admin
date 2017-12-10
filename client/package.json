@@ -10,6 +10,7 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-react": "^7.1.0",
     "moment": "^2.18.1",
+    "percent": "^2.0.0",
     "prop-types": "^15.6.0",
     "query-string": "^5.0.0",
     "react": "^15.6.1",
