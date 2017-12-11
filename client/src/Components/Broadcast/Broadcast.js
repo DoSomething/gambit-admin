@@ -4,8 +4,12 @@ import Moment from 'react-moment';
 import { Col, ControlLabel, Form, FormGroup, FormControl, Grid, PageHeader, Panel, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const percent = require('percent');
 const helpers = require('../../helpers');
+
+function percent(value, total) {
+  const result = ((value / total) * 100).toFixed(1);
+  return `${result}%`;
+}
 
 function renderRow(label, data) {
   return (
@@ -25,7 +29,7 @@ function renderMacroCount(label, count, total) {
   if (!count) {
     data = 0;
   }
-  const rate = percent.calc(data, total, 0, true);
+  const rate = percent(data, total);
   return (
     <tr>
       <td>{label}</td>
@@ -60,7 +64,7 @@ function renderStatsHeader(data) {
   }
   const totalInboundStr = <strong>{data.inbound.total.toLocaleString()}</strong>;
   const totalOutboundStr = <strong>{totalOutbound.toLocaleString()}</strong>;
-  const rate = percent.calc(data.inbound.total, totalOutbound, 0, true);
+  const rate = percent(data.inbound.total, totalOutbound);
   return (
     <h4>
       Sent {totalOutboundStr} messages, received {totalInboundStr} responses. <small>{rate}</small>
