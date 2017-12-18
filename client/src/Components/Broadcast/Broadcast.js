@@ -33,7 +33,7 @@ function renderMacroCount(label, count, total) {
   return (
     <tr>
       <td>{label}</td>
-      <td>{data}</td>
+      <td>{data.toLocaleString()}</td>
       <td>{rate}</td>
     </tr>
   );
