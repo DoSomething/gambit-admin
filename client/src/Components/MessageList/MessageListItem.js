@@ -109,6 +109,7 @@ function renderContent(message) {
   );
 }
 
+
 const MessageListItem = (props) => {
   const message = props.message;
   if (!message.conversationId) {
@@ -118,6 +119,16 @@ const MessageListItem = (props) => {
   const userLink = <Link to={uri}>{message.conversationId.platformUserId}</Link>;
   const isInbound = message.direction === 'inbound';
   const offset = isInbound ? 0 : 1;
+
+  if (props.table) {
+    return (
+      <tr key={message._id}>
+        <td width="15%"><small>{renderDate(message)}</small></td>
+        <td width="15%">{userLink}</td>
+        <td>{message.text}</td>
+      </tr>
+    ); 
+  }
 
   return (
     <Row key={message._id}>
@@ -132,6 +143,7 @@ const MessageListItem = (props) => {
 
 MessageListItem.propTypes = {
   message: PropTypes.shape.isRequired,
+  table: PropTypes.bool,
 };
 
 export default MessageListItem;

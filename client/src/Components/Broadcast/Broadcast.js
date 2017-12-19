@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
-import { Col, ControlLabel, Form, FormGroup, FormControl, Grid, PageHeader, Panel, Table } from 'react-bootstrap';
+import { Col, ControlLabel, Form, FormGroup, FormControl, Grid, PageHeader, Tab, Tabs, Table, } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import MessageList from '../MessageList/MessageListContainer';
 
+const queryString = require('query-string');
 const helpers = require('../../helpers');
 
 function percent(value, total) {
@@ -86,35 +88,58 @@ function renderStats(broadcast) {
   );
 }
 
+function renderNav(broadcast) {
+  const queryParams = queryString.parse(window.location.search);
+  let defaultActiveKey = 0;
+  if (queryParams.skip) {
+    defaultActiveKey = 1;
+  }
+  return (
+    <Tabs defaultActiveKey={defaultActiveKey} animation={false} id="broadcast-tabs">
+      <Tab eventKey={0} title="Details"><br />
+        <Form horizontal>
+          {broadcast.context}
+          {renderRow('Created', <Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment>)}
+          {renderRow('Text', broadcast.message)}
+        </Form>
+        <h2>Stats</h2>
+        {renderStats(broadcast)}
+        <h2>Settings</h2>
+        <Form horizontal>
+          {renderRow('URL', broadcast.webhook.url)}
+          {renderRow('Body', <pre><code>{broadcast.webhookBody}</code></pre>)}
+        </Form>
+      </Tab>
+      <Tab eventKey={1} title="Yes"><br />
+        <MessageList broadcastId={broadcast.id} macro="confirmedCampaign" table />
+      </Tab>
+      <Tab eventKey={2} title="No"><br />
+        <MessageList broadcastId={broadcast.id} macro="declinedCampaign" table />
+      </Tab>
+      <Tab eventKey={3} title="Unsubscribe"><br />
+        <MessageList broadcastId={broadcast.id} macro="subscriptionStatusStop" table />
+      </Tab>
+      <Tab eventKey={4} title="Other"><br />
+        <MessageList broadcastId={broadcast.id} macro="other" table />
+      </Tab>
+    </Tabs>
+  );
+}
+
 const Broadcast = (props) => {
   const broadcast = props.broadcast;
-  const webhook = broadcast.webhook;
-  const webhookBody = JSON.stringify(webhook.body, null, 2);
-  let context = null;
+  broadcast.webhookBody = JSON.stringify(broadcast.webhook.body, null, 2);
   if (broadcast.topic) {
-    context = renderRow('Topic', broadcast.topic);
+    broadcast.context = renderRow('Topic', broadcast.topic);
   } else {
     const campaignId = broadcast.campaignId;
     const campaignLink = `/campaigns/${campaignId}`;
-    context = renderRow('Campaign', <Link to={campaignLink}>{campaignId}</Link>);
+    broadcast.context = renderRow('Campaign', <Link to={campaignLink}>{campaignId}</Link>);
   }
-
   return (
     <Grid>
       <PageHeader>{helpers.broadcastName(broadcast)}</PageHeader>
-      <Form horizontal>
-        {context}
-        {renderRow('Created', <Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment>)}
-        {renderRow('Text', broadcast.message)}
-      </Form>
-      <Panel header="Messages">
-        {renderStats(broadcast)}
-      </Panel>
-      <h3>Settings</h3>
-      <Form horizontal>
-        {renderRow('URL', webhook.url)}
-        {renderRow('Body', <pre><code>{webhookBody}</code></pre>)}
-      </Form>
+      {renderNav(broadcast)}
     </Grid>
   );
 };

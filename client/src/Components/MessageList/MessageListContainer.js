@@ -25,6 +25,14 @@ class MessageListContainer extends React.Component {
       apiQuery.query = `{"conversationId":"${this.props.conversationId}"}`;
     } else if (this.props.requestId) {
       apiQuery.query = `{"metadata.requestId":"${this.props.requestId}"}`;
+    } else if (this.props.broadcastId) {
+      let query;
+      if (this.props.macro === 'other') {
+        query = `{"broadcastId":"${this.props.broadcastId}","direction":"inbound","macro":{"$nin":["confirmedCampaign","declinedCampaign","subscriptionStatusStop"]}}`;
+      } else {
+        query = `{"broadcastId":"${this.props.broadcastId}","direction":"inbound","macro":"${this.props.macro}"}`;
+      }
+      apiQuery.query = query;
     }
 
     // Check for skip query string parameter.
@@ -43,14 +51,21 @@ class MessageListContainer extends React.Component {
     return (
       <HttpRequest url={this.requestUrl}>
         {
-          res => (
-            <MessageList
-              totalCount={res.pagination.total}
-              data={res.data}
-              skipCount={this.skipCount}
-              pageSize={pageSize}
-            />
-          )
+          (res) => {
+            let total = 0;
+            if (res.pagination && res.pagination.total) {
+              total = res.pagination.total;
+            }
+            return (
+              <MessageList
+                totalCount={total}
+                data={res.data}
+                skipCount={this.skipCount}
+                pageSize={pageSize}
+                table={this.props.table}
+              />
+            );
+          }
         }
       </HttpRequest>
     );
