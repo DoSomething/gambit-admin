@@ -59,6 +59,7 @@ MessageList.propTypes = {
   skipCount: PropTypes.number.isRequired,
   data: PropTypes.arrayOf(PropTypes.shape).isRequired,
   pageSize: PropTypes.number.isRequired,
+  table: PropTypes.bool.isRequired,
 };
 
 export default MessageList;

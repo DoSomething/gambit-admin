@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
-import { Col, ControlLabel, Form, FormGroup, FormControl, Grid, PageHeader, Tab, Tabs, Table, } from 'react-bootstrap';
+import { Col, ControlLabel, Form, FormGroup, FormControl, Grid, PageHeader, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import MessageList from '../MessageList/MessageListContainer';
 
-const queryString = require('query-string');
 const helpers = require('../../helpers');
 
 function percent(value, total) {
@@ -26,17 +24,19 @@ function renderRow(label, data) {
  * @param {string} label
  * @param {number} count
  */
-function renderMacroCount(label, count, total) {
+function renderMacroCount(macroName, label, count, total) {
   let data = count;
   if (!count) {
     data = 0;
   }
   const rate = percent(data, total);
+  const url = `${window.location.pathname}/${macroName}`;
+
   return (
     <tr>
-      <td>{label}</td>
-      <td>{data.toLocaleString()}</td>
-      <td>{rate}</td>
+      <td><Link to={url}>{label}</Link></td>
+      <td><Link to={url}>{data.toLocaleString()}</Link></td>
+      <td><Link to={url}>{rate}</Link></td>
     </tr>
   );
 }
@@ -48,12 +48,15 @@ function renderMacros(macros, total) {
   if (!macros) {
     return null;
   }
+  const sum = macros.confirmedCampaign + macros.declinedCampaign + macros.subscriptionStatusStop;
+  const otherCount = total - sum;
   return (
     <Table striped>
       <tbody>
-        {renderMacroCount('Yes', macros.confirmedCampaign, total)}
-        {renderMacroCount('No', macros.declinedCampaign, total)}
-        {renderMacroCount('Unsubscribe', macros.subscriptionStatusStop, total)}
+        {renderMacroCount('confirmedCampaign', 'Yes', macros.confirmedCampaign, total)}
+        {renderMacroCount('declinedCampaign', 'No', macros.declinedCampaign, total)}
+        {renderMacroCount('subscriptionStatusStop', 'Stop', macros.subscriptionStatusStop, total)}
+        {renderMacroCount('other', 'Other', otherCount, total)}
       </tbody>
     </Table>
   );
@@ -88,44 +91,6 @@ function renderStats(broadcast) {
   );
 }
 
-function renderNav(broadcast) {
-  const queryParams = queryString.parse(window.location.search);
-  let defaultActiveKey = 0;
-  if (queryParams.skip) {
-    defaultActiveKey = 1;
-  }
-  return (
-    <Tabs defaultActiveKey={defaultActiveKey} animation={false} id="broadcast-tabs">
-      <Tab eventKey={0} title="Details"><br />
-        <Form horizontal>
-          {broadcast.context}
-          {renderRow('Created', <Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment>)}
-          {renderRow('Text', broadcast.message)}
-        </Form>
-        <h2>Stats</h2>
-        {renderStats(broadcast)}
-        <h2>Settings</h2>
-        <Form horizontal>
-          {renderRow('URL', broadcast.webhook.url)}
-          {renderRow('Body', <pre><code>{broadcast.webhookBody}</code></pre>)}
-        </Form>
-      </Tab>
-      <Tab eventKey={1} title="Yes"><br />
-        <MessageList broadcastId={broadcast.id} macro="confirmedCampaign" table />
-      </Tab>
-      <Tab eventKey={2} title="No"><br />
-        <MessageList broadcastId={broadcast.id} macro="declinedCampaign" table />
-      </Tab>
-      <Tab eventKey={3} title="Unsubscribe"><br />
-        <MessageList broadcastId={broadcast.id} macro="subscriptionStatusStop" table />
-      </Tab>
-      <Tab eventKey={4} title="Other"><br />
-        <MessageList broadcastId={broadcast.id} macro="other" table />
-      </Tab>
-    </Tabs>
-  );
-}
-
 const Broadcast = (props) => {
   const broadcast = props.broadcast;
   broadcast.webhookBody = JSON.stringify(broadcast.webhook.body, null, 2);
@@ -139,7 +104,18 @@ const Broadcast = (props) => {
   return (
     <Grid>
       <PageHeader>{helpers.broadcastName(broadcast)}</PageHeader>
-      {renderNav(broadcast)}
+      <Form horizontal>
+        {broadcast.context}
+        {renderRow('Created', <Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment>)}
+        {renderRow('Text', broadcast.message)}
+      </Form>
+      <h2>Stats</h2>
+      {renderStats(broadcast)}
+      <h2>Settings</h2>
+      <Form horizontal>
+        {renderRow('URL', broadcast.webhook.url)}
+        {renderRow('Body', <pre><code>{broadcast.webhookBody}</code></pre>)}
+      </Form>
     </Grid>
   );
 };

@@ -73,15 +73,21 @@ class MessageListContainer extends React.Component {
 }
 
 MessageListContainer.propTypes = {
+  broadcastId: PropTypes.string,
   campaignId: PropTypes.string,
   conversationId: PropTypes.string,
+  macro: PropTypes.string,
   requestId: PropTypes.string,
+  table: PropTypes.bool,
 };
 
 MessageListContainer.defaultProps = {
+  broadcastId: null,
   campaignId: null,
   conversationId: null,
+  macro: null,
   requestId: null,
+  table: false,
 };
 
 export default MessageListContainer;

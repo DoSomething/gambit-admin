@@ -127,7 +127,7 @@ const MessageListItem = (props) => {
         <td width="15%">{userLink}</td>
         <td>{message.text}</td>
       </tr>
-    ); 
+    );
   }
 
   return (
@@ -143,7 +143,7 @@ const MessageListItem = (props) => {
 
 MessageListItem.propTypes = {
   message: PropTypes.shape.isRequired,
-  table: PropTypes.bool,
+  table: PropTypes.bool.isRequired,
 };
 
 export default MessageListItem;
