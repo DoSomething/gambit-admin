@@ -24,13 +24,13 @@ function renderRow(label, data) {
  * @param {string} label
  * @param {number} count
  */
-function renderMacroCount(macroName, label, count, total) {
+function MacroStats({ name, label, count, total }) {
   let data = count;
   if (!count) {
     data = 0;
   }
   const rate = percent(data, total);
-  const url = `${window.location.pathname}/${macroName}`;
+  const url = `${window.location.pathname}/${name}`;
 
   return (
     <tr>
@@ -40,6 +40,13 @@ function renderMacroCount(macroName, label, count, total) {
     </tr>
   );
 }
+
+MacroStats.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.shape.isRequired,
+  count: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+};
 
 /**
  * @param {object} data
@@ -53,10 +60,30 @@ function renderMacros(macros, total) {
   return (
     <Table striped>
       <tbody>
-        {renderMacroCount('confirmedCampaign', 'Yes', macros.confirmedCampaign, total)}
-        {renderMacroCount('declinedCampaign', 'No', macros.declinedCampaign, total)}
-        {renderMacroCount('subscriptionStatusStop', 'Stop', macros.subscriptionStatusStop, total)}
-        {renderMacroCount('other', 'Other', otherCount, total)}
+        <MacroStats
+          name="confirmedCampaign"
+          label="Yes"
+          count={macros.confirmedCampaign}
+          total={total}
+        />
+        <MacroStats
+          name="declinedCampaign"
+          label="No"
+          count={macros.declinedCampaign}
+          total={total}
+        />
+        <MacroStats
+          name="subscriptionStatusStop"
+          label="Stop"
+          count={macros.subscriptionStatusStop}
+          total={total}
+        />
+        <MacroStats
+          name="other"
+          label="Other"
+          count={otherCount}
+          total={total}
+        />
       </tbody>
     </Table>
   );
