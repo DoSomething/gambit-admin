@@ -16,7 +16,7 @@ class BroadcastContainer extends React.Component {
   render() {
     return (
       <HttpRequest url={this.requestUrl}>
-        {res => <Broadcast broadcast={res.data} />}
+        {res => <Broadcast broadcast={res.data} macro={this.macro} />}
       </HttpRequest>
     );
   }

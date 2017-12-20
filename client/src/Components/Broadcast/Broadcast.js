@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
-import { Col, ControlLabel, Form, FormGroup, FormControl, Grid, PageHeader, Panel, Table } from 'react-bootstrap';
+import { Col, ControlLabel, Form, FormGroup, FormControl, Grid, PageHeader, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 const helpers = require('../../helpers');
@@ -24,20 +24,29 @@ function renderRow(label, data) {
  * @param {string} label
  * @param {number} count
  */
-function renderMacroCount(label, count, total) {
+function MacroStats({ name, label, count, total }) {
   let data = count;
   if (!count) {
     data = 0;
   }
   const rate = percent(data, total);
+  const url = `${window.location.pathname}/${name}`;
+
   return (
     <tr>
-      <td>{label}</td>
-      <td>{data}</td>
-      <td>{rate}</td>
+      <td><Link to={url}>{label}</Link></td>
+      <td><Link to={url}>{data.toLocaleString()}</Link></td>
+      <td><Link to={url}>{rate}</Link></td>
     </tr>
   );
 }
+
+MacroStats.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.shape.isRequired,
+  count: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+};
 
 /**
  * @param {object} data
@@ -46,12 +55,35 @@ function renderMacros(macros, total) {
   if (!macros) {
     return null;
   }
+  const sum = macros.confirmedCampaign + macros.declinedCampaign + macros.subscriptionStatusStop;
+  const otherCount = total - sum;
   return (
     <Table striped>
       <tbody>
-        {renderMacroCount('Yes', macros.confirmedCampaign, total)}
-        {renderMacroCount('No', macros.declinedCampaign, total)}
-        {renderMacroCount('Unsubscribe', macros.subscriptionStatusStop, total)}
+        <MacroStats
+          name="confirmedCampaign"
+          label="Yes"
+          count={macros.confirmedCampaign}
+          total={total}
+        />
+        <MacroStats
+          name="declinedCampaign"
+          label="No"
+          count={macros.declinedCampaign}
+          total={total}
+        />
+        <MacroStats
+          name="subscriptionStatusStop"
+          label="Stop"
+          count={macros.subscriptionStatusStop}
+          total={total}
+        />
+        <MacroStats
+          name="other"
+          label="Other"
+          count={otherCount}
+          total={total}
+        />
       </tbody>
     </Table>
   );
@@ -88,32 +120,28 @@ function renderStats(broadcast) {
 
 const Broadcast = (props) => {
   const broadcast = props.broadcast;
-  const webhook = broadcast.webhook;
-  const webhookBody = JSON.stringify(webhook.body, null, 2);
-  let context = null;
+  broadcast.webhookBody = JSON.stringify(broadcast.webhook.body, null, 2);
   if (broadcast.topic) {
-    context = renderRow('Topic', broadcast.topic);
+    broadcast.context = renderRow('Topic', broadcast.topic);
   } else {
     const campaignId = broadcast.campaignId;
     const campaignLink = `/campaigns/${campaignId}`;
-    context = renderRow('Campaign', <Link to={campaignLink}>{campaignId}</Link>);
+    broadcast.context = renderRow('Campaign', <Link to={campaignLink}>{campaignId}</Link>);
   }
-
   return (
     <Grid>
       <PageHeader>{helpers.broadcastName(broadcast)}</PageHeader>
       <Form horizontal>
-        {context}
+        {broadcast.context}
         {renderRow('Created', <Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment>)}
         {renderRow('Text', broadcast.message)}
       </Form>
-      <Panel header="Messages">
-        {renderStats(broadcast)}
-      </Panel>
-      <h3>Settings</h3>
+      <h2>Stats</h2>
+      {renderStats(broadcast)}
+      <h2>Settings</h2>
       <Form horizontal>
-        {renderRow('URL', webhook.url)}
-        {renderRow('Body', <pre><code>{webhookBody}</code></pre>)}
+        {renderRow('URL', broadcast.webhook.url)}
+        {renderRow('Body', <pre><code>{broadcast.webhookBody}</code></pre>)}
       </Form>
     </Grid>
   );

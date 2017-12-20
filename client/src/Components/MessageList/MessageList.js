@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Pager } from 'react-bootstrap';
+import { Pager, Table } from 'react-bootstrap';
 import MessageListItem from './MessageListItem';
 
 function renderPager(totalResultCount, skipCount, pageCount, pageSize) {
@@ -37,13 +37,18 @@ function renderPager(totalResultCount, skipCount, pageCount, pageSize) {
 }
 
 const MessageList = (props) => {
+  if (!props.data) {
+    return <div>No results found.</div>;
+  }
   const pager = renderPager(props.totalCount, props.skipCount, props.data.length, props.pageSize);
+  let data = props.data.map(message => <MessageListItem table={props.table} message={message} />);
+  if (props.table) {
+    data = <Table><tbody>{data}</tbody></Table>;
+  }
   return (
     <div>
       { pager }
-      <Grid>
-        { props.data.map(message => <MessageListItem message={message} />) }
-      </Grid>
+      { data }
       { props.totalCount > 10 ? pager : null }
     </div>
   );
@@ -54,6 +59,7 @@ MessageList.propTypes = {
   skipCount: PropTypes.number.isRequired,
   data: PropTypes.arrayOf(PropTypes.shape).isRequired,
   pageSize: PropTypes.number.isRequired,
+  table: PropTypes.bool.isRequired,
 };
 
 export default MessageList;
