@@ -9,6 +9,7 @@ import ConversationDetail from './ConversationDetail';
 import ConversationRequest from './ConversationRequest';
 import BroadcastList from './BroadcastList/BroadcastListContainer';
 import BroadcastDetail from './Broadcast/BroadcastContainer';
+import BroadcastReplyList from './Broadcast/BroadcastReplyList';
 
 const Campaigns = () => (
   <Switch>
@@ -34,6 +35,7 @@ const ConversationRequests = () => (
 const Broadcasts = () => (
   <Switch>
     <Route exact path="/broadcasts" component={BroadcastList} />
+    <Route path="/broadcasts/:broadcastId/:macro" component={BroadcastReplyList} />
     <Route path="/broadcasts/:broadcastId" component={BroadcastDetail} />
   </Switch>
 );
