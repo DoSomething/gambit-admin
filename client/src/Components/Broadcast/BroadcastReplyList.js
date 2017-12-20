@@ -3,29 +3,23 @@ import PropTypes from 'prop-types';
 import { Breadcrumb, Grid } from 'react-bootstrap';
 import MessageList from '../MessageList/MessageListContainer';
 
-function formatMacro(macro) {
-  if (macro === 'confirmedCampaign') {
-    return 'Yes';
-  }
-  if (macro === 'declinedCampaign') {
-    return 'No';
-  }
-  if (macro === 'subscriptionStatusStop') {
-    return 'Unsubscribe';
-  }
-  return 'Other';
+const lodash = require('lodash');
+
+function formatMacro(macroName) {
+  const macroLabels = {
+    confirmedCampaign: 'Yes',
+    declinedCampaign: 'No',
+    subscriptionStatusStop: 'Unsubscribe',
+  };
+  return lodash.get(macroLabels, macroName, 'Other');
 }
 
 class BroadcastReplyList extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.broadcastId = this.props.match.params.broadcastId;
-    this.macro = this.props.match.params.macro;
-  }
-
   render() {
-    const url = `/broadcasts/${this.broadcastId}`;
+    const broadcastId = this.props.match.params.broadcastId;
+    const macro = this.props.match.params.macro;
+    const url = `/broadcasts/${broadcastId}`;
+
     return (
       <Grid>
         <Breadcrumb>
@@ -33,13 +27,13 @@ class BroadcastReplyList extends React.Component {
             Broadcasts
           </Breadcrumb.Item>
           <Breadcrumb.Item href={url}>
-            {this.broadcastId}
+            {broadcastId}
           </Breadcrumb.Item>
           <Breadcrumb.Item active>
-            {formatMacro(this.macro)}
+            {formatMacro(macro)}
           </Breadcrumb.Item>
         </Breadcrumb>
-        <MessageList broadcastId={this.broadcastId} macro={this.macro} table />
+        <MessageList broadcastId={broadcastId} macro={macro} table />
       </Grid>
     );
   }
