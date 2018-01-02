@@ -31,12 +31,7 @@ router.get('/conversations/:id', (req, res) => {
       const userId = user.id;
       req.data.user.links = {
         aurora: helpers.getAuroraUrlForUserId(userId),
-        rogue: helpers.getRogueUrlForUserId(userId),
       };
-      if (user.mobilecommons_id) {
-        const url = helpers.getMobileCommonsUrlForMobileCommonsId(user.mobilecommons_id);
-        req.data.user.links.mobilecommons = url;
-      }
       return rogue.getSignupsForUserId(userId);
     })
     .then((apiRes) => {
