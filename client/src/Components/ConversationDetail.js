@@ -99,12 +99,6 @@ class ConversationDetail extends React.Component {
     if (user.source) {
       registrationSource = `via ${helpers.formatSource(user.source)}`;
     }
-    const auroraLink = <a href={user.links.aurora}>Aurora</a>;
-    const rogueLink = <a href={user.links.rogue}>Rogue</a>;
-    let mobileCommonsLink = null;
-    if (user.links.mobilecommons) {
-      mobileCommonsLink = <span> | <a href={user.links.mobilecommons}>Mobile Commons</a></span>;
-    }
 
     return (
       <Panel>
@@ -127,9 +121,6 @@ class ConversationDetail extends React.Component {
         <Row>
           <Col sm={6}>
             <strong>Joined:</strong> {registrationDate} {registrationSource}
-          </Col>
-          <Col sm={6}>
-            <strong>Profiles:</strong> {auroraLink}  | {rogueLink} {mobileCommonsLink}
           </Col>
         </Row>
       </Panel>
