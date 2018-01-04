@@ -99,6 +99,14 @@ class ConversationDetail extends React.Component {
     if (user.source) {
       registrationSource = `via ${helpers.formatSource(user.source)}`;
     }
+    let address;
+    let addressSource;
+    if (user.addr_city) {
+      address = `${user.addr_city}, ${user.addr_state} ${user.addr_zip}`;
+    }
+    if (user.addr_source) {
+      addressSource = `via ${user.addr_source}`;
+    }
 
     return (
       <Panel>
@@ -119,6 +127,9 @@ class ConversationDetail extends React.Component {
           </Col>
         </Row>
         <Row>
+          <Col sm={6}>
+            <strong>Address:</strong> {address} {addressSource}
+          </Col>
           <Col sm={6}>
             <strong>Joined:</strong> {registrationDate} {registrationSource}
           </Col>
