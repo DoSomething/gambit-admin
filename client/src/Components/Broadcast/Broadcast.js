@@ -26,11 +26,12 @@ function renderRow(label, data) {
  */
 function MacroStats({ name, label, count, total }) {
   let data = count;
+  let url = `${window.location.pathname}/${name}`;
   if (!count) {
     data = 0;
+    url = '#';
   }
   const rate = percent(data, total);
-  const url = `${window.location.pathname}/${name}`;
 
   return (
     <tr>
