@@ -50,32 +50,48 @@ MacroStats.propTypes = {
 };
 
 /**
- * @param {object} data
+ * @param {object} broadcast
  */
-function renderMacros(macros, total) {
+function renderMacros(broadcast) {
+  const stats = broadcast.stats;
+  const macros = stats.inbound.macros;
   if (!macros) {
     return null;
   }
-  const yesCount = macros.confirmedCampaign ? macros.confirmedCampaign : 0;
-  const noCount = macros.declinedCampaign ? macros.declinedCampaign : 0;
+  const total = stats.inbound.total;
   const stopCount = macros.subscriptionStatusStop ? macros.subscriptionStatusStop : 0;
-  const sum = yesCount + noCount + stopCount;
-  const otherCount = total - sum;
+  let otherCount = total - stopCount;
+  let yesStats = null;
+  let noStats = null;
+  if (!broadcast.topic) {
+    const yesCount = macros.confirmedCampaign ? macros.confirmedCampaign : 0;
+    const noCount = macros.declinedCampaign ? macros.declinedCampaign : 0;
+    const sum = yesCount + noCount + stopCount;
+    otherCount = total - sum;
+
+    yesStats = (
+      <MacroStats
+        name="confirmedCampaign"
+        label="Yes"
+        count={yesCount}
+        total={total}
+      />
+    );
+    noStats = (
+      <MacroStats
+        name="declinedCampaign"
+        label="No"
+        count={noCount}
+        total={total}
+      />
+    );
+  }
+
   return (
     <Table striped>
       <tbody>
-        <MacroStats
-          name="confirmedCampaign"
-          label="Yes"
-          count={yesCount}
-          total={total}
-        />
-        <MacroStats
-          name="declinedCampaign"
-          label="No"
-          count={noCount}
-          total={total}
-        />
+        {yesStats}
+        {noStats}
         <MacroStats
           name="subscriptionStatusStop"
           label="Stop"
@@ -117,7 +133,7 @@ function renderStats(broadcast) {
   return (
     <div>
       {renderStatsHeader(stats)}
-      {total > 0 ? renderMacros(stats.inbound.macros, total) : null}
+      {total > 0 ? renderMacros(broadcast) : null}
     </div>
   );
 }
