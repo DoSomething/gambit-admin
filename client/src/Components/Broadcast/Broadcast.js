@@ -55,7 +55,10 @@ function renderMacros(macros, total) {
   if (!macros) {
     return null;
   }
-  const sum = macros.confirmedCampaign + macros.declinedCampaign + macros.subscriptionStatusStop;
+  const yesCount = macros.confirmedCampaign ? macros.confirmedCampaign : 0;
+  const noCount = macros.declinedCampaign ? macros.declinedCampaign : 0;
+  const stopCount = macros.subscriptionStatusStop ? macros.subscriptionStatusStop : 0;
+  const sum = yesCount + noCount + stopCount;
   const otherCount = total - sum;
   return (
     <Table striped>
@@ -63,19 +66,19 @@ function renderMacros(macros, total) {
         <MacroStats
           name="confirmedCampaign"
           label="Yes"
-          count={macros.confirmedCampaign}
+          count={yesCount}
           total={total}
         />
         <MacroStats
           name="declinedCampaign"
           label="No"
-          count={macros.declinedCampaign}
+          count={noCount}
           total={total}
         />
         <MacroStats
           name="subscriptionStatusStop"
           label="Stop"
-          count={macros.subscriptionStatusStop}
+          count={stopCount}
           total={total}
         />
         <MacroStats
