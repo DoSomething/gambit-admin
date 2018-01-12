@@ -26,11 +26,12 @@ function renderRow(label, data) {
  */
 function MacroStats({ name, label, count, total }) {
   let data = count;
+  let url = `${window.location.pathname}/${name}`;
   if (!count) {
     data = 0;
+    url = '#';
   }
   const rate = percent(data, total);
-  const url = `${window.location.pathname}/${name}`;
 
   return (
     <tr>
@@ -49,33 +50,52 @@ MacroStats.propTypes = {
 };
 
 /**
- * @param {object} data
+ * @param {object} broadcast
  */
-function renderMacros(macros, total) {
+function renderMacros(broadcast) {
+  const stats = broadcast.stats;
+  const macros = stats.inbound.macros;
   if (!macros) {
     return null;
   }
-  const sum = macros.confirmedCampaign + macros.declinedCampaign + macros.subscriptionStatusStop;
-  const otherCount = total - sum;
+  const total = stats.inbound.total;
+  const stopCount = macros.subscriptionStatusStop ? macros.subscriptionStatusStop : 0;
+  let otherCount = total - stopCount;
+  let yesStats = null;
+  let noStats = null;
+  if (!broadcast.topic) {
+    const yesCount = macros.confirmedCampaign ? macros.confirmedCampaign : 0;
+    const noCount = macros.declinedCampaign ? macros.declinedCampaign : 0;
+    const sum = yesCount + noCount + stopCount;
+    otherCount = total - sum;
+
+    yesStats = (
+      <MacroStats
+        name="confirmedCampaign"
+        label="Yes"
+        count={yesCount}
+        total={total}
+      />
+    );
+    noStats = (
+      <MacroStats
+        name="declinedCampaign"
+        label="No"
+        count={noCount}
+        total={total}
+      />
+    );
+  }
+
   return (
     <Table striped>
       <tbody>
-        <MacroStats
-          name="confirmedCampaign"
-          label="Yes"
-          count={macros.confirmedCampaign}
-          total={total}
-        />
-        <MacroStats
-          name="declinedCampaign"
-          label="No"
-          count={macros.declinedCampaign}
-          total={total}
-        />
+        {yesStats}
+        {noStats}
         <MacroStats
           name="subscriptionStatusStop"
           label="Stop"
-          count={macros.subscriptionStatusStop}
+          count={stopCount}
           total={total}
         />
         <MacroStats
@@ -113,7 +133,7 @@ function renderStats(broadcast) {
   return (
     <div>
       {renderStatsHeader(stats)}
-      {total > 0 ? renderMacros(stats.inbound.macros, total) : null}
+      {total > 0 ? renderMacros(broadcast) : null}
     </div>
   );
 }
