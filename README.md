@@ -1,6 +1,8 @@
 # Gambit Admin
 
-A Node server and React client app for the Gambit API.
+* Looking for the admin guide? Check the [wiki](https://github.com/dosomething/gambit-admin/wiki).
+
+Gambit Admin is a Node.js server and React client app, providing a Gambit web interface for DoSomething staff.
 
 Using [https://github.com/mars/heroku-cra-node](https://github.com/mars/heroku-cra-node) as an example, this repo is composed of two npm projects, the backend server and the frontend UI, with two `package.json` configs.
 
