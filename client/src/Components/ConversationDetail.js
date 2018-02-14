@@ -168,14 +168,20 @@ class ConversationDetail extends React.Component {
   }
 
   renderDetail(conversation) {
-    let label;
+    let pausedLabel;
     if (conversation.paused) {
-      label = <small><Label>paused</Label></small>;
+      pausedLabel = <small><Label>paused</Label></small>;
+    }
+    let platformLabel;
+    if (conversation.platform !== 'sms') {
+      platformLabel = <small>{conversation.platform}</small>;
     }
 
     return (
       <Grid>
-        <PageHeader>{ conversation.platformUserId } {label}</PageHeader>
+        <PageHeader>
+          { conversation.platformUserId } {pausedLabel} {platformLabel}
+        </PageHeader>
         {conversation.user ? ConversationDetail.renderUser(conversation.user) : ''}
         {this.renderNav(conversation)}
       </Grid>

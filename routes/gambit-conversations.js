@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const logger = require('heroku-logger');
 const conversations = require('../lib/gambit-conversations');
 const northstar = require('../lib/northstar');
 const rogue = require('../lib/rogue');
@@ -18,12 +19,13 @@ router.get('/conversations/:id', (req, res) => {
   conversations.getConversationById(req.params.id)
     .then((apiRes) => {
       req.data = apiRes.data;
-      if (req.data.platform !== 'sms') {
-        return Promise.resolve(null);
+      if (req.data.platform === 'sms') {
+        return northstar.getUserByMobile(req.data.platformUserId);
       }
-      return northstar.getUserByMobile(req.data.platformUserId);
+      return northstar.getUserByEmail(req.data.platformUserId);
     })
     .then((user) => {
+      logger.debug('northstar.getUserByMobile response', { user });
       if (!user) {
         return res.send({ data: req.data });
       }
