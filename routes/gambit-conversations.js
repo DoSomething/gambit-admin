@@ -22,7 +22,7 @@ router.get('/conversations/:id', (req, res) => {
       if (req.data.platform === 'sms') {
         return northstar.getUserByMobile(req.data.platformUserId);
       }
-      return northstar.getUserByEmail(req.data.platformUserId);
+      return northstar.getUserById(req.data.platformUserId);
     })
     .then((user) => {
       logger.debug('northstar.getUserByMobile response', { user });
