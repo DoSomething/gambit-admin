@@ -25,7 +25,7 @@ router.get('/conversations/:id', (req, res) => {
       return northstar.getUserById(req.data.platformUserId);
     })
     .then((user) => {
-      logger.debug('northstar.getUserByMobile response', { user });
+      logger.debug('northstar response', { user });
       if (!user) {
         return res.send({ data: req.data });
       }
