@@ -19,10 +19,13 @@ router.get('/conversations/:id', (req, res) => {
   conversations.getConversationById(req.params.id)
     .then((apiRes) => {
       req.data = apiRes.data;
+      if (req.data.userId) {
+        return northstar.getUserById(req.data.userId);
+      }
       if (req.data.platform === 'sms') {
         return northstar.getUserByMobile(req.data.platformUserId);
       }
-      return northstar.getUserById(req.data.platformUserId);
+      return null;
     })
     .then((user) => {
       logger.debug('northstar response', { user });

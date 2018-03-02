@@ -116,7 +116,7 @@ const MessageListItem = (props) => {
     return null;
   }
   const uri = `/conversations/${message.conversationId._id}`;
-  const userLink = <Link to={uri}>{message.conversationId.platformUserId}</Link>;
+  const userLink = <Link to={uri}>{message.conversationId._id}</Link>;
   const isInbound = message.direction === 'inbound';
   const offset = isInbound ? 0 : 1;
 
@@ -133,7 +133,7 @@ const MessageListItem = (props) => {
   return (
     <Row key={message._id}>
       <Col md={2} mdOffset={2}>
-        <div>{ isInbound ? 'From' : 'To' } <strong>{userLink}</strong></div>
+        <div><small><strong>{userLink}</strong></small></div>
         <small>{ renderDate(message) }</small>
       </Col>
       <Col md={4} mdOffset={offset}>{ renderContent(message) }</Col>
