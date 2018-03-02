@@ -43,6 +43,13 @@ module.exports.getMessagesUrl = function (query) {
   return apiUrl('gambit-conversations/messages', query);
 };
 
+module.exports.getUserIdentifierForConversation = function (conversation) {
+  if (conversation.userId) {
+    return conversation.userId;
+  }
+  return conversation.platformUserId;
+};
+
 /**
  * @param {string} input
  * @return {string}

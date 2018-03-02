@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Col, Row, ListGroup, ListGroupItem, Image } from 'react-bootstrap';
 import Moment from 'react-moment';
 
+const helpers = require('../../helpers');
 const config = require('../../config');
 
 function renderDate(message) {
@@ -115,8 +116,9 @@ const MessageListItem = (props) => {
   if (!message.conversationId) {
     return null;
   }
+  const identifier = helpers.getUserIdentifierForConversation(message.conversationId);
   const uri = `/conversations/${message.conversationId._id}`;
-  const userLink = <Link to={uri}>{message.conversationId._id}</Link>;
+  const userLink = <Link to={uri}>{identifier}</Link>;
   const isInbound = message.direction === 'inbound';
   const offset = isInbound ? 0 : 1;
 

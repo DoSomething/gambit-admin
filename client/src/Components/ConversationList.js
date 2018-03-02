@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Grid, Label, PageHeader, Table } from 'react-bootstrap';
+import { Grid, Label, Table } from 'react-bootstrap';
 import Moment from 'react-moment';
 import HttpRequest from './HttpRequest';
 
@@ -10,7 +10,7 @@ const helpers = require('../helpers');
 
 export default class ConversationList extends React.Component {
   static renderRow(conversation) {
-    const user = conversation.userId || conversation.platformUserId;
+    const identifier = helpers.getUserIdentifierForConversation(conversation);
     let platformLabel = '';
     if (conversation.platform !== 'sms') {
       platformLabel = <Label>{conversation.platform}</Label>;
@@ -18,7 +18,7 @@ export default class ConversationList extends React.Component {
     return (
       <tr key={conversation._id}>
         <td><Moment format={config.dateFormat}>{conversation.updatedAt}</Moment></td>
-        <td><Link to={`conversations/${conversation._id}`}>{user}</Link> {platformLabel}</td>
+        <td><Link to={`conversations/${conversation._id}`}>{identifier}</Link> {platformLabel}</td>
         <td>{conversation.campaignId}</td>
         <td>{conversation.topic}</td>
       </tr>
@@ -43,7 +43,6 @@ export default class ConversationList extends React.Component {
   render() {
     return (
       <Grid>
-        <PageHeader>Conversations</PageHeader>
         <HttpRequest url={this.requestUrl}>
           {
             res => (

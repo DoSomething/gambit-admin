@@ -16,7 +16,7 @@ class Header extends React.Component {
         </Navbar.Header>
         <Nav>
           <NavItem active={conversationsActive} eventKey={1} href="/conversations">
-            Conversations
+            Users
           </NavItem>
           <NavItem active={pathname.includes('campaigns')} eventKey={1} href="/campaigns">
             Campaigns

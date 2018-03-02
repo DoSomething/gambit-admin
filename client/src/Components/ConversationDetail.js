@@ -131,7 +131,12 @@ class ConversationDetail extends React.Component {
             <strong>Address:</strong> {address} {addressSource}
           </Col>
           <Col sm={6}>
-            <strong>Joined:</strong> {registrationDate} {registrationSource}
+            <strong>Links:</strong> <a href={user.links.aurora}>Aurora</a>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={12}>
+            <strong>Member Since:</strong> {registrationDate} {registrationSource}
           </Col>
         </Row>
       </Panel>
