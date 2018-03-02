@@ -180,7 +180,7 @@ class ConversationDetail extends React.Component {
     return (
       <Grid>
         <PageHeader>
-          { conversation.platformUserId } {conversation.user.id} {platformLabel}
+          {conversation.user.id} {platformLabel} {pausedLabel}
         </PageHeader>
         {conversation.user ? ConversationDetail.renderUser(conversation.user) : ''}
         {this.renderNav(conversation)}
