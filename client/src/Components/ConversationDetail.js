@@ -112,10 +112,10 @@ class ConversationDetail extends React.Component {
       <Panel>
         <Row>
           <Col sm={6}>
-            <strong>User:</strong> <a href={user.links.aurora}><code>{user.id}</code></a>
+            <strong>Mobile:</strong> {user.mobile}
           </Col>
           <Col sm={6}>
-            <strong>SMS status:</strong> {user.sms_status}
+            <strong>SMS Status:</strong> {user.sms_status}
           </Col>
         </Row>
         <Row>
@@ -123,7 +123,7 @@ class ConversationDetail extends React.Component {
             <strong>Email:</strong> {user.email}
           </Col>
           <Col sm={6}>
-            <strong>Last inbound message:</strong> {lastMessagedDate}
+            <strong>SMS Last Inbound:</strong> {lastMessagedDate}
           </Col>
         </Row>
         <Row>
@@ -131,7 +131,12 @@ class ConversationDetail extends React.Component {
             <strong>Address:</strong> {address} {addressSource}
           </Col>
           <Col sm={6}>
-            <strong>Joined:</strong> {registrationDate} {registrationSource}
+            <strong>Links:</strong> <a href={user.links.aurora}>Aurora</a>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={12}>
+            <strong>Member Since:</strong> {registrationDate} {registrationSource}
           </Col>
         </Row>
       </Panel>
@@ -180,7 +185,7 @@ class ConversationDetail extends React.Component {
     return (
       <Grid>
         <PageHeader>
-          { conversation.platformUserId } {pausedLabel} {platformLabel}
+          {conversation.user.id} {platformLabel} {pausedLabel}
         </PageHeader>
         {conversation.user ? ConversationDetail.renderUser(conversation.user) : ''}
         {this.renderNav(conversation)}

@@ -19,10 +19,14 @@ router.get('/conversations/:id', (req, res) => {
   conversations.getConversationById(req.params.id)
     .then((apiRes) => {
       req.data = apiRes.data;
-      if (req.data.platform === 'sms') {
-        return northstar.getUserByMobile(req.data.platformUserId);
+      // This check is needed until all Gambit Conversations are backfilled with userId's.
+      if (!req.data.userId) {
+        if (req.data.platform === 'sms') {
+          return northstar.getUserByMobile(req.data.platformUserId);
+        }
+        return northstar.getUserById(req.data.platformUserId);
       }
-      return northstar.getUserById(req.data.platformUserId);
+      return northstar.getUserById(req.data.userId);
     })
     .then((user) => {
       logger.debug('northstar response', { user });
