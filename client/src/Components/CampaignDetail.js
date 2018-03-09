@@ -63,13 +63,13 @@ class CampaignDetail extends React.Component {
 
     this.campaignId = this.props.match.params.campaignId;
     this.url = `/campaigns/${this.campaignId}`;
-    this.requestUrl = helpers.getCampaignIdUrl(this.campaignId);
+    this.requestPath = helpers.getCampaignByIdPath(this.campaignId);
   }
 
   render() {
     return (
       <Grid>
-        <HttpRequest url={this.requestUrl}>
+        <HttpRequest path={this.requestPath}>
           {
             campaign => (
               <div>

@@ -147,7 +147,7 @@ class ConversationDetail extends React.Component {
     super(props);
 
     this.conversationId = this.props.match.params.conversationId;
-    this.requestUrl = helpers.getConversationIdUrl(this.conversationId);
+    this.requestPath = helpers.getConversationByIdPath(this.conversationId);
   }
 
   renderNav(conversation) {
@@ -195,7 +195,7 @@ class ConversationDetail extends React.Component {
 
   render() {
     return (
-      <HttpRequest url={this.requestUrl}>
+      <HttpRequest path={this.requestPath}>
         { res => this.renderDetail(res.data) }
       </HttpRequest>
     );

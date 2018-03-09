@@ -44,12 +44,13 @@ class MessageListContainer extends React.Component {
       this.skipCount = 0;
     }
 
-    this.requestUrl = helpers.getMessagesUrl(apiQuery);
+    this.requestQuery = apiQuery;
+    this.requestPath = helpers.getMessagesPath();
   }
 
   render() {
     return (
-      <HttpRequest url={this.requestUrl}>
+      <HttpRequest path={this.requestPath} query={this.requestQuery}>
         {
           (res) => {
             let total = 0;

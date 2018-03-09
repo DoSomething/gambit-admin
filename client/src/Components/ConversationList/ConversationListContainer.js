@@ -9,22 +9,22 @@ const helpers = require('../../helpers');
 export default class ConversationListContainer extends React.Component {
   constructor(props) {
     super(props);
-    const query = {
+
+    this.requestPath = helpers.getConversationsPath();
+    this.requestQuery = {
       sort: '-updatedAt',
     };
-
     const queryParams = queryString.parse(window.location.search);
     const platformUserId = queryParams.platformUserId;
     if (platformUserId) {
-      query.query = `{"platformUserId":{"$regex":"${platformUserId}"}}`;
+      this.requestQuery.query = `{"platformUserId":{"$regex":"${platformUserId}"}}`;
     }
-    this.requestUrl = helpers.getConversationsUrl(query);
   }
 
   render() {
     return (
       <Grid>
-        <HttpRequest url={this.requestUrl}>
+        <HttpRequest path={this.requestPath} query={this.requestQuery}>
           {
             res => (
               <Table striped hover>

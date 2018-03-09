@@ -15,33 +15,34 @@ function apiUrl(path, query = {}) {
   return result;
 }
 
-module.exports.getBroadcastsUrl = function (query) {
-  return apiUrl('gambit-conversations/broadcasts', query);
+const conversations = 'gambit-conversations';
+const campaigns = 'gambit-campaigns';
+
+module.exports = {
+  apiUrl,
+  getBroadcastByIdPath: function getBroadcastByIdPath(broadcastId) {
+    return `${this.getBroadcastsPath()}/${broadcastId}`;
+  },
+  getBroadcastsPath: function getBroadcastsPath() {
+    return `${conversations}/broadcasts`;
+  },
+  getCampaignByIdPath: function getCampaignByIdPath(campaignId) {
+    return `${this.getCampaignsPath()}/${campaignId}`;
+  },
+  getCampaignsPath: function getCampaignsPath() {
+    return `${campaigns}/campaigns`;
+  },
+  getConversationByIdPath: function getConversationByIdPath(conversationId) {
+    return `${this.getConversationsPath()}/${conversationId}`;
+  },
+  getConversationsPath: function getConversationsPath() {
+    return `${conversations}/conversations`;
+  },
+  getMessagesPath: function getConversationsPath() {
+    return `${conversations}/messages`;
+  },
 };
 
-module.exports.getBroadcastIdUrl = function (broadcastId) {
-  return apiUrl(`gambit-conversations/broadcasts/${broadcastId}`);
-};
-
-module.exports.getCampaignIdUrl = function (campaignId) {
-  return apiUrl(`gambit-campaigns/campaigns/${campaignId}`);
-};
-
-module.exports.getCampaignsUrl = function (query) {
-  return apiUrl('gambit-campaigns/campaigns', query);
-};
-
-module.exports.getConversationIdUrl = function (conversationId) {
-  return apiUrl(`gambit-conversations/conversations/${conversationId}`);
-};
-
-module.exports.getConversationsUrl = function (query) {
-  return apiUrl('gambit-conversations/conversations', query);
-};
-
-module.exports.getMessagesUrl = function (query) {
-  return apiUrl('gambit-conversations/messages', query);
-};
 
 module.exports.getUserIdentifierForConversation = function (conversation) {
   if (conversation.userId) {

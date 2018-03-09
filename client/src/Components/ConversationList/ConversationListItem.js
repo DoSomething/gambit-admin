@@ -17,7 +17,7 @@ const ConversationListItem = (props) => {
   return (
     <tr key={conversation._id}>
       <td><Moment format={config.dateFormat}>{conversation.updatedAt}</Moment></td>
-      <td><Link to={`conversations/${conversation._id}`}>{identifier}</Link> {platformLabel}</td>
+      <td><Link to={`/conversations/${conversation._id}`}>{identifier}</Link> {platformLabel}</td>
       <td>{conversation.campaignId}</td>
       <td>{conversation.topic}</td>
     </tr>

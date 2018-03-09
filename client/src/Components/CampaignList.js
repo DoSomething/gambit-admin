@@ -26,14 +26,14 @@ export default class CampaignList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.requestUrl = helpers.getCampaignsUrl({ exclude: true });
+    this.requestPath = helpers.getCampaignsPath();
   }
 
   render() {
     return (
       <Grid>
         <PageHeader>Campaigns</PageHeader>
-        <HttpRequest url={this.requestUrl}>
+        <HttpRequest path={this.requestPath}>
           {
             res => (<Table striped hover>
               <tbody>
