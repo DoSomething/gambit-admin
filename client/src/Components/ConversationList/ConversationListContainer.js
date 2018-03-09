@@ -24,7 +24,7 @@ export default class ConversationListContainer extends React.Component {
   render() {
     return (
       <Grid>
-        <HttpRequest path={this.requestPath} query={this.requestQuery}>
+        <HttpRequest path={this.requestPath} query={this.requestQuery} description="conversations">
           {
             res => (
               <Table striped hover>
