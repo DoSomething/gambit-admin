@@ -1,13 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HttpRequest from '../HttpRequest';
-import MessageList from './MessageList';
+import MessageListItem from './MessageListItem';
 
-const queryString = require('query-string');
-const config = require('../../config');
 const helpers = require('../../helpers');
-
-const pageSize = config.resultsPageSize;
 
 class MessageListContainer extends React.Component {
   constructor(props) {
@@ -15,7 +11,6 @@ class MessageListContainer extends React.Component {
 
     const apiQuery = {
       sort: '-createdAt',
-      limit: pageSize,
       populate: 'conversationId',
     };
 
@@ -35,37 +30,15 @@ class MessageListContainer extends React.Component {
       apiQuery.query = query;
     }
 
-    // Check for skip query string parameter.
-    const clientQuery = queryString.parse(window.location.search);
-    this.skipCount = Number(clientQuery.skip);
-    if (this.skipCount) {
-      apiQuery.skip = this.skipCount;
-    } else {
-      this.skipCount = 0;
-    }
-
-    this.requestUrl = helpers.getMessagesUrl(apiQuery);
+    this.requestQuery = apiQuery;
+    this.requestPath = helpers.getMessagesPath();
   }
 
   render() {
     return (
-      <HttpRequest url={this.requestUrl}>
+      <HttpRequest path={this.requestPath} query={this.requestQuery} description="messages">
         {
-          (res) => {
-            let total = 0;
-            if (res.pagination && res.pagination.total) {
-              total = res.pagination.total;
-            }
-            return (
-              <MessageList
-                totalCount={total}
-                data={res.data}
-                skipCount={this.skipCount}
-                pageSize={pageSize}
-                table={this.props.table}
-              />
-            );
-          }
+          res => res.data.map(msg => <MessageListItem table={this.props.table} message={msg} />)
         }
       </HttpRequest>
     );
