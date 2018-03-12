@@ -9,14 +9,14 @@ export default class BroadcastListContainer extends React.Component {
   constructor(props) {
     super(props);
 
-    this.requestUrl = helpers.getBroadcastsUrl();
+    this.requestPath = helpers.getBroadcastsPath();
   }
 
   render() {
     return (
       <Grid>
         <PageHeader>Broadcasts</PageHeader>
-        <HttpRequest url={this.requestUrl}>
+        <HttpRequest path={this.requestPath}>
           {
             res => (
               <Table striped hover>

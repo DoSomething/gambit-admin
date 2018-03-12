@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './Home';
 import CampaignList from './CampaignList';
 import CampaignDetail from './CampaignDetail';
-import ConversationList from './ConversationList';
+import ConversationList from './ConversationList/ConversationListContainer';
 import ConversationDetail from './ConversationDetail';
 import ConversationRequest from './ConversationRequest';
 import BroadcastList from './BroadcastList/BroadcastListContainer';
