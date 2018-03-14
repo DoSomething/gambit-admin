@@ -2,12 +2,37 @@
 
 const express = require('express');
 const logger = require('heroku-logger');
+const campaigns = require('../lib/gambit-campaigns');
 const conversations = require('../lib/gambit-conversations');
 const northstar = require('../lib/northstar');
 const rogue = require('../lib/rogue');
 const helpers = require('../lib/helpers');
 
 const router = express.Router();
+
+router.get('/broadcasts', (req, res) => {
+  conversations.getBroadcasts(req.query)
+    .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
+router.get('/broadcasts/:id', (req, res) => {
+  conversations.getBroadcastById(req.params.id)
+    .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
+router.get('/campaigns', (req, res) => {
+  campaigns.getCampaigns()
+    .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
+router.get('/campaigns/:id', (req, res) => {
+  campaigns.getCampaignById(req.params.id)
+    .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
 
 router.get('/conversations/', (req, res) => {
   conversations.getConversations(req.query)
@@ -56,15 +81,21 @@ router.get('/messages', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
-router.get('/broadcasts', (req, res) => {
-  conversations.getBroadcasts(req.query)
-    .then(apiRes => res.send(apiRes))
-    .catch(err => helpers.sendResponseForError(res, err));
-});
-
-router.get('/broadcasts/:id', (req, res) => {
-  conversations.getBroadcastById(req.params.id)
-    .then(apiRes => res.send(apiRes))
+router.get('/users/:id', (req, res) => {
+  const userId = req.params.id;
+  return northstar.getUserById(req.params.id)
+    .then((apiRes) => {
+      req.data = apiRes;
+      req.data.links = {
+        aurora: helpers.getAuroraUrlForUserId(userId),
+      };
+      return conversations.getConversations(`query={"userId":"${userId}"}`);
+    })
+    .then((apiRes) => {
+      req.data.conversations = apiRes;
+      logger.info('data', { data: req.data });
+    })
+    .then(apiRes => res.send({ data: req.data }))
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
