@@ -105,7 +105,11 @@ function userInfo(user) {
   if (user.addr_source) {
     addressSource = `via ${user.addr_source}`;
   }
-  const links = <a href={user.links.aurora}>Aurora</a>;
+  const links = (
+    <span>
+      <a href={user.links.aurora}>Aurora</a> | <a href={user.links.customerIo}>Customer.io</a>
+    </span>
+  );
 
   return (
     <Panel>

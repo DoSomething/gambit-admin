@@ -11,6 +11,14 @@ import BroadcastList from './BroadcastList/BroadcastListContainer';
 import BroadcastDetail from './Broadcast/BroadcastContainer';
 import BroadcastReplyList from './Broadcast/BroadcastReplyList';
 
+const Broadcasts = () => (
+  <Switch>
+    <Route exact path="/broadcasts" component={BroadcastList} />
+    <Route path="/broadcasts/:broadcastId/:macro" component={BroadcastReplyList} />
+    <Route path="/broadcasts/:broadcastId" component={BroadcastDetail} />
+  </Switch>
+);
+
 const Campaigns = () => (
   <Switch>
     <Route exact path="/campaigns" component={CampaignList} />
@@ -18,25 +26,10 @@ const Campaigns = () => (
   </Switch>
 );
 
-const Conversations = () => (
-  <Switch>
-    <Route exact path="/conversations" component={ConversationList} />
-    <Route path="/conversations/:conversationId" component={UserDetail} />
-  </Switch>
-);
-
 const ConversationsRequests = () => (
   <Switch>
     <Route exact path="/requests" component={Home} />
     <Route path="/requests/:requestId" component={ConversationRequest} />
-  </Switch>
-);
-
-const Broadcasts = () => (
-  <Switch>
-    <Route exact path="/broadcasts" component={BroadcastList} />
-    <Route path="/broadcasts/:broadcastId/:macro" component={BroadcastReplyList} />
-    <Route path="/broadcasts/:broadcastId" component={BroadcastDetail} />
   </Switch>
 );
 
@@ -51,10 +44,9 @@ const Main = () => (
   <main>
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route path="/campaigns" component={Campaigns} />
-      <Route path="/conversations" component={Conversations} />
-      <Route path="/requests" component={ConversationsRequests} />
       <Route path="/broadcasts" component={Broadcasts} />
+      <Route path="/campaigns" component={Campaigns} />
+      <Route path="/requests" component={ConversationsRequests} />
       <Route path="/users" component={Users} />
     </Switch>
   </main>

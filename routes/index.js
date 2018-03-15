@@ -1,7 +1,7 @@
 'use strict';
 
 // Routes
-const apiRoute = require('./gambit-conversations');
+const apiRoute = require('./api');
 
 // Middleware
 const authenticateMiddleware = require('../lib/middleware/authenticate');
