@@ -3,7 +3,6 @@ import { Col, Panel, Grid, Image, Label, ListGroup, ListGroupItem, PageHeader, R
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import MessageList from '../MessageList/MessageListContainer';
-import HttpRequest from '../HttpRequest';
 
 const helpers = require('../../helpers');
 const config = require('../../config');
@@ -91,7 +90,7 @@ function renderSignups(signups) {
   );
 }
 
-function renderUser(user) {
+function userInfo(user) {
   console.log(user);
   const lastMessagedDate = <Moment format={config.dateFormat}>{ user.last_messaged_at }</Moment>;
   const registrationDate = <Moment format="MM/DD/YY">{ user.created_at }</Moment>;
@@ -107,6 +106,8 @@ function renderUser(user) {
   if (user.addr_source) {
     addressSource = `via ${user.addr_source}`;
   }
+  // 
+  const links = <a href={user.links.aurora}>Aurora</a>;
 
   return (
     <Panel>
@@ -131,7 +132,7 @@ function renderUser(user) {
           <strong>Address:</strong> {address} {addressSource}
         </Col>
         <Col sm={6}>
-          <strong>Links:</strong> <a href={user.links.aurora}>Aurora</a>
+          <strong>Links:</strong> {links}
         </Col>
       </Row>
       <Row>
@@ -143,7 +144,7 @@ function renderUser(user) {
   );
 }
 
-function renderNav(conversation) {
+function tabs(user) {
   let signupsTab = null;
   // if (conversation.user) {
   //   const numSignups = conversation.user.signups.meta.pagination.total;
@@ -154,25 +155,31 @@ function renderNav(conversation) {
   //     </Tab>
   //   );
   // }
-
+  const conversationTabs = user.conversations.data.map((conv, i) => conversationTab(conv, i));
   return (
     <Tabs defaultActiveKey={0} animation={false} id="campaign-tabs">
-      <Tab eventKey={0} title="Messages"><br />
-        <MessageList conversationId={this.user.conversations.data[0]._id} />
-      </Tab>
+      {conversationTabs}
       {signupsTab}
     </Tabs>
   );
 }
 
+function conversationTab(conversation, eventKey) {
+  return (
+    <Tab eventKey={eventKey} title={conversation.platform}><br />
+      <MessageList conversationId={conversation._id} />
+    </Tab>
+  );
+}
 
 const UserDetail = (props) => {
+  const user = props.user;
+
   return (
     <Grid>
-      <PageHeader>
-        {props.user.id}
-      </PageHeader>
-      {renderUser(props.user)}
+      <PageHeader>{user.id}</PageHeader>
+      {userInfo(user)}
+      {tabs(user)}
     </Grid>
   );
 }

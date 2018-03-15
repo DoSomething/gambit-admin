@@ -1,10 +1,8 @@
 import React from 'react';
-import { Grid, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import HttpRequest from '../HttpRequest';
 import UserDetail from './UserDetail';
 
-const queryString = require('query-string');
 const helpers = require('../../helpers');
 
  class UserDetailContainer extends React.Component {
@@ -18,7 +16,7 @@ const helpers = require('../../helpers');
   render() {
     return (
       <HttpRequest path={this.requestPath}>
-        { res => <UserDetail user={res} /> }
+        { res => <UserDetail user={res.data} /> }
       </HttpRequest>
     );
   }
@@ -30,4 +28,4 @@ UserDetailContainer.propTypes = {
   }).isRequired,
 };
 
-export default UserDetail;
+export default UserDetailContainer;

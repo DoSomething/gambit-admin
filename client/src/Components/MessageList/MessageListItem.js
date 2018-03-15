@@ -117,7 +117,7 @@ const MessageListItem = (props) => {
     return null;
   }
   const identifier = helpers.getUserIdentifierForConversation(message.conversationId);
-  const uri = `/conversations/${message.conversationId._id}`;
+  const uri = `/users/${identifier}`;
   const userLink = <Link to={uri}>{identifier}</Link>;
   const isInbound = message.direction === 'inbound';
   const offset = isInbound ? 0 : 1;
