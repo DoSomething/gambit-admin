@@ -5,7 +5,7 @@ import UserDetail from './UserDetail';
 
 const helpers = require('../../helpers');
 
- class UserDetailContainer extends React.Component {
+class UserDetailContainer extends React.Component {
   constructor(props) {
     super(props);
 

@@ -73,7 +73,7 @@ function renderSignup(signup) {
 }
 
 function renderSignups(signups) {
-  const rows = signups.data.map(signup => renderSignup(signup));
+  const rows = signups.map(signup => renderSignup(signup));
   return (
     <Table>
       <thead>
@@ -91,7 +91,6 @@ function renderSignups(signups) {
 }
 
 function userInfo(user) {
-  console.log(user);
   const lastMessagedDate = <Moment format={config.dateFormat}>{ user.last_messaged_at }</Moment>;
   const registrationDate = <Moment format="MM/DD/YY">{ user.created_at }</Moment>;
   let registrationSource;
@@ -106,7 +105,6 @@ function userInfo(user) {
   if (user.addr_source) {
     addressSource = `via ${user.addr_source}`;
   }
-  // 
   const links = <a href={user.links.aurora}>Aurora</a>;
 
   return (
@@ -144,17 +142,22 @@ function userInfo(user) {
   );
 }
 
+function conversationTab(conversation, eventKey) {
+  return (
+    <Tab eventKey={eventKey} title={conversation.platform}><br />
+      <MessageList conversationId={conversation._id} />
+    </Tab>
+  );
+}
+
 function tabs(user) {
-  let signupsTab = null;
-  // if (conversation.user) {
-  //   const numSignups = conversation.user.signups.meta.pagination.total;
-  //   const signupsLabel = `Signups (${numSignups})`;
-  //   signupsTab = (
-  //     <Tab eventKey={1} title={signupsLabel}><br />
-  //       { renderSignups(conversation.user.signups) }
-  //     </Tab>
-  //   );
-  // }
+  const numSignups = user.signups.meta.pagination.total;
+  const signupsLabel = `Signups (${numSignups})`;
+  const signupsTab = (
+    <Tab eventKey={user.conversations.data.length + 1} title={signupsLabel}><br />
+      { renderSignups(user.signups.data) }
+    </Tab>
+  );
   const conversationTabs = user.conversations.data.map((conv, i) => conversationTab(conv, i));
   return (
     <Tabs defaultActiveKey={0} animation={false} id="campaign-tabs">
@@ -164,17 +167,8 @@ function tabs(user) {
   );
 }
 
-function conversationTab(conversation, eventKey) {
-  return (
-    <Tab eventKey={eventKey} title={conversation.platform}><br />
-      <MessageList conversationId={conversation._id} />
-    </Tab>
-  );
-}
-
 const UserDetail = (props) => {
   const user = props.user;
-
   return (
     <Grid>
       <PageHeader>{user.id}</PageHeader>
@@ -182,7 +176,7 @@ const UserDetail = (props) => {
       {tabs(user)}
     </Grid>
   );
-}
+};
 
 UserDetail.propTypes = {
   user: PropTypes.shape.isRequired,

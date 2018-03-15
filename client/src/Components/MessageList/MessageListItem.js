@@ -42,7 +42,7 @@ function renderContent(message) {
   if (attachments.length) {
     attachmentGroupItem = (
       <ListGroupItem>
-        { attachments.map(item => <Image src={item.url} height={200} />) }
+        { attachments.map(item => <Image src={item.url} key={item.url} height={200} />) }
       </ListGroupItem>
     );
   }

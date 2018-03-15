@@ -18,7 +18,7 @@ module.exports = {
     return `${this.getBroadcastsPath()}/${broadcastId}`;
   },
   getBroadcastsPath: function getBroadcastsPath() {
-    return `broadcasts`;
+    return 'broadcasts';
   },
   getCampaignByIdPath: function getCampaignByIdPath(campaignId) {
     return `${this.getCampaignsPath()}/${campaignId}`;
@@ -30,10 +30,10 @@ module.exports = {
     return `${this.getConversationsPath()}/${conversationId}`;
   },
   getConversationsPath: function getConversationsPath() {
-    return `conversations`;
+    return 'conversations';
   },
-  getMessagesPath: function getConversationsPath() {
-    return `messages`;
+  getMessagesPath: function getMessagesPath() {
+    return 'messages';
   },
   getUserByIdPath: function getUserByIdPath(userId) {
     return `users/${userId}`;
