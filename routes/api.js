@@ -1,7 +1,6 @@
 'use strict';
 
 const express = require('express');
-const logger = require('heroku-logger');
 const campaigns = require('../lib/gambit-campaigns');
 const conversations = require('../lib/gambit-conversations');
 const northstar = require('../lib/northstar');
@@ -61,8 +60,12 @@ router.get('/users/:id', (req, res) => {
       return conversations.getConversations(`query={"userId":"${userId}"}`);
     })
     .then((apiRes) => {
-      req.data.conversations = apiRes;
-      logger.info('data', { data: req.data });
+      req.data.conversations = {};
+      const userConversations = apiRes.data;
+      userConversations.forEach((conversation) => {
+        const platform = conversation.platform;
+        req.data.conversations[platform] = conversation;
+      });
       return rogue.getSignupsForUserId(userId);
     })
     .then((apiRes) => {

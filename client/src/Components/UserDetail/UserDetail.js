@@ -146,26 +146,32 @@ function userInfo(user) {
   );
 }
 
-function conversationTab(conversation, eventKey) {
+function conversationTab(conversationId, title, eventKey) {
   return (
-    <Tab eventKey={eventKey} title={conversation.platform}><br />
-      <MessageList conversationId={conversation._id} />
+    <Tab eventKey={eventKey} title={title}><br />
+      <MessageList conversationId={conversationId} />
     </Tab>
   );
 }
 
 function tabs(user) {
+  let slackTab = null;
+  const slackConversation = user.conversations['gambit-slack'];
+  if (slackConversation) {
+    slackTab = conversationTab(slackConversation._id, 'Slack', 1);
+  }
   const numSignups = user.signups.meta.pagination.total;
   const signupsLabel = `Signups (${numSignups})`;
+  const numConversations = Object.keys(user.conversations).length;
   const signupsTab = (
-    <Tab eventKey={user.conversations.data.length + 1} title={signupsLabel}><br />
+    <Tab eventKey={numConversations + 1} title={signupsLabel}><br />
       { renderSignups(user.signups.data) }
     </Tab>
   );
-  const conversationTabs = user.conversations.data.map((conv, i) => conversationTab(conv, i));
   return (
     <Tabs defaultActiveKey={0} animation={false} id="campaign-tabs">
-      {conversationTabs}
+      {conversationTab(user.conversations.sms._id, 'SMS', 0)}
+      {slackTab}
       {signupsTab}
     </Tabs>
   );
