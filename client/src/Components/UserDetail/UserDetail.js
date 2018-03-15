@@ -4,6 +4,7 @@ import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import MessageList from '../MessageList/MessageListContainer';
 
+const queryString = require('query-string');
 const helpers = require('../../helpers');
 const config = require('../../config');
 
@@ -147,14 +148,21 @@ function userInfo(user) {
 }
 
 function conversationTab(conversationId, title, eventKey) {
+  let content = <Panel>No messages found.</Panel>;
+  if (conversationId) {
+    content = <MessageList conversationId={conversationId} />;
+  }
   return (
-    <Tab eventKey={eventKey} title={title}><br />
-      <MessageList conversationId={conversationId} />
+    <Tab eventKey={eventKey} title={title}>
+      <br />{content}
     </Tab>
   );
 }
 
 function tabs(user) {
+  const queryParams = queryString.parse(window.location.search);
+  const platform = queryParams.platform;
+
   let slackTab = null;
   const slackConversation = user.conversations['gambit-slack'];
   if (slackConversation) {
@@ -168,9 +176,17 @@ function tabs(user) {
       { renderSignups(user.signups.data) }
     </Tab>
   );
+  const activeKey = platform ? 1 : 0;
+
+  let smsConversationId = null;
+  const smsConversation = user.conversations.sms;
+  if (smsConversation) {
+    smsConversationId = smsConversation._id;
+  }
+
   return (
-    <Tabs defaultActiveKey={0} animation={false} id="campaign-tabs">
-      {conversationTab(user.conversations.sms._id, 'SMS', 0)}
+    <Tabs defaultActiveKey={activeKey} animation={false} id="campaign-tabs">
+      {conversationTab(smsConversationId, 'SMS', 0)}
       {slackTab}
       {signupsTab}
     </Tabs>

@@ -117,7 +117,11 @@ const MessageListItem = (props) => {
     return null;
   }
   const identifier = helpers.getUserIdentifierForConversation(message.conversationId);
-  const uri = `/users/${identifier}`;
+  let uri = `/users/${identifier}`;
+  const platform = message.conversationId.platform;
+  if (platform !== 'sms') {
+    uri = `${uri}?platform=${platform}`;
+  }
   const userLink = <Link to={uri}>{identifier}</Link>;
   const isInbound = message.direction === 'inbound';
   const offset = isInbound ? 0 : 1;
