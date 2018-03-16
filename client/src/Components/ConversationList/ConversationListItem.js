@@ -11,13 +11,16 @@ const ConversationListItem = (props) => {
   const conversation = props.conversation;
   const identifier = helpers.getUserIdentifierForConversation(conversation);
   let platformLabel = '';
-  if (conversation.platform !== 'sms') {
-    platformLabel = <Label>{conversation.platform}</Label>;
+  let uri = `/users/${conversation.userId}`;
+  const platform = conversation.platform;
+  if (platform !== 'sms') {
+    platformLabel = <Label>{platform}</Label>;
+    uri = `${uri}?platform=${platform}`;
   }
   return (
     <tr key={conversation._id}>
       <td><Moment format={config.dateFormat}>{conversation.updatedAt}</Moment></td>
-      <td><Link to={`/conversations/${conversation._id}`}>{identifier}</Link> {platformLabel}</td>
+      <td><Link to={uri}>{identifier}</Link> {platformLabel}</td>
       <td>{conversation.campaignId}</td>
       <td>{conversation.topic}</td>
     </tr>

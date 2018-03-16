@@ -6,7 +6,7 @@ import ConversationSearchForm from './ConversationSearchForm';
 class Header extends React.Component {
   render() {
     const pathname = window.location.pathname;
-    const conversationsActive = (pathname.includes('conversations') || pathname.includes('requests'));
+    const activeUsers = (pathname.includes('users') || pathname.includes('requests'));
     return (
       <Navbar>
         <Navbar.Header>
@@ -15,7 +15,7 @@ class Header extends React.Component {
           </Navbar.Brand>
         </Navbar.Header>
         <Nav>
-          <NavItem active={conversationsActive} eventKey={1} href="/conversations">
+          <NavItem active={activeUsers} eventKey={1} href="/users">
             Users
           </NavItem>
           <NavItem active={pathname.includes('campaigns')} eventKey={1} href="/campaigns">
