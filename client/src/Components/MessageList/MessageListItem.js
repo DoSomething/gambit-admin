@@ -42,7 +42,7 @@ function renderContent(message) {
   if (attachments.length) {
     attachmentGroupItem = (
       <ListGroupItem>
-        { attachments.map(item => <Image src={item.url} height={200} />) }
+        { attachments.map(item => <Image src={item.url} key={item.url} height={200} />) }
       </ListGroupItem>
     );
   }
@@ -117,7 +117,11 @@ const MessageListItem = (props) => {
     return null;
   }
   const identifier = helpers.getUserIdentifierForConversation(message.conversationId);
-  const uri = `/conversations/${message.conversationId._id}`;
+  let uri = `/users/${identifier}`;
+  const platform = message.conversationId.platform;
+  if (platform !== 'sms') {
+    uri = `${uri}?platform=${platform}`;
+  }
   const userLink = <Link to={uri}>{identifier}</Link>;
   const isInbound = message.direction === 'inbound';
   const offset = isInbound ? 0 : 1;

@@ -1,45 +1,42 @@
 const querystring = require('querystring');
 const config = require('./config');
 
-/**
- * Returns localhost API url for given path and query object.
- * @param {string} path
- * @param {object} query
- * @return {string}
- */
-function apiUrl(path, query = {}) {
-  const endpoint = `/${config.apiPrefix}/${path}`;
-  const queryString = querystring.stringify(query);
-  const result = `${endpoint}?${queryString}`;
-
-  return result;
-}
-
-const conversations = 'gambit-conversations';
-const campaigns = 'gambit-campaigns';
-
 module.exports = {
-  apiUrl,
+  /**
+   * Returns localhost API url for given path and query object.
+   * @param {string} path
+   * @param {object} query
+   * @return {string}
+   */
+  apiUrl: function apiUrl(path, query = {}) {
+    const endpoint = `/${config.apiPrefix}/${path}`;
+    const queryString = querystring.stringify(query);
+    const result = `${endpoint}?${queryString}`;
+    return result;
+  },
   getBroadcastByIdPath: function getBroadcastByIdPath(broadcastId) {
     return `${this.getBroadcastsPath()}/${broadcastId}`;
   },
   getBroadcastsPath: function getBroadcastsPath() {
-    return `${conversations}/broadcasts`;
+    return 'broadcasts';
   },
   getCampaignByIdPath: function getCampaignByIdPath(campaignId) {
     return `${this.getCampaignsPath()}/${campaignId}`;
   },
   getCampaignsPath: function getCampaignsPath() {
-    return `${campaigns}/campaigns`;
+    return 'campaigns';
   },
   getConversationByIdPath: function getConversationByIdPath(conversationId) {
     return `${this.getConversationsPath()}/${conversationId}`;
   },
   getConversationsPath: function getConversationsPath() {
-    return `${conversations}/conversations`;
+    return 'conversations';
   },
-  getMessagesPath: function getConversationsPath() {
-    return `${conversations}/messages`;
+  getMessagesPath: function getMessagesPath() {
+    return 'messages';
+  },
+  getUserByIdPath: function getUserByIdPath(userId) {
+    return `users/${userId}`;
   },
 };
 
