@@ -18,7 +18,7 @@ export default class SearchForm extends React.Component {
     event.preventDefault();
     const location = window.location;
     const url = [location.protocol, '//', location.host].join('');
-    const destination = `${url}/conversations?platformUserId=${this.state.value}`;
+    const destination = `${url}/users?platformUserId=${this.state.value}`;
     window.location.href = destination;
   }
 
