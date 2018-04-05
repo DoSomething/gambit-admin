@@ -104,6 +104,11 @@ function renderContent(message) {
   const deliveredAt = deliveryMetadata ? deliveryMetadata.deliveredAt : false;
   const failedAt = deliveryMetadata ? deliveryMetadata.failedAt : false;
   if (deliveryMetadata) {
+    const totalSegmentsItem = (
+      <div>
+        <small>Total segments: { deliveryMetadata.totalSegments }</small>
+      </div>
+    );
     const queuedAtItem = (
       <div>
         <small>Queued at: <Moment format={config.dateFormat}>{ queuedAt }</Moment></small>
@@ -134,6 +139,7 @@ function renderContent(message) {
     }
     deliveryGroupItem = (
       <ListGroupItem>
+        { totalSegmentsItem }
         { queuedAtItem }
         { deliveredAtItem }
         { failedAtItem }
