@@ -22,6 +22,9 @@ function renderDate(message) {
 }
 
 function renderContent(message) {
+  const metadata = message.metadata;
+  const deliveryMetadata = metadata ? message.metadata.delivery : false;
+
   let messageText = message.text;
   const isInbound = (message.direction === 'inbound');
   if (isInbound) {
@@ -95,6 +98,49 @@ function renderContent(message) {
       </ListGroupItem>
     );
   }
+
+  let deliveryGroupItem;
+  const queuedAt = deliveryMetadata ? deliveryMetadata.queuedAt : false;
+  const deliveredAt = deliveryMetadata ? deliveryMetadata.deliveredAt : false;
+  const failedAt = deliveryMetadata ? deliveryMetadata.failedAt : false;
+  if (deliveryMetadata) {
+    const queuedAtItem = (
+      <div>
+        <small>Queued at: <Moment format={config.dateFormat}>{ queuedAt }</Moment></small>
+      </div>
+    );
+    let deliveredAtItem;
+    let failedAtItem;
+    if (deliveredAt) {
+      deliveredAtItem = (
+        <div>
+          <small>Delivered at: <Moment format={config.dateFormat}>{ deliveredAt }</Moment></small>
+        </div>
+      );
+    } else if (failedAt) {
+      const errorCode = deliveryMetadata.failureData.code;
+      const errorLinkUrl = `${config.twilio.errorLinkBaseUrl}/${errorCode}`;
+      const errorLinkItem = <a target="_blank" href={errorLinkUrl}>{ errorCode }</a>;
+      failedAtItem = (
+        <div>
+          <div>
+            <small>Failed at: <Moment format={config.dateFormat}>{ failedAt }</Moment></small>
+          </div>
+          <div>
+            <small>Error code: { errorLinkItem }</small>
+          </div>
+        </div>
+      );
+    }
+    deliveryGroupItem = (
+      <ListGroupItem>
+        { queuedAtItem }
+        { deliveredAtItem }
+        { failedAtItem }
+      </ListGroupItem>
+    );
+  }
+
   return (
     <ListGroup>
       { attachmentGroupItem }
@@ -106,6 +152,7 @@ function renderContent(message) {
       { macroGroupItem }
       { templateGroupItem }
       { retryGroupItem }
+      { deliveryGroupItem }
     </ListGroup>
   );
 }
