@@ -2,26 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Col, Row, ListGroup, ListGroupItem, Image } from 'react-bootstrap';
-import Moment from 'react-moment';
+import MessageListDateItem from './MessageListDateItem';
 
 const helpers = require('../../helpers');
-const config = require('../../config');
-
-function renderDate(message) {
-  const dateFormat = config.dateFormat;
-  const createdAt = <Moment format={dateFormat}>{ message.createdAt }</Moment>;
-  if (!message.metadata) {
-    return createdAt;
-  }
-  const uri = `/requests/${message.metadata.requestId}`;
-  return (
-    <Link to={uri}>
-      { createdAt }
-    </Link>
-  );
-}
 
 function renderContent(message) {
+  const deliveryMetadata = helpers.message.getDeliveryMetadata(message);
+
   let messageText = message.text;
   const isInbound = (message.direction === 'inbound');
   if (isInbound) {
@@ -95,6 +82,21 @@ function renderContent(message) {
       </ListGroupItem>
     );
   }
+
+  let segmentsGroupItem;
+  if (deliveryMetadata) {
+    const totalSegmentsItem = (
+      <div>
+        <small>Total segments: { deliveryMetadata.totalSegments }</small>
+      </div>
+    );
+    segmentsGroupItem = (
+      <ListGroupItem>
+        { totalSegmentsItem }
+      </ListGroupItem>
+    );
+  }
+
   return (
     <ListGroup>
       { attachmentGroupItem }
@@ -106,6 +108,7 @@ function renderContent(message) {
       { macroGroupItem }
       { templateGroupItem }
       { retryGroupItem }
+      { segmentsGroupItem }
     </ListGroup>
   );
 }
@@ -123,13 +126,15 @@ const MessageListItem = (props) => {
     uri = `${uri}?platform=${platform}`;
   }
   const userLink = <Link to={uri}>{identifier}</Link>;
-  const isInbound = message.direction === 'inbound';
+  const isInbound = helpers.message.isInbound(message);
   const offset = isInbound ? 0 : 1;
 
   if (props.table) {
     return (
       <tr key={message._id}>
-        <td width="15%"><small>{renderDate(message)}</small></td>
+        <td width="15%">
+          <small><MessageListDateItem message={message} isInbound={isInbound} /></small>
+        </td>
         <td width="15%">{userLink}</td>
         <td>{message.text}</td>
       </tr>
@@ -138,9 +143,9 @@ const MessageListItem = (props) => {
 
   return (
     <Row key={message._id}>
-      <Col md={2} mdOffset={2}>
+      <Col md={3} mdOffset={2}>
         <div><small><strong>{userLink}</strong></small></div>
-        <small>{ renderDate(message) }</small>
+        <small><MessageListDateItem message={message} isInbound={isInbound} /></small>
       </Col>
       <Col md={4} mdOffset={offset}>{ renderContent(message) }</Col>
     </Row>
