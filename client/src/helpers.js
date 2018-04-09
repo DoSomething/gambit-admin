@@ -40,6 +40,74 @@ module.exports = {
   },
 };
 
+module.exports.message = {
+  isInbound: function isInbound(message = {}) {
+    return message.direction === 'inbound';
+  },
+  getCreationDate: function getCreationDate(message = {}) {
+    return message.createdAt;
+  },
+  getDeliveryMetadata: function getDeliveryMetadata(message = {}) {
+    return message.metadata ? message.metadata.delivery : false;
+  },
+  outbound: {
+    getQueuedAtDate: function getQueuedAtDate(deliveryMetadata = {}) {
+      return deliveryMetadata.queuedAt;
+    },
+    getDeliveredAtDate: function getDeliveredAtDate(deliveryMetadata = {}) {
+      return deliveryMetadata.deliveredAt;
+    },
+    getDeliveryStatus: function getDeliveryStatus(deliveryMetadata = {}) {
+      if (deliveryMetadata.failedAt) {
+        return config.outboundMessage.statuses.failed;
+      } else if (deliveryMetadata.deliveredAt) {
+        return config.outboundMessage.statuses.delivered;
+      }
+      return config.outboundMessage.statuses.queued;
+    },
+    getDateFromDeliveryStatus: function getDateFromDeliveryStatus(status, deliveryMetadata = {}) {
+      return deliveryMetadata[config.outboundMessage.dateProperties[status]];
+    },
+    getDeliveryErrorLink: function getDeliveryErrorLink(failedDeliveryMetadata) {
+      const errorCode = module.exports.message.outbound
+        .getDeliveryErrorCode(failedDeliveryMetadata);
+      return `${config.twilio.errorLinkBaseUrl}/${errorCode}`;
+    },
+    getDeliveryErrorCode: function getDeliveryErrorCode(failedDeliveryMetadata) {
+      if (failedDeliveryMetadata && failedDeliveryMetadata.failureData) {
+        return failedDeliveryMetadata.failureData.code;
+      }
+      return false;
+    },
+    isFailedDeliveryStatus: function isFailedDeliveryStatus(status) {
+      return status === config.outboundMessage.statuses.failed;
+    },
+    isDeliveredStatus: function isDeliveredStatus(status) {
+      return status === config.outboundMessage.statuses.delivered;
+    },
+    getDeliveryDisplaySettings: function getDeliveryDisplaySettings(message = {}) {
+      const deliveryMetadata = module.exports.message.getDeliveryMetadata(message);
+      let { date, status, labelText, labelStyle, errorLink } = false;
+
+      if (deliveryMetadata) {
+        status = module.exports.message.outbound.getDeliveryStatus(deliveryMetadata);
+        date = module.exports.message.outbound.getDateFromDeliveryStatus(status, deliveryMetadata);
+      } else {
+        status = config.outboundMessage.statuses.legacySent;
+        date = module.exports.message.getCreationDate(message);
+      }
+
+      if (module.exports.message.outbound.isFailedDeliveryStatus(status)) {
+        errorLink = module.exports.message.outbound.getDeliveryErrorLink(deliveryMetadata);
+      }
+
+      labelText = config.outboundMessage.labels.text[status];
+      labelStyle = config.outboundMessage.labels.style[status];
+
+      return { date, status, labelText, labelStyle, errorLink };
+    },
+  },
+};
 
 module.exports.getUserIdentifierForConversation = function (conversation) {
   if (conversation.userId) {

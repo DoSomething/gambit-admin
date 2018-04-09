@@ -2,28 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Col, Row, ListGroup, ListGroupItem, Image } from 'react-bootstrap';
-import Moment from 'react-moment';
+import MessageListDateItem from './MessageListDateItem';
 
 const helpers = require('../../helpers');
-const config = require('../../config');
-
-function renderDate(message) {
-  const dateFormat = config.dateFormat;
-  const createdAt = <Moment format={dateFormat}>{ message.createdAt }</Moment>;
-  if (!message.metadata) {
-    return createdAt;
-  }
-  const uri = `/requests/${message.metadata.requestId}`;
-  return (
-    <Link to={uri}>
-      { createdAt }
-    </Link>
-  );
-}
 
 function renderContent(message) {
-  const metadata = message.metadata;
-  const deliveryMetadata = metadata ? message.metadata.delivery : false;
+  const deliveryMetadata = helpers.message.getDeliveryMetadata(message);
 
   let messageText = message.text;
   const isInbound = (message.direction === 'inbound');
@@ -99,50 +83,16 @@ function renderContent(message) {
     );
   }
 
-  let deliveryGroupItem;
-  const queuedAt = deliveryMetadata ? deliveryMetadata.queuedAt : false;
-  const deliveredAt = deliveryMetadata ? deliveryMetadata.deliveredAt : false;
-  const failedAt = deliveryMetadata ? deliveryMetadata.failedAt : false;
+  let segmentsGroupItem;
   if (deliveryMetadata) {
     const totalSegmentsItem = (
       <div>
         <small>Total segments: { deliveryMetadata.totalSegments }</small>
       </div>
     );
-    const queuedAtItem = (
-      <div>
-        <small>Queued at: <Moment format={config.dateFormat}>{ queuedAt }</Moment></small>
-      </div>
-    );
-    let deliveredAtItem;
-    let failedAtItem;
-    if (deliveredAt) {
-      deliveredAtItem = (
-        <div>
-          <small>Delivered at: <Moment format={config.dateFormat}>{ deliveredAt }</Moment></small>
-        </div>
-      );
-    } else if (failedAt) {
-      const errorCode = deliveryMetadata.failureData.code;
-      const errorLinkUrl = `${config.twilio.errorLinkBaseUrl}/${errorCode}`;
-      const errorLinkItem = <a target="_blank" href={errorLinkUrl}>{ errorCode }</a>;
-      failedAtItem = (
-        <div>
-          <div>
-            <small>Failed at: <Moment format={config.dateFormat}>{ failedAt }</Moment></small>
-          </div>
-          <div>
-            <small>Error code: { errorLinkItem }</small>
-          </div>
-        </div>
-      );
-    }
-    deliveryGroupItem = (
+    segmentsGroupItem = (
       <ListGroupItem>
         { totalSegmentsItem }
-        { queuedAtItem }
-        { deliveredAtItem }
-        { failedAtItem }
       </ListGroupItem>
     );
   }
@@ -158,7 +108,7 @@ function renderContent(message) {
       { macroGroupItem }
       { templateGroupItem }
       { retryGroupItem }
-      { deliveryGroupItem }
+      { segmentsGroupItem }
     </ListGroup>
   );
 }
@@ -176,13 +126,15 @@ const MessageListItem = (props) => {
     uri = `${uri}?platform=${platform}`;
   }
   const userLink = <Link to={uri}>{identifier}</Link>;
-  const isInbound = message.direction === 'inbound';
+  const isInbound = helpers.message.isInbound(message);
   const offset = isInbound ? 0 : 1;
 
   if (props.table) {
     return (
       <tr key={message._id}>
-        <td width="15%"><small>{renderDate(message)}</small></td>
+        <td width="15%">
+          <small><MessageListDateItem message={message} isInbound={isInbound} /></small>
+        </td>
         <td width="15%">{userLink}</td>
         <td>{message.text}</td>
       </tr>
@@ -191,9 +143,9 @@ const MessageListItem = (props) => {
 
   return (
     <Row key={message._id}>
-      <Col md={2} mdOffset={2}>
+      <Col md={3} mdOffset={2}>
         <div><small><strong>{userLink}</strong></small></div>
-        <small>{ renderDate(message) }</small>
+        <small><MessageListDateItem message={message} isInbound={isInbound} /></small>
       </Col>
       <Col md={4} mdOffset={offset}>{ renderContent(message) }</Col>
     </Row>
