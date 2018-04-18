@@ -18,7 +18,7 @@ class CampaignDetail extends React.Component {
     return (
       <Tabs defaultActiveKey={defaultActiveKey} animation={false} id="campaign-tabs">
         <Tab eventKey={0} title="Templates"><br />
-          { CampaignDetail.renderTemplates(campaign.templates) }
+          { CampaignDetail.renderTemplates(campaign.botConfig.templates) }
         </Tab>
         <Tab eventKey={1} title="Messages"><br />
           <MessageList campaignId={campaign.id} />
@@ -46,6 +46,9 @@ class CampaignDetail extends React.Component {
   }
 
   static renderTemplates(templates) {
+    if (!templates) {
+      return <div>botConfig not found.</div>;
+    }
     const templateNames = Object.keys(templates);
     const rows = templateNames.map((templateName) => {
       const data = templates[templateName];
