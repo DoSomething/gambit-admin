@@ -28,6 +28,10 @@ class CampaignDetail extends React.Component {
   }
 
   static renderDetails(campaign) {
+    let keywords = null;
+    if (campaign.keywords) {
+      keywords = campaign.keywords.join(', ');
+    }
     return (
       <Panel>
         <Row>
@@ -35,7 +39,7 @@ class CampaignDetail extends React.Component {
         </Row>
         <Row>
           <Col sm={6}>
-            <strong>Keywords:</strong> {campaign.keywords.join(', ')}
+            <strong>Keywords:</strong> {keywords}
           </Col>
           <Col sm={6}>
             <strong>Status:</strong> {campaign.status}
