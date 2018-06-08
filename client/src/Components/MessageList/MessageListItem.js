@@ -65,14 +65,8 @@ function renderContent(message) {
       </ListGroupItem>
     );
   }
-  let messageContext;
-  if (message.topic === 'campaign') {
-    const campaignId = message.campaignId;
-    const campaignUrl = `/campaigns/${campaignId}`;
-    messageContext = <small>Campaign: <Link to={campaignUrl}>{campaignId}</Link></small>;
-  } else {
-    messageContext = <small>Topic: {message.topic}</small>;
-  }
+
+  const messageContext = <small>Topic: {message.topic}</small>;
 
   let retryGroupItem;
   if (message.metadata && message.metadata.retryCount) {
