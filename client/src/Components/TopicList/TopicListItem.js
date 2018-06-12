@@ -19,7 +19,7 @@ const TopicListItem = (props) => {
 };
 
 TopicListItem.propTypes = {
-  topic: PropTypes.object.isRequired,
+  topic: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default TopicListItem;

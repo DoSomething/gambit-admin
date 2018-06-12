@@ -31,7 +31,7 @@ class TopicTemplate extends React.Component {
 }
 
 TopicTemplate.propTypes = {
-  data: PropTypes.shape.isRequired,
+  data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   name: PropTypes.string.isRequired,
 };
 

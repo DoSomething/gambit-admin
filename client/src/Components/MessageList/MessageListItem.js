@@ -66,7 +66,18 @@ function renderContent(message) {
     );
   }
 
-  const messageContext = <small>Topic: {message.topic}</small>;
+  // TODO: Add all hardcoded topics and set via config.
+  const hardcodedTopics = ['random', 'support', 'survey_response', 'support'];
+  let topicValue = message.topic;
+  if (!hardcodedTopics.includes(message.topic)) {
+    const topicUri = `/topics/${topicValue}`;
+    topicValue = <Link to={topicUri}><code>{topicValue}</code></Link>;
+  }
+  const topicGroupItem = (
+    <ListGroupItem>
+      <small>Topic: { topicValue }</small>
+    </ListGroupItem>
+  );
 
   let retryGroupItem;
   if (message.metadata && message.metadata.retryCount) {
@@ -95,7 +106,7 @@ function renderContent(message) {
     <ListGroup>
       { attachmentGroupItem }
       <ListGroupItem>{ messageText }</ListGroupItem>
-      <ListGroupItem>{ messageContext }</ListGroupItem>
+      { topicGroupItem }
       { broadcastGroupItem }
       { agentGroupItem }
       { matchGroupItem }

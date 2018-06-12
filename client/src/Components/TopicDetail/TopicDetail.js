@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Panel, Grid, Label, PageHeader, Row } from 'react-bootstrap';
+import { Col, Panel, Grid, PageHeader, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import TopicTemplate from './TopicTemplate';
 
@@ -46,7 +46,8 @@ const TopicDetail = (props) => {
 };
 
 TopicDetail.propTypes = {
-  topic: PropTypes.object.isRequired,
+  // Browser is complaining about setting this to shape, which is why line below is disabling lint
+  topic: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default TopicDetail;
