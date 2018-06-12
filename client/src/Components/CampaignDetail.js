@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Grid, PageHeader, Panel, Row, Tab, Tabs } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import CampaignTemplate from './CampaignTemplate';
+import TopicTemplate from './TopicDetail/TopicTemplate';
 import MessageList from './MessageList/MessageListContainer';
 import HttpRequest from './HttpRequest';
 
@@ -56,7 +56,7 @@ class CampaignDetail extends React.Component {
     const templateNames = Object.keys(templates);
     const rows = templateNames.map((templateName) => {
       const data = templates[templateName];
-      return <CampaignTemplate key={templateName} name={templateName} data={data} />;
+      return <TopicTemplate key={templateName} name={templateName} data={data} />;
     });
     return (
       <Grid>

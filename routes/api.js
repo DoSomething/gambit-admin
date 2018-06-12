@@ -45,6 +45,18 @@ router.get('/messages', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
+router.get('/topics', (req, res) => {
+  campaigns.getTopics(req.query)
+    .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
+router.get('/topics/:id', (req, res) => {
+  campaigns.getTopicById(req.params.id)
+    .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
 router.get('/users/:id', (req, res) => {
   const userId = req.params.id;
   return northstar.getUserById(req.params.id)
