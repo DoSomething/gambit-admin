@@ -23,7 +23,7 @@ export default class TopicListContainer extends React.Component {
                 <tbody>
                   <tr>
                     <th>ID</th>
-                    <th>Type</th>
+                    <th>Post type</th>
                     <th>Campaign</th>
                   </tr>
                   {res.map(topic => (
