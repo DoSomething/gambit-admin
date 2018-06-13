@@ -46,8 +46,12 @@ const TopicDetail = (props) => {
 };
 
 TopicDetail.propTypes = {
-  // Browser is complaining about setting this to shape, which is why line below is disabling lint
-  topic: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  topic: PropTypes.shape({
+    id: PropTypes.string,
+    type: PropTypes.string,
+    postType: PropTypes.string,
+    templates: PropTypes.object,
+  }).isRequired,
 };
 
 export default TopicDetail;

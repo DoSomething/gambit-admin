@@ -119,8 +119,7 @@ function renderContent(message) {
 }
 
 
-const MessageListItem = (props) => {
-  const message = props.message;
+const MessageListItem = ({ message, table }) => {
   if (!message.conversationId) {
     return null;
   }
@@ -134,7 +133,7 @@ const MessageListItem = (props) => {
   const isInbound = helpers.message.isInbound(message);
   const offset = isInbound ? 0 : 1;
 
-  if (props.table) {
+  if (table) {
     return (
       <tr key={message._id}>
         <td width="15%">
@@ -158,7 +157,7 @@ const MessageListItem = (props) => {
 };
 
 MessageListItem.propTypes = {
-  message: PropTypes.shape.isRequired,
+  message: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   table: PropTypes.bool.isRequired,
 };
 

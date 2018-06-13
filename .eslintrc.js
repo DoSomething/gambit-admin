@@ -1,5 +1,5 @@
 module.exports = {
-  extends: '@dosomething/eslint-config/nodejs/6.x',
+  extends: '@dosomething/eslint-config/nodejs/8.x',
   globals: {
     app: true
   },

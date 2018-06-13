@@ -83,7 +83,7 @@ const MessageListItem = (props) => {
 };
 
 MessageListItem.propTypes = {
-  message: PropTypes.shape.isRequired,
+  message: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   isInbound: PropTypes.bool.isRequired,
 };
 

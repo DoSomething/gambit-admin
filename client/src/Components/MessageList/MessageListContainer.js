@@ -42,7 +42,13 @@ class MessageListContainer extends React.Component {
             if (!res.data) {
               return 'No messages found.';
             }
-            return res.data.map(msg => <MessageListItem table={this.props.table} message={msg} />);
+            return res.data.map(msg => (
+              <MessageListItem
+                key={msg._id}
+                table={this.props.table}
+                message={msg}
+              />
+            ));
           }
         }
       </HttpRequest>
