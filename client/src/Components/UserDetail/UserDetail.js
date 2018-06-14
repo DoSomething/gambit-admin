@@ -205,7 +205,7 @@ const UserDetail = (props) => {
 };
 
 UserDetail.propTypes = {
-  user: PropTypes.shape.isRequired,
+  user: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default UserDetail;

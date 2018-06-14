@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ScrollableAnchor from 'react-scrollable-anchor';
 import { Panel, Row } from 'react-bootstrap';
 
-class CampaignTemplate extends React.Component {
+class TopicTemplate extends React.Component {
   constructor(props) {
     super(props);
 
@@ -30,9 +30,9 @@ class CampaignTemplate extends React.Component {
   }
 }
 
-CampaignTemplate.propTypes = {
-  data: PropTypes.shape.isRequired,
+TopicTemplate.propTypes = {
+  data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   name: PropTypes.string.isRequired,
 };
 
-export default CampaignTemplate;
+export default TopicTemplate;

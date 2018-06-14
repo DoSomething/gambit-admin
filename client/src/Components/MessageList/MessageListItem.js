@@ -65,14 +65,19 @@ function renderContent(message) {
       </ListGroupItem>
     );
   }
-  let messageContext;
-  if (message.topic === 'campaign') {
-    const campaignId = message.campaignId;
-    const campaignUrl = `/campaigns/${campaignId}`;
-    messageContext = <small>Campaign: <Link to={campaignUrl}>{campaignId}</Link></small>;
-  } else {
-    messageContext = <small>Topic: {message.topic}</small>;
+
+  // TODO: Add all hardcoded topics and set via config.
+  const hardcodedTopics = ['random', 'support', 'survey_response', 'support'];
+  let topicValue = message.topic;
+  if (!hardcodedTopics.includes(message.topic)) {
+    const topicUri = `/topics/${topicValue}`;
+    topicValue = <Link to={topicUri}><code>{topicValue}</code></Link>;
   }
+  const topicGroupItem = (
+    <ListGroupItem>
+      <small>Topic: { topicValue }</small>
+    </ListGroupItem>
+  );
 
   let retryGroupItem;
   if (message.metadata && message.metadata.retryCount) {
@@ -101,7 +106,7 @@ function renderContent(message) {
     <ListGroup>
       { attachmentGroupItem }
       <ListGroupItem>{ messageText }</ListGroupItem>
-      <ListGroupItem>{ messageContext }</ListGroupItem>
+      { topicGroupItem }
       { broadcastGroupItem }
       { agentGroupItem }
       { matchGroupItem }
@@ -114,8 +119,7 @@ function renderContent(message) {
 }
 
 
-const MessageListItem = (props) => {
-  const message = props.message;
+const MessageListItem = ({ message, table }) => {
   if (!message.conversationId) {
     return null;
   }
@@ -129,7 +133,7 @@ const MessageListItem = (props) => {
   const isInbound = helpers.message.isInbound(message);
   const offset = isInbound ? 0 : 1;
 
-  if (props.table) {
+  if (table) {
     return (
       <tr key={message._id}>
         <td width="15%">
@@ -153,7 +157,7 @@ const MessageListItem = (props) => {
 };
 
 MessageListItem.propTypes = {
-  message: PropTypes.shape.isRequired,
+  message: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   table: PropTypes.bool.isRequired,
 };
 

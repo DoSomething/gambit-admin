@@ -10,6 +10,8 @@ import ConversationRequest from './ConversationRequest';
 import BroadcastList from './BroadcastList/BroadcastListContainer';
 import BroadcastDetail from './Broadcast/BroadcastContainer';
 import BroadcastReplyList from './Broadcast/BroadcastReplyList';
+import TopicDetail from './TopicDetail/TopicDetailContainer';
+import TopicList from './TopicList/TopicListContainer';
 
 const Broadcasts = () => (
   <Switch>
@@ -32,6 +34,12 @@ const ConversationsRequests = () => (
     <Route path="/requests/:requestId" component={ConversationRequest} />
   </Switch>
 );
+const Topics = () => (
+  <Switch>
+    <Route exact path="/topics" component={TopicList} />
+    <Route path="/topics/:topicId" component={TopicDetail} />
+  </Switch>
+);
 
 const Users = () => (
   <Switch>
@@ -47,6 +55,7 @@ const Main = () => (
       <Route path="/broadcasts" component={Broadcasts} />
       <Route path="/campaigns" component={Campaigns} />
       <Route path="/requests" component={ConversationsRequests} />
+      <Route path="/topics" component={Topics} />
       <Route path="/users" component={Users} />
     </Switch>
   </main>

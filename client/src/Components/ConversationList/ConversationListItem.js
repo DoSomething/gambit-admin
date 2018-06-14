@@ -28,7 +28,7 @@ const ConversationListItem = (props) => {
 };
 
 ConversationListItem.propTypes = {
-  conversation: PropTypes.shape.isRequired,
+  conversation: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default ConversationListItem;
