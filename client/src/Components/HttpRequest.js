@@ -70,7 +70,7 @@ class HttpRequest extends React.Component {
 HttpRequest.propTypes = {
   children: PropTypes.func.isRequired,
   description: PropTypes.string,
-  query: PropTypes.shape,
+  query: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   path: PropTypes.string.isRequired,
 };
 

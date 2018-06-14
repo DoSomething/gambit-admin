@@ -35,6 +35,12 @@ module.exports = {
   getMessagesPath: function getMessagesPath() {
     return 'messages';
   },
+  getTopicsPath: function getTopicsPath() {
+    return 'topics';
+  },
+  getTopicByIdPath: function getTopicByIdPath(topicId) {
+    return `topics/${topicId}`;
+  },
   getUserByIdPath: function getUserByIdPath(userId) {
     return `users/${userId}`;
   },
