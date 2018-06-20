@@ -1,46 +1,32 @@
 import React from 'react';
-import { Col, Panel, Grid, PageHeader, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Panel, Grid, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import TopicTemplate from './TopicTemplate';
 
-function topicInfo(topic) {
-  return (
-    <Panel>
-      <Row>
-        <Col sm={6}>
-          <strong>Type:</strong> {topic.type}
-        </Col>
-        <Col sm={6}>
-          <strong>Campaign:</strong> {topic.campaign ? topic.campaign.id : null}
-        </Col>
-      </Row>
-    </Panel>
-  );
-}
 
-function topicTemplates(templates) {
+function renderTemplates(templates) {
   if (!templates) {
     return <div>No templates found.</div>;
   }
   const templateNames = Object.keys(templates);
-  const rows = templateNames.map((templateName) => {
+  return templateNames.map((templateName) => {
     const data = templates[templateName];
     return <TopicTemplate key={templateName} name={templateName} data={data} />;
   });
-  return (
-    <Grid>
-      {rows}
-    </Grid>
-  );
 }
 
 const TopicDetail = (props) => {
   const topic = props.topic;
+  const editLink = <small><Link to="/">edit</Link></small>;
+  const campaignId = topic.campaign.id;
   return (
     <Grid>
-      <PageHeader>{topic.id}</PageHeader>
-      {topicInfo(topic)}
-      {topicTemplates(topic.templates)}
+      <PageHeader>{topic.name} <small>{editLink}</small></PageHeader>
+      <Panel>
+        <Panel.Body>Creates <strong>{topic.postType}</strong> posts for campaign <strong>{campaignId}</strong>.</Panel.Body>
+      </Panel>
+      {renderTemplates(topic.templates)}
     </Grid>
   );
 };

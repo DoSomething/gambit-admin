@@ -10,7 +10,7 @@ const TopicListItem = (props) => {
   return (
     <tr key={topicId}>
       <td>
-        <Link to={url}>{topicId}</Link>
+        <Link to={url}>{topic.name}</Link>
       </td>
       <td>{topic.postType}</td>
       <td>{topic.campaign ? topic.campaign.id : null}</td>

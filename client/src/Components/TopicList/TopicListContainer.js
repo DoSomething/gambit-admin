@@ -22,7 +22,7 @@ export default class TopicListContainer extends React.Component {
               <Table striped hover>
                 <tbody>
                   <tr>
-                    <th>ID</th>
+                    <th>Topic</th>
                     <th>Post type</th>
                     <th>Campaign</th>
                   </tr>
