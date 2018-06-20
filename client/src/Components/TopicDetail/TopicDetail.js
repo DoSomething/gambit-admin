@@ -18,13 +18,16 @@ function renderTemplates(templates) {
 
 const TopicDetail = (props) => {
   const topic = props.topic;
+  const postType = topic.postType;
   const editLink = <small><Link to="/">edit</Link></small>;
   const campaignId = topic.campaign.id;
   return (
     <Grid>
       <PageHeader>{topic.name} <small>{editLink}</small></PageHeader>
       <Panel>
-        <Panel.Body>Creates <strong>{topic.postType}</strong> posts for campaign <strong>{campaignId}</strong>.</Panel.Body>
+        <Panel.Body>
+          Creates <strong>{postType}</strong> posts for campaign <strong>{campaignId}</strong>.
+        </Panel.Body>
       </Panel>
       {renderTemplates(topic.templates)}
     </Grid>

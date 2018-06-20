@@ -27,7 +27,6 @@ class TopicTemplate extends React.Component {
         </Panel.Heading>
         <Panel.Body>{this.props.data.rendered}</Panel.Body>
       </Panel>
-     
     );
   }
 }

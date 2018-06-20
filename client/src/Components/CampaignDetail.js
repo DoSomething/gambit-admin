@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Grid, PageHeader, Panel, Row, Tab, Tabs } from 'react-bootstrap';
+import { Grid, PageHeader, Panel, Tab, Tabs } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import TopicTemplate from './TopicDetail/TopicTemplate';
 import MessageList from './MessageList/MessageListContainer';
@@ -34,24 +34,24 @@ class CampaignDetail extends React.Component {
     }
     return (
       <Panel>
-        <Row>
-          <Col sm={12}><strong>Tagline:</strong> {campaign.tagline}</Col>
-        </Row>
-        <Row>
-          <Col sm={6}>
+        <Panel.Body>
+          <p>
+            <strong>Tagline:</strong> {campaign.tagline}
+          </p>
+          <p>
             <strong>Keywords:</strong> {keywords}
-          </Col>
-          <Col sm={6}>
+          </p>
+          <p>
             <strong>Status:</strong> {campaign.status}
-          </Col>
-        </Row>
+          </p>
+        </Panel.Body>
       </Panel>
     );
   }
 
   static renderTemplates(templates) {
     if (!templates) {
-      return <div>botConfig not found.</div>;
+      return <div>No topics found.</div>;
     }
     const templateNames = Object.keys(templates);
     const rows = templateNames.map((templateName) => {
