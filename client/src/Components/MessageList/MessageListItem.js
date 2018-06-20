@@ -66,12 +66,10 @@ function renderContent(message) {
     );
   }
 
-  // TODO: Add all hardcoded topics and set via config.
-  const hardcodedTopics = ['random', 'support', 'survey_response', 'support'];
   let topicValue = message.topic;
-  if (!hardcodedTopics.includes(message.topic)) {
+  if (!helpers.getHardcodedTopics().includes(topicValue)) {
     const topicUri = `/topics/${topicValue}`;
-    topicValue = <Link to={topicUri}><code>{topicValue}</code></Link>;
+    topicValue = <Link to={topicUri}>{topicValue}</Link>;
   }
   const topicGroupItem = (
     <ListGroupItem>

@@ -1,6 +1,23 @@
 const querystring = require('querystring');
 const config = require('./config');
 
+/**
+ * @return {Array}
+ */
+function getHardcodedTopics() {
+  return [
+    'askSubscriptionStatus',
+    'campaign',
+    'flsa',
+    'random',
+    'support',
+    'survey_response',
+    'tmi_completed',
+    'tmi_level1',
+    'unsubscribed',
+  ];
+}
+
 module.exports = {
   /**
    * Returns localhost API url for given path and query object.
@@ -32,6 +49,7 @@ module.exports = {
   getConversationsPath: function getConversationsPath() {
     return 'conversations';
   },
+  getHardcodedTopics,
   getMessagesPath: function getMessagesPath() {
     return 'messages';
   },

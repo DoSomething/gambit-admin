@@ -1,7 +1,11 @@
 {
   "name": "gambit-admin-client",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "private": true,
+  "engines": {
+    "node": "8.11.1",
+    "npm": "5.7.1"
+  },
   "proxy": "http://localhost:3000/",
   "dependencies": {
     "@dosomething/eslint-config": "^3.1.2",
