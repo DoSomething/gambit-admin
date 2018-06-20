@@ -44,7 +44,7 @@ function MacroStats({ name, label, count, total }) {
 
 MacroStats.propTypes = {
   name: PropTypes.string.isRequired,
-  label: PropTypes.shape.isRequired,
+  label: PropTypes.string.isRequired,
   count: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
 };
@@ -55,55 +55,33 @@ MacroStats.propTypes = {
 function renderMacros(broadcast) {
   const stats = broadcast.stats;
   const macros = stats.inbound.macros;
-  if (!macros) {
-    return null;
-  }
-  const total = stats.inbound.total;
-  const stopCount = macros.subscriptionStatusStop ? macros.subscriptionStatusStop : 0;
-  let otherCount = total - stopCount;
-  let yesStats = null;
-  let noStats = null;
-  if (!broadcast.topic) {
-    const yesCount = macros.confirmedCampaign ? macros.confirmedCampaign : 0;
-    const noCount = macros.declinedCampaign ? macros.declinedCampaign : 0;
-    const sum = yesCount + noCount + stopCount;
-    otherCount = total - sum;
+  let macroReplyCount = 0;
+  const totalReplyCount = stats.inbound.total;
 
-    yesStats = (
+  const data = Object.keys(stats.inbound.macros).map((macro) => {
+    const currentMacroCount = macros[macro];
+    macroReplyCount += currentMacroCount;
+    return (
       <MacroStats
-        name="confirmedCampaign"
-        label="Yes"
-        count={yesCount}
-        total={total}
+        name={macro}
+        label={macro}
+        count={currentMacroCount}
+        total={totalReplyCount}
       />
     );
-    noStats = (
-      <MacroStats
-        name="declinedCampaign"
-        label="No"
-        count={noCount}
-        total={total}
-      />
-    );
-  }
+  });
+
+  data.push(<MacroStats
+    name="other"
+    label="other"
+    count={totalReplyCount - macroReplyCount}
+    total={totalReplyCount}
+  />);
 
   return (
     <Table striped>
       <tbody>
-        {yesStats}
-        {noStats}
-        <MacroStats
-          name="subscriptionStatusStop"
-          label="Stop"
-          count={stopCount}
-          total={total}
-        />
-        <MacroStats
-          name="other"
-          label="Other"
-          count={otherCount}
-          total={total}
-        />
+        {data}
       </tbody>
     </Table>
   );
@@ -168,7 +146,7 @@ const Broadcast = (props) => {
 };
 
 Broadcast.propTypes = {
-  broadcast: PropTypes.shape.isRequired,
+  broadcast: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default Broadcast;
