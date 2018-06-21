@@ -114,35 +114,37 @@ function userInfo(user) {
 
   return (
     <Panel>
-      <Row>
-        <Col sm={6}>
-          <strong>Mobile:</strong> {user.mobile}
-        </Col>
-        <Col sm={6}>
-          <strong>SMS Status:</strong> {user.sms_status}
-        </Col>
-      </Row>
-      <Row>
-        <Col sm={6}>
-          <strong>Email:</strong> {user.email}
-        </Col>
-        <Col sm={6}>
-          <strong>SMS Last Inbound:</strong> {lastMessagedDate}
-        </Col>
-      </Row>
-      <Row>
-        <Col sm={6}>
-          <strong>Address:</strong> {address} {addressSource}
-        </Col>
-        <Col sm={6}>
-          <strong>Links:</strong> {links}
-        </Col>
-      </Row>
-      <Row>
-        <Col sm={12}>
-          <strong>Member Since:</strong> {registrationDate} {registrationSource}
-        </Col>
-      </Row>
+      <Panel.Body>
+        <Row>
+          <Col sm={6}>
+            <strong>Mobile:</strong> {user.mobile}
+          </Col>
+          <Col sm={6}>
+            <strong>SMS Status:</strong> {user.sms_status}
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={6}>
+            <strong>Email:</strong> {user.email}
+          </Col>
+          <Col sm={6}>
+            <strong>SMS Last Inbound:</strong> {lastMessagedDate}
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={6}>
+            <strong>Address:</strong> {address} {addressSource}
+          </Col>
+          <Col sm={6}>
+            <strong>Links:</strong> {links}
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={12}>
+            <strong>Member Since:</strong> {registrationDate} {registrationSource}
+          </Col>
+        </Row>
+      </Panel.Body>
     </Panel>
   );
 }
