@@ -18,6 +18,14 @@ function getHardcodedTopics() {
   ];
 }
 
+/**
+ * @param {String}
+ * @return {String}
+ */
+function getContentfulUrlForEntryId(entryId) {
+  return `https://app.contentful.com/spaces/owik07lyerdj/entries/${entryId}`;
+}
+
 module.exports = {
   /**
    * Returns localhost API url for given path and query object.
@@ -43,6 +51,7 @@ module.exports = {
   getCampaignsPath: function getCampaignsPath() {
     return 'campaigns';
   },
+  getContentfulUrlForEntryId,
   getConversationByIdPath: function getConversationByIdPath(conversationId) {
     return `${this.getConversationsPath()}/${conversationId}`;
   },

@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Panel, Grid, PageHeader } from 'react-bootstrap';
+import { Panel, Grid, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import TopicTemplate from './TopicTemplate';
-
+import ContentfulLink from '../ContentfulLink';
 
 function renderTemplates(templates) {
   if (!templates) {
@@ -19,19 +18,17 @@ function renderTemplates(templates) {
 const TopicDetail = (props) => {
   const topic = props.topic;
   const postType = topic.postType;
-  const url = `https://app.contentful.com/spaces/owik07lyerdj/entries/${topic.id}`;
   const campaignId = topic.campaign ? topic.campaign.id : '--';
+  /* eslint-disable max-len */
+  const description = <p>Creates signups and <strong>{postType}</strong> posts for campaign <strong>{campaignId}</strong>.</p>;
+  /* eslint-enable max-len */
   return (
     <Grid>
       <PageHeader>{topic.name}</PageHeader>
       <Panel>
         <Panel.Body>
-          <p>
-            Creates <strong>{postType}</strong> posts for campaign <strong>{campaignId}</strong>.
-          </p>
-          <p>
-            <Button href={url} target="_blank">Edit in Contentful</Button>
-          </p>
+          <p>{description}</p>
+          <ContentfulLink entryId={topic.id} />
         </Panel.Body>
       </Panel>
       {renderTemplates(topic.templates)}
