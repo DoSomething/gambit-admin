@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
-import { Col, ControlLabel, Form, FormGroup, FormControl, Grid, PageHeader, Table } from 'react-bootstrap';
+import { Col, ControlLabel, Form, FormGroup, FormControl, Grid, PageHeader, Panel, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import ContentfulLink from '../ContentfulLink';
 
 const helpers = require('../../helpers');
 
@@ -129,11 +130,17 @@ const Broadcast = (props) => {
   return (
     <Grid>
       <PageHeader>{helpers.broadcastName(broadcast)}</PageHeader>
-      <Form horizontal>
-        {broadcast.context}
-        {renderRow('Created', <Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment>)}
-        {renderRow('Text', broadcast.message)}
-      </Form>
+      <Panel>
+        <Panel.Body>
+          <Form horizontal>
+            {broadcast.context}
+            {renderRow('Created', <Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment>)}
+            {renderRow('Text', broadcast.message)}
+          </Form>
+          <ContentfulLink entryId={broadcast.id} />
+        </Panel.Body>
+      </Panel>
+
       <h2>Stats</h2>
       {renderStats(broadcast)}
       <h2>Settings</h2>
