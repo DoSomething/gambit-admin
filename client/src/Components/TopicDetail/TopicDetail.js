@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Panel, Grid, PageHeader } from 'react-bootstrap';
+import { Button, Panel, Grid, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import TopicTemplate from './TopicTemplate';
 
@@ -19,14 +19,19 @@ function renderTemplates(templates) {
 const TopicDetail = (props) => {
   const topic = props.topic;
   const postType = topic.postType;
-  const editLink = <small><Link to="/">edit</Link></small>;
-  const campaignId = topic.campaign.id;
+  const url = `https://app.contentful.com/spaces/owik07lyerdj/entries/${topic.id}`;
+  const campaignId = topic.campaign ? topic.campaign.id : '--';
   return (
     <Grid>
-      <PageHeader>{topic.name} <small>{editLink}</small></PageHeader>
+      <PageHeader>{topic.name}</PageHeader>
       <Panel>
         <Panel.Body>
-          Creates <strong>{postType}</strong> posts for campaign <strong>{campaignId}</strong>.
+          <p>
+            Creates <strong>{postType}</strong> posts for campaign <strong>{campaignId}</strong>.
+          </p>
+          <p>
+            <Button href={url} target="_blank">Edit in Contentful</Button>
+          </p>
         </Panel.Body>
       </Panel>
       {renderTemplates(topic.templates)}
