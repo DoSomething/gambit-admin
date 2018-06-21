@@ -6,14 +6,17 @@ const TopicListItem = (props) => {
   const topic = props.topic;
   const topicId = topic.id;
   const url = `/topics/${topicId}`;
-
+  let campaignCell = null;
+  if (topic.campaign) {
+    campaignCell = <td>{topic.campaign.id}</td>;
+  }
   return (
     <tr key={topicId}>
       <td>
         <Link to={url}>{topic.name}</Link>
       </td>
       <td>{topic.postType}</td>
-      <td>{topic.campaign ? topic.campaign.id : null}</td>
+      {campaignCell}
     </tr>
   );
 };
