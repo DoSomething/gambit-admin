@@ -23,6 +23,7 @@ export default class TopicListContainer extends React.Component {
                 <tbody>
                   <tr>
                     <th>Topic</th>
+                    <th>Triggers</th>
                     <th>Post type</th>
                     <th>Campaign</th>
                   </tr>

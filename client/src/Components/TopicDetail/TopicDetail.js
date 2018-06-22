@@ -28,6 +28,7 @@ const TopicDetail = (props) => {
       <Panel>
         <Panel.Body>
           <p>{description}</p>
+          <p><strong>Triggers:</strong> {topic.triggers.join(', ')}</p>
           <ContentfulLink entryId={topic.id} />
         </Panel.Body>
       </Panel>

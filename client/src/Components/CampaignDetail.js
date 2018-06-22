@@ -46,11 +46,12 @@ class CampaignDetail extends React.Component {
               <div>
                 <PageHeader>{campaign.title}</PageHeader>
                 {CampaignDetail.renderDetails(campaign)}
-                <h3>Current topics</h3>
+                <h3>Active topics</h3>
                 <Table striped hover>
                   <tbody>
                     <tr>
                       <th>Name</th>
+                      <th>Triggers</th>
                       <th>Post type</th>
                     </tr>
                     {campaign.topics.map(topic => <TopicListItem topic={topic} />)}

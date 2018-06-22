@@ -15,6 +15,7 @@ const TopicListItem = (props) => {
       <td>
         <Link to={url}>{topic.name}</Link>
       </td>
+      <td>{topic.triggers ? topic.triggers.join(', ') : null}</td>
       <td>{topic.postType}</td>
       {campaignCell}
     </tr>
