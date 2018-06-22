@@ -12,7 +12,7 @@ class ContentfulLink extends React.Component {
 
   render() {
     return (
-      <Button href={this.url} target="_blank">Edit in Contentful</Button>
+      <Button href={this.url} target="_blank" rel="noopener noreferrer">Edit in Contentful</Button>
     );
   }
 }
