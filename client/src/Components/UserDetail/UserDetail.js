@@ -120,7 +120,7 @@ function userInfo(user) {
             <strong>Mobile:</strong> {user.mobile}
           </Col>
           <Col sm={6}>
-            <strong>SMS Status:</strong> {user.sms_status}
+            <strong>SMS status:</strong> {user.sms_status}
           </Col>
         </Row>
         <Row>
@@ -128,7 +128,7 @@ function userInfo(user) {
             <strong>Email:</strong> {user.email}
           </Col>
           <Col sm={6}>
-            <strong>SMS Last Inbound:</strong> {lastMessagedDate}
+            <strong>Last inbound SMS:</strong> {lastMessagedDate}
           </Col>
         </Row>
         <Row>
@@ -141,7 +141,7 @@ function userInfo(user) {
         </Row>
         <Row>
           <Col sm={12}>
-            <strong>Member Since:</strong> {registrationDate} {registrationSource}
+            <strong>User created:</strong> {registrationDate} {registrationSource}
           </Col>
         </Row>
       </Panel.Body>

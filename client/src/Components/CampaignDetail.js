@@ -54,7 +54,12 @@ class CampaignDetail extends React.Component {
                       <th>Triggers</th>
                       <th>Post type</th>
                     </tr>
-                    {campaign.topics.map(topic => <TopicListItem topic={topic} />)}
+                    {campaign.topics.map(topic => (
+                      <TopicListItem
+                        key={topic.id}
+                        topic={topic}
+                      />
+                    ))}
                   </tbody>
                 </Table>
               </div>
