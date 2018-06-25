@@ -6,14 +6,15 @@ const TopicListItem = (props) => {
   const topic = props.topic;
   const topicId = topic.id;
   const url = `/topics/${topicId}`;
-
+  const campaignCell = topic.campaign ? <td>{topic.campaign.id}</td> : null;
   return (
     <tr key={topicId}>
       <td>
-        <Link to={url}>{topicId}</Link>
+        <Link to={url}>{topic.name}</Link>
       </td>
+      <td>{topic.triggers ? topic.triggers.join(', ') : null}</td>
       <td>{topic.postType}</td>
-      <td>{topic.campaign ? topic.campaign.id : null}</td>
+      {campaignCell}
     </tr>
   );
 };

@@ -1,46 +1,40 @@
 import React from 'react';
-import { Col, Panel, Grid, PageHeader, Row } from 'react-bootstrap';
+import { Panel, Grid, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import TopicTemplate from './TopicTemplate';
+import ContentfulLink from '../ContentfulLink';
 
-function topicInfo(topic) {
-  return (
-    <Panel>
-      <Row>
-        <Col sm={6}>
-          <strong>Type:</strong> {topic.type}
-        </Col>
-        <Col sm={6}>
-          <strong>Campaign:</strong> {topic.campaign ? topic.campaign.id : null}
-        </Col>
-      </Row>
-    </Panel>
-  );
-}
-
-function topicTemplates(templates) {
+function renderTemplates(templates) {
   if (!templates) {
     return <div>No templates found.</div>;
   }
   const templateNames = Object.keys(templates);
-  const rows = templateNames.map((templateName) => {
+  return templateNames.map((templateName) => {
     const data = templates[templateName];
     return <TopicTemplate key={templateName} name={templateName} data={data} />;
   });
-  return (
-    <Grid>
-      {rows}
-    </Grid>
-  );
 }
 
 const TopicDetail = (props) => {
   const topic = props.topic;
+  const postType = topic.postType;
+  const campaignId = topic.campaign ? topic.campaign.id : '--';
+  const campaignLink = (
+    <Link to={`/campaigns/${campaignId}`}>campaign <strong>{campaignId}</strong></Link>
+  );
+
   return (
     <Grid>
-      <PageHeader>{topic.id}</PageHeader>
-      {topicInfo(topic)}
-      {topicTemplates(topic.templates)}
+      <PageHeader>{topic.name}</PageHeader>
+      <Panel>
+        <Panel.Body>
+          <p>Creates signups and <strong>{postType}</strong> posts for {campaignLink}.</p>
+          <p><strong>Triggers:</strong> {topic.triggers.join(', ')}</p>
+          <ContentfulLink entryId={topic.id} />
+        </Panel.Body>
+      </Panel>
+      {renderTemplates(topic.templates)}
     </Grid>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ScrollableAnchor from 'react-scrollable-anchor';
-import { Panel, Row } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 
 class TopicTemplate extends React.Component {
   constructor(props) {
@@ -16,16 +16,17 @@ class TopicTemplate extends React.Component {
 
   render() {
     const name = this.props.name;
-
     return (
-      <Row id={name} key={name}>
-        <Panel>
+      <Panel id={name} key={name}>
+        <Panel.Heading>
           <ScrollableAnchor id={name}>
-            <h4><a href={`#${name}`}># {name}{this.suffix}</a></h4>
+            <Panel.Title componentClass="h3">
+              <a href={`#${name}`}>{name}{this.suffix}</a>
+            </Panel.Title>
           </ScrollableAnchor>
-          <p>{this.props.data.rendered}</p>
-        </Panel>
-      </Row>
+        </Panel.Heading>
+        <Panel.Body>{this.props.data.rendered}</Panel.Body>
+      </Panel>
     );
   }
 }

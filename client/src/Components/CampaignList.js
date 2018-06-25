@@ -8,6 +8,7 @@ const helpers = require('../helpers');
 export default class CampaignList extends React.Component {
   static renderRow(campaign) {
     const campaignId = campaign.id;
+    const triggers = campaign.topics[0].triggers;
 
     return (
       <tr key={campaignId}>
@@ -18,6 +19,7 @@ export default class CampaignList extends React.Component {
           </Link>
         </td>
         <td>{campaign.keywords.join(', ')}</td>
+        <td>{triggers ? triggers.join(', ') : null}</td>
         <td>{campaign.status}</td>
       </tr>
     );
@@ -41,6 +43,7 @@ export default class CampaignList extends React.Component {
                   <th>ID</th>
                   <th>Title</th>
                   <th>Keywords</th>
+                  <th>Triggers</th>
                   <th>Status</th>
                 </tr>
                 {res.map(campaign => CampaignList.renderRow(campaign))}
