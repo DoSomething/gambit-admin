@@ -8,18 +8,11 @@ const helpers = require('../helpers');
 
 class CampaignDetail extends React.Component {
   static renderDetails(campaign) {
-    let keywords = null;
-    if (campaign.keywords) {
-      keywords = campaign.keywords.join(', ');
-    }
     return (
       <Panel>
         <Panel.Body>
           <p>
             <strong>Tagline:</strong> {campaign.tagline}
-          </p>
-          <p>
-            <strong>Keywords:</strong> {keywords}
           </p>
           <p>
             <strong>Status:</strong> {campaign.status}
