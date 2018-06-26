@@ -18,7 +18,6 @@ export default class CampaignList extends React.Component {
             <strong>{campaign.title}</strong>
           </Link>
         </td>
-        <td>{campaign.keywords.join(', ')}</td>
         <td>{triggers ? triggers.join(', ') : null}</td>
         <td>{campaign.status}</td>
       </tr>
@@ -42,7 +41,6 @@ export default class CampaignList extends React.Component {
                 <tr>
                   <th>ID</th>
                   <th>Title</th>
-                  <th>Keywords</th>
                   <th>Triggers</th>
                   <th>Status</th>
                 </tr>
