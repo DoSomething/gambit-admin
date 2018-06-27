@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Home from './Home';
-import CampaignList from './CampaignList/CampaignList';
+import CampaignList from './CampaignList/CampaignListContainer';
 import CampaignDetail from './CampaignDetail/CampaignDetail';
 import ConversationList from './ConversationList/ConversationListContainer';
 import UserDetail from './UserDetail/UserDetailContainer';
@@ -34,6 +34,7 @@ const ConversationsRequests = () => (
     <Route path="/requests/:requestId" component={ConversationRequest} />
   </Switch>
 );
+
 const Topics = () => (
   <Switch>
     <Route exact path="/topics" component={TopicList} />
