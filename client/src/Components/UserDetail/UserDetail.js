@@ -198,11 +198,11 @@ function tabs(user) {
 const UserDetail = (props) => {
   const user = props.user;
   return (
-    <Grid>
+    <div>
       <PageHeader>{user.id}</PageHeader>
       {userInfo(user)}
       {tabs(user)}
-    </Grid>
+    </div>
   );
 };
 
