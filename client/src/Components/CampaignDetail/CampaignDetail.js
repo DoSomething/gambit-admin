@@ -1,10 +1,10 @@
 import React from 'react';
 import { Grid, PageHeader, Panel, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import TopicListItem from './TopicList/TopicListItem';
-import HttpRequest from './HttpRequest';
+import TopicListItem from '../TopicList/TopicListItem';
+import HttpRequest from '../HttpRequest';
 
-const helpers = require('../helpers');
+const helpers = require('../../helpers');
 
 class CampaignDetail extends React.Component {
   static renderDetails(campaign) {

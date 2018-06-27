@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Grid, PageHeader, Table } from 'react-bootstrap';
-import HttpRequest from './HttpRequest';
+import HttpRequest from '../HttpRequest';
 
-const helpers = require('../helpers');
+const helpers = require('../../helpers');
 
 export default class CampaignList extends React.Component {
   static renderRow(campaign) {

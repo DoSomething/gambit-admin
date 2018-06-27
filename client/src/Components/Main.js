@@ -2,8 +2,8 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Home from './Home';
-import CampaignList from './CampaignList';
-import CampaignDetail from './CampaignDetail';
+import CampaignList from './CampaignList/CampaignList';
+import CampaignDetail from './CampaignDetail/CampaignDetail';
 import ConversationList from './ConversationList/ConversationListContainer';
 import UserDetail from './UserDetail/UserDetailContainer';
 import ConversationRequest from './ConversationRequest';
