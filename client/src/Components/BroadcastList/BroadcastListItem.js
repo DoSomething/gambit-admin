@@ -20,19 +20,19 @@ const BroadcastListItem = (props) => {
   return (
     <tr key={broadcastId}>
       <td>
-        <Link to={`broadcasts/${broadcastId}`}>{helpers.broadcastName(broadcast)}</Link>
-        <div>
-          <small><Moment format="MM/DD/YYYY">{broadcast.createdAt}</Moment></small>
-        </div>
+        <h4>
+          <Link to={`broadcasts/${broadcastId}`}>{helpers.broadcastName(broadcast)}</Link>
+        </h4>
+        <small><Moment format="MM/DD/YYYY">{broadcast.createdAt}</Moment></small>
+        <p>{context}</p>
+        <p>{broadcast.message}</p>
       </td>
-      <td>{context}</td>
-      <td>{broadcast.message}</td>
     </tr>
   );
 };
 
 BroadcastListItem.propTypes = {
-  broadcast: PropTypes.shape.isRequired,
+  broadcast: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default BroadcastListItem;
