@@ -8,8 +8,8 @@ import ConversationList from './ConversationList/ConversationListContainer';
 import UserDetail from './UserDetail/UserDetailContainer';
 import ConversationRequest from './ConversationRequest';
 import BroadcastList from './BroadcastList/BroadcastListContainer';
-import BroadcastDetail from './Broadcast/BroadcastContainer';
-import BroadcastReplyList from './Broadcast/BroadcastReplyList';
+import BroadcastDetail from './BroadcastDetail/BroadcastDetailContainer';
+import BroadcastReplyList from './BroadcastDetail/BroadcastReplyList';
 import TopicDetail from './TopicDetail/TopicDetailContainer';
 import TopicList from './TopicList/TopicListContainer';
 
