@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Grid } from 'react-bootstrap';
 import HttpRequest from '../HttpRequest';
-import Broadcast from './Broadcast';
+import BroadcastDetail from './BroadcastDetail';
 
 const helpers = require('../../helpers');
 
@@ -15,9 +16,11 @@ class BroadcastContainer extends React.Component {
 
   render() {
     return (
-      <HttpRequest path={this.requestPath}>
-        {res => <Broadcast broadcast={res.data} macro={this.macro} />}
-      </HttpRequest>
+      <Grid>
+        <HttpRequest path={this.requestPath}>
+          {res => <BroadcastDetail broadcast={res.data} macro={this.macro} />}
+        </HttpRequest>
+      </Grid>
     );
   }
 }

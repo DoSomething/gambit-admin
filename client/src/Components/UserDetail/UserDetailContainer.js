@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Grid } from 'react-bootstrap';
 import HttpRequest from '../HttpRequest';
 import UserDetail from './UserDetail';
 
@@ -15,9 +16,11 @@ class UserDetailContainer extends React.Component {
 
   render() {
     return (
-      <HttpRequest path={this.requestPath}>
-        { res => <UserDetail user={res.data} /> }
-      </HttpRequest>
+      <Grid>
+        <HttpRequest path={this.requestPath}>
+          {res => <UserDetail user={res.data} />}
+        </HttpRequest>
+      </Grid>
     );
   }
 }

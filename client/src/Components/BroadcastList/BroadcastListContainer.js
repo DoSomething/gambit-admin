@@ -19,13 +19,8 @@ export default class BroadcastListContainer extends React.Component {
         <HttpRequest path={this.requestPath}>
           {
             res => (
-              <Table striped hover>
+              <Table striped>
                 <tbody>
-                  <tr>
-                    <th>Name</th>
-                    <th>Context</th>
-                    <th>Message</th>
-                  </tr>
                   {res.data.map(broadcast => (
                     <BroadcastListItem
                       key={broadcast.id}

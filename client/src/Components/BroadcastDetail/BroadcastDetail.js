@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
-import { Col, ControlLabel, Form, FormGroup, FormControl, Grid, PageHeader, Panel, Table } from 'react-bootstrap';
+import { Col, ControlLabel, Form, FormGroup, FormControl, PageHeader, Panel, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import ContentfulLink from '../ContentfulLink';
 
@@ -117,7 +117,7 @@ function renderStats(broadcast) {
   );
 }
 
-const Broadcast = (props) => {
+const BroadcastDetail = (props) => {
   const broadcast = props.broadcast;
   broadcast.webhookBody = JSON.stringify(broadcast.webhook.body, null, 2);
   if (broadcast.topic) {
@@ -128,7 +128,7 @@ const Broadcast = (props) => {
     broadcast.context = renderRow('Campaign', <Link to={campaignLink}>{campaignId}</Link>);
   }
   return (
-    <Grid>
+    <div>
       <PageHeader>{helpers.broadcastName(broadcast)}</PageHeader>
       <Panel>
         <Panel.Body>
@@ -148,12 +148,12 @@ const Broadcast = (props) => {
         {renderRow('URL', broadcast.webhook.url)}
         {renderRow('Body', <pre><code>{broadcast.webhookBody}</code></pre>)}
       </Form>
-    </Grid>
+    </div>
   );
 };
 
-Broadcast.propTypes = {
+BroadcastDetail.propTypes = {
   broadcast: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default Broadcast;
+export default BroadcastDetail;
