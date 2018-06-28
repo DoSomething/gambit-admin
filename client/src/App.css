@@ -28,6 +28,9 @@
 div {
   white-space: pre-line;
 }
+td {
+  word-break: break-word;
+}
 ul.pager {
   padding-bottom:10px;
   border-bottom: 1px solid #eee;

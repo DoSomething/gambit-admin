@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Panel, Grid, Image, Label, ListGroup, ListGroupItem, PageHeader, Row, Tab, Table, Tabs } from 'react-bootstrap';
+import { Col, Panel, Image, Label, ListGroup, ListGroupItem, PageHeader, Row, Tab, Table, Tabs } from 'react-bootstrap';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import MessageList from '../MessageList/MessageListContainer';
@@ -198,11 +198,11 @@ function tabs(user) {
 const UserDetail = (props) => {
   const user = props.user;
   return (
-    <Grid>
+    <div>
       <PageHeader>{user.id}</PageHeader>
       {userInfo(user)}
       {tabs(user)}
-    </Grid>
+    </div>
   );
 };
 
