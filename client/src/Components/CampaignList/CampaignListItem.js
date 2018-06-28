@@ -8,10 +8,10 @@ const CampaignListItem = (props) => {
   const triggers = campaign.topics[0].triggers;
 
   return (
-    <tr key={campaignId}>
+    <tr>
       <td>{campaignId}</td>
       <td>
-        <Link to={`campaigns/${campaignId}`}>
+        <Link to={`/campaigns/${campaignId}`}>
           <strong>{campaign.title}</strong>
         </Link>
       </td>
@@ -22,7 +22,7 @@ const CampaignListItem = (props) => {
 };
 
 CampaignListItem.propTypes = {
-  campaign: PropTypes.shape.isRequired,
+  campaign: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default CampaignListItem;

@@ -7,16 +7,10 @@ import HttpRequest from '../HttpRequest';
 const helpers = require('../../helpers');
 
 class CampaignDetailContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.campaignId = this.props.match.params.campaignId;
-    this.url = `/campaigns/${this.campaignId}`;
-    this.requestPath = helpers.getCampaignByIdPath(this.campaignId);
-  }
   render() {
     return (
       <Grid>
-        <HttpRequest path={this.requestPath}>
+        <HttpRequest path={helpers.getCampaignByIdPath(this.props.match.params.campaignId)}>
           {campaign => (<CampaignDetail campaign={campaign} />)}
         </HttpRequest>
       </Grid>

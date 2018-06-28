@@ -39,7 +39,7 @@ const CampaignDetail = (props) => {
 };
 
 CampaignDetail.propTypes = {
-  campaign: PropTypes.shape.isRequired,
+  campaign: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default CampaignDetail;

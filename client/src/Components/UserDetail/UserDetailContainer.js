@@ -18,7 +18,7 @@ class UserDetailContainer extends React.Component {
     return (
       <Grid>
         <HttpRequest path={this.requestPath}>
-          { res => <UserDetail user={res.data} /> }
+          {res => <UserDetail user={res.data} />}
         </HttpRequest>
       </Grid>
     );
