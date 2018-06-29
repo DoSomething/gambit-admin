@@ -7,22 +7,25 @@ const TopicListItem = (props) => {
   const topic = props.topic;
   const topicId = topic.id;
   let campaignCell = null;
+  let postTypeWidth = 2;
   if (props.displayCampaign) {
+    postTypeWidth = 1;
     const campaignId = topic.campaign.id;
-    campaignCell = <Col md={1}><Link to={`/campaigns/${campaignId}`}>{campaignId}</Link></Col>;
+    campaignCell = (
+      <Col md={1} componentClass="td">
+        <Link to={`/campaigns/${campaignId}`}>{campaignId}</Link>
+      </Col>
+    );
   }
   return (
-    <tr><td>
-      <Row key={topicId}>
-        {campaignCell}
-        <Col md={1}>{topic.postType}</Col>
-        <Col md={6}>
-          <Link to={`/topics/${topicId}`}>{topic.name}</Link>
-        </Col>
-        <Col md={4}>{topic.triggers ? topic.triggers.join(', ') : null}</Col>
-
-      </Row>
-    </td></tr>
+    <Row componentClass="tr" key={topicId}>
+      {campaignCell}
+      <Col componentClass="td" md={postTypeWidth}>{topic.postType}</Col>
+      <Col componentClass="td" md={6}>
+        <Link to={`/topics/${topicId}`}>{topic.name}</Link>
+      </Col>
+      <Col componentClass="td" md={4}>{topic.triggers ? topic.triggers.join(', ') : null}</Col>
+    </Row>
   );
 };
 

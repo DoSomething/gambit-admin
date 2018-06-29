@@ -3,31 +3,24 @@ import { Col, Grid, Row, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import HttpRequest from '../HttpRequest';
 import TopicListItem from './TopicListItem';
-
-const lodash = require('lodash');
-const helpers = require('../../helpers');
+import lodash from 'lodash';
+import helpers from '../../helpers';
 
 function renderTopics(topics, displayCampaign) {
   if (!topics || !topics.length) {
     return <p>No topics found</p>;
   }
-  let campaignCell = null;
-  if (displayCampaign) {
-    campaignCell = <Col md={1}>Campaign</Col>;
-  }
-
+  const campaignCell = displayCampaign ? <Col md={1} componentClass="th">Campaign</Col> : null;
   const rows = topics.map(topic => (
     <TopicListItem key={topic.id} topic={topic} displayCampaign={displayCampaign} />
   ));
   const header = (
-    <tr><th>
-      <Row>
-        {campaignCell}
-        <Col md={1}>Post</Col>
-        <Col md={6}>Topic</Col>
-        <Col md={4}>Triggers</Col>
-      </Row>
-    </th></tr>
+    <Row componentClass="tr">
+      {campaignCell}
+      <Col componentClass="th" md={1}>Posts</Col>
+      <Col componentClass="th" md={6}>Topic</Col>
+      <Col componentClass="th" md={4}>Triggers</Col>
+    </Row>
   );
   return <Table><tbody>{header}{rows}</tbody></Table>;
 }
@@ -36,13 +29,11 @@ const TopicListContainer = props => (
   <Grid>
     <HttpRequest path={helpers.getTopicsPath()}>
       {(res) => {
-        let topics = res;
-        let displayCampaign = true;
         const campaign = props.campaign;
-        if (campaign) {
-          displayCampaign = false;
-          topics = topics.filter(topic => topic.campaign && topic.campaign.id === campaign.id);
-        }
+        const displayCampaign = !campaign;
+        const topics = displayCampaign ? res : res.filter((topic) => {
+          return topic.campaign && topic.campaign.id === campaign.id;
+        });
         const topicsByStatus = lodash.groupBy(topics, (topic) => {
           if (topic.triggers && topic.triggers.length && topic.campaign.status === 'active') {
             return 'current';
@@ -66,9 +57,9 @@ const TopicListContainer = props => (
 TopicListContainer.propTypes = {
   campaign: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
+
 TopicListContainer.defaultProps = {
   campaign: null,
 };
 
 export default TopicListContainer;
-
