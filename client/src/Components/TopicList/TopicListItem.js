@@ -6,15 +6,18 @@ import PropTypes from 'prop-types';
 const TopicListItem = (props) => {
   const topic = props.topic;
   const topicId = topic.id;
-  const url = `/topics/${topicId}`;
-  const campaignCell = topic.campaign ? <Col md={1}>{topic.campaign.id}</Col> : null;
+  let campaignCell = null;
+  if (props.displayCampaign) {
+    const campaignId = topic.campaign.id;
+    campaignCell = <Col md={1}><Link to={`/campaigns/${campaignId}`}>{campaignId}</Link></Col>;
+  }
   return (
     <tr><td>
       <Row key={topicId}>
         {campaignCell}
         <Col md={1}>{topic.postType}</Col>
         <Col md={6}>
-          <Link to={url}>{topic.name}</Link>
+          <Link to={`/topics/${topicId}`}>{topic.name}</Link>
         </Col>
         <Col md={4}>{topic.triggers ? topic.triggers.join(', ') : null}</Col>
 
@@ -25,6 +28,7 @@ const TopicListItem = (props) => {
 
 TopicListItem.propTypes = {
   topic: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  displayCampaign: PropTypes.bool.isRequired,
 };
 
 export default TopicListItem;
