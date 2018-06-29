@@ -45,7 +45,7 @@ class HttpRequest extends React.Component {
             let totalResultCount = 0;
             let pager = null;
             const body = result.body;
-            if (body.pagination && body.pagination.total) {
+            if (body && body.pagination && body.pagination.total) {
               totalResultCount = body.pagination.total;
               pager = (
                 <ListPager

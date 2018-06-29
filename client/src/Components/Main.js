@@ -11,6 +11,7 @@ import BroadcastDetail from './BroadcastDetail/BroadcastDetailContainer';
 import BroadcastReplyList from './BroadcastDetail/BroadcastReplyList';
 import TopicDetail from './TopicDetail/TopicDetailContainer';
 import TopicList from './TopicList/TopicListContainer';
+import TriggerList from './TriggerList/TriggerListContainer';
 
 const Broadcasts = () => (
   <Switch>
@@ -41,6 +42,13 @@ const Topics = () => (
   </Switch>
 );
 
+
+const Triggers = () => (
+  <Switch>
+    <Route exact path="/triggers" component={TriggerList} />
+  </Switch>
+);
+
 const Users = () => (
   <Switch>
     <Route exact path="/users" component={ConversationList} />
@@ -56,6 +64,7 @@ const Main = () => (
       <Route path="/campaigns" component={Campaigns} />
       <Route path="/requests" component={ConversationsRequests} />
       <Route path="/topics" component={Topics} />
+      <Route path="/triggers" component={Triggers} />
       <Route path="/users" component={Users} />
     </Switch>
   </main>
