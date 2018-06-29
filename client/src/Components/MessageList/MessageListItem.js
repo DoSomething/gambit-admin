@@ -133,13 +133,13 @@ const MessageListItem = ({ message, table }) => {
 
   if (table) {
     return (
-      <tr key={message._id}>
-        <td width="15%">
+      <Row componentClass="tr" key={message._id}>
+        <Col componentClass="td" md={2}>
           <small><MessageListDateItem message={message} isInbound={isInbound} /></small>
-        </td>
-        <td width="15%">{userLink}</td>
-        <td>{message.text}</td>
-      </tr>
+        </Col>
+        <Col componentClass="td" md={3}>{userLink}</Col>
+        <Col componentClass="td" md={7}>{message.text}</Col>
+      </Row>
     );
   }
 

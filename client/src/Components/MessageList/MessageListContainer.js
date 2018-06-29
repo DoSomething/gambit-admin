@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import HttpRequest from '../HttpRequest';
 import MessageListItem from './MessageListItem';
@@ -42,13 +43,25 @@ class MessageListContainer extends React.Component {
             if (!res.data) {
               return 'No messages found.';
             }
-            return res.data.map(msg => (
+            const rows = res.data.map(msg => (
               <MessageListItem
                 key={msg._id}
                 table={this.props.table}
                 message={msg}
               />
             ));
+
+            if (!this.props.table) {
+              return rows;
+            }
+
+            return (
+              <Table>
+                <tbody>
+                  {rows}
+                </tbody>
+              </Table>
+            );
           }
         }
       </HttpRequest>
