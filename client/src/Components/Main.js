@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Home from './Home';
-import CampaignList from './CampaignList/CampaignListContainer';
 import CampaignDetail from './CampaignDetail/CampaignDetailContainer';
 import ConversationList from './ConversationList/ConversationListContainer';
 import UserDetail from './UserDetail/UserDetailContainer';
@@ -23,7 +22,7 @@ const Broadcasts = () => (
 
 const Campaigns = () => (
   <Switch>
-    <Route exact path="/campaigns" component={CampaignList} />
+    <Route exact path="/campaigns" component={TopicList} />
     <Route path="/campaigns/:campaignId" component={CampaignDetail} />
   </Switch>
 );

@@ -1,7 +1,7 @@
 import React from 'react';
-import { PageHeader, Panel, Table } from 'react-bootstrap';
+import { PageHeader, Panel } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import TopicListItem from '../TopicList/TopicListItem';
+import TopicList from '../TopicList/TopicListContainer';
 
 const CampaignDetail = (props) => {
   const campaign = props.campaign;
@@ -18,22 +18,7 @@ const CampaignDetail = (props) => {
           </p>
         </Panel.Body>
       </Panel>
-      <h3>Active topics</h3>
-      <Table striped hover>
-        <tbody>
-          <tr>
-            <th>Name</th>
-            <th>Triggers</th>
-            <th>Post type</th>
-          </tr>
-          {campaign.topics.map(topic => (
-            <TopicListItem
-              key={topic.id}
-              topic={topic}
-            />
-          ))}
-        </tbody>
-      </Table>
+      <TopicList campaign={campaign} />
     </div>
   );
 };
