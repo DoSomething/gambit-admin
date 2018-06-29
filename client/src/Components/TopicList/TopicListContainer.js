@@ -1,9 +1,9 @@
 import React from 'react';
 import { Col, Grid, Row, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import lodash from 'lodash';
 import HttpRequest from '../HttpRequest';
 import TopicListItem from './TopicListItem';
-import lodash from 'lodash';
 import helpers from '../../helpers';
 
 function renderTopics(topics, displayCampaign) {
@@ -31,9 +31,8 @@ const TopicListContainer = props => (
       {(res) => {
         const campaign = props.campaign;
         const displayCampaign = !campaign;
-        const topics = displayCampaign ? res : res.filter((topic) => {
-          return topic.campaign && topic.campaign.id === campaign.id;
-        });
+        const topics = displayCampaign ? res : res
+          .filter(topic => topic.campaign && topic.campaign.id === campaign.id);
         const topicsByStatus = lodash.groupBy(topics, (topic) => {
           if (topic.triggers && topic.triggers.length && topic.campaign.status === 'active') {
             return 'current';
