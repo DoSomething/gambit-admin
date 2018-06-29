@@ -1,10 +1,25 @@
 import React from 'react';
-import { Grid, PageHeader, Table } from 'react-bootstrap';
+import { Col, Grid, PageHeader, Row, Table } from 'react-bootstrap';
 import HttpRequest from '../HttpRequest';
 import TopicListItem from './TopicListItem';
 
 const lodash = require('lodash');
 const helpers = require('../../helpers');
+
+function renderTopics(topics) {
+  const rows = topics.map(topic => <TopicListItem key={topic.id} topic={topic} />);
+  const header =  (
+    <tr><th>
+      <Row>
+        <Col md={1}>Campaign</Col>
+        <Col md={1}>Post</Col>
+        <Col md={6}>Topic</Col>
+        <Col md={4}>Triggers</Col>
+      </Row>
+    </th></tr>
+  );
+  return <Table><tbody>{header}{rows}</tbody></Table>;
+}
 
 export default class TopicListContainer extends React.Component {
   constructor(props) {
@@ -12,34 +27,27 @@ export default class TopicListContainer extends React.Component {
 
     this.requestPath = helpers.getTopicsPath();
   }
-
   render() {
     return (
       <Grid>
-        <PageHeader>Topics</PageHeader>
         <HttpRequest path={this.requestPath}>
           {(topics) => {
             const topicsByStatus = lodash.groupBy(topics, (topic) => {
-              return topic.triggers.length ? 'active' : 'inactive';
+              if (topic.triggers.length && topic.campaign.status === 'active') {
+                return 'active';
+              }
+              return 'inactive';
             });
-            console.log(topicsByStatus);
-            return Object.keys(topicsByStatus).map((status, index) => {
-              return (
-                <div>
-                  <h2>{status}</h2>
-                  <Table>
-                    <tbody>
-                      {topicsByStatus[status].map(topic => (
-                        <TopicListItem
-                          key={topic.id}
-                          topic={topic}
-                        />
-                      ))}                    
-                    </tbody>
-                  </Table>
-                </div>
-              )
-            });
+            return (
+              <div>
+                <h3>Current</h3>
+                <p>If a user conversation changes to one of the following topics, a signup is created for the topic campaign and they are prompted to create the respective type of campaign post.</p>
+                {renderTopics(topicsByStatus.active)}
+                <h3>Archived</h3>
+                <p>These topics either do not have any triggers, or reference a campaigns that has ended.</p>
+                {renderTopics(topicsByStatus.inactive)}
+              </div>
+            );
           }}
         </HttpRequest>
       </Grid>

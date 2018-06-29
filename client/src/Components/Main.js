@@ -23,7 +23,7 @@ const Broadcasts = () => (
 
 const Campaigns = () => (
   <Switch>
-    <Route exact path="/campaigns" component={CampaignList} />
+    <Route exact path="/campaigns" component={TopicList} />
     <Route path="/campaigns/:campaignId" component={CampaignDetail} />
   </Switch>
 );

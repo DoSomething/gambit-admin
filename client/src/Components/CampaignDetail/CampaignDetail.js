@@ -22,23 +22,12 @@ const CampaignDetail = (props) => {
         </Panel.Body>
       </Panel>
       <h2>Topics</h2>
-      <h3>Active</h3>
-      <Table striped>
-        <tbody>
-          <tr>
-            <th>Name</th>
-            <th>Triggers</th>
-            <th>Post type</th>
-          </tr>
-          {campaign.topics.map(topic => (
-            <TopicListItem
-              key={topic.id}
-              topic={topic}
-            />
-          ))}
-        </tbody>
-      </Table>
-      <h3>Inactive</h3>
+      {campaign.topics.map(topic => (
+        <TopicListItem
+          key={topic.id}
+          topic={topic}
+        />
+      ))}
       <HttpRequest path={helpers.getTopicsPath()}>
         {(data) => {
           const inactiveTopicsForThisCampaign = data.filter((topic) => {
