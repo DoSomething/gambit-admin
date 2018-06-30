@@ -6,13 +6,13 @@ import TriggerListItem from './TriggerListItem';
 const lodash = require('lodash');
 const helpers = require('../../helpers');
 
-function renderList(triggers) {
+function renderList(triggers, responseLabel = 'Reply') {
   return (
     <Table striped><tbody>
       <tr><th>
         <Row key="header">
           <Col md={3}>Trigger</Col>
-          <Col md={9}>Response</Col>
+          <Col md={9}>{responseLabel}</Col>
         </Row>
       </th></tr>
       {triggers.map(trigger => <TriggerListItem trigger={trigger} />)}
@@ -33,9 +33,12 @@ const TriggerListContainer = () => (
         });
         return (
           <div>
-            <h2>Campaigns</h2>
-            {renderList(triggersByType.topic)}
-            <h2>General</h2>
+            <p>There are <strong>{triggers.length}</strong> triggers.</p>
+            <h3>Campaigns</h3>
+            <p>Count: <strong>{triggersByType.topic.length}</strong></p>
+            {renderList(triggersByType.topic, 'Topic')}
+            <h3>General</h3>
+            <p>Count: <strong>{triggersByType.random.length}</strong></p>
             {renderList(triggersByType.random)}
           </div>
         );

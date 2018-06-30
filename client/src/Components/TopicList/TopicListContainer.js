@@ -41,10 +41,9 @@ const TopicListContainer = props => (
         });
         return (
           <div>
-            <h2>Topics</h2>
-            <h3>Current</h3>
+            <h3>Current topics</h3>
             {renderTopics(topicsByStatus.current, displayCampaign)}
-            <h3>Inactive</h3>
+            <h3>Inactive topics</h3>
             {renderTopics(topicsByStatus.inactive, displayCampaign)}
           </div>
         );
