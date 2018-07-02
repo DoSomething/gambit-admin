@@ -1,10 +1,13 @@
 import React from 'react';
-import { Col, Grid, Row, Table } from 'react-bootstrap';
+import { Col, Grid, Panel, Row, Table } from 'react-bootstrap';
+import lodash from 'lodash';
 import HttpRequest from '../HttpRequest';
 import TriggerListItem from './TriggerListItem';
+import helpers from '../../helpers';
 
-const lodash = require('lodash');
-const helpers = require('../../helpers');
+const brainUrl = 'https://github.com/DoSomething/gambit-conversations/blob/master/brain';
+const ctlUrl = 'https://www.crisistextline.org';
+const standardsUrl = 'https://support.twilio.com/hc/en-us/articles/223182208-Industry-standards-for-U-S-short-code-HELP-and-STOP';
 
 function renderList(triggers, responseLabel = 'Reply') {
   return (
@@ -31,13 +34,27 @@ const TriggerListContainer = () => (
           }
           return 'random';
         });
+        /* eslint-disable max-len */
         return (
           <div>
-            <p>There are <strong>{triggers.length}</strong> triggers.</p>
-            <h3>Campaigns</h3>
+            <Panel>
+              <Panel.Body>
+                <p>There are <strong>{triggers.length}</strong> triggers published in Contentful, used to change topic, or send a quick reply.</p>
+                <p>They are loaded in addition to the <a href={brainUrl}>Rivescript hardcoded in Gambit</a>, which handles:</p>
+                <ul>
+                  <li>
+                    <a href={standardsUrl}>Industry standard INFO requests</a> (e.g. INFO, HELP)
+                  </li>
+                  <li>Subscription update requests (e.g. JOIN, STOP, UNSUBSCRIBE, LESS)</li>
+                  <li>Support requests (e.g. QUESTION)</li>
+                  <li>Crisis messages (when we prompt to message <a href={ctlUrl}>CTL</a>)</li>
+                </ul>
+              </Panel.Body>
+            </Panel>
+            <h3>Campaign triggers</h3>
             <p>Count: <strong>{triggersByType.topic.length}</strong></p>
             {renderList(triggersByType.topic, 'Topic')}
-            <h3>General</h3>
+            <h3>Quick replies</h3>
             <p>Count: <strong>{triggersByType.random.length}</strong></p>
             {renderList(triggersByType.random)}
           </div>
@@ -46,5 +63,6 @@ const TriggerListContainer = () => (
     </HttpRequest>
   </Grid>
 );
+/* eslint-enable max-len */
 
 export default TriggerListContainer;
