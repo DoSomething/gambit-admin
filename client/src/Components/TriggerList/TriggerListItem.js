@@ -10,8 +10,8 @@ import ContentfulLink from '../ContentfulLink';
  * @return {String}
  */
 function getResponseFromTrigger(trigger) {
-  if (trigger.topicId) {
-    const url = `/topics/${trigger.topicId}`;
+  if (trigger.topic) {
+    const url = `/topics/${trigger.topic.id}`;
     return <Link to={url}>{trigger.topic.name}</Link>;
   }
   if (trigger.redirect) {

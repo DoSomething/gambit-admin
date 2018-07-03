@@ -18,7 +18,7 @@ function renderList(triggers, responseLabel = 'Reply') {
           <Col md={9}>{responseLabel}</Col>
         </Row>
       </th></tr>
-      {triggers.map(trigger => <TriggerListItem trigger={trigger} />)}
+      {triggers.map(trigger => <TriggerListItem key={trigger.id} trigger={trigger} />)}
     </tbody></Table>
   );
 }

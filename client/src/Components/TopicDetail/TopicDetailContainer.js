@@ -18,7 +18,7 @@ class TopicDetailContainer extends React.Component {
     return (
       <Grid>
         <HttpRequest path={this.requestPath}>
-          { res => <TopicDetail topic={res} /> }
+          {res => <TopicDetail topic={res} />}
         </HttpRequest>
       </Grid>
     );
