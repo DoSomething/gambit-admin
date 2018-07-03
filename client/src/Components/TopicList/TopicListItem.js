@@ -10,6 +10,9 @@ const TopicListItem = (props) => {
   let postTypeWidth = 2;
   if (props.displayCampaign) {
     postTypeWidth = 1;
+    if (!topic.campaign) {
+      return null;
+    }
     const campaignId = topic.campaign.id;
     campaignCell = (
       <Col md={1} componentClass="td">

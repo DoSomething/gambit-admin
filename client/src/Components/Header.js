@@ -19,10 +19,13 @@ class Header extends React.Component {
           <NavItem active={activeUsers} eventKey={1} href="/users">
             Users
           </NavItem>
-          <NavItem active={activeCampaigns} eventKey={1} href="/campaigns">
+          <NavItem active={activeCampaigns} eventKey={2} href="/campaigns">
             Campaigns
           </NavItem>
-          <NavItem active={pathname.includes('broadcasts')} eventKey={1} href="/broadcasts">
+          <NavItem active={pathname.includes('triggers')} eventKey={3} href="/triggers">
+            Triggers
+          </NavItem>
+          <NavItem active={pathname.includes('broadcasts')} eventKey={4} href="/broadcasts">
             Broadcasts
           </NavItem>
         </Nav>
