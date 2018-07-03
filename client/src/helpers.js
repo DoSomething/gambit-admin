@@ -58,6 +58,9 @@ module.exports = {
   getConversationsPath: function getConversationsPath() {
     return 'conversations';
   },
+  getDefaultTopicTriggersPath: function getDefaultTopicTriggersPath() {
+    return 'defaultTopicTriggers';
+  },
   getHardcodedTopics,
   getMessagesPath: function getMessagesPath() {
     return 'messages';

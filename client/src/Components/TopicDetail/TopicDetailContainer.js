@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Grid } from 'react-bootstrap';
 import HttpRequest from '../HttpRequest';
 import TopicDetail from './TopicDetail';
 
@@ -15,9 +16,11 @@ class TopicDetailContainer extends React.Component {
 
   render() {
     return (
-      <HttpRequest path={this.requestPath}>
-        { res => <TopicDetail topic={res} /> }
-      </HttpRequest>
+      <Grid>
+        <HttpRequest path={this.requestPath}>
+          {res => <TopicDetail topic={res} />}
+        </HttpRequest>
+      </Grid>
     );
   }
 }

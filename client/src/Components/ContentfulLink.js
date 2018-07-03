@@ -4,21 +4,30 @@ import { Button } from 'react-bootstrap';
 
 const helpers = require('../helpers');
 
-class ContentfulLink extends React.Component {
-  constructor(props) {
-    super(props);
-    this.url = helpers.getContentfulUrlForEntryId(this.props.entryId);
-  }
-
-  render() {
-    return (
-      <Button href={this.url} target="_blank" rel="noopener noreferrer">Edit in Contentful</Button>
-    );
-  }
-}
+const ContentfulLink = (props) => {
+  const url = helpers.getContentfulUrlForEntryId(props.entryId);
+  return (
+    <Button
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      bsStyle={props.bsStyle}
+      bsSize={props.bsSize}
+    >
+      Edit
+    </Button>
+  );
+};
 
 ContentfulLink.propTypes = {
   entryId: PropTypes.string.isRequired,
+  bsStyle: PropTypes.string,
+  bsSize: PropTypes.string,
+};
+
+ContentfulLink.defaultProps = {
+  bsStyle: 'default',
+  bsSize: 'small',
 };
 
 export default ContentfulLink;
