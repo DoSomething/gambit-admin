@@ -7,7 +7,7 @@ import Moment from 'react-moment';
 const config = require('../../config');
 const helpers = require('../../helpers');
 
-const ConversationListItem = (props) => {
+const UserListItem = (props) => {
   const conversation = props.conversation;
   const identifier = helpers.getUserIdentifierForConversation(conversation);
   let platformLabel = '';
@@ -27,8 +27,8 @@ const ConversationListItem = (props) => {
   );
 };
 
-ConversationListItem.propTypes = {
+UserListItem.propTypes = {
   conversation: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default ConversationListItem;
+export default UserListItem;
