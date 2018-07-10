@@ -1,12 +1,12 @@
 import React from 'react';
 import { Grid, Table } from 'react-bootstrap';
 import HttpRequest from '../HttpRequest';
-import ConversationListItem from './ConversationListItem';
+import UserListItem from './UserListItem';
 
 const queryString = require('query-string');
 const helpers = require('../../helpers');
 
-export default class ConversationListContainer extends React.Component {
+export default class UserListContainer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -36,7 +36,7 @@ export default class ConversationListContainer extends React.Component {
                     <th>Topic</th>
                   </tr>
                   {res.data.map(conversation => (
-                    <ConversationListItem
+                    <UserListItem
                       key={conversation._id}
                       conversation={conversation}
                     />
