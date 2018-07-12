@@ -3,8 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import Home from './Home';
 import CampaignDetail from './CampaignDetail/CampaignDetailContainer';
-// TODO: Rename ConversationList as UserList
-import UserList from './ConversationList/ConversationListContainer';
+import UserList from './UserList/UserListContainer';
 import UserDetail from './UserDetail/UserDetailContainer';
 import ConversationRequest from './ConversationRequest';
 import BroadcastList from './BroadcastList/BroadcastListContainer';
