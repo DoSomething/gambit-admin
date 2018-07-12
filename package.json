@@ -12,8 +12,8 @@
     "basic-auth": "^2.0.0",
     "dotenv": "^4.0.0",
     "express": "4.13.3",
-    "heroku-logger": "^0.3.0",
-    "superagent": "^3.8.0"
+    "heroku-logger": "^0.3.1",
+    "superagent": "^3.8.3"
   },
   "cacheDirectories": [
     "node_modules",
