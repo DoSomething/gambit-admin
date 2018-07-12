@@ -30,7 +30,7 @@ function getLabelWithQueuedTimeTooltip(label, deliveryMetadata) {
 function getLabelItem(status, style, url) {
   const label = <Label bsStyle={style}>{ status }</Label>;
   if (url) {
-    return <a target="_blank" href={url}>{ label }</a>;
+    return <a target="_blank" rel="noopener noreferrer" href={url}>{ label }</a>;
   }
   return label;
 }
