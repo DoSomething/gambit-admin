@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
-import { Col, ControlLabel, Form, FormGroup, FormControl, PageHeader, Panel, Table } from 'react-bootstrap';
+import { Col, PageHeader, Panel, Row, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import ContentfulLink from '../ContentfulLink';
 
@@ -14,10 +14,10 @@ function percent(value, total) {
 
 function renderRow(label, data) {
   return (
-    <FormGroup>
-      <Col sm={2}><ControlLabel>{label}</ControlLabel></Col>
-      <Col sm={10}><FormControl.Static>{data}</FormControl.Static></Col>
-    </FormGroup>
+    <Row componentClass="div">
+      <Col componentClass="p" sm={2}><strong>{label}</strong></Col>
+      <Col sm={10}>{data}</Col>
+    </Row>
   );
 }
 
@@ -64,6 +64,7 @@ function renderMacros(broadcast) {
     macroReplyCount += currentMacroCount;
     return (
       <MacroStats
+        key={macro}
         name={macro}
         label={macro}
         count={currentMacroCount}
@@ -72,9 +73,11 @@ function renderMacros(broadcast) {
     );
   });
 
+  const otherKey = 'other';
   data.push(<MacroStats
-    name="other"
-    label="other"
+    key={otherKey}
+    name={otherKey}
+    label={otherKey}
     count={totalReplyCount - macroReplyCount}
     total={totalReplyCount}
   />);
@@ -127,27 +130,26 @@ const BroadcastDetail = (props) => {
     const campaignLink = `/campaigns/${campaignId}`;
     broadcast.context = renderRow('Campaign', <Link to={campaignLink}>{campaignId}</Link>);
   }
+  // TODO: Remove this check after https://github.com/DoSomething/gambit-conversations/pull/368 is
+  // deployed to Gambit Conversations.
+  const broadcastMessageText = broadcast.message.text || broadcast.message;
+
   return (
     <div>
       <PageHeader>{helpers.broadcastName(broadcast)}</PageHeader>
       <Panel>
         <Panel.Body>
-          <Form horizontal>
-            {broadcast.context}
-            {renderRow('Created', <Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment>)}
-            {renderRow('Text', broadcast.message)}
-          </Form>
+          {broadcast.context}
+          {renderRow('Created', <Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment>)}
+          {renderRow('Text', broadcastMessageText)}
           <ContentfulLink entryId={broadcast.id} />
         </Panel.Body>
       </Panel>
-
       <h2>Stats</h2>
       {renderStats(broadcast)}
       <h2>Settings</h2>
-      <Form horizontal>
-        {renderRow('URL', broadcast.webhook.url)}
-        {renderRow('Body', <pre><code>{broadcast.webhookBody}</code></pre>)}
-      </Form>
+      {renderRow('URL', broadcast.webhook.url)}
+      {renderRow('Body', <pre><code>{broadcast.webhookBody}</code></pre>)}
     </div>
   );
 };
