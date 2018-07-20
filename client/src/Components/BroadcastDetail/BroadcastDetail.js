@@ -130,9 +130,6 @@ const BroadcastDetail = (props) => {
     const campaignLink = `/campaigns/${campaignId}`;
     broadcast.context = renderRow('Campaign', <Link to={campaignLink}>{campaignId}</Link>);
   }
-  // TODO: Remove this check after https://github.com/DoSomething/gambit-conversations/pull/368 is
-  // deployed to Gambit Conversations.
-  const broadcastMessageText = broadcast.message.text || broadcast.message;
 
   return (
     <div>
@@ -141,7 +138,7 @@ const BroadcastDetail = (props) => {
         <Panel.Body>
           {broadcast.context}
           {renderRow('Created', <Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment>)}
-          {renderRow('Text', broadcastMessageText)}
+          {renderRow('Text', broadcast.message.text)}
           <ContentfulLink entryId={broadcast.id} />
         </Panel.Body>
       </Panel>
