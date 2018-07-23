@@ -16,9 +16,6 @@ const BroadcastListItem = (props) => {
     const url = `/campaigns/${campaignId}`;
     context = <small>Campaign: <Link to={url}>{campaignId}</Link></small>;
   }
-  // TODO: Remove this check after https://github.com/DoSomething/gambit-conversations/pull/368 is
-  // deployed to Gambit Conversations.
-  const broadcastMessageText = broadcast.message.text || broadcast.message;
 
   return (
     <tr key={broadcastId}>
@@ -28,7 +25,7 @@ const BroadcastListItem = (props) => {
         </h4>
         <small><Moment format="MM/DD/YYYY">{broadcast.createdAt}</Moment></small>
         <p>{context}</p>
-        <p>{broadcastMessageText}</p>
+        <p>{broadcast.message.text}</p>
       </td>
     </tr>
   );
