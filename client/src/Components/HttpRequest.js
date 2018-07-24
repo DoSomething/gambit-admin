@@ -58,7 +58,11 @@ class HttpRequest extends React.Component {
               );
             }
             return (
-              <div>{pager}{this.props.children(body)}</div>
+              <div>
+                {pager}
+                {this.props.children(body)}
+                {totalResultCount > pageSize ? pager : null}
+              </div>
             );
           }
         }
