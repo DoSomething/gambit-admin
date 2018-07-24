@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, PageHeader, Table } from 'react-bootstrap';
+import { Grid, Table } from 'react-bootstrap';
 import HttpRequest from '../HttpRequest';
 import BroadcastListItem from './BroadcastListItem';
 
@@ -15,8 +15,7 @@ export default class BroadcastListContainer extends React.Component {
   render() {
     return (
       <Grid>
-        <PageHeader>Broadcasts</PageHeader>
-        <HttpRequest path={this.requestPath}>
+        <HttpRequest path={this.requestPath} description="broadcasts">
           {
             res => (
               <Table>

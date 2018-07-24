@@ -10,6 +10,17 @@ const config = require('../config');
 
 const pageSize = config.resultsPageSize;
 
+/**
+ * @param {Object} res
+ * @return {Number}
+ */
+function getPaginationTotal(body) {
+  if (body && body.meta && body.meta.pagination) {
+    return body.meta.pagination.total;
+  }
+  return 0;
+}
+
 class HttpRequest extends React.Component {
   constructor(props) {
     super(props);
@@ -42,11 +53,10 @@ class HttpRequest extends React.Component {
                 </Panel>
               );
             }
-            let totalResultCount = 0;
-            let pager = null;
             const body = result.body;
-            if (body && body.pagination && body.pagination.total) {
-              totalResultCount = body.pagination.total;
+            const totalResultCount = getPaginationTotal(body);
+            let pager = null;
+            if (totalResultCount) {
               pager = (
                 <ListPager
                   totalResultCount={totalResultCount}
@@ -58,7 +68,11 @@ class HttpRequest extends React.Component {
               );
             }
             return (
-              <div>{pager}{this.props.children(body)}</div>
+              <div>
+                {pager}
+                {this.props.children(body)}
+                {totalResultCount > pageSize ? pager : null}
+              </div>
             );
           }
         }
