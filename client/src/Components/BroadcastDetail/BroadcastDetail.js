@@ -136,10 +136,12 @@ const BroadcastDetail = (props) => {
       <PageHeader>{helpers.broadcastName(broadcast)}</PageHeader>
       <Panel>
         <Panel.Body>
+          <p>
+            <ContentfulLink entryId={broadcast.id} />
+          </p>
           {broadcast.context}
           {renderRow('Created', <Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment>)}
           {renderRow('Text', broadcast.message.text)}
-          <ContentfulLink entryId={broadcast.id} />
         </Panel.Body>
       </Panel>
       <h2>Stats</h2>
