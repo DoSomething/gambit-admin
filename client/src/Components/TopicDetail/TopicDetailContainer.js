@@ -3,27 +3,19 @@ import PropTypes from 'prop-types';
 import { Grid } from 'react-bootstrap';
 import HttpRequest from '../HttpRequest';
 import TopicDetail from './TopicDetail';
+import helpers from '../../helpers';
 
-const helpers = require('../../helpers');
-
-class TopicDetailContainer extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.topicId = this.props.match.params.topicId;
-    this.requestPath = helpers.getTopicByIdPath(this.topicId);
-  }
-
-  render() {
-    return (
-      <Grid>
-        <HttpRequest path={this.requestPath}>
-          {res => <TopicDetail topic={res} />}
-        </HttpRequest>
-      </Grid>
-    );
-  }
-}
+const TopicDetailContainer = (props) => {
+  const topicId = props.match.params.topicId;
+  const requestPath = helpers.getTopicByIdPath(topicId);
+  return (
+    <Grid>
+      <HttpRequest path={requestPath}>
+        {res => <TopicDetail topic={res} />}
+      </HttpRequest>
+    </Grid>
+  );
+};
 
 TopicDetailContainer.propTypes = {
   match: PropTypes.shape({
