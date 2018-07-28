@@ -132,7 +132,7 @@ const BroadcastDetail = (props) => {
       </p>
     );
   } else {
-    const campaignId = broadcast.campaignId; 
+    const campaignId = broadcast.campaignId;
     const campaignLink = `/campaigns/${campaignId}`;
     description = (
       <p>
