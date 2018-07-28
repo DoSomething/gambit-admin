@@ -33,7 +33,12 @@ const TriggerListItem = (props) => {
           </Col>
           <Col md={8}>{getResponseFromTrigger(trigger)}</Col>
           <Col md={1}>
-            <ContentfulLink bsStyle="link" bsSize="xsmall" entryId={trigger.id} />
+            <ContentfulLink
+              bsStyle="link"
+              bsSize="xsmall"
+              entryId={trigger.id}
+              displayRefresh={false}
+            />
           </Col>
         </Row>
       </ScrollableAnchor>

@@ -5,11 +5,19 @@ import { Button, ButtonToolbar, Glyphicon } from 'react-bootstrap';
 const helpers = require('../helpers');
 
 const ContentfulLink = (props) => {
-  const url = helpers.getContentfulUrlForEntryId(props.entryId);
+  const refreshButton = (
+    <Button
+      href="?cache=false"
+      bsStyle={props.bsStyle}
+      bsSize={props.bsSize}
+    >
+      <Glyphicon glyph="refresh" />
+    </Button>
+  );
   return (
     <ButtonToolbar>
       <Button
-        href={url}
+        href={helpers.getContentfulUrlForEntryId(props.entryId)}
         target="_blank"
         rel="noopener noreferrer"
         bsStyle={props.bsStyle}
@@ -17,13 +25,7 @@ const ContentfulLink = (props) => {
       >
         <Glyphicon glyph="pencil" />
       </Button>
-      <Button
-        href="?cache=false"
-        bsStyle={props.bsStyle}
-        bsSize={props.bsSize}
-      >
-        <Glyphicon glyph="refresh" />
-      </Button>
+      { props.displayRefresh ? refreshButton : null }
     </ButtonToolbar>
   );
 };
@@ -32,11 +34,13 @@ ContentfulLink.propTypes = {
   entryId: PropTypes.string.isRequired,
   bsStyle: PropTypes.string,
   bsSize: PropTypes.string,
+  displayRefresh: PropTypes.bool,
 };
 
 ContentfulLink.defaultProps = {
   bsStyle: 'default',
   bsSize: 'small',
+  displayRefresh: true,
 };
 
 export default ContentfulLink;
