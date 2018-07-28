@@ -2,7 +2,7 @@ import React from 'react';
 import { Panel, Grid, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import TopicTemplates from './TopicTemplates';
+import TemplateList from '../TemplateList/TemplateList';
 import ContentfulLink from '../ContentfulLink';
 
 
@@ -24,7 +24,7 @@ const TopicDetail = (props) => {
           <ContentfulLink entryId={topic.id} />
         </Panel.Body>
       </Panel>
-      <TopicTemplates templates={topic.templates} />
+      <TemplateList templates={topic.templates} />
     </Grid>
   );
 };

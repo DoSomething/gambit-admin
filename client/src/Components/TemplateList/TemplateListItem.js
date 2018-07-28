@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ScrollableAnchor from 'react-scrollable-anchor';
 import { Panel } from 'react-bootstrap';
 
-const TopicTemplate = (props) => {
+const TemplateListItem = (props) => {
   const data = props.data;
   let suffix = '';
   if (data.override) {
@@ -25,9 +25,9 @@ const TopicTemplate = (props) => {
   );
 };
 
-TopicTemplate.propTypes = {
+TemplateListItem.propTypes = {
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   name: PropTypes.string.isRequired,
 };
 
-export default TopicTemplate;
+export default TemplateListItem;

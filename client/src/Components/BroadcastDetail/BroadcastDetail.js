@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { Col, PageHeader, Panel, Row, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import TopicTemplates from '../TopicDetail/TopicTemplates';
-import TopicTemplate from '../TopicDetail/TopicTemplate';
+import TemplateList from '../TemplateList/TemplateList';
+import TemplateListItem from '../TemplateList/TemplateListItem';
 import ContentfulLink from '../ContentfulLink';
 
 const helpers = require('../../helpers');
@@ -160,8 +160,8 @@ const BroadcastDetail = (props) => {
           <ContentfulLink entryId={broadcast.id} />
         </Panel.Body>
       </Panel>
-      <TopicTemplate name={templateName} data={broadcast.message} />
-      <TopicTemplates templates={broadcast.templates} />
+      <TemplateListItem name={templateName} data={broadcast.message} />
+      <TemplateList templates={broadcast.templates} />
       <h2>Stats</h2>
       {renderStats(broadcast)}
       <h2>Settings</h2>

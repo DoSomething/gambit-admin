@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TopicTemplate from './TopicTemplate';
+import TemplateListItem from './TemplateListItem';
 
-const TopicTemplates = (props) => {
+const TemplateList = (props) => {
   const templates = props.templates;
   const templateNames = Object.keys(templates);
   const topicTemplates = templateNames.map((templateName) => {
     const data = templates[templateName];
-    return <TopicTemplate key={templateName} name={templateName} data={data} />;
+    return <TemplateListItem key={templateName} name={templateName} data={data} />;
   });
   return <div>{topicTemplates}</div>;
 };
 
-TopicTemplates.propTypes = {
+TemplateList.propTypes = {
   templates: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 
-TopicTemplates.defaultProps = {
+TemplateList.defaultProps = {
   templates: {},
 };
 
-export default TopicTemplates;
+export default TemplateList;
