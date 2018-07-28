@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { Col, PageHeader, Panel, Row, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import TopicTemplates from '../TopicDetail/TopicTemplates';
 import TopicTemplate from '../TopicDetail/TopicTemplate';
 import ContentfulLink from '../ContentfulLink';
 
@@ -136,7 +137,7 @@ const BroadcastDetail = (props) => {
     const campaignLink = `/campaigns/${campaignId}`;
     description = (
       <p>
-        This broadcast is for <Link to={campaignLink}>{campaignId}</Link>.
+        This broadcast is for campaign <Link to={campaignLink}>{campaignId}</Link>.
       </p>
     );
   }
@@ -144,9 +145,6 @@ const BroadcastDetail = (props) => {
   if (templateName === 'rivescript') {
     templateName = null;
   }
-  const templateData = {
-    rendered: broadcast.message.text,
-  };
 
   return (
     <div>
@@ -162,7 +160,8 @@ const BroadcastDetail = (props) => {
           <ContentfulLink entryId={broadcast.id} />
         </Panel.Body>
       </Panel>
-      <TopicTemplate name={templateName} data={templateData} />
+      <TopicTemplate name={templateName} data={broadcast.message} />
+      <TopicTemplates templates={broadcast.templates} />
       <h2>Stats</h2>
       {renderStats(broadcast)}
       <h2>Settings</h2>
