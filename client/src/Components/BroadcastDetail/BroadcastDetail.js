@@ -125,15 +125,9 @@ function renderStats(broadcast) {
 const BroadcastDetail = (props) => {
   const broadcast = props.broadcast;
   broadcast.webhookBody = JSON.stringify(broadcast.webhook.body, null, 2);
-  let description;
-  if (broadcast.topic) {
-    description = (
-      <p>
-        This broadcast sets the user conversation topic to <code>{broadcast.topic}</code>.
-      </p>
-    );
-  } else {
-    const campaignId = broadcast.campaignId;
+  const campaignId = broadcast.campaignId;
+  let description = null;
+  if (campaignId) {
     const campaignLink = `/campaigns/${campaignId}`;
     description = (
       <p>
@@ -141,19 +135,15 @@ const BroadcastDetail = (props) => {
       </p>
     );
   }
-  let templateName = broadcast.message.template;
-  if (templateName === 'rivescript') {
-    templateName = null;
-  }
+  const templateValue = broadcast.message.template;
+  const templateName = templateValue === 'rivescript' ? '' : templateValue;
 
   return (
     <div>
       <PageHeader>{helpers.broadcastName(broadcast)}</PageHeader>
       <Panel>
         <Panel.Body>
-          <p>
-            {description}
-          </p>
+          {description}
           <p>
             Created <strong><Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment></strong>
           </p>
