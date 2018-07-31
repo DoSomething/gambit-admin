@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { Col, PageHeader, Panel, Row, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import TemplateList from '../TemplateList/TemplateList';
+import TemplateListItem from '../TemplateList/TemplateListItem';
 import ContentfulLink from '../ContentfulLink';
 
 const helpers = require('../../helpers');
@@ -123,25 +125,33 @@ function renderStats(broadcast) {
 const BroadcastDetail = (props) => {
   const broadcast = props.broadcast;
   broadcast.webhookBody = JSON.stringify(broadcast.webhook.body, null, 2);
-  if (broadcast.topic) {
-    broadcast.context = renderRow('Topic', broadcast.topic);
-  } else {
-    const campaignId = broadcast.campaignId;
+  const campaignId = broadcast.campaignId;
+  let description = null;
+  if (campaignId) {
     const campaignLink = `/campaigns/${campaignId}`;
-    broadcast.context = renderRow('Campaign', <Link to={campaignLink}>{campaignId}</Link>);
+    description = (
+      <p>
+        This broadcast is for campaign <Link to={campaignLink}>{campaignId}</Link>.
+      </p>
+    );
   }
+  const templateValue = broadcast.message.template;
+  const templateName = templateValue === 'rivescript' ? '' : templateValue;
 
   return (
     <div>
       <PageHeader>{helpers.broadcastName(broadcast)}</PageHeader>
       <Panel>
         <Panel.Body>
-          {broadcast.context}
-          {renderRow('Created', <Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment>)}
-          {renderRow('Text', broadcast.message.text)}
+          {description}
+          <p>
+            Created <strong><Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment></strong>
+          </p>
           <ContentfulLink entryId={broadcast.id} />
         </Panel.Body>
       </Panel>
+      <TemplateListItem name={templateName} data={broadcast.message} />
+      <TemplateList templates={broadcast.templates} />
       <h2>Stats</h2>
       {renderStats(broadcast)}
       <h2>Settings</h2>
