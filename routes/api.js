@@ -16,7 +16,7 @@ router.get('/broadcasts', (req, res) => {
 });
 
 router.get('/broadcasts/:id', (req, res) => {
-  conversations.getBroadcastById(req.params.id)
+  conversations.getBroadcastById(req.params.id, req.query)
     .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });
@@ -58,7 +58,7 @@ router.get('/topics', (req, res) => {
 });
 
 router.get('/topics/:id', (req, res) => {
-  campaigns.getTopicById(req.params.id)
+  campaigns.getTopicById(req.params.id, req.query)
     .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });
