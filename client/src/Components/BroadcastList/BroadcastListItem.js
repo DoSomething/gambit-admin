@@ -25,7 +25,7 @@ const BroadcastListItem = (props) => {
         </h4>
         <small><Moment format="MM/DD/YYYY">{broadcast.createdAt}</Moment></small>
         <p>{context}</p>
-        <p>{broadcast.message.text}</p>
+        <p>{broadcast.message ? broadcast.message.text : null}</p>
       </td>
     </tr>
   );
