@@ -2,9 +2,7 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Moment from 'react-moment';
 
-const helpers = require('../../helpers');
 
 const BroadcastListItem = (props) => {
   const broadcast = props.broadcast;
@@ -25,7 +23,7 @@ const BroadcastListItem = (props) => {
         <p>{context}</p>
       </Col>
       <Col componentClass="td" md={7}>
-        {!!(broadcast.message) ? broadcast.message.text : null}
+        {broadcast.message.text}
       </Col>
     </Row>
   );
