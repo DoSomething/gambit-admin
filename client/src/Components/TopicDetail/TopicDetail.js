@@ -5,22 +5,48 @@ import { Link } from 'react-router-dom';
 import TemplateList from '../TemplateList/TemplateList';
 import ContentfulLink from '../ContentfulLink';
 
+/**
+  * TODO: Move into a TopicSummary component.
+  * @param {Object} topic
+  */
+function getSummary(topic) {
+  if (!topic.campaign) {
+    return null;
+  }
+
+  const campaign = topic.campaign;
+  let postInfo = null;
+  if (topic.type === 'textPostConfig') {
+    postInfo = ' and text posts';
+  } else if (topic.type === 'photoPostConfig') {
+    postInfo = ' and photo posts';
+  }
+  const campaignLink = <Link to={`/campaigns/${campaign.id}`}>{campaign.title}</Link>;
+
+  return (
+    <p>
+     Creates signups{postInfo} for <strong>{campaignLink}</strong>.
+    </p>
+  );
+}
+
+/**
+ * @param {Object} topic
+ */
+function getTriggers(topic) {
+  const hasTriggers = topic.triggers.length;
+  return hasTriggers ? <p><strong>Keywords:</strong> {topic.triggers.join(', ')}</p> : null;
+}
 
 const TopicDetail = (props) => {
   const topic = props.topic;
-  const postType = topic.postType;
-  const campaignId = topic.campaign ? topic.campaign.id : '--';
-  const campaignLink = (
-    <Link to={`/campaigns/${campaignId}`}>campaign <strong>{campaignId}</strong></Link>
-  );
-
   return (
     <Grid>
       <PageHeader>{topic.name}</PageHeader>
       <Panel>
         <Panel.Body>
-          <p>Creates signups and <strong>{postType}</strong> posts for {campaignLink}.</p>
-          <p><strong>Triggers:</strong> {topic.triggers.join(', ')}</p>
+          {getSummary(topic)}
+          {getTriggers(topic)}
           <ContentfulLink entryId={topic.id} />
         </Panel.Body>
       </Panel>
