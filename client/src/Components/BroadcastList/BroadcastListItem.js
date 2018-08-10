@@ -1,4 +1,5 @@
 import React from 'react';
+import { Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
@@ -18,16 +19,15 @@ const BroadcastListItem = (props) => {
   }
 
   return (
-    <tr key={broadcastId}>
-      <td>
-        <h4>
-          <Link to={`broadcasts/${broadcastId}`}>{helpers.broadcastName(broadcast)}</Link>
-        </h4>
-        <small><Moment format="MM/DD/YYYY">{broadcast.createdAt}</Moment></small>
+    <Row componentClass="tr" key={broadcastId}>
+      <Col componentClass="td" md={5}>
+        <Link to={`broadcasts/${broadcastId}`}>{broadcast.name}</Link>
         <p>{context}</p>
-        <p>{broadcast.message ? broadcast.message.text : null}</p>
-      </td>
-    </tr>
+      </Col>
+      <Col componentClass="td" md={7}>
+        {!!(broadcast.message) ? broadcast.message.text : null}
+      </Col>
+    </Row>
   );
 };
 
