@@ -58,12 +58,10 @@ MacroStats.propTypes = {
 function renderMacros(broadcast) {
   const stats = broadcast.stats;
   const macros = stats.inbound.macros;
-  let macroReplyCount = 0;
   const totalReplyCount = stats.inbound.total;
 
   const data = Object.keys(stats.inbound.macros).map((macro) => {
     const currentMacroCount = macros[macro];
-    macroReplyCount += currentMacroCount;
     return (
       <MacroStats
         key={macro}
@@ -74,15 +72,6 @@ function renderMacros(broadcast) {
       />
     );
   });
-
-  const otherKey = 'other';
-  data.push(<MacroStats
-    key={otherKey}
-    name={otherKey}
-    label={otherKey}
-    count={totalReplyCount - macroReplyCount}
-    total={totalReplyCount}
-  />);
 
   return (
     <Table striped>

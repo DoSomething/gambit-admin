@@ -6,6 +6,7 @@ const config = require('./config');
  */
 function getHardcodedTopics() {
   return [
+    'ask_subscription_status',
     'askSubscriptionStatus',
     'campaign',
     'flsa',
@@ -24,6 +25,23 @@ function getHardcodedTopics() {
  */
 function getContentfulUrlForEntryId(entryId) {
   return `https://app.contentful.com/spaces/owik07lyerdj/entries/${entryId}`;
+}
+
+function getSummaryFromTopic(topic) {
+  if (!topic.campaign.id) {
+    return 'sends an autoReply';
+  }
+
+  const campaign = topic.campaign;
+  let postInfo = '';
+  if (topic.type === 'textPostConfig') {
+    postInfo = ' and text posts';
+  } else if (topic.type === 'photoPostConfig') {
+    postInfo = ' and photo posts';
+  }
+  const campaignLink = `<a href="/campaigns/${campaign.id}">${campaign.title} (${campaign.id})</a>`;
+
+  return `creates signups${postInfo} for <strong>${campaignLink}</strong>`;
 }
 
 module.exports = {
@@ -65,6 +83,7 @@ module.exports = {
   getMessagesPath: function getMessagesPath() {
     return 'messages';
   },
+  getSummaryFromTopic,
   getTopicsPath: function getTopicsPath() {
     return 'topics';
   },
