@@ -14,10 +14,10 @@ function getTriggers(topic) {
 
 const TopicDetail = (props) => {
   const topic = props.topic;
-  const summaryHtml = helpers.getSummaryFromTopic(topic);
+  const html = helpers.getTopicDescription(topic);
   const summary = (
     <span
-      dangerouslySetInnerHTML={{ __html: summaryHtml }} // eslint-disable-line react/no-danger
+      dangerouslySetInnerHTML={{ __html: html }} // eslint-disable-line react/no-danger
     />
   );
 

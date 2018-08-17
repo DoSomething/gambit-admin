@@ -114,19 +114,10 @@ function renderStats(broadcast) {
 const BroadcastDetail = (props) => {
   const broadcast = props.broadcast;
   broadcast.webhookBody = JSON.stringify(broadcast.webhook.body, null, 2);
-  const campaignId = broadcast.campaignId;
-  let description = null;
-  if (campaignId) {
-    const campaignLink = `/campaigns/${campaignId}`;
-    description = (
-      <p>
-        This broadcast is for campaign <Link to={campaignLink}>{campaignId}</Link>.
-      </p>
-    );
-  }
-  const templateValue = broadcast.message.template;
-  const templateName = templateValue === 'rivescript' ? '' : templateValue;
-
+  const html = helpers.getBroadcastDescription(broadcast);
+  const description = (
+    <p dangerouslySetInnerHTML={{ __html: html }} /> // eslint-disable-line react/no-danger
+  );
   return (
     <div>
       <PageHeader>{helpers.broadcastName(broadcast)}</PageHeader>
@@ -139,7 +130,7 @@ const BroadcastDetail = (props) => {
           <ContentfulLink entryId={broadcast.id} />
         </Panel.Body>
       </Panel>
-      <TemplateListItem name={templateName} data={broadcast.message} />
+      <TemplateListItem name={broadcast.template} data={broadcast.message} />
       <TemplateList templates={broadcast.templates} />
       <h2>Stats</h2>
       {renderStats(broadcast)}

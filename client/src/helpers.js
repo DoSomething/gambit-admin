@@ -27,7 +27,10 @@ function getContentfulUrlForEntryId(entryId) {
   return `https://app.contentful.com/spaces/owik07lyerdj/entries/${entryId}`;
 }
 
-function getSummaryFromTopic(topic) {
+function getTopicDescription(topic) {
+  if (!topic.campaign) {
+    return 'is hardcoded in Rivescript';
+  }
   if (!topic.campaign.id) {
     return 'sends an autoReply';
   }
@@ -42,6 +45,33 @@ function getSummaryFromTopic(topic) {
   const campaignLink = `<a href="/campaigns/${campaign.id}">${campaign.title} (${campaign.id})</a>`;
 
   return `creates signups${postInfo} for <strong>${campaignLink}</strong>`;
+}
+
+function getLegacyBroadcastDescription(broadcast) {
+  if (broadcast.topic) {
+    return `Changes topic to hardcoded <code>${broadcast.topic}</code>.`;
+  } else if (broadcast.campaignId) {
+    const campaignId = broadcast.campaignId;
+    const link = `<a href="/campaigns/${campaignId}">campaign ${campaignId}</a>`;
+    return `Sends ${broadcast.message.template} for ${link}`;
+  }
+  return 'Unknown';
+}
+
+function getBroadcastDescription(broadcast) {
+  if (broadcast.type === 'broadcast') {
+    return getLegacyBroadcastDescription(broadcast);
+  }
+  let topic = broadcast.message.topic;
+  let action = 'Changes';
+  if (broadcast.type === 'askYesNo') {
+    topic = broadcast.templates.saidYes.topic;
+    action = 'Asks whether to change';
+  } else if (!topic.id) {
+    topic.name = broadcast.type;
+  }
+  const link = `<a href="/topics/${topic.id}">${topic.name}</a>`;
+  return `${action} topic to <strong>${link}</strong>, which ${getTopicDescription(topic)}.`;
 }
 
 module.exports = {
@@ -60,6 +90,7 @@ module.exports = {
   getBroadcastByIdPath: function getBroadcastByIdPath(broadcastId) {
     return `${this.getBroadcastsPath()}/${broadcastId}`;
   },
+  getBroadcastDescription,
   getBroadcastsPath: function getBroadcastsPath() {
     return 'broadcasts';
   },
@@ -83,7 +114,7 @@ module.exports = {
   getMessagesPath: function getMessagesPath() {
     return 'messages';
   },
-  getSummaryFromTopic,
+  getTopicDescription,
   getTopicsPath: function getTopicsPath() {
     return 'topics';
   },
