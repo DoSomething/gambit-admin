@@ -3,21 +3,22 @@ import { Col, Row } from 'react-bootstrap';
 import ScrollableAnchor from 'react-scrollable-anchor';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import ContentfulLink from '../ContentfulLink';
 
 /**
  * @param {Object} trigger
  * @return {String}
  */
 function getResponseFromTrigger(trigger) {
-  if (trigger.topic) {
-    const url = `/topics/${trigger.topic.id}`;
-    return <Link to={url}>{trigger.topic.name}</Link>;
-  }
   if (trigger.redirect) {
     return <a href={`#${encodeURIComponent(trigger.redirect)}`}>{`@ ${trigger.redirect}`}</a>;
   }
-  return trigger.reply;
+  const reply = trigger.reply[0];
+  if (reply.includes('changeTopic')) {
+    const topicChangeCommand = reply.replace(/{(.*)}/, '$1').split('=');
+    const topicId = topicChangeCommand[1];
+    return <Link to={`/topics/${topicId}`}>{topicId}</Link>;
+  }
+  return trigger.reply[0];
 }
 
 const TriggerListItem = (props) => {
@@ -32,14 +33,6 @@ const TriggerListItem = (props) => {
             <a href={`#${anchor}`}><strong>{triggerText}</strong></a>
           </Col>
           <Col md={8}>{getResponseFromTrigger(trigger)}</Col>
-          <Col md={1}>
-            <ContentfulLink
-              bsStyle="link"
-              bsSize="xsmall"
-              entryId={trigger.id}
-              displayRefresh={false}
-            />
-          </Col>
         </Row>
       </ScrollableAnchor>
     </td></tr>

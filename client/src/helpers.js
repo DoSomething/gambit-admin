@@ -114,6 +114,9 @@ module.exports = {
   getMessagesPath: function getMessagesPath() {
     return 'messages';
   },
+  getRivescriptPath: function getRivescriptPath() {
+    return 'rivescript';
+  },
   getTopicDescription,
   getTopicsPath: function getTopicsPath() {
     return 'topics';
