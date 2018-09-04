@@ -10,16 +10,14 @@ function renderTopics(topics, displayCampaign) {
   if (!topics || !topics.length) {
     return <p>No topics found</p>;
   }
-  const campaignCell = displayCampaign ? <Col md={1} componentClass="th">Campaign</Col> : null;
   const rows = topics.map(topic => (
     <TopicListItem key={topic.id} topic={topic} displayCampaign={displayCampaign} />
   ));
   const header = (
     <Row componentClass="tr">
-      {campaignCell}
-      <Col componentClass="th" md={1}>Posts</Col>
-      <Col componentClass="th" md={6}>Topic</Col>
-      <Col componentClass="th" md={4}>Triggers</Col>
+      <Col componentClass="th" md={5}>Topic</Col>
+      <Col componentClass="th" md={5}>{displayCampaign ? 'Campaign' : null}</Col>
+      <Col componentClass="th" md={2}>Triggers</Col>
     </Row>
   );
   return <Table><tbody>{header}{rows}</tbody></Table>;

@@ -1,17 +1,24 @@
 import React from 'react';
 import { Panel, Grid, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import TemplateList from '../TemplateList/TemplateList';
 import ContentfulLink from '../ContentfulLink';
+import helpers from '../../helpers';
 
+/**
+ * @param {Object} topic
+ */
+function getTriggers(topic) {
+  return <p><strong>Keywords:</strong> {topic.triggers.join(', ')}</p>;
+}
 
 const TopicDetail = (props) => {
   const topic = props.topic;
-  const postType = topic.postType;
-  const campaignId = topic.campaign ? topic.campaign.id : '--';
-  const campaignLink = (
-    <Link to={`/campaigns/${campaignId}`}>campaign <strong>{campaignId}</strong></Link>
+  const html = helpers.getTopicDescription(topic);
+  const summary = (
+    <span
+      dangerouslySetInnerHTML={{ __html: html }} // eslint-disable-line react/no-danger
+    />
   );
 
   return (
@@ -19,8 +26,10 @@ const TopicDetail = (props) => {
       <PageHeader>{topic.name}</PageHeader>
       <Panel>
         <Panel.Body>
-          <p>Creates signups and <strong>{postType}</strong> posts for {campaignLink}.</p>
-          <p><strong>Triggers:</strong> {topic.triggers.join(', ')}</p>
+          <p>
+            This topic {summary}.
+          </p>
+          {topic.triggers.length ? getTriggers(topic) : null}
           <ContentfulLink entryId={topic.id} />
         </Panel.Body>
       </Panel>
