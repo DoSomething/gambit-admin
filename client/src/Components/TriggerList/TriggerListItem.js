@@ -18,7 +18,7 @@ function getResponseFromTrigger(trigger) {
     const topicId = topicChangeCommand[1];
     return <Link to={`/topics/${topicId}`}>{topicId}</Link>;
   }
-  return trigger.reply[0];
+  return reply;
 }
 
 const TriggerListItem = (props) => {
