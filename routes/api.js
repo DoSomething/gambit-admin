@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-const campaigns = require('../lib/gambit-campaigns');
+const contentApi = require('../lib/gambit-campaigns');
 const conversations = require('../lib/gambit-conversations');
 const northstar = require('../lib/northstar');
 const rogue = require('../lib/rogue');
@@ -22,13 +22,19 @@ router.get('/broadcasts/:id', (req, res) => {
 });
 
 router.get('/campaigns', (req, res) => {
-  campaigns.getCampaigns()
+  contentApi.getCampaigns()
     .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
 router.get('/campaigns/:id', (req, res) => {
-  campaigns.getCampaignById(req.params.id)
+  contentApi.getCampaignById(req.params.id)
+    .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
+router.get('/contentfulEntries', (req, res) => {
+  contentApi.getContentfulEntries(req.query)
     .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });
@@ -40,7 +46,7 @@ router.get('/conversations/', (req, res) => {
 });
 
 router.get('/defaultTopicTriggers', (req, res) => {
-  campaigns.getDefaultTopicTriggers()
+  contentApi.getDefaultTopicTriggers()
     .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });
@@ -58,13 +64,13 @@ router.get('/rivescript', (req, res) => {
 });
 
 router.get('/topics', (req, res) => {
-  campaigns.getTopics(req.query)
+  contentApi.getTopics(req.query)
     .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
 router.get('/topics/:id', (req, res) => {
-  campaigns.getTopicById(req.params.id, req.query)
+  contentApi.getTopicById(req.params.id, req.query)
     .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });
