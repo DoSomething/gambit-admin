@@ -57,6 +57,12 @@ router.get('/messages', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
+router.post('/messages', (req, res) => {
+  conversations.postMessages(req.query, req.body)
+    .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
 router.get('/rivescript', (req, res) => {
   conversations.getRivescript(req.query)
     .then(apiRes => res.send(apiRes))
