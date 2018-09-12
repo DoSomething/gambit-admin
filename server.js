@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const bodyParser = require('body-parser');
 const path = require('path');
 const logger = require('heroku-logger');
 
@@ -16,6 +17,11 @@ const buildPath = config.buildPath;
 
 // Priority serve any static files.
 app.use(express.static(path.resolve(__dirname, buildPath)));
+
+// parse application/json Content-Type
+app.use(bodyParser.json());
+// parse application/x-www-form-urlencoded Content-Type
+app.use(bodyParser.urlencoded({ extended: true }));
 
 require('./routes')(app);
 
