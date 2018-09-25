@@ -1,9 +1,9 @@
 import React from 'react';
 import { Col, Panel, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import HttpRequest from '../HttpRequest';
 import ContentfulLink from '../ContentfulLink';
-import PropTypes from 'prop-types';
 
 const WebSignupListItem = (props) => {
   const data = props.data.raw;

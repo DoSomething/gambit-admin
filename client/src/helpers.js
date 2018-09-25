@@ -83,9 +83,7 @@ module.exports = {
    */
   apiUrl: function apiUrl(path, query = {}) {
     const endpoint = `/${config.apiPrefix}/${path}`;
-    console.log(query);
     const queryString = querystring.stringify(query);
-    console.log(queryString);
     const result = `${endpoint}?${queryString}`;
     return result;
   },
