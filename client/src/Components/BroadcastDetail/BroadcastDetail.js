@@ -58,7 +58,7 @@ MacroStats.propTypes = {
 function renderMacros(broadcast) {
   const stats = broadcast.stats;
   const macros = stats.inbound.macros;
-  const totalReplyCount = stats.inbound.total;
+  const totalReplyCount = stats.outbound.total;
 
   const data = Object.keys(stats.inbound.macros).map((macro) => {
     const currentMacroCount = macros[macro];
