@@ -140,8 +140,11 @@ function userInfo(user) {
           </Col>
         </Row>
         <Row>
-          <Col sm={12}>
+          <Col sm={6}>
             <strong>User created:</strong> {registrationDate} {registrationSource}
+          </Col>
+          <Col sm={6}>
+            <strong>Voting plan status:</strong> {user.voting_plan_status}
           </Col>
         </Row>
       </Panel.Body>
