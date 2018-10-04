@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 
 const VotingPlan = (props) => {
   const user = props.user;
+  const status = user.voting_plan_status;
   const timeOfDay = user.voting_plan_time_of_day;
-  if (!timeOfDay) {
-    return <span>user.voting_plan_status</span>;
+  if (status !== 'voting' || !timeOfDay) {
+    return <span>{status}</span>;
   }
   return (
     <span>
