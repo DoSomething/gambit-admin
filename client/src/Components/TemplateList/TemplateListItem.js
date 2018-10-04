@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ScrollableAnchor from 'react-scrollable-anchor';
+import { Link } from 'react-router-dom';
 import { Panel } from 'react-bootstrap';
 
 const TemplateListItem = (props) => {
@@ -11,6 +12,12 @@ const TemplateListItem = (props) => {
   }
   const name = props.name;
   const text = props.data.rendered || props.data.text;
+  let topic = null;
+  const topicId = props.data.topic.id;
+  if (topicId) {
+    const link = <Link to={`topic/${topicId}`}>{props.data.topic.name}</Link>;
+    topic = <Panel.Footer>Changes topic to {link}</Panel.Footer>;
+  }
   return (
     <Panel id={name} key={name}>
       <Panel.Heading>
@@ -20,7 +27,10 @@ const TemplateListItem = (props) => {
           </Panel.Title>
         </ScrollableAnchor>
       </Panel.Heading>
-      <Panel.Body>{text}</Panel.Body>
+      <Panel.Body>
+        {text}
+      </Panel.Body>
+      {topic}
     </Panel>
   );
 };
