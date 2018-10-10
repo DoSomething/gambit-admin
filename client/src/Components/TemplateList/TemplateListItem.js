@@ -12,11 +12,14 @@ const TemplateListItem = (props) => {
   }
   const name = props.name;
   const text = props.data.rendered || props.data.text;
-  let topic = null;
-  const topicId = props.data.topic.id;
-  if (topicId) {
-    const link = <Link to={`topic/${topicId}`}>{props.data.topic.name}</Link>;
-    topic = <Panel.Footer>Changes topic to {link}</Panel.Footer>;
+  const topic = props.data.topic || {};
+  let footer = null;
+  if (topic.id) {
+    footer = (
+      <Panel.Footer>
+        Changes topic to <Link to={`/topics/${topic.id}`}>{topic.name}</Link>
+      </Panel.Footer>
+    );
   }
   return (
     <Panel id={name} key={name}>
@@ -30,7 +33,7 @@ const TemplateListItem = (props) => {
       <Panel.Body>
         {text}
       </Panel.Body>
-      {topic}
+      {footer}
     </Panel>
   );
 };
