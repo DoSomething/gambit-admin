@@ -3,6 +3,7 @@ import { Col, Panel, Image, Label, ListGroup, ListGroupItem, PageHeader, Row, Ta
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import MessageList from '../MessageList/MessageListContainer';
+import VotingPlan from './VotingPlan';
 
 const queryString = require('query-string');
 const helpers = require('../../helpers');
@@ -140,8 +141,11 @@ function userInfo(user) {
           </Col>
         </Row>
         <Row>
-          <Col sm={12}>
+          <Col sm={6}>
             <strong>User created:</strong> {registrationDate} {registrationSource}
+          </Col>
+          <Col sm={6}>
+            <strong>Voting plan:</strong> <VotingPlan user={user} />
           </Col>
         </Row>
       </Panel.Body>
