@@ -8,7 +8,6 @@ import helpers from '../../helpers';
 const SignupListItem = (props) => {
   const signup = props.signup;
   const campaignId = signup.campaign_id;
-  const campaignLink = <a href={`/campaigns/${campaignId}`}>{campaignId}</a>;
   const source = signup.signup_source ? ` via ${helpers.formatSource(signup.signup_source)}` : null;
   let description = null;
   if (signup.why_participated) {
@@ -26,7 +25,7 @@ const SignupListItem = (props) => {
         <a href={signup.url}><Moment format={'MM/DD/YY'}>{signup.created_at}</Moment>{source}</a>
       </Col>
       <Col componentClass="td">
-        <strong>{campaignLink}</strong>
+        <strong><a href={`/campaigns/${campaignId}`}>{campaignId}</a></strong>
       </Col>
       <Col componentClass="td">
         {description}

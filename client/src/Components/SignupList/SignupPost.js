@@ -16,7 +16,6 @@ function postLabel(status) {
 
 const SignupPost = (props) => {
   const post = props.post;
-  const createdAt = <Moment format={'MM/DD/YY'}>{post.created_at}</Moment>;
   const source = post.source ? ` via ${helpers.formatSource(post.source)}` : null;
   let mediaGroupItem = null;
   if (post.media.url) {
@@ -41,7 +40,7 @@ const SignupPost = (props) => {
       <ListGroupItem><strong>{post.media.caption}</strong></ListGroupItem>
       {quantityItem}
       <ListGroupItem>
-        Post created {createdAt}{source}
+        Post created <Moment format={'MM/DD/YY'}>{post.created_at}</Moment> {source}
         <div>{postLabel(post.status)}</div>
       </ListGroupItem>
     </ListGroup>
