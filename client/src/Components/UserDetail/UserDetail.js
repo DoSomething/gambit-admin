@@ -1,14 +1,13 @@
 import React from 'react';
-import { Col, Panel, Image, Label, ListGroup, ListGroupItem, PageHeader, Row, Tab, Table, Tabs } from 'react-bootstrap';
+import { Col, Panel, PageHeader, Row, Tab, Tabs } from 'react-bootstrap';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
 import MessageList from '../MessageList/MessageListContainer';
 import SignupList from '../SignupList/SignupListContainer';
 import VotingPlan from './VotingPlan';
-
-const queryString = require('query-string');
-const helpers = require('../../helpers');
-const config = require('../../config');
+import helpers from '../../helpers';
+import config from '../../config';
 
 function userInfo(user) {
   const lastMessagedDate = <Moment format={config.dateFormat}>{ user.last_messaged_at }</Moment>;

@@ -1,29 +1,15 @@
 import React from 'react';
-import { Col, Panel, Image, Label, ListGroup, ListGroupItem, PageHeader, Row, Tab, Table, Tabs } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import SignupPost from './SignupPost';
-
-const queryString = require('query-string');
-const helpers = require('../../helpers');
-const config = require('../../config');
-
-function postLabel(status) {
-  let style = 'warning';
-  if (status === 'rejected') {
-    style = 'danger';
-  } else if (status === 'accepted') {
-    style = 'success';
-  }
-  return <Label bsStyle={style}>{status}</Label>;
-}
+import helpers from '../../helpers';
 
 const SignupListItem = (props) => {
   const signup = props.signup;
   const campaignId = signup.campaign_id;
   const campaignLink = <a href={`/campaigns/${campaignId}`}>{campaignId}</a>;
   const source = signup.signup_source ? ` via ${helpers.formatSource(signup.signup_source)}` : null;
-  const quantity = signup.quantity ? <strong>Quantity: {signup.quantity}</strong> : null;
   let description = null;
   if (signup.why_participated) {
     description = (
@@ -48,6 +34,10 @@ const SignupListItem = (props) => {
       </Col>
     </Row>
   );
+};
+
+SignupListItem.propTypes = {
+  signup: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default SignupListItem;

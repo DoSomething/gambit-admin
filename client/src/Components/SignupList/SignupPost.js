@@ -1,5 +1,6 @@
 import React from 'react';
-import { Col, Panel, Image, Label, ListGroup, ListGroupItem, PageHeader, Row, Tab, Table, Tabs } from 'react-bootstrap';
+import { Image, Label, ListGroup, ListGroupItem } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import helpers from '../../helpers';
 
@@ -10,7 +11,7 @@ function postLabel(status) {
   } else if (status === 'accepted') {
     style = 'success';
   }
-  return <p><Label bsStyle={style}>{status}</Label></p>;
+  return <Label bsStyle={style}>{status}</Label>;
 }
 
 const SignupPost = (props) => {
@@ -25,15 +26,30 @@ const SignupPost = (props) => {
       </ListGroupItem>
     );
   }
+  let quantityItem = null;
+  if (post.quantity) {
+    quantityItem = (
+      <ListGroupItem>
+        Quantity: <strong>{post.quantity}</strong>
+      </ListGroupItem>
+    );
+  }
 
-  return (  
+  return (
     <ListGroup key={post.id}>
       {mediaGroupItem}
       <ListGroupItem><strong>{post.media.caption}</strong></ListGroupItem>
-      {post.quantity ? <ListGroupItem>Quantity: <strong>{post.quantity}</strong></ListGroupItem> : null}
-      <ListGroupItem>Post created {createdAt}{source} {postLabel(post.status)}</ListGroupItem>
+      {quantityItem}
+      <ListGroupItem>
+        Post created {createdAt}{source}
+        <div>{postLabel(post.status)}</div>
+      </ListGroupItem>
     </ListGroup>
   );
-}
+};
+
+SignupPost.propTypes = {
+  post: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+};
 
 export default SignupPost;

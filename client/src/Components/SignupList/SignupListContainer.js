@@ -1,8 +1,9 @@
 import React from 'react';
-import { Grid, Table, Row, Col } from 'react-bootstrap';
+import { Table, Row, Col } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import SignupListItem from './SignupListItem';
 
-const SignupListContainer = (props) => (
+const SignupListContainer = props => (
   <Table>
     <thead>
       <Row componentClass="tr">
@@ -16,5 +17,9 @@ const SignupListContainer = (props) => (
     </tbody>
   </Table>
 );
+
+SignupListContainer.propTypes = {
+  signups: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+};
 
 export default SignupListContainer;
