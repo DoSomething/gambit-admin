@@ -26,11 +26,12 @@ const TopicDetail = (props) => {
       <PageHeader>{topic.name}</PageHeader>
       <Panel>
         <Panel.Body>
+          <ContentfulLink entryId={topic.id} />
           <p>
             This topic {summary}.
           </p>
           {topic.triggers.length ? getTriggers(topic) : null}
-          <ContentfulLink entryId={topic.id} />
+
         </Panel.Body>
       </Panel>
       <TemplateList templates={topic.templates} />

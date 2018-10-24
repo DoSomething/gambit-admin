@@ -123,11 +123,11 @@ const BroadcastDetail = (props) => {
       <PageHeader>{helpers.broadcastName(broadcast)}</PageHeader>
       <Panel>
         <Panel.Body>
+          <ContentfulLink entryId={broadcast.id} />
           {description}
           <p>
             Created <strong><Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment></strong>
           </p>
-          <ContentfulLink entryId={broadcast.id} />
         </Panel.Body>
       </Panel>
       <TemplateListItem name={broadcast.template} data={broadcast.message} />
