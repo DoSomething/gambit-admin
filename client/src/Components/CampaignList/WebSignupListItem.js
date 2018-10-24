@@ -28,8 +28,8 @@ const WebSignupListItem = (props) => {
             <Col>
               <Panel>
                 <Panel.Heading>
-                  <Link to={campaignUrl}>{res.title} ({campaignId})</Link>
                   <ContentfulLink entryId={campaignConfigId} bsSize="small" displayRefresh={false} />
+                  <Link to={campaignUrl}><h4>{res.title} ({campaignId})</h4></Link>
                 </Panel.Heading>
                 <Panel.Body>
                   <p>{message.text}</p>
