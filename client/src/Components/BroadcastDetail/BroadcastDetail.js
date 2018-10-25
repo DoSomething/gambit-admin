@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Moment from 'react-moment';
-import { Col, PageHeader, Panel, Row, Table } from 'react-bootstrap';
+import { Col, PageHeader, Row, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import TemplateList from '../TemplateList/TemplateList';
 import TemplateListItem from '../TemplateList/TemplateListItem';
@@ -114,23 +113,14 @@ function renderStats(broadcast) {
 const BroadcastDetail = (props) => {
   const broadcast = props.broadcast;
   broadcast.webhookBody = JSON.stringify(broadcast.webhook.body, null, 2);
-  const html = helpers.getBroadcastDescription(broadcast);
-  const description = (
-    <p dangerouslySetInnerHTML={{ __html: html }} /> // eslint-disable-line react/no-danger
-  );
+
   return (
     <div>
-      <PageHeader>{helpers.broadcastName(broadcast)}</PageHeader>
-      <Panel>
-        <Panel.Body>
-          {description}
-          <p>
-            Created <strong><Moment format="MMM D, YYYY">{broadcast.createdAt}</Moment></strong>
-          </p>
-          <ContentfulLink entryId={broadcast.id} />
-        </Panel.Body>
-      </Panel>
-      <TemplateListItem name={broadcast.template} data={broadcast.message} />
+      <PageHeader>
+        <ContentfulLink entryId={broadcast.id} />
+        {helpers.broadcastName(broadcast)}
+      </PageHeader>
+      <TemplateListItem name={broadcast.type} data={broadcast.message} />
       <TemplateList templates={broadcast.templates} />
       <h2>Stats</h2>
       {renderStats(broadcast)}
