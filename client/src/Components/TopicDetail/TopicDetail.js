@@ -5,13 +5,6 @@ import TemplateList from '../TemplateList/TemplateList';
 import ContentfulLink from '../ContentfulLink';
 import helpers from '../../helpers';
 
-/**
- * @param {Object} topic
- */
-function getTriggers(topic) {
-  return <p><strong>Keywords:</strong> {topic.triggers.join(', ')}</p>;
-}
-
 const TopicDetail = (props) => {
   const topic = props.topic;
   const html = helpers.getTopicDescription(topic);
@@ -28,10 +21,8 @@ const TopicDetail = (props) => {
         <Panel.Body>
           <ContentfulLink entryId={topic.id} />
           <p>
-            This topic {summary}.
+            <strong>Campaign</strong>: {topic.campaign.title}
           </p>
-          {topic.triggers.length ? getTriggers(topic) : null}
-
         </Panel.Body>
       </Panel>
       <TemplateList templates={topic.templates} />
