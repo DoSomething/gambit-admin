@@ -15,7 +15,7 @@ const ContentfulLink = (props) => {
     </Button>
   );
   return (
-    <ButtonToolbar>
+    <ButtonToolbar className="pull-right" style={{ marginTop: '-4px' }} >
       <Button
         href={helpers.getContentfulUrlForEntryId(props.entryId)}
         target="_blank"

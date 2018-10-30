@@ -3,34 +3,19 @@ import { Panel, Grid, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import TemplateList from '../TemplateList/TemplateList';
 import ContentfulLink from '../ContentfulLink';
-import helpers from '../../helpers';
-
-/**
- * @param {Object} topic
- */
-function getTriggers(topic) {
-  return <p><strong>Keywords:</strong> {topic.triggers.join(', ')}</p>;
-}
 
 const TopicDetail = (props) => {
   const topic = props.topic;
-  const html = helpers.getTopicDescription(topic);
-  const summary = (
-    <span
-      dangerouslySetInnerHTML={{ __html: html }} // eslint-disable-line react/no-danger
-    />
-  );
-
+  const campaignTitle = topic.campaign.title ? topic.campaign.title : '(None)';
   return (
     <Grid>
       <PageHeader>{topic.name}</PageHeader>
       <Panel>
         <Panel.Body>
-          <p>
-            This topic {summary}.
-          </p>
-          {topic.triggers.length ? getTriggers(topic) : null}
           <ContentfulLink entryId={topic.id} />
+          <p>
+            <strong>Campaign</strong>: {campaignTitle}
+          </p>
         </Panel.Body>
       </Panel>
       <TemplateList templates={topic.templates} />
