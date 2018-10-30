@@ -27,26 +27,6 @@ function getContentfulUrlForEntryId(entryId) {
   return `https://app.contentful.com/spaces/owik07lyerdj/entries/${entryId}`;
 }
 
-function getTopicDescription(topic) {
-  if (!topic.campaign) {
-    return 'is hardcoded in Rivescript';
-  }
-  if (!topic.campaign.id) {
-    return 'sends an autoReply';
-  }
-
-  const campaign = topic.campaign;
-  let postInfo = '';
-  if (topic.type === 'textPostConfig') {
-    postInfo = ' and text posts';
-  } else if (topic.type === 'photoPostConfig') {
-    postInfo = ' and photo posts';
-  }
-  const campaignLink = `<a href="/campaigns/${campaign.id}">${campaign.title} (${campaign.id})</a>`;
-
-  return `creates signups${postInfo} for <strong>${campaignLink}</strong>`;
-}
-
 module.exports = {
   /**
    * Returns localhost API url for given path and query object.
@@ -89,7 +69,6 @@ module.exports = {
   getRivescriptPath: function getRivescriptPath() {
     return 'rivescript';
   },
-  getTopicDescription,
   getTopicsPath: function getTopicsPath() {
     return 'topics';
   },
