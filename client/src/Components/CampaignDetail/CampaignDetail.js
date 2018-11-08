@@ -1,7 +1,10 @@
 import React from 'react';
 import { PageHeader, Panel } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import HttpRequest from '../HttpRequest';
 import TopicList from '../TopicList/TopicListContainer';
+import CampaignTriggers from './CampaignTriggers';
+import helpers from '../../helpers';
 
 const CampaignDetail = (props) => {
   const campaign = props.campaign;
@@ -18,6 +21,10 @@ const CampaignDetail = (props) => {
           </p>
         </Panel.Body>
       </Panel>
+      <h2>Keywords</h2>
+      <HttpRequest path={helpers.getDefaultTopicTriggersPath()}>
+        {triggers => (<CampaignTriggers triggers={triggers} campaignId={campaign.id} />)}
+      </HttpRequest>
       <TopicList campaign={campaign} />
     </div>
   );
