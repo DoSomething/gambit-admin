@@ -7,8 +7,9 @@ const SignupListContainer = props => (
   <Table>
     <thead>
       <Row componentClass="tr">
-        <Col componentClass="td" md={2}>Signup created</Col>
-        <Col componentClass="td" md={2}>Campaign</Col>
+        <Col componentClass="td" md={1}>Created</Col>
+        <Col componentClass="td" md={1}>Campaign</Col>
+        <Col componentClass="td" md={2}>Source</Col>
         <Col componentClass="td" md={8} />
       </Row>
     </thead>
