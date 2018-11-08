@@ -6,7 +6,7 @@ import ContentfulLink from '../ContentfulLink';
 
 const TopicDetail = (props) => {
   const topic = props.topic;
-  const campaignTitle = topic.campaign.title ? topic.campaign.title : '(None)';
+  const campaignTitle = topic.campaign ? topic.campaign.title : '(None)';
   return (
     <Grid>
       <PageHeader>{topic.name}</PageHeader>
