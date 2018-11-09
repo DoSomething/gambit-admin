@@ -22,9 +22,6 @@ class Header extends React.Component {
           <NavItem active={activeCampaigns} eventKey={2} href="/campaigns">
             Campaigns
           </NavItem>
-          <NavItem active={pathname.includes('triggers')} eventKey={3} href="/triggers">
-            Triggers
-          </NavItem>
           <NavItem active={pathname.includes('broadcasts')} eventKey={4} href="/broadcasts">
             Broadcasts
           </NavItem>
@@ -32,6 +29,11 @@ class Header extends React.Component {
         <Navbar.Form pullRight>
           <ConversationSearchForm />
         </Navbar.Form>
+        <Nav pullRight>
+          <NavItem active={pathname.includes('triggers')} eventKey={3} href="/triggers">
+            Admin
+          </NavItem>
+        </Nav>
       </Navbar>
     );
   }
