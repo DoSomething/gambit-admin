@@ -4,6 +4,7 @@ import lodash from 'lodash';
 import Moment from 'react-moment';
 
 import HttpRequest from '../HttpRequest';
+import CampaignLink from '../CampaignLink';
 import TriggerListItem from '../TriggerList/TriggerListItem';
 import WebSignupList from './WebSignupList';
 import helpers from '../../helpers';
@@ -30,7 +31,7 @@ const CampaignListContainer = () => (
               <Panel key={campaignId}>
                 <Panel.Heading>
                   <Panel.Title toggle>
-                    <strong>{campaign.title}</strong> ({campaign.id}) - {campaign.status}
+                    <CampaignLink campaign={campaign} linkDisabled />
                   </Panel.Title>
                 </Panel.Heading>
                 <Panel.Collapse>
