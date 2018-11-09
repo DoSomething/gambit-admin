@@ -1,10 +1,8 @@
 import React from 'react';
 import { PageHeader, Panel } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import HttpRequest from '../HttpRequest';
 import TopicList from '../TopicList/TopicListContainer';
-import CampaignTriggers from './CampaignTriggers';
-import helpers from '../../helpers';
+import TriggerList from '../TriggerList/TriggerListContainer';
 
 const CampaignDetail = (props) => {
   const campaign = props.campaign;
@@ -22,9 +20,8 @@ const CampaignDetail = (props) => {
         </Panel.Body>
       </Panel>
       <h2>Keywords</h2>
-      <HttpRequest path={helpers.getDefaultTopicTriggersPath()}>
-        {triggers => (<CampaignTriggers triggers={triggers} campaignId={campaign.id} />)}
-      </HttpRequest>
+      <TriggerList campaignId={campaign.id} />
+      <h2>All topics</h2>
       <TopicList campaign={campaign} />
     </div>
   );

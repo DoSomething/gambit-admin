@@ -1,46 +1,35 @@
 import React from 'react';
-import { Button, ButtonToolbar, Col, Glyphicon, Grid, Panel, Row, Table } from 'react-bootstrap';
-import queryString from 'query-string';
+import { Table } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import lodash from 'lodash';
 import HttpRequest from '../HttpRequest';
 import TriggerListItem from './TriggerListItem';
 import helpers from '../../helpers';
 
-const TriggerListContainer = () => (
-  <Grid>
-    <HttpRequest
-      path={helpers.getRivescriptPath()}
-      query={queryString.parse(window.location.search)}
-    >
-      {(res) => {
-        const rows = lodash.orderBy(res.data.topics.random, 'trigger')
-          .map(trigger => (<TriggerListItem key={trigger.trigger} trigger={trigger} />));
-        return (
-          <div>
-            <Panel>
-              <Panel.Body>
-                <p>Found <strong>{rows.length}</strong> triggers loaded.</p>
-                <ButtonToolbar>
-                  <Button type="reset" href="?cache=false" bsSize="small">
-                    <Glyphicon glyph="refresh" />
-                  </Button>
-                </ButtonToolbar>
-              </Panel.Body>
-            </Panel>
-            <Table striped><tbody>
-              <tr><th>
-                <Row key="header">
-                  <Col md={3}>Trigger</Col>
-                  <Col md={9}>Reply</Col>
-                </Row>
-              </th></tr>
-              {rows}
-            </tbody></Table>
-          </div>
-        );
-      }}
-    </HttpRequest>
-  </Grid>
+const TriggerListContainer = props => (
+  <HttpRequest path={helpers.getDefaultTopicTriggersPath()}>
+    {(res) => {
+      let data = res;
+      if (props.campaignId) {
+        data = lodash.filter(data, (trigger) => {
+          const topic = trigger.topic;
+          return topic && topic.campaign && topic.campaign.id === props.campaignId;
+        });
+      }
+      data = lodash.orderBy(data, 'trigger');
+      return (
+        <Table>
+          <tbody>
+            {data.map(trigger => <TriggerListItem trigger={trigger} key={trigger.trigger} />)}
+          </tbody>
+        </Table>
+      );
+    }}
+  </HttpRequest>
 );
+
+TriggerListContainer.propTypes = {
+  campaignId: PropTypes.number.isRequired,
+};
 
 export default TriggerListContainer;
