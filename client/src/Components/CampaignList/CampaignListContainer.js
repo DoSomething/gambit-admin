@@ -9,7 +9,7 @@ import TriggerListItem from '../TriggerList/TriggerListItem';
 import WebSignupList from './WebSignupList';
 import helpers from '../../helpers';
 
-const webSignupHelpText = 'Users who signup for the following campaigns over web will receive a SMS confirmation if they have provided their mobile number.';
+const webSignupHelpText = 'Users who sign up for the following campaigns over web will receive a SMS confirmation if they have provided their mobile number.';
 
 const CampaignListContainer = () => (
   <Grid>
@@ -20,12 +20,15 @@ const CampaignListContainer = () => (
       </p>
       <HttpRequest path={helpers.getDefaultTopicTriggersPath()}>
         {(res) => {
-          const campaignTriggers = lodash.filter(res, (trigger) => {
+          // Find all triggers that have a topic campaign.
+          const campaignTriggers = res.filter((trigger) => {
             const topic = trigger.topic;
             return topic && topic.campaign && topic.campaign.id;
           });
+          // Group by topic campaign id.
           const triggersByCampaignId = lodash
             .groupBy(campaignTriggers, trigger => trigger.topic.campaign.id);
+          // Loop through each campaign id and list triggers.
           return Object.keys(triggersByCampaignId).map((campaignId) => {
             const data = lodash.orderBy(triggersByCampaignId[campaignId], 'trigger');
             const campaign = data[0].topic.campaign;

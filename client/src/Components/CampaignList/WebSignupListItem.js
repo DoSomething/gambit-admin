@@ -1,8 +1,9 @@
 import React from 'react';
-import { Col, Panel, Row } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import HttpRequest from '../HttpRequest';
+import CampaignLink from '../CampaignLink';
 import ContentfulLink from '../ContentfulLink';
 
 class WebSignupListItem extends React.Component {
@@ -32,24 +33,20 @@ class WebSignupListItem extends React.Component {
             );
           }
           return (
-            <Row>
-              <Col>
-                <Panel>
-                  <Panel.Heading>
-                    <ContentfulLink entryId={campaignConfigId} bsSize="small" displayRefresh={false} />
-                    <Panel.Title toggle>
-                      <strong>{res.title}</strong> ({campaignId}) - {res.status}
-                    </Panel.Title>
-                  </Panel.Heading>
-                  <Panel.Collapse>
-                    <Panel.Body>
-                      <p>{message.text}</p>
-                    </Panel.Body>
-                    {footer}
-                  </Panel.Collapse>
-                </Panel>
-              </Col>
-            </Row>
+            <Panel>
+              <Panel.Heading>
+                <ContentfulLink entryId={campaignConfigId} bsSize="small" displayRefresh={false} />
+                <Panel.Title toggle>
+                  <CampaignLink campaign={res} linkDisabled />
+                </Panel.Title>
+              </Panel.Heading>
+              <Panel.Collapse>
+                <Panel.Body>
+                  <p>{message.text}</p>
+                </Panel.Body>
+                {footer}
+              </Panel.Collapse>
+            </Panel>
           );
         }}
       </HttpRequest>
