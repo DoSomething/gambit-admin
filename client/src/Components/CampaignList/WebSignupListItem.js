@@ -37,7 +37,9 @@ class WebSignupListItem extends React.Component {
                 <Panel>
                   <Panel.Heading>
                     <ContentfulLink entryId={campaignConfigId} bsSize="small" displayRefresh={false} />
-                    <Panel.Title toggle>{res.title} ({campaignId})</Panel.Title>
+                    <Panel.Title toggle>
+                      <strong>{res.title}</strong> ({campaignId}) - {res.status}
+                    </Panel.Title>
                   </Panel.Heading>
                   <Panel.Collapse>
                     <Panel.Body>

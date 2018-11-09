@@ -3,6 +3,7 @@ import { Col, Row } from 'react-bootstrap';
 import ScrollableAnchor from 'react-scrollable-anchor';
 import PropTypes from 'prop-types';
 import TopicLink from '../TopicLink';
+import ContentfulLink from '../ContentfulLink';
 
 /**
  * @param {Object} topic
@@ -30,7 +31,7 @@ const TriggerListItem = (props) => {
   const trigger = props.trigger;
   return (
     <Row componentClass="tr" key={trigger}>
-      <Col md={3} componentClass="td">
+      <Col md={2} componentClass="td">
         <ScrollableAnchor id={encodeURIComponent(trigger.trigger)}>
           <strong>{trigger.trigger}</strong>
         </ScrollableAnchor>
@@ -38,7 +39,8 @@ const TriggerListItem = (props) => {
       <Col md={6} componentClass="td">
         {trigger.reply || getTemporaryTransitionText(trigger.topic)}
       </Col>
-      <Col md={3} componentClass="td">
+      <Col md={4} componentClass="td">
+        <ContentfulLink entryId={trigger.id} displayRefresh={false} />
         {trigger.topic ? <TopicLink topic={trigger.topic} /> : null}
       </Col>
     </Row>

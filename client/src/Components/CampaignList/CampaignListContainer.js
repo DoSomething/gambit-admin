@@ -10,6 +10,9 @@ const CampaignListContainer = () => (
   <Grid>
     <Row>
       <h3>Keywords</h3>
+      <p>
+        These SMS keywords will create a signup for a campaign.
+      </p>
       <HttpRequest path={helpers.getDefaultTopicTriggersPath()}>
         {(res) => {
           const campaignTriggers = lodash.filter(res, (trigger) => {
@@ -19,17 +22,19 @@ const CampaignListContainer = () => (
           const triggersByCampaignId = lodash
             .groupBy(campaignTriggers, trigger => trigger.topic.campaign.id);
           return Object.keys(triggersByCampaignId).map((campaignId) => {
-            const triggers = lodash.orderBy(triggersByCampaignId[campaignId], 'trigger')
-              .map(trigger => <TriggerListItem trigger={trigger} key={trigger.trigger} />);
+            const data = lodash.orderBy(triggersByCampaignId[campaignId], 'trigger');
+            const campaign = data[0].topic.campaign;
             return (
-              <Panel>
+              <Panel key={campaignId}>
                 <Panel.Heading>
-                  <Panel.Title toggle>{campaignId}</Panel.Title>
+                  <Panel.Title toggle>
+                    <strong>{campaign.title}</strong> ({campaign.id}) - {campaign.status}
+                  </Panel.Title>
                 </Panel.Heading>
                 <Panel.Collapse>
                   <Panel.Body>
                     <Table><tbody>
-                      {triggers}
+                      {data.map(item => <TriggerListItem trigger={item} key={item.trigger} />)}
                     </tbody></Table>
                   </Panel.Body>
                 </Panel.Collapse>
@@ -40,7 +45,7 @@ const CampaignListContainer = () => (
       </HttpRequest>
       <h3>Web signup confirmations</h3>
       <p>
-        These campaigns send a SMS confirmation to a user if the signup is created on the web.
+        These campaigns will send a SMS confirmation to a user if they signup via the web.
       </p>
     </Row>
     <WebSignupList />
