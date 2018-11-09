@@ -1,25 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Col, PageHeader, Row, Table } from 'react-bootstrap';
+import { PageHeader, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import TemplateList from '../TemplateList/TemplateList';
 import TemplateListItem from '../TemplateList/TemplateListItem';
 import ContentfulLink from '../ContentfulLink';
+import BroadcastWebhook from './BroadcastWebhook';
 
 const helpers = require('../../helpers');
 
 function percent(value, total) {
   const result = ((value / total) * 100).toFixed(1);
   return `${result}%`;
-}
-
-function renderRow(label, data) {
-  return (
-    <Row componentClass="div">
-      <Col componentClass="p" sm={2}><strong>{label}</strong></Col>
-      <Col sm={10}>{data}</Col>
-    </Row>
-  );
 }
 
 /**
@@ -101,9 +93,13 @@ function renderStatsHeader(data) {
  */
 function renderStats(broadcast) {
   const stats = broadcast.stats;
+  if (!stats) {
+    return null;
+  }
   const total = stats.inbound.total;
   return (
     <div>
+      <h2>Stats</h2>
       {renderStatsHeader(stats)}
       {total > 0 ? renderMacros(broadcast) : null}
     </div>
@@ -112,8 +108,6 @@ function renderStats(broadcast) {
 
 const BroadcastDetail = (props) => {
   const broadcast = props.broadcast;
-  broadcast.webhookBody = JSON.stringify(broadcast.webhook.body, null, 2);
-
   return (
     <div>
       <PageHeader>
@@ -122,11 +116,8 @@ const BroadcastDetail = (props) => {
       </PageHeader>
       <TemplateListItem name={broadcast.type} data={broadcast.message} />
       <TemplateList templates={broadcast.templates} />
-      <h2>Stats</h2>
       {renderStats(broadcast)}
-      <h2>Settings</h2>
-      {renderRow('URL', broadcast.webhook.url)}
-      {renderRow('Body', <pre><code>{broadcast.webhookBody}</code></pre>)}
+      {broadcast.webhook ? <BroadcastWebhook config={broadcast.webhook} /> : null}
     </div>
   );
 };

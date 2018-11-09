@@ -1,5 +1,4 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
 import HttpRequest from '../HttpRequest';
 import WebSignupListItem from './WebSignupListItem';
 
@@ -9,13 +8,9 @@ const contentfulQuery = {
 };
 
 const WebSignupListContainer = () => (
-  <Table>
-    <tbody>
-      <HttpRequest path="contentfulEntries" query={contentfulQuery}>
-        {res => res.map(item => <WebSignupListItem key={item.raw.sys.id} data={item} />)}
-      </HttpRequest>
-    </tbody>
-  </Table>
+  <HttpRequest path="contentfulEntries" query={contentfulQuery}>
+    {res => res.map(item => <WebSignupListItem key={item.raw.sys.id} data={item} />)}
+  </HttpRequest>
 );
 
 

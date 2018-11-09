@@ -1,12 +1,14 @@
 import React from 'react';
 import { Panel, Grid, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+
 import TemplateList from '../TemplateList/TemplateList';
+import CampaignLink from '../CampaignLink';
 import ContentfulLink from '../ContentfulLink';
 
 const TopicDetail = (props) => {
   const topic = props.topic;
-  const campaignTitle = topic.campaign.title ? topic.campaign.title : '(None)';
+  const campaignTitle = topic.campaign ? <CampaignLink campaign={topic.campaign} linkDisabled={false} /> : '(None)';
   return (
     <Grid>
       <PageHeader>{topic.name}</PageHeader>
@@ -14,7 +16,7 @@ const TopicDetail = (props) => {
         <Panel.Body>
           <ContentfulLink entryId={topic.id} />
           <p>
-            <strong>Campaign</strong>: {campaignTitle}
+            Campaign: {campaignTitle}
           </p>
         </Panel.Body>
       </Panel>
