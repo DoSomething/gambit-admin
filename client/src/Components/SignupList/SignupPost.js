@@ -2,7 +2,6 @@ import React from 'react';
 import { Image, Label, ListGroup, ListGroupItem } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
-import helpers from '../../helpers';
 
 function postLabel(status) {
   let style = 'warning';
@@ -16,7 +15,7 @@ function postLabel(status) {
 
 const SignupPost = (props) => {
   const post = props.post;
-  const source = post.source ? ` via ${helpers.formatSource(post.source)}` : null;
+  const source = post.source ? ` via ${post.source}` : null;
   let mediaGroupItem = null;
   if (post.media.url) {
     mediaGroupItem = (
