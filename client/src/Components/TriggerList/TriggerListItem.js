@@ -1,41 +1,49 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import ScrollableAnchor from 'react-scrollable-anchor';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import TopicLink from '../TopicLink';
+import ContentfulLink from '../ContentfulLink';
 
 /**
- * @param {Object} trigger
+ * @param {Object} topic
  * @return {String}
  */
-function getResponseFromTrigger(trigger) {
-  if (trigger.redirect) {
-    return <a href={`#${encodeURIComponent(trigger.redirect)}`}>{`@ ${trigger.redirect}`}</a>;
+function getTemporaryTransitionText(topic) {
+  if (!topic) {
+    return null;
   }
-  const reply = trigger.reply[0];
-  if (reply.includes('changeTopic')) {
-    const topicChangeCommand = reply.replace(/{(.*)}/, '$1').split('=');
-    const topicId = topicChangeCommand[1];
-    return <Link to={`/topics/${topicId}`}>{topicId}</Link>;
+  const type = topic.type;
+  const templates = topic.templates;
+  if (type === 'externalPostConfig') {
+    return templates.startExternalPost.text;
   }
-  return reply;
+  if (type === 'photoPostConfig') {
+    return templates.startPhotoPost.text;
+  }
+  if (type === 'textPostConfig') {
+    return templates.askText.text;
+  }
+  return null;
 }
 
 const TriggerListItem = (props) => {
   const trigger = props.trigger;
-  const triggerText = trigger.trigger;
-  const anchor = encodeURIComponent(triggerText);
   return (
-    <tr><td>
-      <ScrollableAnchor id={anchor}>
-        <Row key={trigger.id}>
-          <Col md={3}>
-            <a href={`#${anchor}`}><strong>{triggerText}</strong></a>
-          </Col>
-          <Col md={8}>{getResponseFromTrigger(trigger)}</Col>
-        </Row>
-      </ScrollableAnchor>
-    </td></tr>
+    <Row componentClass="tr" key={trigger}>
+      <Col md={2} componentClass="td">
+        <ScrollableAnchor id={encodeURIComponent(trigger.trigger)}>
+          <strong>{trigger.trigger}</strong>
+        </ScrollableAnchor>
+      </Col>
+      <Col md={6} componentClass="td">
+        {trigger.reply || getTemporaryTransitionText(trigger.topic)}
+      </Col>
+      <Col md={4} componentClass="td">
+        <ContentfulLink entryId={trigger.id} displayRefresh={false} />
+        {trigger.topic ? <TopicLink topic={trigger.topic} /> : null}
+      </Col>
+    </Row>
   );
 };
 
