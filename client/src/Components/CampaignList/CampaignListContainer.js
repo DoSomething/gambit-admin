@@ -9,12 +9,14 @@ import TriggerListItem from '../TriggerList/TriggerListItem';
 import WebSignupList from './WebSignupList';
 import helpers from '../../helpers';
 
+const webSignupHelpText = 'Users who signup for the following campaigns over web will receive a SMS confirmation if they have provided their mobile number.';
+
 const CampaignListContainer = () => (
   <Grid>
     <Row>
       <h3>Keywords</h3>
       <p>
-        These SMS keywords will create a signup for a campaign.
+        Users may signup for the following campaigns by sending a SMS keyword.
       </p>
       <HttpRequest path={helpers.getDefaultTopicTriggersPath()}>
         {(res) => {
@@ -50,11 +52,9 @@ const CampaignListContainer = () => (
         }}
       </HttpRequest>
       <h3>Web signup confirmations</h3>
-      <p>
-        These campaigns will send a SMS confirmation to a user if they signup via the web.
-      </p>
+      <p>{webSignupHelpText}</p>
+      <WebSignupList />
     </Row>
-    <WebSignupList />
   </Grid>
 );
 
