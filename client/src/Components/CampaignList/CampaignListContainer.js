@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid, Panel, Row, Table } from 'react-bootstrap';
 import lodash from 'lodash';
-import Moment from 'react-moment';
 
 import HttpRequest from '../HttpRequest';
 import CampaignLink from '../CampaignLink';
@@ -41,7 +40,6 @@ const CampaignListContainer = () => (
                 </Panel.Heading>
                 <Panel.Collapse>
                   <Panel.Body>
-                    {campaign.endDate ? <p>Ends <Moment format={'MM/DD/YY'}>{campaign.endDate}</Moment></p> : null}
                     <Table>
                       <tbody>
                         {data.map(item => <TriggerListItem trigger={item} key={item.trigger} />)}
