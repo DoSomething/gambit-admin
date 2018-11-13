@@ -11,7 +11,7 @@ import BroadcastList from './BroadcastList/BroadcastListContainer';
 import BroadcastDetail from './BroadcastDetail/BroadcastDetailContainer';
 import BroadcastReplyList from './BroadcastDetail/BroadcastReplyList';
 import TopicDetail from './TopicDetail/TopicDetailContainer';
-import TriggerList from './TriggerList/TriggerListContainer';
+import AdminDashboard from './AdminDashboard/AdminDashboard';
 
 const Main = () => (
   <main>
@@ -25,7 +25,7 @@ const Main = () => (
       <Route path="/requests" component={Home} />
       <Route path="/topics/:topicId" component={TopicDetail} />
       <Route path="/topics" component={CampaignList} />
-      <Route path="/triggers" component={TriggerList} />
+      <Route path="/triggers" component={AdminDashboard} />
       <Route path="/users/:userId" component={UserDetail} />
       <Route path="/users" component={UserList} />
       <Route path="/" component={Home} />
