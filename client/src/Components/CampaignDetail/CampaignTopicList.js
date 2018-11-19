@@ -12,7 +12,7 @@ const CampaignTopicListContainer = (props) => {
   };
 
   return (
-    <HttpRequest path={helpers.getContentfulQueriesPath()} query={contentfulQuery}>
+    <HttpRequest path={helpers.getContentfulEntriesPath()} query={contentfulQuery}>
       {(res) => {
         if (!res.length) {
           return <p>No results found.</p>;

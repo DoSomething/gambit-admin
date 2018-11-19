@@ -52,7 +52,7 @@ module.exports = {
   getCampaignsPath: function getCampaignsPath() {
     return 'campaigns';
   },
-  getContentfulQueriesPath: function getCampaignsPath() {
+  getContentfulEntriesPath: function getCampaignsPath() {
     return 'contentfulEntries';
   },
   getContentfulUrlForEntryId,

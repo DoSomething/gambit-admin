@@ -1,6 +1,7 @@
 import React from 'react';
 import HttpRequest from '../HttpRequest';
 import WebSignupListItem from './WebSignupListItem';
+import helpers from '../../helpers';
 
 const contentfulQuery = {
   content_type: 'campaign',
@@ -8,7 +9,7 @@ const contentfulQuery = {
 };
 
 const WebSignupListContainer = () => (
-  <HttpRequest path="contentfulEntries" query={contentfulQuery}>
+  <HttpRequest path={helpers.getContentfulEntriesPath()} query={contentfulQuery}>
     {res => res.map(item => <WebSignupListItem key={item.raw.sys.id} data={item} />)}
   </HttpRequest>
 );
