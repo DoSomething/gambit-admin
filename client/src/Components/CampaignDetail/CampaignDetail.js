@@ -1,7 +1,7 @@
 import React from 'react';
 import { PageHeader, Panel } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import TopicList from '../TopicList/TopicListContainer';
+import CampaignTopicList from './CampaignTopicList';
 import TriggerList from '../TriggerList/TriggerListContainer';
 
 const CampaignDetail = (props) => {
@@ -22,7 +22,12 @@ const CampaignDetail = (props) => {
       <h2>Keywords</h2>
       <TriggerList campaignId={campaign.id} />
       <h2>All topics</h2>
-      <TopicList campaign={campaign} />
+      <h3>Auto reply</h3>
+      <CampaignTopicList topicType="autoReply" campaign={campaign} />
+      <h3>Photo post</h3>
+      <CampaignTopicList topicType="photoPostConfig" campaign={campaign} />
+      <h3>Text post</h3>
+      <CampaignTopicList topicType="textPostConfig" campaign={campaign} />
     </div>
   );
 };

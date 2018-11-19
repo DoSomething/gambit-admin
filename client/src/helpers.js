@@ -52,6 +52,9 @@ module.exports = {
   getCampaignsPath: function getCampaignsPath() {
     return 'campaigns';
   },
+  getContentfulQueriesPath: function getCampaignsPath() {
+    return 'contentfulEntries';
+  },
   getContentfulUrlForEntryId,
   getConversationByIdPath: function getConversationByIdPath(conversationId) {
     return `${this.getConversationsPath()}/${conversationId}`;

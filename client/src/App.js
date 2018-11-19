@@ -1,4 +1,5 @@
 import React from 'react';
+import { Well } from 'react-bootstrap';
 import './App.css';
 
 import Header from './Components/Header';
@@ -10,6 +11,9 @@ const App = () => (
   <div>
     <Header siteName={config.siteName} />
     <Main />
+    <Well>
+      <center>DoSomething.org</center>
+    </Well>
   </div>
 );
 
