@@ -37,7 +37,11 @@ const CampaignTopicListContainer = (props) => {
 };
 
 CampaignTopicListContainer.propTypes = {
-  campaign: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  campaign: PropTypes.shape({
+    config: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
   topicType: PropTypes.string.isRequired,
 };
 
