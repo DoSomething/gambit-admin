@@ -10,7 +10,7 @@ const ActiveCampaignWithTriggers = (props) => {
   return (
     <Row componentClass="tr">
       <Col componentClass="td" md={3}>
-        <CampaignLink campaign={campaign} linkDisabled />
+        <CampaignLink campaign={campaign} />
       </Col>
       <Col componentClass="td" md={9}>
         {campaign.triggers.map(item => <TriggerListItem trigger={item} key={item.trigger} />)}

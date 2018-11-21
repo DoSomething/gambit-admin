@@ -1,18 +1,25 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-
 import CampaignLink from '../../CampaignLink';
+import helpers from '../../../helpers';
+
 
 const ClosedCampaignWithTriggers = (props) => {
   const campaign = props.campaign;
   return (
     <Row componentClass="tr">
       <Col componentClass="td" md={4}>
-        <CampaignLink campaign={campaign} linkDisabled />
+        <CampaignLink campaign={campaign} />
       </Col>
       <Col componentClass="td" md={8}>
-        {campaign.triggers.map(item => item.trigger).join(', ')}
+        <ul>
+          {campaign.triggers.map(item => (
+            <li>
+              <a href={helpers.getContentfulUrlForEntryId(item.id)}>{item.trigger}</a>
+            </li>
+          ))}
+        </ul>
       </Col>
     </Row>
   );
