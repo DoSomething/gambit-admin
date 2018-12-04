@@ -51,6 +51,12 @@ router.get('/defaultTopicTriggers', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
+router.get('/draftSubmissions', (req, res) => {
+  conversations.getDraftSubmissions(req.query)
+    .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
 router.get('/messages', (req, res) => {
   conversations.getMessages(req.query)
     .then(apiRes => res.send(apiRes))

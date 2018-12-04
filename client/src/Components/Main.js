@@ -2,16 +2,17 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Home from './Home';
+import AdminDashboard from './AdminDashboard/AdminDashboard';
+import BroadcastDetail from './BroadcastDetail/BroadcastDetailContainer';
+import BroadcastList from './BroadcastList/BroadcastListContainer';
+import BroadcastReplyList from './BroadcastDetail/BroadcastReplyList';
 import CampaignDetail from './CampaignDetail/CampaignDetailContainer';
 import CampaignDashboard from './CampaignDashboard/CampaignDashboard';
-import UserList from './UserList/UserListContainer';
-import UserDetail from './UserDetail/UserDetailContainer';
 import ConversationRequest from './ConversationRequest';
-import BroadcastList from './BroadcastList/BroadcastListContainer';
-import BroadcastDetail from './BroadcastDetail/BroadcastDetailContainer';
-import BroadcastReplyList from './BroadcastDetail/BroadcastReplyList';
+import DraftSubmissionList from './DraftSubmissionList/DraftSubmissionListContainer';
 import TopicDetail from './TopicDetail/TopicDetailContainer';
-import AdminDashboard from './AdminDashboard/AdminDashboard';
+import UserDetail from './UserDetail/UserDetailContainer';
+import UserList from './UserList/UserListContainer';
 
 const Main = () => (
   <main>
@@ -21,6 +22,7 @@ const Main = () => (
       <Route path="/broadcasts" component={BroadcastList} />
       <Route path="/campaigns/:campaignId" component={CampaignDetail} />
       <Route path="/campaigns" component={CampaignDashboard} />
+      <Route path="/draftSubmissions" component={DraftSubmissionList} />
       <Route path="/requests/:requestId" component={ConversationRequest} />
       <Route path="/requests" component={Home} />
       <Route path="/topics/:topicId" component={TopicDetail} />

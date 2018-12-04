@@ -89,6 +89,9 @@ module.exports = {
   getDefaultTopicTriggersPath: function getDefaultTopicTriggersPath() {
     return 'defaultTopicTriggers';
   },
+  getDraftSubmissionsPath: function getDraftSubmissionsPath() {
+    return 'draftSubmissions';
+  },
   getHardcodedTopics,
   getMessagesPath: function getMessagesPath() {
     return 'messages';
