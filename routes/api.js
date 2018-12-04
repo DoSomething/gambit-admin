@@ -57,6 +57,12 @@ router.get('/draftSubmissions', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
+router.get('/draftSubmissions/:id', (req, res) => {
+  conversations.getDraftSubmissionById(req.params.id, req.query)
+    .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
 router.get('/messages', (req, res) => {
   conversations.getMessages(req.query)
     .then(apiRes => res.send(apiRes))

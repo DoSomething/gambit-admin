@@ -9,6 +9,7 @@ import BroadcastReplyList from './BroadcastDetail/BroadcastReplyList';
 import CampaignDetail from './CampaignDetail/CampaignDetailContainer';
 import CampaignDashboard from './CampaignDashboard/CampaignDashboard';
 import ConversationRequest from './ConversationRequest';
+import DraftSubmissionDetail from './DraftSubmissionDetail/DraftSubmissionDetailContainer';
 import DraftSubmissionList from './DraftSubmissionList/DraftSubmissionListContainer';
 import TopicDetail from './TopicDetail/TopicDetailContainer';
 import UserDetail from './UserDetail/UserDetailContainer';
@@ -22,6 +23,7 @@ const Main = () => (
       <Route path="/broadcasts" component={BroadcastList} />
       <Route path="/campaigns/:campaignId" component={CampaignDetail} />
       <Route path="/campaigns" component={CampaignDashboard} />
+      <Route path="/draftSubmissions/:draftSubmissionId" component={DraftSubmissionDetail} />
       <Route path="/draftSubmissions" component={DraftSubmissionList} />
       <Route path="/requests/:requestId" component={ConversationRequest} />
       <Route path="/requests" component={Home} />

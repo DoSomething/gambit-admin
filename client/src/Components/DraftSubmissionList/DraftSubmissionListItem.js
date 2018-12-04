@@ -2,17 +2,7 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
-function renderValues(valuesObject) {
-  if (!valuesObject) return null;
-
-  const keys = Object.keys(valuesObject);
-  return (
-    <ul>
-      {keys.map(key => <li>{key}: {valuesObject[key]}</li>)}
-    </ul>
-  );
-}
+import DraftSubmissionValues from '../DraftSubmissionDetail/DraftSubmissionValues';
 
 const DraftSubmissionListItem = (props) => {
   const draft = props.draftSubmission;
@@ -22,7 +12,7 @@ const DraftSubmissionListItem = (props) => {
   return (
     <Row componentClass="tr" key="draft._id">
       <Col md={1} componentClass="td">
-        {draft.createdAt}
+        <Link to={`draftSubmissions/${draft._id}`}>{draft.createdAt}</Link>
       </Col>
       <Col md={3} componentClass="td">
         <Link to={`users/${userId}`}>{userId}</Link>
@@ -31,7 +21,7 @@ const DraftSubmissionListItem = (props) => {
         <Link to={`topics/${topicId}`}>{topicId}</Link>
       </Col>
       <Col md={5} componentClass="td">
-        {renderValues(draft.values)}
+        <DraftSubmissionValues draftSubmission={draft} />
       </Col>
     </Row>
   );
