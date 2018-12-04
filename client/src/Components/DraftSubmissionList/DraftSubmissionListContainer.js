@@ -10,13 +10,13 @@ const DraftSubmissionListContainer = () => (
   <Grid>
     <HttpRequest path={helpers.getDraftSubmissionsPath()} query={query} description="drafts">
       {res => (
-        <Table>
+        <Table hover>
           <tbody>
             <Row componentClass="tr" key="header">
               <Col md={2} componentClass="th">Started</Col>
               <Col md={2} componentClass="th">User</Col>
               <Col md={2} componentClass="th">Topic</Col>
-              <Col md={6} componentClass="th">Values</Col>
+              <Col md={6} componentClass="th"></Col>
             </Row>
             {res.data.map(draftSubmission => (
               <DraftSubmissionListItem
