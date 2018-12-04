@@ -36,7 +36,7 @@ const SignupPost = (props) => {
   return (
     <ListGroup key={post.id}>
       {mediaGroupItem}
-      <ListGroupItem><strong>{post.media.caption}</strong></ListGroupItem>
+      <ListGroupItem><strong>{post.media.text}</strong></ListGroupItem>
       {quantityItem}
       <ListGroupItem>
         Post created <Moment format={'MM/DD/YY'}>{post.created_at}</Moment> {source}

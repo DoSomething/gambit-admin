@@ -99,6 +99,9 @@ module.exports = {
   getMessagesPath: function getMessagesPath() {
     return 'messages';
   },
+  getPostsPath: function getPostsPath() {
+    return 'posts';
+  },
   getRivescriptPath: function getRivescriptPath() {
     return 'rivescript';
   },

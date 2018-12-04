@@ -11,6 +11,7 @@ import CampaignDashboard from './CampaignDashboard/CampaignDashboard';
 import ConversationRequest from './ConversationRequest';
 import DraftSubmissionDetail from './DraftSubmissionDetail/DraftSubmissionDetailContainer';
 import DraftSubmissionList from './DraftSubmissionList/DraftSubmissionListContainer';
+import PostList from './PostList/PostListContainer';
 import TopicDetail from './TopicDetail/TopicDetailContainer';
 import UserDetail from './UserDetail/UserDetailContainer';
 import UserList from './UserList/UserListContainer';
@@ -25,6 +26,7 @@ const Main = () => (
       <Route path="/campaigns" component={CampaignDashboard} />
       <Route path="/draftSubmissions/:draftSubmissionId" component={DraftSubmissionDetail} />
       <Route path="/draftSubmissions" component={DraftSubmissionList} />
+      <Route path="/posts" component={PostList} />
       <Route path="/requests/:requestId" component={ConversationRequest} />
       <Route path="/requests" component={Home} />
       <Route path="/topics/:topicId" component={TopicDetail} />

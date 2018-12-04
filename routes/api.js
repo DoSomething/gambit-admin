@@ -1,6 +1,8 @@
 'use strict';
 
 const express = require('express');
+const logger = require('heroku-logger');
+
 const contentApi = require('../lib/gambit-campaigns');
 const conversations = require('../lib/gambit-conversations');
 const northstar = require('../lib/northstar');
@@ -75,8 +77,26 @@ router.post('/messages', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
+router.get('/posts', (req, res) => {
+  rogue.fetchPosts({ 'filter[post_source]': 'sms', include: 'signup', orderBy: 'desc' })
+    .then(apiRes => {
+      req.data = apiRes.data;
+      req.data.forEach((post, index) => {
+        req.data[index].signupUrl = helpers.getRogueUrlForSignupId(post.signup_id);
+      });
+      return res.send({ data: req.data });
+    })
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
 router.get('/rivescript', (req, res) => {
   conversations.getRivescript(req.query)
+    .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
+router.get('/signups', (req, res) => {
+  rogue.fetchSignups(req.query)
     .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });
@@ -97,6 +117,7 @@ router.get('/users/:id', (req, res) => {
   const userId = req.params.id;
   return northstar.getUserById(req.params.id)
     .then((apiRes) => {
+      logger.debug('getUserById success', { userId: apiRes.id } );
       req.data = apiRes;
       req.data.links = {
         aurora: helpers.getAuroraUrlForUserId(userId),
@@ -114,7 +135,7 @@ router.get('/users/:id', (req, res) => {
         const platform = conversation.platform;
         req.data.conversations[platform] = conversation;
       });
-      return rogue.getSignupsForUserId(userId);
+      return rogue.fetchSignups({ 'filter[northstar_id]': userId, orderBy: 'desc' });
     })
     .then((apiRes) => {
       req.data.signups = apiRes;
