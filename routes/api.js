@@ -79,7 +79,7 @@ router.post('/messages', (req, res) => {
 
 router.get('/posts', (req, res) => {
   rogue.fetchPosts({ 'filter[post_source]': 'sms', include: 'signup', orderBy: 'desc' })
-    .then(apiRes => {
+    .then((apiRes) => {
       req.data = apiRes.data;
       req.data.forEach((post, index) => {
         req.data[index].signupUrl = helpers.getRogueUrlForSignupId(post.signup_id);
@@ -117,7 +117,7 @@ router.get('/users/:id', (req, res) => {
   const userId = req.params.id;
   return northstar.getUserById(req.params.id)
     .then((apiRes) => {
-      logger.debug('getUserById success', { userId: apiRes.id } );
+      logger.debug('getUserById success', { userId: apiRes.id });
       req.data = apiRes;
       req.data.links = {
         aurora: helpers.getAuroraUrlForUserId(userId),
@@ -135,13 +135,11 @@ router.get('/users/:id', (req, res) => {
         const platform = conversation.platform;
         req.data.conversations[platform] = conversation;
       });
-      return rogue.fetchSignups({ 'filter[northstar_id]': userId, orderBy: 'desc' });
+      req.data.signups = [];
+      return rogue.fetchSignups({ 'filter[northstar_id]': userId });
     })
     .then((apiRes) => {
-      req.data.signups = apiRes;
-      req.data.signups.data.forEach((signup, index) => {
-        req.data.signups.data[index].url = helpers.getRogueUrlForSignupId(signup.signup_id);
-      });
+      req.data.signups = apiRes.data;
       return res.send({ data: req.data });
     })
     .catch(err => helpers.sendResponseForError(res, err));

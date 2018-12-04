@@ -91,6 +91,7 @@ function tabs(user) {
   if (slackConversation) {
     slackTab = conversationTab(slackConversation._id, 'Slack', 1);
   }
+
   const numSignups = user.signups.meta.pagination.total;
   const signupsLabel = `Signups (${numSignups})`;
   const numConversations = Object.keys(user.conversations).length;

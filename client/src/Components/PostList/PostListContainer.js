@@ -5,7 +5,7 @@ import HttpRequest from '../HttpRequest';
 import Post from '../SignupList/SignupPost';
 import helpers from '../../helpers';
 
-const query = {};
+const query = { 'filter[type]': 'photo' };
 
 const PostListContainer = () => (
   <Grid>
@@ -17,9 +17,9 @@ const PostListContainer = () => (
               <Col md={3} componentClass="th">Created</Col>
               <Col md={3} componentClass="th">User</Col>
               <Col md={2} componentClass="th">Campaign</Col>
-              <Col md={6} componentClass="th"></Col>
+              <Col md={6} componentClass="th" />
             </Row>
-            {res.data.map(post => {
+            {res.data.map((post) => {
               const campaignId = post.signup.data.campaign_id;
               return (
                 <Row componentClass="tr" key={post.id}>
