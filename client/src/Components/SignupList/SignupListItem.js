@@ -24,7 +24,7 @@ const SignupListItem = (props) => {
         <a href={signup.url}>
           <Moment format={'MM/DD/YY'}>{signup.created_at}</Moment>
         </a>
-        <p>{signup.source}</p>
+        <div>{signup.source}</div>
         <div><small>{signup.details}</small></div>
       </Col>
       <Col componentClass="td">

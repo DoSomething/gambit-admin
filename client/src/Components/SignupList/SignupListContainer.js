@@ -8,7 +8,7 @@ import helpers from '../../helpers';
 const SignupListContainer = (props) => {
   const query = { include: 'posts', orderBy: 'id,desc' };
   if (props.userId) {
-    query['filter[northstar_id'] = props.userId;
+    query['filter[northstar_id]'] = props.userId;
   }
   return (
     <Grid>
@@ -32,7 +32,11 @@ const SignupListContainer = (props) => {
 };
 
 SignupListContainer.propTypes = {
-  signups: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  userId: PropTypes.string,
+};
+
+SignupListContainer.defaultProps = {
+  userId: null,
 };
 
 export default SignupListContainer;

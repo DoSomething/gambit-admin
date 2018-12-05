@@ -8,7 +8,7 @@ class Header extends React.Component {
     const pathname = window.location.pathname;
     // TODO: Make helpers for these:
     const activeUsers = (pathname.includes('users') || pathname.includes('requests'));
-    const activeCampaigns = (pathname.includes('campaigns') || pathname.includes('topics') || pathname.includes('signups') || pathname.includes('posts') ||  pathname.includes('draft'));
+    const activeCampaigns = (pathname.includes('campaigns') || pathname.includes('topics') || pathname.includes('signups') || pathname.includes('posts') || pathname.includes('draft'));
     return (
       <Navbar>
         <Navbar.Header>
@@ -21,7 +21,7 @@ class Header extends React.Component {
             Users
           </NavItem>
           <NavDropdown active={activeCampaigns} eventKey={2} title="Campaigns" id="users-nav-dropdown">
-            <MenuItem eventKey={2.1} href="/campaigns">Current SMS campaigns</MenuItem>
+            <MenuItem eventKey={2.1} href="/campaigns">Current campaigns</MenuItem>
             <MenuItem eventKey={2.2} href="/signups">All signups</MenuItem>
             <MenuItem eventKey={2.3} href="/posts">All posts</MenuItem>
             <MenuItem eventKey={2.4} href="/draftSubmissions">Draft photo posts</MenuItem>
