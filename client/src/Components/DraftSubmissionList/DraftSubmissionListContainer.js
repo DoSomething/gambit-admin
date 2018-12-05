@@ -4,7 +4,7 @@ import HttpRequest from '../HttpRequest';
 import DraftSubmissionListItem from './DraftSubmissionListItem';
 import helpers from '../../helpers';
 
-const query = { populate: 'conversationId' };
+const query = { populate: 'conversationId', sort: '-createdAt' };
 
 const DraftSubmissionListContainer = () => (
   <Grid>

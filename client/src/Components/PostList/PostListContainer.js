@@ -13,7 +13,7 @@ import config from '../../config';
  */
 function getPostsQuery() {
   // TODO: Fix this -- Passing 'include': 'signup' throws a 500 in Rogue:
-  const query = { orderBy: 'id,desc' };
+  const query = { 'filter[type]': 'text', orderBy: 'id,desc' };
   const skipQueryParam = queryString.parse(window.location.search).skip;
   if (skipQueryParam) {
     // Rogue API expects a page parameter for current page of results.
