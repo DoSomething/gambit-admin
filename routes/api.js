@@ -78,7 +78,7 @@ router.post('/messages', (req, res) => {
 });
 
 router.get('/posts', (req, res) => {
-  rogue.fetchPosts({ 'filter[post_source]': 'sms', include: 'signup', orderBy: 'desc' })
+  rogue.fetchPosts(req.query)
     .then((apiRes) => {
       req.data = apiRes.data;
       req.data.forEach((post, index) => {

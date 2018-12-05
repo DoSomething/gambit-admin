@@ -5,7 +5,8 @@ import HttpRequest from '../HttpRequest';
 import Post from '../SignupList/SignupPost';
 import helpers from '../../helpers';
 
-const query = { orderBy: 'desc' };
+// TODO: Fix this -- Passing 'include': 'signup' throws a 500 in Rogue:
+const query = { 'orderBy': 'id,desc' };
 
 const PostListContainer = () => (
   <Grid>
@@ -20,7 +21,7 @@ const PostListContainer = () => (
               <Col md={6} componentClass="th" />
             </Row>
             {res.data.map((post) => {
-              const campaignId = post.signup.data.campaign_id;
+              const campaignId = post.signup ? post.signup.data.campaign_id : null;
               return (
                 <Row componentClass="tr" key={post.id}>
                   <Col md={3} componentClass="td">
