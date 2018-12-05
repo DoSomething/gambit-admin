@@ -1,9 +1,11 @@
 import React from 'react';
 import { Col, Grid, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Moment from 'react-moment';
 import HttpRequest from '../HttpRequest';
 import Post from '../SignupList/SignupPost';
 import helpers from '../../helpers';
+import config from '../../config';
 
 // TODO: Fix this -- Passing 'include': 'signup' throws a 500 in Rogue:
 const query = { orderBy: 'id,desc' };
@@ -25,7 +27,9 @@ const PostListContainer = () => (
               return (
                 <Row componentClass="tr" key={post.id}>
                   <Col md={3} componentClass="td">
-                    <a href={post.signupUrl}>{post.created_at}</a>
+                    <a href={post.signupUrl}>
+                      <Moment format={config.dateFormat}>{post.created_at}</Moment>
+                    </a>
                   </Col>
                   <Col md={3} componentClass="td">
                     <Link to={`/users/${post.northstar_id}`}>{post.northstar_id}</Link>

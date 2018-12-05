@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import SignupPost from './SignupPost';
+import config from '../../config';
 
 const SignupListItem = (props) => {
   const signup = props.signup;
@@ -24,7 +25,7 @@ const SignupListItem = (props) => {
     <Row componentClass="tr" key={signup.signup_id}>
       <Col componentClass="td">
         <a href={signup.signupUrl}>
-          <Moment format={'MM/DD/YY'}>{signup.created_at}</Moment>
+          <Moment format={config.dateFormat}>{signup.created_at}</Moment>
         </a>
         <div>{signup.source}</div>
         <div><small>{signup.details}</small></div>
