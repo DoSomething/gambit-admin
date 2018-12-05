@@ -12,12 +12,18 @@ import config from '../../config';
  * @return {Object}
  */
 function getPostsQuery() {
-  // TODO: Fix this -- Passing 'include': 'signup' throws a 500 in Rogue:
-  const query = { 'filter[type]': 'text', orderBy: 'id,desc' };
-  const skipQueryParam = queryString.parse(window.location.search).skip;
+  // TODO: We want to include the signup here to permalink to Rogue, but it breaks things on QA.
+  // @see https://www.pivotaltracker.com/n/projects/2019429/stories/158870350
+  const query = { orderBy: 'id,desc' };
+  const clientQuery = queryString.parse(window.location.search);
+  const skipQueryParam = clientQuery.skip;
   if (skipQueryParam) {
     // Rogue API expects a page parameter for current page of results.
     query.page = (skipQueryParam / config.resultsPageSize) + 1;
+  }
+  const typeQueryParam = clientQuery.type;
+  if (typeQueryParam) {
+    query['filter[type]'] = typeQueryParam;
   }
   return query;
 }
