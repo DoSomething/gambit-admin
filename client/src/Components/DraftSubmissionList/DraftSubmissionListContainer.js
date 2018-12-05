@@ -13,7 +13,7 @@ const DraftSubmissionListContainer = () => (
         <Table hover>
           <tbody>
             <Row componentClass="tr" key="header">
-              <Col md={2} componentClass="th">Started</Col>
+              <Col md={2} componentClass="th">Created</Col>
               <Col md={2} componentClass="th">User</Col>
               <Col md={2} componentClass="th">Topic</Col>
               <Col md={6} componentClass="th" />

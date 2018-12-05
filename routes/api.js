@@ -97,7 +97,13 @@ router.get('/rivescript', (req, res) => {
 
 router.get('/signups', (req, res) => {
   rogue.fetchSignups(req.query)
-    .then(apiRes => res.send(apiRes))
+    .then((apiRes) => {
+      req.apiRes = apiRes;
+      req.apiRes.data.forEach((signup, index) => {
+        req.apiRes.data[index].signupUrl = helpers.getRogueUrlForSignupId(signup.id);
+      });
+      res.send(req.apiRes);
+    })
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
