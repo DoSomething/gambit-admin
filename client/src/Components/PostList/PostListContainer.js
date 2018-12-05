@@ -6,7 +6,7 @@ import Post from '../SignupList/SignupPost';
 import helpers from '../../helpers';
 
 // TODO: Fix this -- Passing 'include': 'signup' throws a 500 in Rogue:
-const query = { 'orderBy': 'id,desc' };
+const query = { orderBy: 'id,desc' };
 
 const PostListContainer = () => (
   <Grid>
