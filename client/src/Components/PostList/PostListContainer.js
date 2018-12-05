@@ -2,17 +2,29 @@ import React from 'react';
 import { Col, Grid, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
+import queryString from 'query-string';
 import HttpRequest from '../HttpRequest';
 import Post from '../SignupList/SignupPost';
 import helpers from '../../helpers';
 import config from '../../config';
 
-// TODO: Fix this -- Passing 'include': 'signup' throws a 500 in Rogue:
-const query = { orderBy: 'id,desc' };
+/**
+ * @return {Object}
+ */
+function getPostsQuery() {
+  // TODO: Fix this -- Passing 'include': 'signup' throws a 500 in Rogue:
+  const query = { orderBy: 'id,desc' };
+  const skipQueryParam = queryString.parse(window.location.search).skip;
+  if (skipQueryParam) {
+    // Rogue API expects a page parameter for current page of results.
+    query.page = (skipQueryParam / config.resultsPageSize) + 1;
+  }
+  return query;
+}
 
 const PostListContainer = () => (
   <Grid>
-    <HttpRequest path={helpers.getPostsPath()} query={query} description="posts">
+    <HttpRequest path={helpers.getPostsPath()} query={getPostsQuery()} description="posts">
       {res => (
         <Table hover>
           <tbody>
@@ -47,6 +59,5 @@ const PostListContainer = () => (
     </HttpRequest>
   </Grid>
 );
-
 
 export default PostListContainer;

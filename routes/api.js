@@ -80,11 +80,11 @@ router.post('/messages', (req, res) => {
 router.get('/posts', (req, res) => {
   rogue.fetchPosts(req.query)
     .then((apiRes) => {
-      req.data = apiRes.data;
-      req.data.forEach((post, index) => {
-        req.data[index].signupUrl = helpers.getRogueUrlForSignupId(post.signup_id);
+      req.apiRes = apiRes;
+      req.apiRes.data.forEach((post, index) => {
+        req.apiRes.data[index].signupUrl = helpers.getRogueUrlForSignupId(post.signup_id);
       });
-      return res.send({ data: req.data });
+      return res.send(req.apiRes);
     })
     .catch(err => helpers.sendResponseForError(res, err));
 });
