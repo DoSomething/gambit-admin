@@ -12,6 +12,7 @@ import ConversationRequest from './ConversationRequest';
 import DraftSubmissionDetail from './DraftSubmissionDetail/DraftSubmissionDetailContainer';
 import DraftSubmissionList from './DraftSubmissionList/DraftSubmissionListContainer';
 import PostList from './PostList/PostListContainer';
+import SignupList from './SignupList/SignupListContainer';
 import TopicDetail from './TopicDetail/TopicDetailContainer';
 import UserDetail from './UserDetail/UserDetailContainer';
 import UserList from './UserList/UserListContainer';
@@ -29,6 +30,7 @@ const Main = () => (
       <Route path="/posts" component={PostList} />
       <Route path="/requests/:requestId" component={ConversationRequest} />
       <Route path="/requests" component={Home} />
+      <Route path="/signups" component={SignupList} />
       <Route path="/topics/:topicId" component={TopicDetail} />
       <Route path="/topics" component={CampaignDashboard} />
       <Route path="/triggers" component={AdminDashboard} />

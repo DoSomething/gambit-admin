@@ -5,7 +5,7 @@ import HttpRequest from '../HttpRequest';
 import Post from '../SignupList/SignupPost';
 import helpers from '../../helpers';
 
-const query = { 'filter[type]': 'photo' };
+const query = { orderBy: 'desc' };
 
 const PostListContainer = () => (
   <Grid>

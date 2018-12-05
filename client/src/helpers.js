@@ -105,6 +105,9 @@ module.exports = {
   getRivescriptPath: function getRivescriptPath() {
     return 'rivescript';
   },
+  getSignupsPath: function getSignupsPath() {
+    return 'signups';
+  },
   getTopicsPath: function getTopicsPath() {
     return 'topics';
   },

@@ -135,11 +135,6 @@ router.get('/users/:id', (req, res) => {
         const platform = conversation.platform;
         req.data.conversations[platform] = conversation;
       });
-      req.data.signups = [];
-      return rogue.fetchSignups({ 'filter[northstar_id]': userId });
-    })
-    .then((apiRes) => {
-      req.data.signups = apiRes.data;
       return res.send({ data: req.data });
     })
     .catch(err => helpers.sendResponseForError(res, err));

@@ -21,14 +21,17 @@ const SignupListItem = (props) => {
   return (
     <Row componentClass="tr" key={signup.signup_id}>
       <Col componentClass="td">
-        <a href={signup.url}><Moment format={'MM/DD/YY'}>{signup.created_at}</Moment></a>
+        <a href={signup.url}>
+          <Moment format={'MM/DD/YY'}>{signup.created_at}</Moment>
+        </a>
+        <p>{signup.source}</p>
+        <div><small>{signup.details}</small></div>
+      </Col>
+      <Col componentClass="td">
+        <a href={signup.url}>{signup.northstar_id}</a>
       </Col>
       <Col componentClass="td">
         <strong><a href={`/campaigns/${campaignId}`}>{campaignId}</a></strong>
-      </Col>
-      <Col componentClass="td">
-        {signup.signup_source}
-        <div><small>{signup.details}</small></div>
       </Col>
       <Col componentClass="td">
         {description}

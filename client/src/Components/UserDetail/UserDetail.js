@@ -92,8 +92,8 @@ function tabs(user) {
     slackTab = conversationTab(slackConversation._id, 'Slack', 1);
   }
 
-  const numSignups = user.signups.meta.pagination.total;
-  const signupsLabel = `Signups (${numSignups})`;
+  // const numSignups = user.signups.meta.pagination.total;
+  // const signupsLabel = `Signups (${numSignups})`;
   const numConversations = Object.keys(user.conversations).length;
   const activeKey = platform ? 1 : 0;
   let smsConversationId = null;
@@ -106,8 +106,8 @@ function tabs(user) {
     <Tabs defaultActiveKey={activeKey} animation={false} id="campaign-tabs">
       {conversationTab(smsConversationId, 'SMS', 0)}
       {slackTab}
-      <Tab eventKey={numConversations + 1} title={signupsLabel}><br />
-        <SignupList signups={user.signups.data} />
+      <Tab eventKey={numConversations + 1} title="Signups"><br />
+
       </Tab>
     </Tabs>
   );
