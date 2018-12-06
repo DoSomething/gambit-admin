@@ -1,7 +1,5 @@
 import React from 'react';
 import { Grid, Row, Table } from 'react-bootstrap';
-import lodash from 'lodash';
-
 import HttpRequest from '../HttpRequest';
 import ActiveCampaignWtithTriggers from './CampaignsWithTriggers/ActiveCampaignWithTriggers';
 import ClosedCampaignWtithTriggers from './CampaignsWithTriggers/ClosedCampaignWithTriggers';
@@ -16,21 +14,7 @@ const CampaignListContainer = () => (
       <h2>Keywords</h2>
       <HttpRequest path={helpers.getDefaultTopicTriggersPath()}>
         {(res) => {
-          const campaignsById = {};
-          // Alphabetize triggers and save campaigns that have topic change triggers.
-          lodash.orderBy(res, 'trigger').forEach((trigger) => {
-            const topic = trigger.topic;
-            const hasCampaign = topic && topic.campaign && topic.campaign.id;
-            if (hasCampaign) {
-              const campaign = topic.campaign;
-              if (campaignsById[campaign.id]) {
-                campaignsById[campaign.id].triggers.push(trigger);
-                return;
-              }
-              campaignsById[campaign.id] = Object.assign(campaign, { triggers: [trigger] });
-            }
-          });
-          const campaignsByStatus = lodash.groupBy(Object.values(campaignsById), 'status');
+          const campaignsByStatus = helpers.getCampaignsByStatus(res);
           return (
             <div>
               <h3>Active</h3>

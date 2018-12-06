@@ -15,7 +15,7 @@ const ClosedCampaignWithTriggers = (props) => {
       <Col componentClass="td" md={8}>
         <ul>
           {campaign.triggers.map(item => (
-            <li>
+            <li key={item.id}>
               <a href={helpers.getContentfulUrlForEntryId(item.id)}>{item.trigger}</a>
             </li>
           ))}

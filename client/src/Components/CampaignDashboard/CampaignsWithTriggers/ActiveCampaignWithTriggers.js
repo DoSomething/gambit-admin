@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import CampaignLink from '../../CampaignLink';
 import TriggerListItem from '../../TriggerList/TriggerListItem';
 
+// TODO: Fix warning for TriggerListItem, which is rendering a tr inside of a td.
 const ActiveCampaignWithTriggers = (props) => {
   const campaign = props.campaign;
   return (
