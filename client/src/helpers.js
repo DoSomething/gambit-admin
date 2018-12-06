@@ -89,12 +89,24 @@ module.exports = {
   getDefaultTopicTriggersPath: function getDefaultTopicTriggersPath() {
     return 'defaultTopicTriggers';
   },
+  getDraftSubmissionByIdPath: function getDraftSubmissionsPath(draftSubmissionId) {
+    return `${this.getDraftSubmissionsPath()}/${draftSubmissionId}`;
+  },
+  getDraftSubmissionsPath: function getDraftSubmissionsPath() {
+    return 'draftSubmissions';
+  },
   getHardcodedTopics,
   getMessagesPath: function getMessagesPath() {
     return 'messages';
   },
+  getPostsPath: function getPostsPath() {
+    return 'posts';
+  },
   getRivescriptPath: function getRivescriptPath() {
     return 'rivescript';
+  },
+  getSignupsPath: function getSignupsPath() {
+    return 'signups';
   },
   getTopicsPath: function getTopicsPath() {
     return 'topics';

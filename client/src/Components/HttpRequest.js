@@ -11,14 +11,33 @@ const config = require('../config');
 const pageSize = config.resultsPageSize;
 
 /**
- * @param {Object} res
- * @return {Number}
+ * @param {Object} body
+ * @param {Number} skipQueryParam
+ * @return {Object}
  */
-function getPaginationTotal(body) {
+function getPagination(body, skipQueryParam) {
+  // Gambit API:
   if (body && body.meta && body.meta.pagination) {
-    return body.meta.pagination.total;
+    return {
+      skipCount: skipQueryParam,
+      totalResultCount: body.meta.pagination.total,
+    };
   }
-  return 0;
+
+  // Rogue API:
+  if (body && body.meta && body.meta.cursor) {
+    const cursor = body.meta.cursor;
+    const currentPageNumber = cursor.current;
+    const skipCount = currentPageNumber > 1 ? (currentPageNumber - 1) * pageSize : 0;
+    return {
+      skipCount,
+      // TODO: This is a hack until we get a total record count back via API.
+      // @see https://www.pivotaltracker.com/story/show/162461059
+      totalResultCount: cursor.next ? skipCount + (2 * pageSize) : skipCount,
+    };
+  }
+
+  return null;
 }
 
 class HttpRequest extends React.Component {
@@ -54,13 +73,14 @@ class HttpRequest extends React.Component {
               );
             }
             const body = result.body;
-            const totalResultCount = getPaginationTotal(body);
+            const pagination = getPagination(body, this.skipCount);
+            const totalResultCount = pagination ? pagination.totalResultCount : 0;
             let pager = null;
             if (totalResultCount) {
               pager = (
                 <ListPager
                   totalResultCount={totalResultCount}
-                  skipCount={this.skipCount}
+                  skipCount={pagination.skipCount}
                   pageCount={body.data.length}
                   pageSize={pageSize}
                   description={this.props.description}

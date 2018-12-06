@@ -1,6 +1,8 @@
 'use strict';
 
 const express = require('express');
+const logger = require('heroku-logger');
+
 const contentApi = require('../lib/gambit-campaigns');
 const conversations = require('../lib/gambit-conversations');
 const northstar = require('../lib/northstar');
@@ -51,6 +53,18 @@ router.get('/defaultTopicTriggers', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
+router.get('/draftSubmissions', (req, res) => {
+  conversations.getDraftSubmissions(req.query)
+    .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
+router.get('/draftSubmissions/:id', (req, res) => {
+  conversations.getDraftSubmissionById(req.params.id, req.query)
+    .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
 router.get('/messages', (req, res) => {
   conversations.getMessages(req.query)
     .then(apiRes => res.send(apiRes))
@@ -63,9 +77,33 @@ router.post('/messages', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
+router.get('/posts', (req, res) => {
+  rogue.fetchPosts(req.query)
+    .then((apiRes) => {
+      req.apiRes = apiRes;
+      req.apiRes.data.forEach((post, index) => {
+        req.apiRes.data[index].signupUrl = helpers.getRogueUrlForSignupId(post.signup_id);
+      });
+      return res.send(req.apiRes);
+    })
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
 router.get('/rivescript', (req, res) => {
   conversations.getRivescript(req.query)
     .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
+router.get('/signups', (req, res) => {
+  rogue.fetchSignups(req.query)
+    .then((apiRes) => {
+      req.apiRes = apiRes;
+      req.apiRes.data.forEach((signup, index) => {
+        req.apiRes.data[index].signupUrl = helpers.getRogueUrlForSignupId(signup.id);
+      });
+      res.send(req.apiRes);
+    })
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
@@ -85,6 +123,7 @@ router.get('/users/:id', (req, res) => {
   const userId = req.params.id;
   return northstar.getUserById(req.params.id)
     .then((apiRes) => {
+      logger.debug('getUserById success', { userId: apiRes.id });
       req.data = apiRes;
       req.data.links = {
         aurora: helpers.getAuroraUrlForUserId(userId),
@@ -101,13 +140,6 @@ router.get('/users/:id', (req, res) => {
       userConversations.forEach((conversation) => {
         const platform = conversation.platform;
         req.data.conversations[platform] = conversation;
-      });
-      return rogue.getSignupsForUserId(userId);
-    })
-    .then((apiRes) => {
-      req.data.signups = apiRes;
-      req.data.signups.data.forEach((signup, index) => {
-        req.data.signups.data[index].url = helpers.getRogueUrlForSignupId(signup.signup_id);
       });
       return res.send({ data: req.data });
     })

@@ -1,12 +1,15 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import SignupPost from './SignupPost';
+import config from '../../config';
 
 const SignupListItem = (props) => {
   const signup = props.signup;
   const campaignId = signup.campaign_id;
+  const userId = signup.northstar_id;
 
   let description = null;
   if (signup.why_participated) {
@@ -21,14 +24,17 @@ const SignupListItem = (props) => {
   return (
     <Row componentClass="tr" key={signup.signup_id}>
       <Col componentClass="td">
-        <a href={signup.url}><Moment format={'MM/DD/YY'}>{signup.created_at}</Moment></a>
+        <a href={signup.signupUrl}>
+          <Moment format={config.dateFormat}>{signup.created_at}</Moment>
+        </a>
+        <div>{signup.source}</div>
+        <div><small>{signup.details}</small></div>
+      </Col>
+      <Col componentClass="td">
+        <Link to={`/users/${userId}`}>{userId}</Link>
       </Col>
       <Col componentClass="td">
         <strong><a href={`/campaigns/${campaignId}`}>{campaignId}</a></strong>
-      </Col>
-      <Col componentClass="td">
-        {signup.signup_source}
-        <div><small>{signup.details}</small></div>
       </Col>
       <Col componentClass="td">
         {description}
