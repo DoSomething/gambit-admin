@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "@dosomething/gateway": "^1.4.0",
-    "@dosomething/northstar-js": "git://github.com/DoSomething/northstar-js.git",
     "babel-core": "6.14.0",
     "basic-auth": "^2.0.0",
     "body-parser": "^1.18.3",
