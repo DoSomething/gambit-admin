@@ -5,20 +5,17 @@ import DraftSubmissionDetail from './DraftSubmissionDetail';
 import HttpRequest from '../HttpRequest';
 import helpers from '../../helpers';
 
-const query = { populate: 'conversationId' };
+const DraftSubmissionDetailContainer = props => (
+  <Grid>
+    <HttpRequest
+      path={helpers.getDraftSubmissionByIdPath(props.match.params.draftSubmissionId)}
+      query={{ populate: 'conversationId' }}
+    >
+      {res => (<DraftSubmissionDetail draftSubmission={res.data} />)}
+    </HttpRequest>
+  </Grid>
+);
 
-class DraftSubmissionDetailContainer extends React.Component {
-  render() {
-    const draftId = this.props.match.params.draftSubmissionId;
-    return (
-      <Grid>
-        <HttpRequest path={helpers.getDraftSubmissionByIdPath(draftId)} query={query}>
-          {res => (<DraftSubmissionDetail draftSubmission={res.data} />)}
-        </HttpRequest>
-      </Grid>
-    );
-  }
-}
 
 DraftSubmissionDetailContainer.propTypes = {
   match: PropTypes.shape({

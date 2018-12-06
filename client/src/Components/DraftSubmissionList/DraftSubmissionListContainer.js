@@ -16,7 +16,7 @@ const DraftSubmissionListContainer = () => (
               <Col md={2} componentClass="th">Started</Col>
               <Col md={2} componentClass="th">User</Col>
               <Col md={2} componentClass="th">Topic</Col>
-              <Col md={6} componentClass="th"></Col>
+              <Col md={6} componentClass="th" />
             </Row>
             {res.data.map(draftSubmission => (
               <DraftSubmissionListItem

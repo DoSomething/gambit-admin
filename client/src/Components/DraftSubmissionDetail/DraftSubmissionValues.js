@@ -2,28 +2,18 @@ import React from 'react';
 import { Image, ListGroup, ListGroupItem } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-function renderValue(key, value) {
-  if (key === 'url') {
-    return <Image src={value} height={200} />;
-  }
-  return (
-    <div>{key}: <strong>{value}</strong></div>
-  );
-}
-
 const DraftSubmissionValues = (props) => {
-  const draftId = props.draftSubmission._id;
   const valuesObject = props.draftSubmission.values;
-
   if (!valuesObject) return null;
 
-  const keys = Object.keys(valuesObject);
   return (
     <ListGroup>
-      {keys.map((key) => {
+      {Object.entries(valuesObject).map((entry) => {
+        const key = entry[0];
+        const value = entry[1];
         return (
-          <ListGroupItem key={`${draftId}/${key}`}>
-            {renderValue(key, valuesObject[key])}
+          <ListGroupItem key={key}>
+            {key === 'url' ? <Image src={value} height={200} /> : <div>{key}: {value}</div>}
           </ListGroupItem>
         );
       })}
