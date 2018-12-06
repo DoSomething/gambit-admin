@@ -1,5 +1,28 @@
+const lodash = require('lodash');
 const querystring = require('querystring');
 const config = require('./config');
+
+/**
+ * @param {Array} defaultTopicTriggers
+ * @return {Object}
+ */
+function getCampaignsByStatus(defaultTopicTriggers) {
+  const campaignsById = {};
+  // Alphabetize triggers and save campaigns that have topic change triggers.
+  lodash.orderBy(defaultTopicTriggers, 'trigger').forEach((trigger) => {
+    const topic = trigger.topic;
+    const hasCampaign = topic && topic.campaign && topic.campaign.id;
+    if (hasCampaign) {
+      const campaign = topic.campaign;
+      if (campaignsById[campaign.id]) {
+        campaignsById[campaign.id].triggers.push(trigger);
+        return;
+      }
+      campaignsById[campaign.id] = Object.assign(campaign, { triggers: [trigger] });
+    }
+  });
+  return lodash.groupBy(Object.values(campaignsById), 'status');
+}
 
 /**
  * @return {Array}
@@ -49,6 +72,7 @@ module.exports = {
   getCampaignByIdPath: function getCampaignByIdPath(campaignId) {
     return `${this.getCampaignsPath()}/${campaignId}`;
   },
+  getCampaignsByStatus,
   getCampaignsPath: function getCampaignsPath() {
     return 'campaigns';
   },
@@ -65,12 +89,24 @@ module.exports = {
   getDefaultTopicTriggersPath: function getDefaultTopicTriggersPath() {
     return 'defaultTopicTriggers';
   },
+  getDraftSubmissionByIdPath: function getDraftSubmissionsPath(draftSubmissionId) {
+    return `${this.getDraftSubmissionsPath()}/${draftSubmissionId}`;
+  },
+  getDraftSubmissionsPath: function getDraftSubmissionsPath() {
+    return 'draftSubmissions';
+  },
   getHardcodedTopics,
   getMessagesPath: function getMessagesPath() {
     return 'messages';
   },
+  getPostsPath: function getPostsPath() {
+    return 'posts';
+  },
   getRivescriptPath: function getRivescriptPath() {
     return 'rivescript';
+  },
+  getSignupsPath: function getSignupsPath() {
+    return 'signups';
   },
   getTopicsPath: function getTopicsPath() {
     return 'topics';
