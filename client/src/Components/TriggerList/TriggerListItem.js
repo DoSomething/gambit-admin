@@ -37,10 +37,10 @@ const TriggerListItem = (props) => {
         </ScrollableAnchor>
       </Col>
       <Col md={6} componentClass="td">
+        <ContentfulLink entryId={trigger.id} displayRefresh={false} />
         {trigger.reply || getTemporaryTransitionText(trigger.topic)}
       </Col>
       <Col md={4} componentClass="td">
-        <ContentfulLink entryId={trigger.id} displayRefresh={false} />
         {trigger.topic ? <TopicLink topic={trigger.topic} /> : null}
       </Col>
     </Row>

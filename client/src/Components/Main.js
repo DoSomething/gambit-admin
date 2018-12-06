@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import Home from './Home';
 import CampaignDetail from './CampaignDetail/CampaignDetailContainer';
-import CampaignList from './CampaignList/CampaignListContainer';
+import CampaignDashboard from './CampaignDashboard/CampaignDashboard';
 import UserList from './UserList/UserListContainer';
 import UserDetail from './UserDetail/UserDetailContainer';
 import ConversationRequest from './ConversationRequest';
@@ -20,11 +20,11 @@ const Main = () => (
       <Route path="/broadcasts/:broadcastId" component={BroadcastDetail} />
       <Route path="/broadcasts" component={BroadcastList} />
       <Route path="/campaigns/:campaignId" component={CampaignDetail} />
-      <Route path="/campaigns" component={CampaignList} />
+      <Route path="/campaigns" component={CampaignDashboard} />
       <Route path="/requests/:requestId" component={ConversationRequest} />
       <Route path="/requests" component={Home} />
       <Route path="/topics/:topicId" component={TopicDetail} />
-      <Route path="/topics" component={CampaignList} />
+      <Route path="/topics" component={CampaignDashboard} />
       <Route path="/triggers" component={AdminDashboard} />
       <Route path="/users/:userId" component={UserDetail} />
       <Route path="/users" component={UserList} />
