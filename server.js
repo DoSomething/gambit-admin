@@ -11,8 +11,8 @@ require('dotenv').config();
 
 const config = require('./config/server');
 
-// Setup rogue client.
-require('./lib/rogue').getClient();
+// Setup Gateway client.
+require('./lib/gateway').getClient();
 
 app.set('port', config.port);
 

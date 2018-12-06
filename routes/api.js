@@ -6,7 +6,7 @@ const logger = require('heroku-logger');
 const contentApi = require('../lib/gambit-campaigns');
 const conversations = require('../lib/gambit-conversations');
 const northstar = require('../lib/northstar');
-const rogue = require('../lib/rogue');
+const gateway = require('../lib/gateway');
 const helpers = require('../lib/helpers');
 
 const router = express.Router();
@@ -78,7 +78,7 @@ router.post('/messages', (req, res) => {
 });
 
 router.get('/posts', (req, res) => {
-  rogue.fetchPosts(req.query)
+  gateway.getClient().Posts.index(req.query)
     .then((apiRes) => {
       req.apiRes = apiRes;
       req.apiRes.data.forEach((post, index) => {
@@ -96,7 +96,7 @@ router.get('/rivescript', (req, res) => {
 });
 
 router.get('/signups', (req, res) => {
-  rogue.fetchSignups(req.query)
+  gateway.getClient().Signups.index(req.query)
     .then((apiRes) => {
       req.apiRes = apiRes;
       req.apiRes.data.forEach((signup, index) => {
