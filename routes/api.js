@@ -77,7 +77,7 @@ router.post('/messages', (req, res) => {
 });
 
 router.get('/posts', (req, res) => {
-  gateway.getClient().Posts.index(req.query)
+  gateway.getClient().Rogue.Posts.index(req.query)
     .then((apiRes) => {
       req.apiRes = apiRes;
       req.apiRes.data.forEach((post, index) => {
@@ -95,7 +95,7 @@ router.get('/rivescript', (req, res) => {
 });
 
 router.get('/signups', (req, res) => {
-  gateway.getClient().Signups.index(req.query)
+  gateway.getClient().Rogue.Signups.index(req.query)
     .then((apiRes) => {
       req.apiRes = apiRes;
       req.apiRes.data.forEach((signup, index) => {
@@ -120,7 +120,7 @@ router.get('/topics/:id', (req, res) => {
 
 router.get('/users/:id', (req, res) => {
   const userId = req.params.id;
-  return gateway.getClient().Users.getById(req.params.id)
+  return gateway.getClient().Northstar.Users.get(req.params.id)
     .then((apiRes) => {
       logger.debug('getUserById success', { userId: apiRes.id });
       req.apiRes = apiRes;
