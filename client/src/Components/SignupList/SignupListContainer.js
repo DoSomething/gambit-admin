@@ -15,10 +15,13 @@ function getSignupsQuery(userId) {
   if (userId) {
     query['filter[northstar_id]'] = userId;
   }
-  const skipQueryParam = queryString.parse(window.location.search).skip;
-  if (skipQueryParam) {
+  const clientQuery = queryString.parse(window.location.search);
+  if (clientQuery.skip) {
     // Rogue API expects a page parameter for current page of results.
-    query.page = (skipQueryParam / config.resultsPageSize) + 1;
+    query.page = (clientQuery.skip / config.resultsPageSize) + 1;
+  }
+  if (clientQuery.source) {
+    query['filter[source]'] = clientQuery.source;
   }
   return query;
 }

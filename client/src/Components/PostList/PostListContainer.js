@@ -14,16 +14,17 @@ import config from '../../config';
 function getPostsQuery() {
   // TODO: We want to include the signup here to permalink to Rogue, but it breaks things on QA.
   // @see https://www.pivotaltracker.com/n/projects/2019429/stories/158870350
-  const query = { orderBy: 'id,desc' };
+  const query = {};
   const clientQuery = queryString.parse(window.location.search);
-  const skipQueryParam = clientQuery.skip;
-  if (skipQueryParam) {
+  if (clientQuery.skip) {
     // Rogue API expects a page parameter for current page of results.
-    query.page = (skipQueryParam / config.resultsPageSize) + 1;
+    query.page = (clientQuery.skip / config.resultsPageSize) + 1;
   }
-  const typeQueryParam = clientQuery.type;
-  if (typeQueryParam) {
-    query['filter[type]'] = typeQueryParam;
+  if (clientQuery.source) {
+    query['filter[source]'] = clientQuery.source;
+  }
+  if (clientQuery.type) {
+    query['filter[type]'] = clientQuery.type;
   }
   return query;
 }
