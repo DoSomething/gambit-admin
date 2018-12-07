@@ -8,30 +8,13 @@ import Post from '../SignupList/SignupPost';
 import helpers from '../../helpers';
 import config from '../../config';
 
-/**
- * @return {Object}
- */
-function getPostsQuery() {
-  // TODO: We want to include the signup here to permalink to Rogue, but it breaks things on QA.
-  // @see https://www.pivotaltracker.com/n/projects/2019429/stories/158870350
-  const query = {};
-  const clientQuery = queryString.parse(window.location.search);
-  if (clientQuery.skip) {
-    // Rogue API expects a page parameter for current page of results.
-    query.page = (clientQuery.skip / config.resultsPageSize) + 1;
-  }
-  if (clientQuery.source) {
-    query['filter[source]'] = clientQuery.source;
-  }
-  if (clientQuery.type) {
-    query['filter[type]'] = clientQuery.type;
-  }
-  return query;
-}
-
 const PostListContainer = () => (
   <Grid>
-    <HttpRequest path={helpers.getPostsPath()} query={getPostsQuery()} description="posts">
+    <HttpRequest
+      path={helpers.getPostsPath()}
+      query={helpers.getCampaignActivityQuery(queryString.parse(window.location.search))}
+      description="posts"
+    >
       {res => (
         <Table hover>
           <tbody>
