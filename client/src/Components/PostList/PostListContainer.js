@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Grid, Row, Table } from 'react-bootstrap';
+import { Col, Form, FormControl, FormGroup, Grid, PageHeader, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import queryString from 'query-string';
@@ -8,8 +8,26 @@ import Post from '../SignupList/SignupPost';
 import helpers from '../../helpers';
 import config from '../../config';
 
+/**
+ * TODO: Once it stops throwing a 500 error, we want to include 'include=signup' in our
+ * campaignActivity query, but it breaks things on QA.
+ * @see https://www.pivotaltracker.com/n/projects/2019429/stories/158870350
+ */
 const PostListContainer = () => (
   <Grid>
+    <PageHeader>
+      <h1>Posts</h1>
+      <Form inline>
+        <FormGroup
+          controlId="formBasicText"
+        >
+          <FormControl componentClass="select" placeholder="select">
+            <option value="select">all</option>
+            <option value="sms">sms</option>
+          </FormControl>
+        </FormGroup>
+      </Form>
+    </PageHeader>
     <HttpRequest
       path={helpers.getPostsPath()}
       query={helpers.getCampaignActivityQuery(queryString.parse(window.location.search))}
