@@ -10,19 +10,19 @@ import helpers from '../../helpers';
 import config from '../../config';
 
 function userInfo(user) {
-  const lastMessagedDate = <Moment format={config.dateFormat}>{ user.last_messaged_at }</Moment>;
-  const registrationDate = <Moment format="MM/DD/YY">{ user.created_at }</Moment>;
+  const lastMessagedDate = <Moment format={config.dateFormat}>{ user.lastMessagedAt }</Moment>;
+  const registrationDate = <Moment format="MM/DD/YY">{ user.createdAt }</Moment>;
   let registrationSource;
   if (user.source) {
     registrationSource = `via ${helpers.formatSource(user.source)}`;
   }
   let address;
   let addressSource;
-  if (user.addr_city) {
-    address = `${user.addr_city}, ${user.addr_state} ${user.addr_zip}`;
+  if (user.addrCity) {
+    address = `${user.addrCity}, ${user.addrState} ${user.addrZip}`;
   }
   if (user.addr_source) {
-    addressSource = `via ${user.addr_source}`;
+    addressSource = `via ${user.addrSource}`;
   }
   const links = (
     <span>
@@ -38,7 +38,7 @@ function userInfo(user) {
             <strong>Mobile:</strong> {user.mobile}
           </Col>
           <Col sm={6}>
-            <strong>SMS status:</strong> {user.sms_status}
+            <strong>SMS status:</strong> {user.smsStatus}
           </Col>
         </Row>
         <Row>
