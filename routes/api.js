@@ -64,12 +64,6 @@ router.get('/draftSubmissions/:id', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
-router.get('/graphql', (req, res) => {
-  gateway.getClient().GraphQL.get(req.query)
-    .then(apiRes => res.send(apiRes))
-    .catch(err => helpers.sendResponseForError(res, err));
-});
-
 router.get('/messages', (req, res) => {
   conversations.getMessages(req.query)
     .then(apiRes => res.send(apiRes))
@@ -126,15 +120,10 @@ router.get('/topics/:id', (req, res) => {
 
 router.get('/users/:id', (req, res) => {
   const userId = req.params.id;
-  // TODO: Get these from the req.query.
-  const fields = 'addrZip addrState addrCity createdAt email id lastMessagedAt mobile smsStatus source';
-
-  return gateway.getClient().GraphQL.get({ query: `{user(id:"${userId}"){${fields}}}`})
+  return gateway.getClient().Northstar.Users.get(req.params.id)
     .then((apiRes) => {
       logger.debug('getUserById success', { userId: apiRes.id });
-      req.apiRes = {
-        data: apiRes.data.user,
-      };
+      req.apiRes = apiRes;
       req.apiRes.data.links = {
         aurora: helpers.getAuroraUrlForUserId(userId),
         customerIo: helpers.getCustomerIoUrlForUserId(userId),

@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// TODO: Add these fields into GraphQL to get this component working again.
 const VotingPlan = (props) => {
   const user = props.user;
-  const status = user.votingPlanStatus;
-  const timeOfDay = user.votingPlanTimeOfDay;
+  const status = user.voting_plan_status;
+  const timeOfDay = user.voting_plan_time_of_day;
   if (status !== 'voting' || !timeOfDay) {
     return <span>{status}</span>;
   }
   return (
     <span>
-      {user.votingPlanMethodOfTransport} with {user.votingPlanAttendingWith} in {timeOfDay}
+      {user.voting_plan_method_of_transport} with {user.voting_plan_attending_with} in {timeOfDay}
     </span>
   );
 };
