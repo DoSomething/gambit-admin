@@ -5,8 +5,7 @@ const logger = require('heroku-logger');
 
 const contentApi = require('../lib/gambit-campaigns');
 const conversations = require('../lib/gambit-conversations');
-const northstar = require('../lib/northstar');
-const rogue = require('../lib/rogue');
+const gateway = require('../lib/gateway');
 const helpers = require('../lib/helpers');
 
 const router = express.Router();
@@ -78,7 +77,7 @@ router.post('/messages', (req, res) => {
 });
 
 router.get('/posts', (req, res) => {
-  rogue.fetchPosts(req.query)
+  gateway.getClient().Rogue.Posts.index(req.query)
     .then((apiRes) => {
       req.apiRes = apiRes;
       req.apiRes.data.forEach((post, index) => {
@@ -96,7 +95,7 @@ router.get('/rivescript', (req, res) => {
 });
 
 router.get('/signups', (req, res) => {
-  rogue.fetchSignups(req.query)
+  gateway.getClient().Rogue.Signups.index(req.query)
     .then((apiRes) => {
       req.apiRes = apiRes;
       req.apiRes.data.forEach((signup, index) => {
@@ -121,11 +120,11 @@ router.get('/topics/:id', (req, res) => {
 
 router.get('/users/:id', (req, res) => {
   const userId = req.params.id;
-  return northstar.getUserById(req.params.id)
+  return gateway.getClient().Northstar.Users.get(req.params.id)
     .then((apiRes) => {
       logger.debug('getUserById success', { userId: apiRes.id });
-      req.data = apiRes;
-      req.data.links = {
+      req.apiRes = apiRes;
+      req.apiRes.data.links = {
         aurora: helpers.getAuroraUrlForUserId(userId),
         customerIo: helpers.getCustomerIoUrlForUserId(userId),
       };
@@ -134,14 +133,14 @@ router.get('/users/:id', (req, res) => {
       // @see https://github.com/DoSomething/gambit-conversations/releases/tag/2.3.1
       return conversations.getConversations(`query={"userId":"${userId}"}`);
     })
-    .then((apiRes) => {
-      req.data.conversations = {};
-      const userConversations = apiRes.data;
+    .then((getConversationsRes) => {
+      req.apiRes.data.conversations = {};
+      const userConversations = getConversationsRes.data;
       userConversations.forEach((conversation) => {
         const platform = conversation.platform;
-        req.data.conversations[platform] = conversation;
+        req.apiRes.data.conversations[platform] = conversation;
       });
-      return res.send({ data: req.data });
+      return res.send(req.apiRes);
     })
     .catch(err => helpers.sendResponseForError(res, err));
 });
