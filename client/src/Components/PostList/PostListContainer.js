@@ -17,7 +17,7 @@ import config from '../../config';
 const PostListContainer = () => (
   <Grid>
     <PageHeader>
-      <h1>Posts</h1>
+      Posts
       <ListForm />
     </PageHeader>
     <HttpRequest

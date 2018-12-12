@@ -17,7 +17,7 @@ const SignupListContainer = ({ userId }) => {
   return (
     <Grid>
       <PageHeader>
-        <h1>Signups</h1>
+        Signups
         <ListForm />
       </PageHeader>
       <HttpRequest
