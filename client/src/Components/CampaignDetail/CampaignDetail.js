@@ -8,7 +8,7 @@ const CampaignDetail = (props) => {
   const campaign = props.campaign;
   return (
     <div>
-      <PageHeader>{campaign.title}</PageHeader>
+      <PageHeader>{campaign.internalTitle}</PageHeader>
       <Panel>
         <Panel.Body>
           <p>

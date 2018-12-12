@@ -10,7 +10,7 @@ const CampaignLink = (props) => {
     endsLabel = <small> - Ends <Moment format={'MM/DD/YY'}>{campaign.endDate}</Moment></small>;
   }
 
-  const label = <span><strong>{campaign.title}</strong> ({campaign.id}){endsLabel}</span>;
+  const label = <span><strong>{campaign.internalTitle}</strong> ({campaign.id}){endsLabel}</span>;
   if (props.linkDisabled === true) {
     return label;
   }
