@@ -1,9 +1,10 @@
 import React from 'react';
-import { Col, Form, FormControl, FormGroup, Grid, PageHeader, Row, Table } from 'react-bootstrap';
+import { Col, Grid, PageHeader, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import queryString from 'query-string';
 import HttpRequest from '../HttpRequest';
+import ListForm from '../ListForm';
 import Post from '../SignupList/SignupPost';
 import helpers from '../../helpers';
 import config from '../../config';
@@ -17,16 +18,7 @@ const PostListContainer = () => (
   <Grid>
     <PageHeader>
       <h1>Posts</h1>
-      <Form inline>
-        <FormGroup
-          controlId="formBasicText"
-        >
-          <FormControl componentClass="select" placeholder="select">
-            <option value="select">all</option>
-            <option value="sms">sms</option>
-          </FormControl>
-        </FormGroup>
-      </Form>
+      <ListForm />
     </PageHeader>
     <HttpRequest
       path={helpers.getPostsPath()}

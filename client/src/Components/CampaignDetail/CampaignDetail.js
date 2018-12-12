@@ -12,9 +12,6 @@ const CampaignDetail = (props) => {
       <Panel>
         <Panel.Body>
           <p>
-            <strong>Tagline:</strong> {campaign.tagline}
-          </p>
-          <p>
             <strong>Status:</strong> {campaign.status}
           </p>
         </Panel.Body>

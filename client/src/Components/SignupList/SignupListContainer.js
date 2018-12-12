@@ -1,8 +1,9 @@
 import React from 'react';
-import { Col, Form, FormControl, FormGroup, Grid, PageHeader, Row, Table } from 'react-bootstrap';
+import { Col, Grid, PageHeader, Row, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import HttpRequest from '../HttpRequest';
+import ListForm from '../ListForm';
 import SignupListItem from './SignupListItem';
 import helpers from '../../helpers';
 
@@ -11,23 +12,13 @@ const SignupListContainer = ({ userId }) => {
   if (userId) {
     query['filter[northstar_id]'] = userId;
   }
-  const clientQuery = queryString.parse(window.location.search);
-  const isSourceSms = clientQuery.source === 'sms';
+
 
   return (
     <Grid>
-      <PageHeader> 
+      <PageHeader>
         <h1>Signups</h1>
-        <Form inline>
-          <FormGroup
-            controlId="formBasicText"
-          >
-            <FormControl componentClass="select" placeholder="select">
-              <option value="all" selected={!isSourceSms}>all</option>
-              <option value="sms" selected={isSourceSms}>sms</option>
-            </FormControl>
-          </FormGroup>
-        </Form>
+        <ListForm />
       </PageHeader>
       <HttpRequest
         path={helpers.getSignupsPath()}
