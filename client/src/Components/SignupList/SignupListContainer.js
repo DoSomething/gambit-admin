@@ -12,15 +12,14 @@ const SignupListContainer = ({ userId, displayFilters }) => {
   if (userId) {
     query['filter[northstar_id]'] = userId;
   }
-  let filters = null;
-  if (displayFilters) {
-    filters = (
+  const filters = displayFilters
+    ? (
       <PageHeader>
         Signups
         <ListForm />
       </PageHeader>
-    );
-  }
+    )
+    : null;
 
   return (
     <Grid>

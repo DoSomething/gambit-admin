@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, PageHeader, Table } from 'react-bootstrap';
 import HttpRequest from '../HttpRequest';
-import ActiveCampaignWtithTriggers from './CampaignsWithTriggers/ActiveCampaignWithTriggers';
-import ClosedCampaignWtithTriggers from './CampaignsWithTriggers/ClosedCampaignWithTriggers';
+import ActiveCampaignWithTriggers from './CampaignsWithTriggers/ActiveCampaignWithTriggers';
+import ClosedCampaignWithTriggers from './CampaignsWithTriggers/ClosedCampaignWithTriggers';
 import WebSignupList from './WebSignupList';
 import helpers from '../../helpers';
 
@@ -22,7 +22,7 @@ const CampaignListContainer = () => (
             <Table>
               <tbody>
                 {Object.values(campaignsByStatus.active).map(campaign => (
-                  <ActiveCampaignWtithTriggers
+                  <ActiveCampaignWithTriggers
                     key={campaign.id}
                     campaign={campaign}
                   />))}
@@ -32,7 +32,7 @@ const CampaignListContainer = () => (
             <Table>
               <tbody>
                 {Object.values(campaignsByStatus.closed).map(campaign => (
-                  <ClosedCampaignWtithTriggers
+                  <ClosedCampaignWithTriggers
                     key={campaign.id}
                     campaign={campaign}
                   />))}

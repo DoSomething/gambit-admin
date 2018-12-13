@@ -7,9 +7,8 @@ import queryString from 'query-string';
  * @param {String} filterValue
  */
 function handleFilterChange(filterName, selectedFilterValue) {
-  const location = window.location;
-  const url = [location.protocol, '//', location.host, location.pathname].join('');
-  const clientQuery = queryString.parse(location.search);
+  const { protocol, host, pathname } = window.location;
+  const clientQuery = queryString.parse(window.location.search);
   const currentFilterValue = clientQuery[filterName];
 
   if (currentFilterValue === selectedFilterValue) {
@@ -20,28 +19,19 @@ function handleFilterChange(filterName, selectedFilterValue) {
   } else {
     clientQuery[filterName] = selectedFilterValue;
   }
+  // We reset skip parameter when switching filters, as pagination would be awkward UX to persist.
   delete clientQuery.skip;
 
-  window.location = `${url}?${queryString.stringify(clientQuery)}`;
+  window.location = `${protocol}//${host}${pathname}?${queryString.stringify(clientQuery)}`;
 }
 
 class ListForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleSourceChange = this.handleSourceChange.bind(this);
-    this.handleTypeChange = this.handleTypeChange.bind(this);
-  }
-  handleSourceChange(event) { // eslint-disable-line class-methods-use-this
-    handleFilterChange('source', event.target.value);
-  }
-  handleTypeChange(event) { // eslint-disable-line class-methods-use-this
-    handleFilterChange('type', event.target.value);
-  }
+  handleSourceChange = event => handleFilterChange('source', event.target.value);
+  handleTypeChange = event => handleFilterChange('type', event.target.value);
   render() {
     const clientQuery = queryString.parse(window.location.search);
-    let typeFilterFormControl = null;
-    if (window.location.pathname === '/posts') {
-      typeFilterFormControl = (
+    const typeFilterFormControl = window.location.pathname === '/posts'
+      ? (
         <FormControl
           componentClass="select"
           placeholder="select"
@@ -52,8 +42,8 @@ class ListForm extends React.Component {
           <option value="photo">photo</option>
           <option value="text">text</option>
         </FormControl>
-      );
-    }
+      )
+      : null;
     return (
       <Form inline>
         <FormGroup controlId="listFilterForm">
@@ -74,4 +64,3 @@ class ListForm extends React.Component {
 }
 
 export default ListForm;
-

@@ -1,5 +1,6 @@
 module.exports = {
   extends: '@dosomething/eslint-config/nodejs/8.x',
+  parser: 'babel-eslint',
   parserOptions: {
     sourceType: 'module',
   },

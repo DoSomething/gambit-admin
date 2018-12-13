@@ -20,7 +20,7 @@ const SignupPost = (props) => {
   if (post.media.url) {
     mediaGroupItem = (
       <ListGroupItem>
-        <Image src={post.media.url} height={200} />
+        <Image src={post.media.url} height={100} />
       </ListGroupItem>
     );
   }
@@ -32,16 +32,17 @@ const SignupPost = (props) => {
       </ListGroupItem>
     );
   }
-  let footer = null;
-  if (props.displayFooter) {
-    footer = (
+
+  const footer = props.displayFooter
+    ? (
       <ListGroupItem>
         <small>
           Created <Moment format={'MM/DD/YY'}>{post.created_at}</Moment> {source}
         </small>
       </ListGroupItem>
-    );
-  }
+    )
+    : null;
+
   return (
     <ListGroup key={post.id}>
       {mediaGroupItem}

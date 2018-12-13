@@ -43,7 +43,9 @@ const PostListContainer = () => {
                     <Col md={3} componentClass="td">
                       <Link to={`/users/${post.northstar_id}`}>{post.northstar_id}</Link>
                     </Col>
-                    <Col omponentClass="td"><Post post={post} /></Col>
+                    <Col componentClass="td">
+                      <Post post={post} displayFooter={false} />
+                    </Col>
                   </Row>
                 );
               })}
