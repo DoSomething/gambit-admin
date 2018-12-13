@@ -9,36 +9,37 @@ import config from '../../config';
 const SignupListItem = (props) => {
   const signup = props.signup;
   const campaignId = signup.campaign_id;
+  const posts = signup.posts.data;
   const userId = signup.northstar_id;
 
-  let whyParticipated = null;
-  if (signup.why_participated) {
-    whyParticipated = (
+  const whyParticipated = signup.why_participated
+    ? (
       <div>
         <p>
           Why participated: <strong>{signup.why_participated}</strong>
         </p>
       </div>
-    );
-  }
-  const posts = signup.posts.data;
-  let postsDesc = null;
-  if (posts.length) {
-    const postsPopover = (
-      <Popover>
-        {whyParticipated}
-        {posts.map(post => <SignupPost post={post} key={post.id} />)}
-      </Popover>
-    );
-    postsDesc = (
-      <OverlayTrigger trigger={['hover', 'focus']} placement="left" overlay={postsPopover}>
+    )
+    : null;
+
+  const postsDesc = posts.length
+    ? (
+      <OverlayTrigger
+        trigger={['hover', 'focus']}
+        placement="left"
+        overlay={(
+          <Popover>
+            {whyParticipated}
+            {posts.map(post => <SignupPost post={post} key={post.id} />)}
+          </Popover>
+        )}
+      >
         <Button bsStyle="link">
           {posts.length > 1 ? <span>{posts.length} posts</span> : <span>1 {posts[0].type}</span>}
         </Button>
       </OverlayTrigger>
-    );
-  }
-
+    )
+    : null;
 
   return (
     <Row componentClass="tr" key={signup.signup_id}>
@@ -58,7 +59,7 @@ const SignupListItem = (props) => {
         <Link to={`/users/${userId}`}>{userId}</Link>
       </Col>
       <Col componentClass="td">
-        {posts.length ? postsDesc : null}
+        {postsDesc}
       </Col>
     </Row>
   );
