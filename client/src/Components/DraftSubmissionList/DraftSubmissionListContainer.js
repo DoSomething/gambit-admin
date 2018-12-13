@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Grid, Row, Table } from 'react-bootstrap';
+import { Col, Grid, PageHeader, Row, Table } from 'react-bootstrap';
 import HttpRequest from '../HttpRequest';
 import DraftSubmissionListItem from './DraftSubmissionListItem';
 import helpers from '../../helpers';
@@ -8,6 +8,9 @@ const query = { populate: 'conversationId', sort: '-createdAt' };
 
 const DraftSubmissionListContainer = () => (
   <Grid>
+    <PageHeader>
+      Draft photo posts
+    </PageHeader>
     <HttpRequest path={helpers.getDraftSubmissionsPath()} query={query} description="drafts">
       {res => (
         <Table hover>

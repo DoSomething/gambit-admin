@@ -1,23 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Pager } from 'react-bootstrap';
+import queryString from 'query-string';
 
 class ListPager extends React.Component {
   constructor(props) {
     super(props);
+
     const skipCount = this.props.skipCount;
     const pageSize = this.props.pageSize;
     const totalResultCount = this.props.totalResultCount;
     this.startNumber = skipCount + 1;
     this.endNumber = (this.startNumber + this.props.pageCount) - 1;
+
+    const clientQuery = queryString.parse(window.location.search);
+    delete clientQuery.skip;
+
     const location = window.location;
     const url = [location.protocol, '//', location.host, location.pathname].join('');
+
     if (skipCount) {
       const prevSkip = skipCount - pageSize;
-      this.prevUrl = `${url}?skip=${prevSkip}`;
+      this.prevUrl = `${url}?skip=${prevSkip}&${queryString.stringify(clientQuery)}`;
     }
     if (totalResultCount > pageSize && this.endNumber < totalResultCount) {
-      this.nextUrl = `${url}?skip=${skipCount + pageSize}`;
+      this.nextUrl = `${url}?skip=${skipCount + pageSize}&${queryString.stringify(clientQuery)}`;
     }
   }
   render() {

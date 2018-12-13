@@ -20,7 +20,7 @@ const SignupPost = (props) => {
   if (post.media.url) {
     mediaGroupItem = (
       <ListGroupItem>
-        <Image src={post.media.url} height={200} />
+        <Image src={post.media.url} height={100} />
       </ListGroupItem>
     );
   }
@@ -33,21 +33,36 @@ const SignupPost = (props) => {
     );
   }
 
+  const footer = props.displayFooter
+    ? (
+      <ListGroupItem>
+        <small>
+          Created <Moment format={'MM/DD/YY'}>{post.created_at}</Moment> {source}
+        </small>
+      </ListGroupItem>
+    )
+    : null;
+
   return (
     <ListGroup key={post.id}>
       {mediaGroupItem}
-      <ListGroupItem><strong>{post.media.text}</strong></ListGroupItem>
-      {quantityItem}
       <ListGroupItem>
-        {post.type} created <Moment format={'MM/DD/YY'}>{post.created_at}</Moment> {source}
-        <div>{postLabel(post.status)}</div>
+        {post.type === 'share-social' ? <span>shared {post.action}</span> : <strong>{post.media.text}</strong>}
       </ListGroupItem>
+      {quantityItem}
+      <ListGroupItem>{postLabel(post.status)}</ListGroupItem>
+      {footer}
     </ListGroup>
   );
 };
 
 SignupPost.propTypes = {
   post: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  displayFooter: PropTypes.boolean,
+};
+
+SignupPost.defaultProps = {
+  displayFooter: true,
 };
 
 export default SignupPost;
