@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { Button, Col, OverlayTrigger, Popover, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
@@ -9,36 +9,57 @@ import config from '../../config';
 const SignupListItem = (props) => {
   const signup = props.signup;
   const campaignId = signup.campaign_id;
+  const posts = signup.posts.data;
   const userId = signup.northstar_id;
 
-  let description = null;
-  if (signup.why_participated) {
-    description = (
+  const whyParticipated = signup.why_participated
+    ? (
       <div>
         <p>
           Why participated: <strong>{signup.why_participated}</strong>
         </p>
       </div>
-    );
-  }
+    )
+    : null;
+
+  const postsDesc = posts.length
+    ? (
+      <OverlayTrigger
+        trigger={['hover', 'focus']}
+        placement="left"
+        overlay={(
+          <Popover>
+            {whyParticipated}
+            {posts.map(post => <SignupPost post={post} key={post.id} />)}
+          </Popover>
+        )}
+      >
+        <Button bsStyle="link">
+          {posts.length > 1 ? <span>{posts.length} posts</span> : <span>1 {posts[0].type}</span>}
+        </Button>
+      </OverlayTrigger>
+    )
+    : null;
+
   return (
     <Row componentClass="tr" key={signup.signup_id}>
-      <Col componentClass="td">
+      <Col componentClass="td" md={2}>
         <a href={signup.signupUrl}>
           <Moment format={config.dateFormat}>{signup.created_at}</Moment>
         </a>
-        <div>{signup.source}</div>
+      </Col>
+      <Col componentClass="td" md={2}>
+        <strong><a href={`/campaigns/${campaignId}`}>{campaignId}</a></strong>
+      </Col>
+      <Col componentClass="td" md={4}>
+        {signup.source}
         <div><small>{signup.details}</small></div>
       </Col>
-      <Col componentClass="td">
+      <Col componentClass="td" md={3}>
         <Link to={`/users/${userId}`}>{userId}</Link>
       </Col>
       <Col componentClass="td">
-        <strong><a href={`/campaigns/${campaignId}`}>{campaignId}</a></strong>
-      </Col>
-      <Col componentClass="td">
-        {description}
-        {signup.posts.data.map(post => <SignupPost post={post} key={post.id} />)}
+        {postsDesc}
       </Col>
     </Row>
   );

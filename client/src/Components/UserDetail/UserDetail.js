@@ -106,7 +106,7 @@ function tabs(user) {
       {conversationTab(smsConversationId, 'SMS', 0)}
       {slackTab}
       <Tab eventKey={numConversations + 1} title="Signups"><br />
-        <SignupList userId={user.id} />
+        <SignupList userId={user.id} displayFilters={false} />
       </Tab>
     </Tabs>
   );
