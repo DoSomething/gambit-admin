@@ -116,6 +116,9 @@ module.exports = {
   getDraftSubmissionsPath: function getDraftSubmissionsPath() {
     return 'draftSubmissions';
   },
+  getGraphQLPath: function getGraphQLPath() {
+    return 'graphql';
+  },
   getHardcodedTopics,
   getMessagesPath: function getMessagesPath() {
     return 'messages';

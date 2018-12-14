@@ -2,41 +2,41 @@ import React from 'react';
 import { Grid, PageHeader, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import HttpRequest from '../HttpRequest';
+import GraphQLRequest from '../GraphQLRequest';
 import ListForm from '../ListForm';
 import SignupListItem from './SignupListItem';
 import helpers from '../../helpers';
 
 const SignupListContainer = ({ userId, displayFilters }) => {
-  const query = { include: 'posts', orderBy: 'id,desc' };
-  if (userId) {
-    query['filter[northstar_id]'] = userId;
-  }
-  const filters = displayFilters
-    ? (
-      <PageHeader>
-        Signups
-        <ListForm />
-      </PageHeader>
-    )
-    : null;
+  const query = `{
+    signups(count: 50) {
+      id,
+      userId,
+      campaign {
+        id,
+        internalTitle,
+      }
+      campaignId,
+    }
+  }`;
 
   return (
     <Grid>
-      {filters}
-      <HttpRequest
-        path={helpers.getSignupsPath()}
-        query={helpers.getCampaignActivityQuery(queryString.parse(window.location.search), query)}
-        description="signups"
-      >
+      <GraphQLRequest query={query}>
         {res => (
           <Table hover>
             <tbody>
-              {res.data.map(signup => <SignupListItem signup={signup} key={signup.id} />)}
+              {res.signups.map(signup => (
+                <tr key={signup.id}>
+                  <td>{signup.id}</td>
+                  <td>{signup.userId}</td>
+                  <td>{signup.campaign.internalTitle}</td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         )}
-      </HttpRequest>
+      </GraphQLRequest>
     </Grid>
   );
 };
