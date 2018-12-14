@@ -8,6 +8,7 @@ import BroadcastList from './BroadcastList/BroadcastListContainer';
 import BroadcastReplyList from './BroadcastDetail/BroadcastReplyList';
 import CampaignDetail from './CampaignDetail/CampaignDetailContainer';
 import CampaignDashboard from './CampaignDashboard/CampaignDashboard';
+import CampaignList from './CampaignList/CampaignListContainer';
 import ConversationRequest from './ConversationRequest';
 import DraftSubmissionDetail from './DraftSubmissionDetail/DraftSubmissionDetailContainer';
 import DraftSubmissionList from './DraftSubmissionList/DraftSubmissionListContainer';
@@ -25,6 +26,7 @@ const Main = () => (
       <Route path="/broadcasts" component={BroadcastList} />
       <Route path="/campaigns/:campaignId" component={CampaignDetail} />
       <Route path="/campaigns" component={CampaignDashboard} />
+      <Route path="/dev" component={CampaignList} />
       <Route path="/draftSubmissions/:draftSubmissionId" component={DraftSubmissionDetail} />
       <Route path="/draftSubmissions" component={DraftSubmissionList} />
       <Route path="/posts" component={PostList} />

@@ -64,6 +64,12 @@ router.get('/draftSubmissions/:id', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
+router.get('/graphql', (req, res) => {
+  gateway.getGraphQL(req.query.query)
+    .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
 router.get('/messages', (req, res) => {
   conversations.getMessages(req.query)
     .then(apiRes => res.send(apiRes))
