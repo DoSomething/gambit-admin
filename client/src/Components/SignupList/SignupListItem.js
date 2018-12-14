@@ -8,15 +8,15 @@ import config from '../../config';
 
 const SignupListItem = (props) => {
   const signup = props.signup;
-  const campaignId = signup.campaign_id;
-  const posts = signup.posts.data;
-  const userId = signup.northstar_id;
+  const campaign = signup.campaign;
+  const posts = signup.posts;
+  const user = signup.user;
 
-  const whyParticipated = signup.why_participated
+  const whyParticipated = signup.whyParticipated
     ? (
       <div>
         <p>
-          Why participated: <strong>{signup.why_participated}</strong>
+          Why participated: <strong>{signup.whyParticipated}</strong>
         </p>
       </div>
     )
@@ -42,21 +42,25 @@ const SignupListItem = (props) => {
     : null;
 
   return (
-    <Row componentClass="tr" key={signup.signup_id}>
+    <Row componentClass="tr" key={signup.id}>
       <Col componentClass="td" md={2}>
         <a href={signup.signupUrl}>
-          <Moment format={config.dateFormat}>{signup.created_at}</Moment>
+          <Moment format={config.dateFormat}>{signup.createdAt}</Moment>
         </a>
       </Col>
       <Col componentClass="td" md={2}>
-        <strong><a href={`/campaigns/${campaignId}`}>{campaignId}</a></strong>
+        <strong>
+          <a href={`/campaigns/${campaign.id}`}>
+            {campaign.internalTitle}
+          </a>
+        </strong>
       </Col>
       <Col componentClass="td" md={4}>
         {signup.source}
         <div><small>{signup.details}</small></div>
       </Col>
       <Col componentClass="td" md={3}>
-        <Link to={`/users/${userId}`}>{userId}</Link>
+        <Link to={`/users/${user.id}`}>{user.firstName || user.id}</Link>
       </Col>
       <Col componentClass="td">
         {postsDesc}

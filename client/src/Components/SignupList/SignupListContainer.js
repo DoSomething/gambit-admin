@@ -1,38 +1,46 @@
 import React from 'react';
 import { Grid, PageHeader, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import queryString from 'query-string';
 import GraphQLRequest from '../GraphQLRequest';
-import ListForm from '../ListForm';
 import SignupListItem from './SignupListItem';
-import helpers from '../../helpers';
 
 const SignupListContainer = ({ userId, displayFilters }) => {
   const query = `{
     signups(count: 50) {
-      id,
-      userId,
+      id
       campaign {
-        id,
-        internalTitle,
+        id
+        internalTitle
       }
-      campaignId,
+      createdAt
+      details
+      posts {
+        action
+        id
+        quantity
+        status
+        text
+        type
+        url
+      }
+      source
+      user {
+        id
+        firstName
+      }
     }
   }`;
 
   return (
     <Grid>
+      <PageHeader>
+        Signups
+      </PageHeader>
       <GraphQLRequest query={query}>
         {res => (
           <Table hover>
             <tbody>
-              {res.signups.map(signup => (
-                <tr key={signup.id}>
-                  <td>{signup.id}</td>
-                  <td>{signup.userId}</td>
-                  <td>{signup.campaign.internalTitle}</td>
-                </tr>
-              ))}
+              {res.signups.map(signup => <SignupListItem signup={signup} key={signup.id} />)}
             </tbody>
           </Table>
         )}
