@@ -24,7 +24,7 @@
     "react-moment": "^0.7.9",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^1.1.5",
+    "react-scripts": "2.1.1",
     "react-scrollable-anchor": "^0.5.0"
   },
   "scripts": {
@@ -33,5 +33,11 @@
     "lint": "eslint --ext=.js .",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
