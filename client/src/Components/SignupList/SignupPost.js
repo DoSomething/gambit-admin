@@ -16,28 +16,26 @@ function postLabel(status) {
 const SignupPost = (props) => {
   const post = props.post;
   const source = post.source ? ` via ${post.source}` : null;
-  let mediaGroupItem = null;
-  if (post.media.url) {
-    mediaGroupItem = (
+  const mediaGroupItem = post.url
+    ? (
       <ListGroupItem>
-        <Image src={post.media.url} height={100} />
+        <Image src={post.url} height={100} />
       </ListGroupItem>
-    );
-  }
-  let quantityItem = null;
-  if (post.quantity) {
-    quantityItem = (
+    )
+    : null;
+
+  const quantityItem = post.quantity
+    ? (
       <ListGroupItem>
         Quantity: <strong>{post.quantity}</strong>
       </ListGroupItem>
-    );
-  }
+    ) : null;
 
   const footer = props.displayFooter
     ? (
       <ListGroupItem>
         <small>
-          Created <Moment format={'MM/DD/YY'}>{post.created_at}</Moment> {source}
+          Created <Moment format={'MM/DD/YY'}>{post.createdAt}</Moment> {source}
         </small>
       </ListGroupItem>
     )
@@ -47,7 +45,7 @@ const SignupPost = (props) => {
     <ListGroup key={post.id}>
       {mediaGroupItem}
       <ListGroupItem>
-        {post.type === 'share-social' ? <span>shared {post.action}</span> : <strong>{post.media.text}</strong>}
+        {post.type === 'share-social' ? <span>shared {post.action}</span> : <strong>{post.text}</strong>}
       </ListGroupItem>
       {quantityItem}
       <ListGroupItem>{postLabel(post.status)}</ListGroupItem>
