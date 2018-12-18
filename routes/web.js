@@ -1,13 +1,15 @@
-import { Router } from 'express';
-import session from 'express-session';
-import path from 'path';
-import authMiddleware from '../lib/middleware/authenticate';
+'use strict';
 
-export default async () => {
-  const router = Router();
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+const authMiddleware = require('../lib/middleware/authenticate');
+
+module.exports = async () => {
+  const router = express.Router();
 
   // Wait until we discover OpenID Configuration.
-  const passport = await authMiddleware;
+  const passport = await authMiddleware();
 
   // Configure sessions & authentication.
   router.use(
@@ -32,7 +34,7 @@ export default async () => {
   router.get(
     '/auth/callback',
     passport.authenticate('oidc', { failureRedirect: '/login' }),
-    (req, res) => res.redirect('/explore'),
+    (req, res) => res.redirect('/'),
   );
 
   // GET /auth/logout
@@ -40,9 +42,8 @@ export default async () => {
     req.logout();
 
     // Kill the Northstar SSO session & redirect back.
-    const northstarUrl = config('services.northstar.url');
-    res.redirect(`${northstarUrl}/logout?redirect=${config('app.url')}`);
+    const northstarUrl = process.env.DS_API_OAUTH_URL;
+    res.redirect(`${northstarUrl}/logout?redirect=http://localhost:3001`);
   });
-
   return router;
 };

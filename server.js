@@ -30,8 +30,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Register routes & start it up!
 (async () => {
-  const apiRoute = require('./routes/api');
-  app.use('/api', apiRoute);
+  const apiRoutes = require('./routes/api');
+  app.use('/api', apiRoutes);
+  app.use(await require('./routes/web')());
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, buildPath, 'index.html'));
