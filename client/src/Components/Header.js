@@ -30,11 +30,16 @@ class Header extends React.Component {
             Broadcasts
           </NavItem>
         </Nav>
+        <Nav pullRight>
+          <NavItem eventKey={3} href="/auth/login">
+            Login
+          </NavItem>
+        </Nav>
         <Navbar.Form pullRight>
           <ConversationSearchForm />
         </Navbar.Form>
         <Nav pullRight>
-          <NavItem active={pathname.includes('triggers')} eventKey={3} href="/triggers">
+          <NavItem active={pathname.includes('triggers')} eventKey={4} href="/triggers">
             Admin
           </NavItem>
         </Nav>
