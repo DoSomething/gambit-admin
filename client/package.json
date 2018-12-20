@@ -9,6 +9,10 @@
   "proxy": "http://localhost:3000/",
   "dependencies": {
     "apollo-boost": "^0.1.22",
+    "apollo-cache-inmemory": "^1.3.12",
+    "apollo-client": "^2.4.8",
+    "apollo-link": "^1.2.6",
+    "apollo-link-context": "^1.0.12",
     "bootstrap": "3",
     "eslint-config-react-app": "^1.0.5",
     "eslint-plugin-import": "^2.14.0",

@@ -34,7 +34,7 @@ module.exports = async () => {
   router.get(
     '/auth/callback',
     passport.authenticate('oidc', { failureRedirect: '/login' }),
-    (req, res) => res.redirect('/'),
+    (req, res) => res.redirect('http://localhost:3001'),
   );
 
   // GET /auth/logout
@@ -45,5 +45,9 @@ module.exports = async () => {
     const northstarUrl = process.env.DS_API_OAUTH_URL;
     res.redirect(`${northstarUrl}/logout?redirect=http://localhost:3001`);
   });
+
+  // GET /auth/user
+  router.get('/auth/user', (req, res) => res.send({ data: { user: req.user } }));
+
   return router;
 };
