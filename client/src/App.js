@@ -7,6 +7,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 
 
 import Header from './Components/Header';
+import Login from './Components/Login';
 import Main from './Components/Main';
 import Footer from './Components/Footer';
 import './App.css';
@@ -51,17 +52,19 @@ class App extends Component {
     return body;
   };
   render() {
-    if (!this.state.client) {
-      return <div>Loading</div>;
-    }
-    return (
-      <ApolloProvider client={this.state.client}>
-        <div>
-          <Header user={this.state.user} />
+    const body = this.state.user.name
+     ? (
+        <ApolloProvider client={this.state.client}>
           <Main />
-          <Footer />
-        </div>
-      </ApolloProvider>
+        </ApolloProvider>
+      )
+      : <Login />;
+    return (
+      <div>
+        <Header user={this.state.user} />
+        {body}
+        <Footer />
+      </div>
     );
   }
 }

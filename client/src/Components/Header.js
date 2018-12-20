@@ -15,9 +15,6 @@ class Header extends React.Component {
       return (
         <Navbar>
           {navbarHeader}
-          <Nav pullRight>
-            <NavItem eventKey={1} href="http://localhost:3000/auth/login">Login</NavItem>;
-          </Nav>
         </Navbar>
       );
     }
