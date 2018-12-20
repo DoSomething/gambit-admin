@@ -52,17 +52,17 @@ class App extends Component {
     return body;
   };
   render() {
-    const body = this.state.user.name
-     ? (
-        <ApolloProvider client={this.state.client}>
-          <Main />
-        </ApolloProvider>
-      )
-      : <Login />;
     return (
       <div>
         <Header user={this.state.user} />
-        {body}
+        {this.state.user.name
+         ? (
+            <ApolloProvider client={this.state.client}>
+              <Main />
+            </ApolloProvider>
+          )
+          : <Login />
+        }
         <Footer />
       </div>
     );
