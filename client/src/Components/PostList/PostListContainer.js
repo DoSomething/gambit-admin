@@ -18,6 +18,10 @@ const fields = `
   quantity
   signup {
     id
+    campaign {
+      id
+      internalTitle
+    }
   }
   source
   status
@@ -108,7 +112,8 @@ const PostListContainer = () => {
             <Table hover>
               <tbody>
                 {data.posts.map((post) => {
-                  const userId = post.user.id;
+                  const user = post.user;
+                  const campaign = post.signup.campaign;
                   return (
                     <Row componentClass="tr" key={post.id}>
                       <Col md={2} componentClass="td">
@@ -116,11 +121,11 @@ const PostListContainer = () => {
                           <Moment format={config.dateFormat}>{post.createdAt}</Moment>
                         </a>
                       </Col>
-                      <Col componentClass="td" md={2}>
-                        {post.source}
+                      <Col md={4} componentClass="td">
+                        <Link to={`/campaigns/${campaign.id}`}>{campaign.internalTitle}</Link>
                       </Col>
-                      <Col md={3} componentClass="td">
-                        <Link to={`/users/${userId}`}>{userId}</Link>
+                      <Col componentClass="td" md={2}>
+                        <Link to={`/users/${user.id}`}>{user.firstName || user.id}</Link>
                       </Col>
                       <Col componentClass="td">
                         <Post post={post} displayFooter={false} />

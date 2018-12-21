@@ -43,6 +43,9 @@ const SignupPost = (props) => {
 
   return (
     <ListGroup key={post.id}>
+      <ListGroupItem>
+        Source: {post.source}
+      </ListGroupItem>
       {mediaGroupItem}
       <ListGroupItem>
         {post.type === 'share-social' ? <span>shared {post.action}</span> : <strong>{post.text}</strong>}

@@ -48,21 +48,17 @@ const SignupListItem = (props) => {
           <Moment format={config.dateFormat}>{signup.createdAt}</Moment>
         </a>
       </Col>
-      <Col componentClass="td" md={3}>
-        <strong>
-          <a href={`/campaigns/${campaign.id}`}>
-            {campaign.internalTitle}
-          </a>
-        </strong>
-      </Col>
       <Col componentClass="td" md={4}>
-        {signup.source}
-        <div><small>{signup.details}</small></div>
+        <a href={`/campaigns/${campaign.id}`}>
+          {campaign.internalTitle}
+        </a>
       </Col>
       <Col componentClass="td" md={2}>
         <Link to={`/users/${user.id}`}>{user.firstName || user.id}</Link>
       </Col>
       <Col componentClass="td">
+        {signup.source}
+        <div><small>{signup.details}</small></div>
         {postsDesc}
       </Col>
     </Row>

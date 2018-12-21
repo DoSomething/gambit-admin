@@ -19,8 +19,7 @@ class App extends Component {
   };
   componentDidMount() {
     this.getSession()
-      .then((res) => {
-        const session = res.data;
+      .then((session) => {
         const authLink = setContext((_, { headers }) => {
           const token = session.user.access_token;
           return {
@@ -49,7 +48,7 @@ class App extends Component {
     const response = await fetch('/auth/session');
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
-    return body;
+    return body.data;
   };
   render() {
     if (!this.state.config.app) {
