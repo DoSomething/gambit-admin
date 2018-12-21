@@ -76,18 +76,6 @@ router.post('/messages', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
-router.get('/posts', (req, res) => {
-  gateway.getClient().Rogue.Posts.index(req.query)
-    .then((apiRes) => {
-      req.apiRes = apiRes;
-      req.apiRes.data.forEach((post, index) => {
-        req.apiRes.data[index].signupUrl = helpers.getRogueUrlForSignupId(post.signup_id);
-      });
-      return res.send(req.apiRes);
-    })
-    .catch(err => helpers.sendResponseForError(res, err));
-});
-
 router.get('/rivescript', (req, res) => {
   conversations.getRivescript(req.query)
     .then(apiRes => res.send(apiRes))
