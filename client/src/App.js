@@ -11,7 +11,6 @@ import Main from './Components/Main';
 import Footer from './Components/Footer';
 import './App.css';
 
-
 class App extends Component {
   state = {
     client: null,
@@ -23,7 +22,6 @@ class App extends Component {
       .then((res) => {
         const authLink = setContext((_, { headers }) => {
           const token = res.data.user.access_token;
-          // return the headers to the context so httpLink can read them
           return {
             headers: {
               ...headers,
@@ -31,7 +29,6 @@ class App extends Component {
             }
           };
         });
-        console.log('url', res.data.config.graphQLUrl);
         const httpLink = createHttpLink({
           uri: res.data.config.graphQLUrl,
         });
@@ -57,7 +54,9 @@ class App extends Component {
     if (!this.state.config.app) {
       return (
         <Grid>
-          <center>Loading...</center>
+          <Jumbotron>
+            <center>Loading...</center>
+          </Jumbotron>
         </Grid>
       );
     }
@@ -93,4 +92,3 @@ class App extends Component {
 }
 
 export default App;
-
