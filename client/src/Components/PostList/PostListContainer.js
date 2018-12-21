@@ -30,10 +30,30 @@ const fields = `
   }
 `;
 
+function getPostsBySourceAndTypeQuery() {
+  return gql`
+    query getPostsBySource($source: String, $type: String) {
+      posts(source: $source, type: $type, count: 50) {
+        ${fields}
+      }
+    }
+  `;
+}
+
 function getPostsBySourceQuery() {
   return gql`
     query getPostsBySource($source: String) {
       posts(source: $source, count: 50) {
+        ${fields}
+      }
+    }
+  `;
+}
+
+function getPostsByTypeQuery() {
+  return gql`
+    query getPostsByType($type: String) {
+      posts(type: $type, count: 50) {
         ${fields}
       }
     }
@@ -52,16 +72,28 @@ function getAllPostsQuery() {
 
 const PostListContainer = () => {
   const sourceQueryParam = queryString.parse(window.location.search).source;
+  const typeQueryParam = queryString.parse(window.location.search).type;
+  let query = getAllPostsQuery();
+  let variables = {};
+  if (sourceQueryParam) {
+    variables.source = sourceQueryParam;
+    if (typeQueryParam) {
+      variables.type = typeQueryParam;
+      query = getPostsBySourceAndTypeQuery();
+    } else {
+      query = getPostsBySourceQuery();
+    }
+  } else if (typeQueryParam) {
+    variables.type = typeQueryParam;
+    query = getPostsByTypeQuery();
+  }
   return (
     <Grid>
       <PageHeader>
         Posts
         <ListForm />
       </PageHeader>
-      <Query
-        query={sourceQueryParam ? getPostsBySourceQuery() : getAllPostsQuery()}
-        variables={sourceQueryParam ? { source: sourceQueryParam } : {}}
-      >
+      <Query query={query} variables={variables}>
         {({ loading, error, data }) => {
           if (loading) return <div>Loading...</div>;
 

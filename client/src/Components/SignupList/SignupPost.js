@@ -10,7 +10,7 @@ function postLabel(status) {
   } else if (status === 'accepted') {
     style = 'success';
   }
-  return <Label bsStyle={style}>{status}</Label>;
+  return <Label bsStyle={style}>{status.toLowerCase()}</Label>;
 }
 
 const SignupPost = (props) => {
