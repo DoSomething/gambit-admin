@@ -16,7 +16,7 @@ class App extends Component {
   state = {
     client: null,
     config: {},
-    user: {},
+    user: null,
   };
   componentDidMount() {
     this.callApi()
@@ -55,12 +55,16 @@ class App extends Component {
   };
   render() {
     if (!this.state.config.app) {
-      return <div>Loading...</div>;
+      return (
+        <Grid>
+          <center>Loading...</center>
+        </Grid>
+      );
     }
     return (
       <div>
         <Header user={this.state.user} config={this.state.config} />
-        {this.state.user && this.state.user.name
+        {this.state.user
          ? (
             <ApolloProvider client={this.state.client}>
               <Main />

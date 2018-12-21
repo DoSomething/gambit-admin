@@ -5,6 +5,8 @@ const session = require('express-session');
 const path = require('path');
 const authMiddleware = require('../lib/middleware/authenticate');
 
+const webUrl = process.env.WEB_URL || process.env.APP_URL;
+
 module.exports = async () => {
   const router = express.Router();
 
@@ -34,7 +36,7 @@ module.exports = async () => {
   router.get(
     '/auth/callback',
     passport.authenticate('oidc', { failureRedirect: '/login' }),
-    (req, res) => res.redirect('http://localhost:3001'),
+    (req, res) => res.redirect(webUrl),
   );
 
   // GET /auth/logout
@@ -43,7 +45,7 @@ module.exports = async () => {
 
     // Kill the Northstar SSO session & redirect back.
     const northstarUrl = process.env.DS_API_OAUTH_URL;
-    res.redirect(`${northstarUrl}/logout?redirect=http://localhost:3001`);
+    res.redirect(`${northstarUrl}/logout?redirect=${webUrl}`);
   });
 
   // GET /auth/user
