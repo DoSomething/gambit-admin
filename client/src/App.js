@@ -7,7 +7,6 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { Button, Grid, Jumbotron } from 'react-bootstrap';
 
 import Header from './Components/Header';
-import Login from './Components/Login';
 import Main from './Components/Main';
 import Footer from './Components/Footer';
 import './App.css';
