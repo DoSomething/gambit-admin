@@ -10,6 +10,15 @@ const helpers = require('../lib/helpers');
 
 const router = express.Router();
 
+// Check authentication.
+router.use('/', (req, res, next) => {
+  const validRoles = ['admin', 'staff'];
+  if (req.session && req.session.passport && validRoles.includes(req.session.passport.user.role)) {
+    return next();
+  }
+  return res.sendStatus(401);
+});
+
 router.get('/broadcasts', (req, res) => {
   conversations.getBroadcasts(req.query)
     .then(apiRes => res.send(apiRes))

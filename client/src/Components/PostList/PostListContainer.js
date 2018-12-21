@@ -9,7 +9,7 @@ import ListForm from '../ListForm';
 import Post from '../SignupList/SignupPost';
 import config from '../../config';
 
-// TODO: If a campaign doesn't exist, pulling signup { campaign { id } } throws an error.
+// TODO: If a campaign doesn't exist, pulling a signup for it { campaign { id } } throws an error.
 // @see https://dosomething.slack.com/archives/C1V0M6RPE/p1545336640000300?thread_ts=1545335609.000200&cid=C1V0M6RPE
 const fields = `
   id

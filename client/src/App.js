@@ -18,10 +18,11 @@ class App extends Component {
     user: null,
   };
   componentDidMount() {
-    this.callApi()
+    this.getSession()
       .then((res) => {
+        const session = res.data;
         const authLink = setContext((_, { headers }) => {
-          const token = res.data.user.access_token;
+          const token = session.user.access_token;
           return {
             headers: {
               ...headers,
@@ -30,22 +31,22 @@ class App extends Component {
           };
         });
         const httpLink = createHttpLink({
-          uri: res.data.config.graphQLUrl,
+          uri: session.config.services.graphQL.url,
         });
         const client = new ApolloClient({
           link: authLink.concat(httpLink),
           cache: new InMemoryCache(),
         });
         this.setState({
-          config: res.data.config,
-          user: res.data.user, 
+          config: session.config,
+          user: session.user, 
           client: client,
         });
       })
       .catch(err => console.log(err));
   }
-  callApi = async () => {
-    const response = await fetch('/auth/user');
+  getSession = async () => {
+    const response = await fetch('/auth/session');
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;

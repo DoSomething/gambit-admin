@@ -2,9 +2,9 @@
 
 const express = require('express');
 const session = require('express-session');
-const path = require('path');
 const authMiddleware = require('../lib/middleware/authenticate');
 
+const authUrl = process.env.DS_API_OAUTH_URL;
 const webUrl = process.env.WEB_URL || process.env.APP_URL;
 
 module.exports = async () => {
@@ -16,7 +16,7 @@ module.exports = async () => {
   // Configure sessions & authentication.
   router.use(
     session({
-      secret: 'test',
+      secret:  process.env.APP_SECRET || 'puppet',
       cookie: {
         maxAge: 1000 * 60 * 60, // 1 hour.
       },
@@ -29,38 +29,38 @@ module.exports = async () => {
   router.use(passport.initialize());
   router.use(passport.session());
 
-  // GET /auth/login
   router.get('/auth/login', passport.authenticate('oidc'));
 
-  // GET /auth/callback
   router.get(
     '/auth/callback',
     passport.authenticate('oidc', { failureRedirect: '/login' }),
     (req, res) => res.redirect(webUrl),
   );
 
-  // GET /auth/logout
   router.get('/auth/logout', (req, res) => {
     req.logout();
-
     // Kill the Northstar SSO session & redirect back.
-    const northstarUrl = process.env.DS_API_OAUTH_URL;
-    res.redirect(`${northstarUrl}/logout?redirect=${webUrl}`);
+    // TODO: This redirect isn't working
+    res.redirect(`${authUrl}/logout?redirect=${webUrl}`);
   });
 
-  // GET /auth/user
-  router.get('/auth/user', (req, res) => res.send({
-    data: {
+  router.get('/auth/session', (req, res) => {
+    const data = {
       user: req.user,
       config: {
         app: {
           name: process.env.APP_NAME || 'Gambit',
           url: process.env.APP_URL,
         },
-        graphQLUrl: process.env.DS_GRAPHQL_URL,
+        services: {
+          graphQL: {
+            url: process.env.DS_GRAPHQL_URL,
+          },
+        },
       },
-    },
-  }));
+    };
+    res.send({ data });
+  });
 
   return router;
 };
