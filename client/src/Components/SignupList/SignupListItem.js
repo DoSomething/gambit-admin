@@ -34,9 +34,9 @@ const SignupListItem = (props) => {
           </Popover>
         )}
       >
-        <Button bsStyle="link">
+        <p>
           {posts.length > 1 ? <span>{posts.length} posts</span> : <span>1 {posts[0].type}</span>}
-        </Button>
+        </p>
       </OverlayTrigger>
     )
     : null;
