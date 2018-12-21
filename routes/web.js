@@ -47,7 +47,18 @@ module.exports = async () => {
   });
 
   // GET /auth/user
-  router.get('/auth/user', (req, res) => res.send({ data: { user: req.user } }));
+  router.get('/auth/user', (req, res) => res.send({
+    data: {
+      user: req.user,
+      config: {
+        app: {
+          name: process.env.APP_NAME || 'Gambit',
+          url: process.env.APP_URL,
+        },
+        graphQLUrl: process.env.DS_GRAPHQL_URL,
+      },
+    },
+  }));
 
   return router;
 };

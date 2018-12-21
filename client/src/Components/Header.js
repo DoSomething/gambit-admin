@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import { Nav, Navbar, NavDropdown, MenuItem, NavItem } from 'react-bootstrap';
 import ConversationSearchForm from './ConversationSearchForm';
 
-const navbarHeader = (
-  <Navbar.Header>
-    <Navbar.Brand><a href="/">Gambit</a></Navbar.Brand>
-  </Navbar.Header>
-);
-
 class Header extends React.Component {
   render() {
+    const appName = this.props.config.app ? this.props.config.app.name : null;
+    const navbarHeader = (
+      <Navbar.Header>
+        <Navbar.Brand>
+          <a href="/">{appName}</a>
+        </Navbar.Brand>
+      </Navbar.Header>
+    );
     if (!this.props.user.name) {
       return (
         <Navbar>
@@ -44,7 +46,7 @@ class Header extends React.Component {
         </Nav>
         <Nav pullRight>
           <NavDropdown eventKey={5} title={this.props.user.name} id="users-nav-dropdown">
-            <MenuItem eventKey={5.1} href="http://localhost:3000/auth/logout">Log out</MenuItem>
+            <MenuItem eventKey={5.1} href={`${this.props.config.app.url}/auth/logout`}>Log out</MenuItem>
           </NavDropdown>
         </Nav>
         <Navbar.Form pullRight>
@@ -56,10 +58,12 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
+  config: PropTypes.object,
   user: PropTypes.object,
 };
 
 Header.defaultProps = {
+  config: {},
   user: {},
 };
 

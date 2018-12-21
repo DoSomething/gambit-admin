@@ -4,7 +4,7 @@ import { ApolloProvider } from 'react-apollo';
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-
+import { Button, Grid, Jumbotron } from 'react-bootstrap';
 
 import Header from './Components/Header';
 import Login from './Components/Login';
@@ -12,13 +12,11 @@ import Main from './Components/Main';
 import Footer from './Components/Footer';
 import './App.css';
 
-const httpLink = createHttpLink({
-  uri: 'https://graphql-dev.dosomething.org/graphql',
-});
 
 class App extends Component {
   state = {
     client: null,
+    config: {},
     user: {},
   };
   componentDidMount() {
@@ -34,11 +32,16 @@ class App extends Component {
             }
           };
         });
+        console.log('url', res.data.config.graphQLUrl);
+        const httpLink = createHttpLink({
+          uri: res.data.config.graphQLUrl,
+        });
         const client = new ApolloClient({
           link: authLink.concat(httpLink),
           cache: new InMemoryCache(),
         });
         this.setState({
+          config: res.data.config,
           user: res.data.user, 
           client: client,
         });
@@ -52,23 +55,39 @@ class App extends Component {
     return body;
   };
   render() {
+    if (!this.state.config.app) {
+      return <div>Loading...</div>;
+    }
     return (
       <div>
-        <Header user={this.state.user} />
-        {this.state.user.name
+        <Header user={this.state.user} config={this.state.config} />
+        {this.state.user && this.state.user.name
          ? (
             <ApolloProvider client={this.state.client}>
               <Main />
             </ApolloProvider>
           )
-          : <Login />
+          : (
+            <Grid>
+              <Jumbotron>
+                <center>
+                  <Button
+                    bsStyle="info"
+                    bsSize="large"
+                    href={`${this.state.config.app.url}/auth/login`}
+                  >
+                    Login
+                  </Button>
+                </center>
+              </Jumbotron>
+            </Grid>
+          )
         }
         <Footer />
       </div>
     );
   }
 }
-
 
 export default App;
 
