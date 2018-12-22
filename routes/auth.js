@@ -16,7 +16,7 @@ module.exports = async () => {
   // Configure sessions & authentication.
   router.use(
     session({
-      secret:  process.env.APP_SECRET || 'puppet',
+      secret: process.env.APP_SECRET || 'puppet',
       cookie: {
         maxAge: 1000 * 60 * 60, // 1 hour.
       },
