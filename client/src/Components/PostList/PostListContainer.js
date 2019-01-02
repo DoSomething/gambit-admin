@@ -1,10 +1,10 @@
 import React from 'react';
 import { gql } from 'apollo-boost';
-import { Query } from 'react-apollo';
 import { Col, Grid, PageHeader, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import queryString from 'query-string';
+import GraphQLQuery from '../GraphQLQuery';
 import ListForm from '../ListForm';
 import Post from '../SignupList/SignupPost';
 import config from '../../config';
@@ -97,25 +97,14 @@ const PostListContainer = () => {
         Posts
         <ListForm />
       </PageHeader>
-      <Query query={query} variables={variables}>
-        {({ loading, error, data }) => {
-          if (loading) {
-            return <div>Loading...</div>
-          };
-
-          if (error) {
-            return (
-              <div>
-                <p>Error</p>
-                <code>{error.message}</code>
-              </div>
-            );
-          }
-
-          return (
+      <GraphQLQuery
+        query={query}
+        variables={variables}
+      > 
+        {res => (
             <Table hover>
               <tbody>
-                {data.posts.map((post) => {
+                {res.posts.map((post) => {
                   const user = post.user;
                   const campaign = post.signup.campaign;
                   return (
@@ -139,9 +128,8 @@ const PostListContainer = () => {
                 })}
               </tbody>
             </Table>
-          );
-        }}
-      </Query>
+        )}
+      </GraphQLQuery>
     </Grid>
   );
 };
