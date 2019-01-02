@@ -76,20 +76,19 @@ function getAllPostsQuery() {
 }
 
 const PostListContainer = () => {
-  const sourceQueryParam = queryString.parse(window.location.search).source;
-  const typeQueryParam = queryString.parse(window.location.search).type;
   let query = getAllPostsQuery();
+  const { source, type } = queryString.parse(window.location.search);
   const variables = {};
-  if (sourceQueryParam && typeQueryParam) {
-    variables.source = sourceQueryParam;
-    variables.type = typeQueryParam;
+  if (source && type) {
+    variables.source = source;
+    variables.type = type;
     query = getPostsBySourceAndTypeQuery();
   }
-  else if (sourceQueryParam) {
-    variables.source = sourceQueryParam;
+  else if (source) {
+    variables.source = source;
     query = getPostsBySourceQuery();
-  } else if (typeQueryParam) {
-    variables.type = typeQueryParam;
+  } else if (type) {
+    variables.type = type;
     query = getPostsByTypeQuery();
   }
   return (
