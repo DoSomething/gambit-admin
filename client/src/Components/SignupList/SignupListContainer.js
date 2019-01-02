@@ -5,6 +5,9 @@ import { Query } from 'react-apollo';
 import queryString from 'query-string';
 import ListForm from '../ListForm';
 import SignupListItem from './SignupListItem';
+import helpers from '../../helpers';
+
+const pageSize = helpers.getDefaultPageSize();
 
 const fields = `
   id
@@ -33,7 +36,7 @@ const fields = `
 function getSignupsBySourceQuery() {
   return gql`
     query getSignupsBySource($source: String) {
-      signups(source: $source, count: 50) {
+      signups(source: $source, count: ${pageSize}) {
         ${fields}
       }
     }
@@ -43,7 +46,7 @@ function getSignupsBySourceQuery() {
 function getAllSignupsQuery() {
   return gql`
     {
-      signups(count: 50) {
+      signups(count: ${pageSize}) {
         ${fields}
       }
     }
@@ -63,8 +66,16 @@ const SignupListContainer = () => {
         variables={sourceQueryParam ? { source: sourceQueryParam } : {}}
       >
         {({ loading, error, data }) => {
-          if (loading) return <div>Loading...</div>;
-          if (error) return <div>Error :(</div>;
+          if (loading) {
+            return (
+              <div>Loading...</div>
+            );
+          };
+          if (error) {
+            return (
+              <div>Error</div>
+            );
+          };
           return (
             <Table hover>
               <tbody>

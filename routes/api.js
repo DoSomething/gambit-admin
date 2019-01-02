@@ -2,6 +2,7 @@
 
 const express = require('express');
 const logger = require('heroku-logger');
+const lodash = require('lodash');
 
 const contentApi = require('../lib/gambit-campaigns');
 const conversations = require('../lib/gambit-conversations');
@@ -13,7 +14,7 @@ const router = express.Router();
 // Check authentication.
 router.use('/', (req, res, next) => {
   const validRoles = ['admin', 'staff'];
-  if (req.session && req.session.passport && validRoles.includes(req.session.passport.user.role)) {
+  if (validRoles.includes(lodash.get(req, 'session.passport.user.role'))) {
     return next();
   }
   return res.sendStatus(401);

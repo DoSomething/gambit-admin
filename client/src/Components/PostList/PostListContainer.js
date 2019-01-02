@@ -8,9 +8,10 @@ import queryString from 'query-string';
 import ListForm from '../ListForm';
 import Post from '../SignupList/SignupPost';
 import config from '../../config';
+import helpers from '../../helpers';
 
-// TODO: If a campaign doesn't exist, pulling a signup for it { campaign { id } } throws an error.
-// @see https://dosomething.slack.com/archives/C1V0M6RPE/p1545336640000300?thread_ts=1545335609.000200&cid=C1V0M6RPE
+const pageSize = helpers.getDefaultPageSize();
+
 const fields = `
   id
   action
@@ -47,7 +48,7 @@ function getPostsBySourceAndTypeQuery() {
 function getPostsBySourceQuery() {
   return gql`
     query getPostsBySource($source: String) {
-      posts(source: $source, count: 50) {
+      posts(source: $source, count: ${pageSize}) {
         ${fields}
       }
     }
@@ -57,7 +58,7 @@ function getPostsBySourceQuery() {
 function getPostsByTypeQuery() {
   return gql`
     query getPostsByType($type: String) {
-      posts(type: $type, count: 50) {
+      posts(type: $type, count: ${pageSize}) {
         ${fields}
       }
     }
@@ -99,14 +100,18 @@ const PostListContainer = () => {
       </PageHeader>
       <Query query={query} variables={variables}>
         {({ loading, error, data }) => {
-          if (loading) return <div>Loading...</div>;
+          if (loading) {
+            return <div>Loading...</div>
+          };
 
-          if (error) return (
-            <div>
-              <p>Error :(</p>
-              <code>{error.message}</code>
-            </div>
-          );
+          if (error) {
+            return (
+              <div>
+                <p>Error</p>
+                <code>{error.message}</code>
+              </div>
+            );
+          }
 
           return (
             <Table hover>
