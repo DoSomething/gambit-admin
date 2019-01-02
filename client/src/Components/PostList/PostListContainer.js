@@ -38,7 +38,7 @@ const fields = `
 function getPostsBySourceAndTypeQuery() {
   return gql`
     query getPostsBySource($source: String, $type: String) {
-      posts(source: $source, type: $type, count: 50) {
+      posts(source: $source, type: $type, count: ${pageSize}) {
         ${fields}
       }
     }
@@ -68,7 +68,7 @@ function getPostsByTypeQuery() {
 function getAllPostsQuery() {
   return gql`
     {
-      posts(count: 50) {
+      posts(count: ${pageSize}) {
         ${fields}
       }
     }
@@ -79,15 +79,15 @@ const PostListContainer = () => {
   const sourceQueryParam = queryString.parse(window.location.search).source;
   const typeQueryParam = queryString.parse(window.location.search).type;
   let query = getAllPostsQuery();
-  let variables = {};
-  if (sourceQueryParam) {
+  const variables = {};
+  if (sourceQueryParam && typeQueryParam) {
     variables.source = sourceQueryParam;
-    if (typeQueryParam) {
-      variables.type = typeQueryParam;
-      query = getPostsBySourceAndTypeQuery();
-    } else {
-      query = getPostsBySourceQuery();
-    }
+    variables.type = typeQueryParam;
+    query = getPostsBySourceAndTypeQuery();
+  }
+  else if (sourceQueryParam) {
+    variables.source = sourceQueryParam;
+    query = getPostsBySourceQuery();
   } else if (typeQueryParam) {
     variables.type = typeQueryParam;
     query = getPostsByTypeQuery();
