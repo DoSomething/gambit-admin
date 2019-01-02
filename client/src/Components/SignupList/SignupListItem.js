@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Col, OverlayTrigger, Popover, Row } from 'react-bootstrap';
+import { Col, OverlayTrigger, Popover, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
