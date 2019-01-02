@@ -1,54 +1,81 @@
 import React from 'react';
 import { Grid, PageHeader, Table } from 'react-bootstrap';
-import PropTypes from 'prop-types';
+import { gql } from 'apollo-boost';
+import { Query } from 'react-apollo';
 import queryString from 'query-string';
-import HttpRequest from '../HttpRequest';
 import ListForm from '../ListForm';
 import SignupListItem from './SignupListItem';
-import helpers from '../../helpers';
 
-const SignupListContainer = ({ userId, displayFilters }) => {
-  const query = { include: 'posts', orderBy: 'id,desc' };
-  if (userId) {
-    query['filter[northstar_id]'] = userId;
+const fields = `
+  id
+  campaign {
+    id
+    internalTitle
   }
-  const filters = displayFilters
-    ? (
+  createdAt
+  details
+  posts {
+    action
+    id
+    quantity
+    status
+    text
+    type
+    url
+  }
+  source
+  user {
+    id
+    firstName
+  }
+`;
+
+function getSignupsBySourceQuery() {
+  return gql`
+    query getSignupsBySource($source: String) {
+      signups(source: $source, count: 50) {
+        ${fields}
+      }
+    }
+  `;
+}
+
+function getAllSignupsQuery() {
+  return gql`
+    {
+      signups(count: 50) {
+        ${fields}
+      }
+    }
+  `;
+}
+
+const SignupListContainer = () => {
+  const sourceQueryParam = queryString.parse(window.location.search).source;
+  return (
+    <Grid>
       <PageHeader>
         Signups
         <ListForm />
       </PageHeader>
-    )
-    : null;
-
-  return (
-    <Grid>
-      {filters}
-      <HttpRequest
-        path={helpers.getSignupsPath()}
-        query={helpers.getCampaignActivityQuery(queryString.parse(window.location.search), query)}
-        description="signups"
+      <Query
+        query={sourceQueryParam ? getSignupsBySourceQuery() : getAllSignupsQuery()}
+        variables={sourceQueryParam ? { source: sourceQueryParam } : {}}
       >
-        {res => (
-          <Table hover>
-            <tbody>
-              {res.data.map(signup => <SignupListItem signup={signup} key={signup.id} />)}
-            </tbody>
-          </Table>
-        )}
-      </HttpRequest>
+        {({ loading, error, data }) => {
+          if (loading) return <div>Loading...</div>;
+          if (error) return <div>Error :(</div>;
+          return (
+            <Table hover>
+              <tbody>
+                {data.signups.map(signup => <SignupListItem signup={signup} key={signup.id} />)}
+              </tbody>
+            </Table>
+          );
+        }}
+      </Query>
     </Grid>
   );
-};
-
-SignupListContainer.propTypes = {
-  userId: PropTypes.string,
-  displayFilters: PropTypes.bool,
-};
-
-SignupListContainer.defaultProps = {
-  userId: null,
-  displayFilters: true,
 };
 
 export default SignupListContainer;
