@@ -5,6 +5,3 @@ build:
     - script:
       name: install server and client
       code: npm run install-all
-    - script:
-      name: lint server and client
-      code: npm run lint-all
