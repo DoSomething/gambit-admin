@@ -4,7 +4,6 @@ import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import MessageList from '../MessageList/MessageListContainer';
-import SignupList from '../SignupList/SignupListContainer';
 import VotingPlan from './VotingPlan';
 import helpers from '../../helpers';
 import config from '../../config';
