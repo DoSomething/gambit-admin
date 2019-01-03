@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid } from 'react-bootstrap';
+import { Grid, PageHeader } from 'react-bootstrap';
 import { gql } from 'apollo-boost';
 import GraphQLQuery from '../GraphQLQuery';
 import UserDetail from './UserDetail';
@@ -30,10 +30,19 @@ function getUserQuery(userId) {
 
 class UserDetailContainer extends React.Component {
   render() {
+    const userId = this.props.match.params.userId;
     return (
       <Grid>
-        <GraphQLQuery query={getUserQuery(this.props.match.params.userId)}>
-          {res => <UserDetail user={res.user} />}
+        <GraphQLQuery query={getUserQuery(userId)}>
+          {res => {
+            const user = res.user;
+            return (
+              <div>
+                <PageHeader>{user.id}</PageHeader>
+                <UserDetail user={user} />
+              </div>
+            );
+          }}
         </GraphQLQuery>
       </Grid>
     );

@@ -107,13 +107,7 @@ function tabs(user) {
 }
 
 const UserDetail = (props) => {
-  const user = props.user;
-  return (
-    <div>
-      <PageHeader>{user.id}</PageHeader>
-      {userInfo(user)}
-    </div>
-  );
+  return userInfo(props.user);
 };
 
 UserDetail.propTypes = {
