@@ -7,20 +7,7 @@ import HttpRequest from '../HttpRequest';
 import MessageList from '../MessageList/MessageListContainer';
 import helpers from '../../helpers';
 
-function formatPlatform(text) {
-  if (text === 'sms') {
-    return 'SMS';
-  }
-  if (text === 'gambit-slack') {
-    return 'Slack';
-  }
-  return text;
-}
-
 const UserDetailTabs = (props) => {
-  const queryParams = queryString.parse(window.location.search);
-  const platform = queryParams.platform;
-
   return (
     <HttpRequest
       path={helpers.getUserByIdPath(props.userId)}
@@ -28,13 +15,31 @@ const UserDetailTabs = (props) => {
     >
       {res => {
         const signupsTabIndex = res.data.length + 1;
+        const userConversations = {};
+        res.data.forEach((conversation) => {
+          userConversations[conversation.platform] = conversation;
+        });
+  
         return (
-          <Tabs animation={false} id="user-detail-tabs">
-            {res.data.map((conversation, index) => (
-              <Tab key={index} eventKey={index} title={formatPlatform(conversation.platform)}>
-                <br /><MessageList conversationId={conversation._id} />
-              </Tab>
-            ))}
+          <Tabs
+            defaultActiveKey={queryString.parse(window.location.search).platform ? 1 : 0}
+            animation={false}
+            id="user-detail-tabs"
+          >
+            <Tab key={0} eventKey={0} title="SMS">
+              <br />
+              {userConversations['sms']
+                ? <MessageList conversationId={userConversations['sms']._id} />
+                : <p>No messages found.</p>
+              }
+            </Tab>
+            {userConversations['gambit-slack']
+              ? (
+                <Tab key={1} eventKey={1} title="Slack">
+                  <MessageList conversationId={userConversations['gambit-slack']._id} />
+                </Tab>
+                )
+              : null}
             <Tab key={signupsTabIndex} eventKey={signupsTabIndex} title="Signups">
               <br /><UserSignups userId={props.userId} />
             </Tab>
