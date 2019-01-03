@@ -10,7 +10,7 @@ function postLabel(status) {
   } else if (status === 'accepted') {
     style = 'success';
   }
-  return <Label bsStyle={style}>{status}</Label>;
+  return <Label bsStyle={style}>{status.toLowerCase()}</Label>;
 }
 
 const SignupPost = (props) => {
@@ -43,6 +43,9 @@ const SignupPost = (props) => {
 
   return (
     <ListGroup key={post.id}>
+      <ListGroupItem>
+        Source: {post.source}
+      </ListGroupItem>
       {mediaGroupItem}
       <ListGroupItem>
         {post.type === 'share-social' ? <span>shared {post.action}</span> : <strong>{post.text}</strong>}

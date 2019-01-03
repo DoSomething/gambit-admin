@@ -27,13 +27,20 @@ app.use(bodyParser.json());
 // parse application/x-www-form-urlencoded Content-Type
 app.use(bodyParser.urlencoded({ extended: true }));
 
-require('./routes')(app);
 
-// All remaining requests return the React app, so it can handle routing.
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, buildPath, 'index.html'));
-});
+// Register routes & start it up!
+(async () => {
+  /* eslint-disable global-require */
+  app.use(await require('./routes/auth')());
+  app.use('/api', require('./routes/api'));
+  /* eslint-enable */
 
-app.listen(app.get('port'), () => {
-  logger.info(`Gambit Admin server running on port ${app.get('port')}`);
-});
+  // All remaining requests return the React app.
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, buildPath, 'index.html'));
+  });
+
+  app.listen(app.get('port'), () => {
+    logger.info(`Gambit Admin server running on port ${app.get('port')}`);
+  });
+})();

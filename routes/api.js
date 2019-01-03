@@ -2,6 +2,7 @@
 
 const express = require('express');
 const logger = require('heroku-logger');
+const lodash = require('lodash');
 
 const contentApi = require('../lib/gambit-campaigns');
 const conversations = require('../lib/gambit-conversations');
@@ -9,6 +10,15 @@ const gateway = require('../lib/gateway');
 const helpers = require('../lib/helpers');
 
 const router = express.Router();
+
+// Check authentication.
+router.use('/', (req, res, next) => {
+  const validRoles = ['admin', 'staff'];
+  if (validRoles.includes(lodash.get(req, 'session.passport.user.role'))) {
+    return next();
+  }
+  return res.sendStatus(401);
+});
 
 router.get('/broadcasts', (req, res) => {
   conversations.getBroadcasts(req.query)
@@ -76,33 +86,9 @@ router.post('/messages', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
-router.get('/posts', (req, res) => {
-  gateway.getClient().Rogue.Posts.index(req.query)
-    .then((apiRes) => {
-      req.apiRes = apiRes;
-      req.apiRes.data.forEach((post, index) => {
-        req.apiRes.data[index].signupUrl = helpers.getRogueUrlForSignupId(post.signup_id);
-      });
-      return res.send(req.apiRes);
-    })
-    .catch(err => helpers.sendResponseForError(res, err));
-});
-
 router.get('/rivescript', (req, res) => {
   conversations.getRivescript(req.query)
     .then(apiRes => res.send(apiRes))
-    .catch(err => helpers.sendResponseForError(res, err));
-});
-
-router.get('/signups', (req, res) => {
-  gateway.getClient().Rogue.Signups.index(req.query)
-    .then((apiRes) => {
-      req.apiRes = apiRes;
-      req.apiRes.data.forEach((signup, index) => {
-        req.apiRes.data[index].signupUrl = helpers.getRogueUrlForSignupId(signup.id);
-      });
-      res.send(req.apiRes);
-    })
     .catch(err => helpers.sendResponseForError(res, err));
 });
 

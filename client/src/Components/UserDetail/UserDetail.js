@@ -4,7 +4,6 @@ import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import MessageList from '../MessageList/MessageListContainer';
-import SignupList from '../SignupList/SignupListContainer';
 import VotingPlan from './VotingPlan';
 import helpers from '../../helpers';
 import config from '../../config';
@@ -101,12 +100,15 @@ function tabs(user) {
     smsConversationId = smsConversation._id;
   }
 
+  // TODO: Render signups from GraphQL
+  const signupsTab = <p>Temporarily unavailable.</p>;
+
   return (
     <Tabs defaultActiveKey={activeKey} animation={false} id="campaign-tabs">
       {conversationTab(smsConversationId, 'SMS', 0)}
       {slackTab}
       <Tab eventKey={numConversations + 1} title="Signups"><br />
-        <SignupList userId={user.id} displayFilters={false} />
+        {signupsTab}
       </Tab>
     </Tabs>
   );

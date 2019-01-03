@@ -1,10 +1,13 @@
 import React from 'react';
 import { Grid, PageHeader, Table } from 'react-bootstrap';
 import { gql } from 'apollo-boost';
-import { Query } from 'react-apollo';
 import queryString from 'query-string';
+import GraphQLQuery from '../GraphQLQuery';
 import ListForm from '../ListForm';
 import SignupListItem from './SignupListItem';
+import helpers from '../../helpers';
+
+const pageSize = helpers.getDefaultPageSize();
 
 const fields = `
   id
@@ -18,6 +21,7 @@ const fields = `
     action
     id
     quantity
+    source
     status
     text
     type
@@ -33,7 +37,7 @@ const fields = `
 function getSignupsBySourceQuery() {
   return gql`
     query getSignupsBySource($source: String) {
-      signups(source: $source, count: 50) {
+      signups(source: $source, count: ${pageSize}) {
         ${fields}
       }
     }
@@ -43,7 +47,7 @@ function getSignupsBySourceQuery() {
 function getAllSignupsQuery() {
   return gql`
     {
-      signups(count: 50) {
+      signups(count: ${pageSize}) {
         ${fields}
       }
     }
@@ -58,22 +62,20 @@ const SignupListContainer = () => {
         Signups
         <ListForm />
       </PageHeader>
-      <Query
+      <GraphQLQuery
         query={sourceQueryParam ? getSignupsBySourceQuery() : getAllSignupsQuery()}
         variables={sourceQueryParam ? { source: sourceQueryParam } : {}}
-      >
-        {({ loading, error, data }) => {
-          if (loading) return <div>Loading...</div>;
-          if (error) return <div>Error :(</div>;
+      > 
+        {(res) => {
           return (
             <Table hover>
               <tbody>
-                {data.signups.map(signup => <SignupListItem signup={signup} key={signup.id} />)}
+                {res.signups.map(signup => <SignupListItem signup={signup} key={signup.id} />)}
               </tbody>
             </Table>
           );
         }}
-      </Query>
+      </GraphQLQuery>
     </Grid>
   );
 };
