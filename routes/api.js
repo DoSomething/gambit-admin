@@ -104,31 +104,4 @@ router.get('/topics/:id', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
-router.get('/users/:id', (req, res) => {
-  const userId = req.params.id;
-  return gateway.getClient().Northstar.Users.get(req.params.id)
-    .then((apiRes) => {
-      logger.debug('getUserById success', { userId: apiRes.id });
-      req.apiRes = apiRes;
-      req.apiRes.data.links = {
-        aurora: helpers.getAuroraUrlForUserId(userId),
-        customerIo: helpers.getCustomerIoUrlForUserId(userId),
-      };
-      // TODO: If we didn't find any Conversations, it may because Conversations exist without a
-      // userId, and the Conversation hasn't been updated since Conversations 2.3.1 was released.
-      // @see https://github.com/DoSomething/gambit-conversations/releases/tag/2.3.1
-      return conversations.getConversations(`query={"userId":"${userId}"}`);
-    })
-    .then((getConversationsRes) => {
-      req.apiRes.data.conversations = {};
-      const userConversations = getConversationsRes.data;
-      userConversations.forEach((conversation) => {
-        const platform = conversation.platform;
-        req.apiRes.data.conversations[platform] = conversation;
-      });
-      return res.send(req.apiRes);
-    })
-    .catch(err => helpers.sendResponseForError(res, err));
-});
-
 module.exports = router;

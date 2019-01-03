@@ -1,25 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from 'react-bootstrap';
-import HttpRequest from '../HttpRequest';
+import { gql } from 'apollo-boost';
+import GraphQLQuery from '../GraphQLQuery';
 import UserDetail from './UserDetail';
 
-const helpers = require('../../helpers');
+/**
+ * @param {String} userId
+ * @return {Object}
+ */
+function getUserQuery(userId) {
+  return gql`
+    {
+      user(id: "${userId}") {
+        addrCity
+        addrState
+        addrZip
+        createdAt
+        email
+        firstName
+        id
+        lastMessagedAt
+        mobile
+        source
+      }
+    }
+  `;
+}
 
 class UserDetailContainer extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.userId = this.props.match.params.userId;
-    this.requestPath = helpers.getUserByIdPath(this.userId);
-  }
-
   render() {
     return (
       <Grid>
-        <HttpRequest path={this.requestPath}>
-          {res => <UserDetail user={res.data} />}
-        </HttpRequest>
+        <GraphQLQuery query={getUserQuery(this.props.match.params.userId)}>
+          {res => <UserDetail user={res.user} />}
+        </GraphQLQuery>
       </Grid>
     );
   }
