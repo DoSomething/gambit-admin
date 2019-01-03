@@ -18,6 +18,7 @@ function getUserSignupsQuery(userId) {
           internalTitle
         }
         createdAt
+        details
         id
         posts {
           action
@@ -29,6 +30,7 @@ function getUserSignupsQuery(userId) {
           type
           url
         }
+        source
         whyParticipated
       }
     }

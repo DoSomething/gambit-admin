@@ -42,15 +42,12 @@ const UserDetail = (props) => {
             <strong>Address:</strong> {address} {user.addrSource ? `via ${user.addrSource}` : null}
           </Col>
           <Col sm={6}>
-            <strong>Links:</strong> {unavailableText}
+            <strong>Voting plan:</strong> <VotingPlan user={user} />
           </Col>
         </Row>
         <Row>
           <Col sm={6}>
             <strong>User created:</strong> {registrationDate} {registrationSource}
-          </Col>
-          <Col sm={6}>
-            <strong>Voting plan:</strong> <VotingPlan user={user} />
           </Col>
         </Row>
       </Panel.Body>
