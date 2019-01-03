@@ -21,6 +21,7 @@ const fields = `
     action
     id
     quantity
+    source
     status
     text
     type

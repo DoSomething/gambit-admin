@@ -101,12 +101,15 @@ function tabs(user) {
     smsConversationId = smsConversation._id;
   }
 
+  // TODO: Render signups from GraphQL
+  const signupsTab = <p>Temporarily unavailable.</p>;
+
   return (
     <Tabs defaultActiveKey={activeKey} animation={false} id="campaign-tabs">
       {conversationTab(smsConversationId, 'SMS', 0)}
       {slackTab}
       <Tab eventKey={numConversations + 1} title="Signups"><br />
-        <SignupList userId={user.id} displayFilters={false} />
+        {signupsTab}
       </Tab>
     </Tabs>
   );
