@@ -24,6 +24,10 @@ function getUserQuery(userId) {
         mobile
         smsStatus
         source
+        votingPlanAttendingWith
+        votingPlanMethodOfTransport
+        votingPlanStatus
+        votingPlanTimeOfDay
       }
     }
   `;

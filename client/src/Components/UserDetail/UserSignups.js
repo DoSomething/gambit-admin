@@ -6,8 +6,6 @@ import GraphQLQuery from '../GraphQLQuery';
 import SignupListItem from '../SignupList/SignupListItem';
 
 /**
- * TODO: This query should be ordered by descending signup id.
- *
  * @param {String} userId
  * @return {Object}
  */
