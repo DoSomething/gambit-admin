@@ -40,6 +40,12 @@ const SignupListItem = (props) => {
       </OverlayTrigger>
     )
     : null;
+  const userCol = signup.user
+    ? (
+      <Col componentClass="td" md={2}>
+        <Link to={`/users/${user.id}`}>{user.firstName || user.id}</Link>
+      </Col>
+    ) : null;
 
   return (
     <Row componentClass="tr" key={signup.id}>
@@ -53,9 +59,7 @@ const SignupListItem = (props) => {
           {campaign.internalTitle}
         </a>
       </Col>
-      <Col componentClass="td" md={2}>
-        <Link to={`/users/${user.id}`}>{user.firstName || user.id}</Link>
-      </Col>
+      {userCol}
       <Col componentClass="td">
         {signup.source}
         <div><small>{signup.details}</small></div>

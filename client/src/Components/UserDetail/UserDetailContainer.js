@@ -36,6 +36,7 @@ class UserDetailContainer extends React.Component {
         <GraphQLQuery query={getUserQuery(userId)}>
           {res => {
             const user = res.user;
+            console.log('user', user);
             return (
               <div>
                 <PageHeader>{user.id}</PageHeader>

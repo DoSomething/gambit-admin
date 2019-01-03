@@ -4,7 +4,9 @@ import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import lodash from 'lodash';
 import queryString from 'query-string';
+import UserSignups from './UserSignups';
 import MessageList from '../MessageList/MessageListContainer';
+import SignupListItem from '../SignupList/SignupListItem';
 import helpers from '../../helpers';
 import config from '../../config';
 
@@ -75,39 +77,23 @@ function conversationTab(conversationId, title, eventKey) {
 }
 
 function tabs(user) {
-  const queryParams = queryString.parse(window.location.search);
-  const platform = queryParams.platform;
-  user.conversations = [];
-  let slackTab = null;
-  const slackConversation = user.conversations['gambit-slack'];
-  if (slackConversation) {
-    slackTab = conversationTab(slackConversation._id, 'Slack', 1);
-  }
-
-  const numConversations = Object.keys(user.conversations).length;
-  const activeKey = platform ? 1 : 0;
-  let smsConversationId = null;
-  const smsConversation = user.conversations.sms;
-  if (smsConversation) {
-    smsConversationId = smsConversation._id;
-  }
-
-  // TODO: Render signups from GraphQL
-  const signupsTab = <p>Temporarily unavailable.</p>;
-
   return (
-    <Tabs defaultActiveKey={activeKey} animation={false} id="campaign-tabs">
-      {conversationTab(smsConversationId, 'SMS', 0)}
-      {slackTab}
-      <Tab eventKey={numConversations + 1} title="Signups"><br />
-        {signupsTab}
+    <Tabs animation={false} id="user-detail-tabs">
+      <Tab eventKey="1" title="Signups"><br />
+        <UserSignups userId={user.id} />
       </Tab>
     </Tabs>
   );
 }
 
 const UserDetail = (props) => {
-  return userInfo(props.user);
+  const user = props.user;
+  return (
+    <div>
+      {userInfo(user)}
+      {tabs(user)}
+    </div>
+  );
 };
 
 UserDetail.propTypes = {
