@@ -4,6 +4,7 @@ import { Grid, PageHeader } from 'react-bootstrap';
 import { gql } from 'apollo-boost';
 import GraphQLQuery from '../GraphQLQuery';
 import UserDetail from './UserDetail';
+import UserDetailTabs from './UserDetailTabs';
 
 /**
  * @param {String} userId
@@ -45,6 +46,7 @@ class UserDetailContainer extends React.Component {
               <div>
                 <PageHeader>{user.id}</PageHeader>
                 <UserDetail user={user} />
+                <UserDetailTabs userId={user.id} />
               </div>
             );
           }}

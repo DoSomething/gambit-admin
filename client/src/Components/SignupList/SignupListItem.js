@@ -28,7 +28,7 @@ const SignupListItem = (props) => {
         trigger={['hover', 'focus']}
         placement="left"
         overlay={(
-          <Popover>
+          <Popover id={signup.id}>
             {whyParticipated}
             {posts.map(post => <SignupPost post={post} key={post.id} />)}
           </Popover>

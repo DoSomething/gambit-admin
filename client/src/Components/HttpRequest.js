@@ -76,7 +76,7 @@ class HttpRequest extends React.Component {
             const pagination = getPagination(body, this.skipCount);
             const totalResultCount = pagination ? pagination.totalResultCount : 0;
             let pager = null;
-            if (totalResultCount) {
+            if (totalResultCount && this.props.displayPager) {
               pager = (
                 <ListPager
                   totalResultCount={totalResultCount}
@@ -104,12 +104,14 @@ class HttpRequest extends React.Component {
 HttpRequest.propTypes = {
   children: PropTypes.func.isRequired,
   description: PropTypes.string,
+  displayPager: PropTypes.bool,
   query: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   path: PropTypes.string.isRequired,
 };
 
 HttpRequest.defaultProps = {
   description: null,
+  displayPager: true,
   query: {},
 };
 

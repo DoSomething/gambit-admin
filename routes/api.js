@@ -104,4 +104,10 @@ router.get('/topics/:id', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
+router.get('/users/:id', (req, res) => {
+  return conversations.getConversations(`query={"userId":"${req.params.id}"}`)    
+    .then(apiRes => res.send(apiRes))
+    .catch(err => helpers.sendResponseForError(res, err));
+});
+
 module.exports = router;
