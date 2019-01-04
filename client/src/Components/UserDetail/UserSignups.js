@@ -9,37 +9,39 @@ import SignupListItem from '../SignupList/SignupListItem';
  * @param {String} userId
  * @return {Object}
  */
-function getUserSignupsQuery(userId) {
-  return gql`
-    {
-      signupsByUserId(id: "${userId}") {
-        campaign {
-          id
-          internalTitle
-        }
-        createdAt
-        details
+const getSignupsByUserIdQuery = gql`
+  query getSignupsByUserId($id: String!) {
+    signupsByUserId(id: $id) {
+      campaign {
         id
-        posts {
-          action
-          id
-          quantity
-          source
-          status
-          text
-          type
-          url
-        }
-        source
-        whyParticipated
+        internalTitle
       }
+      createdAt
+      details
+      id
+      posts {
+        action
+        id
+        quantity
+        source
+        status
+        text
+        type
+        url
+      }
+      source
+      whyParticipated
     }
-  `;
-}
+  }
+`;
+
 
 const UserSignups = (props) => {
   return (
-    <GraphQLQuery query={getUserSignupsQuery(props.userId)}>
+    <GraphQLQuery
+      query={getSignupsByUserIdQuery}
+      variables={{ id: props.userId }}
+    >
       {res => {
         return (
           <Table>
