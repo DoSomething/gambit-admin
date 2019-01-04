@@ -35,28 +35,25 @@ const fields = `
   }
 `;
 
-function getSignupsBySourceQuery() {
-  return gql`
-    query getSignupsBySource($source: String) {
-      signups(source: $source, count: ${pageSize}) {
-        ${fields}
-      }
+const getSignupsPageBySourceQuery = gql`
+  query getSignupsPageBySource($source: String, $page: Int) {
+    signups(source: $source, page: $page, count: ${pageSize}) {
+      ${fields}
     }
-  `;
-}
+  }
+`;
 
-function getAllSignupsQuery() {
-  return gql`
-    {
-      signups(count: ${pageSize}) {
-        ${fields}
-      }
+const getSignupsPageQuery = gql`
+  query getSignupsPage($page: Int) {
+    signups(page: $page, count: ${pageSize}) {
+      ${fields}
     }
-  `;
-}
+  }
+`;
 
 const SignupListContainer = () => {
-  const sourceQueryParam = queryString.parse(window.location.search).source;
+  const clientQuery = queryString.parse(window.location.search);
+  const source = clientQuery.source;
   return (
     <Grid>
       <PageHeader>
@@ -64,8 +61,9 @@ const SignupListContainer = () => {
         <ListForm />
       </PageHeader>
       <GraphQLQuery
-        query={sourceQueryParam ? getSignupsBySourceQuery() : getAllSignupsQuery()}
-        variables={sourceQueryParam ? { source: sourceQueryParam } : {}}
+        query={source ? getSignupsPageBySourceQuery : getSignupsPageQuery}
+        variables={{ page: Number(clientQuery.page) || 1, source }}
+        displayPager={true}
       > 
         {(res) => {
           return (
