@@ -6,48 +6,47 @@ import GraphQLQuery from '../GraphQLQuery';
 import UserDetail from './UserDetail';
 import UserDetailTabs from './UserDetailTabs';
 
-/**
- * @param {String} userId
- * @return {Object}
- */
-function getUserQuery(userId) {
-  return gql`
-    {
-      user(id: "${userId}") {
-        addrCity
-        addrState
-        addrZip
-        createdAt
-        email
-        firstName
-        id
-        lastMessagedAt
-        lastName
-        mobile
-        smsStatus
-        source
-        votingPlanAttendingWith
-        votingPlanMethodOfTransport
-        votingPlanStatus
-        votingPlanTimeOfDay
-      }
+const getUserByIdQuery = gql`
+  query getUserById($id: String!) {
+    user(id: $id) {
+      addrCity
+      addrState
+      addrZip
+      createdAt
+      email
+      firstName
+      id
+      lastMessagedAt
+      lastName
+      mobile
+      smsStatus
+      source
+      votingPlanAttendingWith
+      votingPlanMethodOfTransport
+      votingPlanStatus
+      votingPlanTimeOfDay
     }
-  `;
-}
+  }
+`;
 
 class UserDetailContainer extends React.Component {
   render() {
     const userId = this.props.match.params.userId;
+    const variables = { id: userId };
+    console.log(variables);
     return (
       <Grid>
-        <GraphQLQuery query={getUserQuery(userId)}>
+        <GraphQLQuery
+          query={getUserByIdQuery}
+          variables={variables}
+        >
           {res => {
             const user = res.user;
             return (
               <div>
-                <PageHeader>{user.id}</PageHeader>
+                <PageHeader>{userId}</PageHeader>
                 <UserDetail user={user} />
-                <UserDetailTabs userId={user.id} />
+                <UserDetailTabs userId={userId} />
               </div>
             );
           }}
