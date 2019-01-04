@@ -59,7 +59,7 @@ const SignupPost = (props) => {
 
 SignupPost.propTypes = {
   post: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  displayFooter: PropTypes.boolean,
+  displayFooter: PropTypes.bool,
 };
 
 SignupPost.defaultProps = {

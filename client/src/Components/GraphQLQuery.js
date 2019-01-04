@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
+import { ProgressBar } from 'react-bootstrap';
 
 class GraphQLQuery extends React.Component {
   render() {
@@ -12,7 +13,7 @@ class GraphQLQuery extends React.Component {
         {({ loading, error, data }) => {
           if (loading) {
             return (
-              <div>Loading...</div>
+              <ProgressBar active now={100} />
             );
           };
           if (error) {

@@ -11,10 +11,6 @@ require('dotenv').config();
 
 const config = require('./config/server');
 
-// Setup Gateway client to avoid making a request without an access token.
-// @see https://github.com/DoSomething/gambit-content/pull/1105#discussion_r241143174
-require('./lib/gateway').getClient();
-
 app.set('port', config.port);
 
 const buildPath = config.buildPath;
