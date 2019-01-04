@@ -6,7 +6,6 @@ const lodash = require('lodash');
 
 const contentApi = require('../lib/gambit-campaigns');
 const conversations = require('../lib/gambit-conversations');
-const gateway = require('../lib/gateway');
 const helpers = require('../lib/helpers');
 
 const router = express.Router();
