@@ -43,7 +43,6 @@ module.exports = async () => {
   router.get('/auth/logout', (req, res) => {
     req.logout();
     // Kill the Northstar SSO session & redirect back.
-    // TODO: This redirect isn't working
     res.redirect(`${authUrl}/logout?redirect=${webUrl}`);
   });
 
