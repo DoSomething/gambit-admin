@@ -32,24 +32,19 @@ const getUserByIdQuery = gql`
 class UserDetailContainer extends React.Component {
   render() {
     const userId = this.props.match.params.userId;
-    const variables = { id: userId };
-    console.log(variables);
     return (
       <Grid>
         <GraphQLQuery
           query={getUserByIdQuery}
-          variables={variables}
+          variables={{ id: userId }}
         >
-          {res => {
-            const user = res.user;
-            return (
-              <div>
-                <PageHeader>{userId}</PageHeader>
-                <UserDetail user={user} />
-                <UserDetailTabs userId={userId} />
-              </div>
-            );
-          }}
+          {res => (
+            <div>
+              <PageHeader>{userId}</PageHeader>
+              <UserDetail user={res.user} />
+              <UserDetailTabs userId={userId} />
+            </div>
+          )}
         </GraphQLQuery>
       </Grid>
     );
