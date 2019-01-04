@@ -9,7 +9,7 @@ const app = express();
 
 require('dotenv').config();
 
-const config = require('./config/server');
+const config = require('./config/app');
 
 app.set('port', config.port);
 
