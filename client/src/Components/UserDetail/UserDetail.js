@@ -1,21 +1,14 @@
 import React from 'react';
-import { Col, Panel, Row, Tab, Tabs } from 'react-bootstrap';
+import { Col, Panel, Row } from 'react-bootstrap';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import lodash from 'lodash';
 import VotingPlan from './VotingPlan';
-import MessageList from '../MessageList/MessageListContainer';
 import helpers from '../../helpers';
 import config from '../../config';
 
 const UserDetail = (props) => {
   const user = props.user;
-  const registrationDate = <Moment format="MM/DD/YY">{ user.createdAt }</Moment>;
-  const registrationSource = user.source ?  `via ${helpers.formatSource(user.source)}` : null;
-  const address = user.addrCity
-    ? `${lodash.startCase(user.addrCity.toLowerCase())}, ${user.addrState} ${user.addrZip}`
-    : null;
-  const unavailableText = <em>Temporarily unavailable</em>;
   return (
     <Panel>
       <Panel.Body>
@@ -37,7 +30,9 @@ const UserDetail = (props) => {
         </Row>
         <Row>
           <Col sm={6}>
-            <strong>Location:</strong> {address} {user.addrSource ? `via ${user.addrSource}` : null}
+            <strong>Address:</strong> {user.addrCity
+              ? `${lodash.startCase(user.addrCity.toLowerCase())} ${user.addrState} ${user.addrZip}`
+              : null} {user.addrSource ? `via ${user.addrSource}` : null}
           </Col>
           <Col sm={6}>
             <strong>Last inbound SMS:</strong> <Moment format={config.dateFormat}>
@@ -47,7 +42,9 @@ const UserDetail = (props) => {
         </Row>
         <Row>
           <Col sm={6}>
-            <strong>Account created:</strong> {registrationDate} {registrationSource}
+            <strong>Account created:</strong> <Moment format="MM/DD/YY">
+              {user.createdAt}
+            </Moment> {user.source ? `via ${helpers.formatSource(user.source)}` : null}
           </Col>
           <Col sm={6}>
             <strong>Voting plan:</strong> <VotingPlan user={user} />
