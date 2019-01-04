@@ -4,8 +4,11 @@ const express = require('express');
 const session = require('express-session');
 const authMiddleware = require('../lib/middleware/authenticate');
 
-const authUrl = process.env.DS_API_OAUTH_URL;
-const webUrl = process.env.WEB_URL || process.env.APP_URL;
+const appConfig = require('../config/app');
+const servicesConfig = require('../config/services');
+
+const authUrl = servicesConfig.northstar.url;
+const webUrl = appConfig.webUrl || appConfig.appUrl;
 
 module.exports = async () => {
   const router = express.Router();
@@ -16,7 +19,7 @@ module.exports = async () => {
   // Configure sessions & authentication.
   router.use(
     session({
-      secret: process.env.APP_SECRET || 'puppet',
+      secret: appConfig.secret,
       cookie: {
         maxAge: 1000 * 60 * 60, // 1 hour.
       },
@@ -40,7 +43,6 @@ module.exports = async () => {
   router.get('/auth/logout', (req, res) => {
     req.logout();
     // Kill the Northstar SSO session & redirect back.
-    // TODO: This redirect isn't working
     res.redirect(`${authUrl}/logout?redirect=${webUrl}`);
   });
 
@@ -49,12 +51,12 @@ module.exports = async () => {
       user: req.user,
       config: {
         app: {
-          name: process.env.APP_NAME || 'Gambit',
-          url: process.env.APP_URL,
+          name: appConfig.name || 'Gambit',
+          url: appConfig.appUrl,
         },
         services: {
           graphQL: {
-            url: process.env.DS_GRAPHQL_URL,
+            url: servicesConfig.graphQL.url,
           },
         },
       },

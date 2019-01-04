@@ -4,7 +4,7 @@ const express = require('express');
 const logger = require('heroku-logger');
 const lodash = require('lodash');
 
-const contentApi = require('../lib/gambit-campaigns');
+const contentApi = require('../lib/gambit-content');
 const conversations = require('../lib/gambit-conversations');
 const helpers = require('../lib/helpers');
 
