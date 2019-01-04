@@ -21,7 +21,15 @@ const UserDetail = (props) => {
       <Panel.Body>
         <Row>
           <Col sm={6}>
+            <strong>Name:</strong> {user.firstName} {user.lastName}
+          </Col>
+          <Col sm={6}>
             <strong>Mobile:</strong> {user.mobile}
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={6}>
+            <strong>Email:</strong> {user.email}
           </Col>
           <Col sm={6}>
             <strong>SMS status:</strong> {user.smsStatus}
@@ -29,7 +37,7 @@ const UserDetail = (props) => {
         </Row>
         <Row>
           <Col sm={6}>
-            <strong>Email:</strong> {user.email}
+            <strong>Location:</strong> {address} {user.addrSource ? `via ${user.addrSource}` : null}
           </Col>
           <Col sm={6}>
             <strong>Last inbound SMS:</strong> <Moment format={config.dateFormat}>
@@ -39,15 +47,10 @@ const UserDetail = (props) => {
         </Row>
         <Row>
           <Col sm={6}>
-            <strong>Address:</strong> {address} {user.addrSource ? `via ${user.addrSource}` : null}
+            <strong>Account created:</strong> {registrationDate} {registrationSource}
           </Col>
           <Col sm={6}>
             <strong>Voting plan:</strong> <VotingPlan user={user} />
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={6}>
-            <strong>User created:</strong> {registrationDate} {registrationSource}
           </Col>
         </Row>
       </Panel.Body>

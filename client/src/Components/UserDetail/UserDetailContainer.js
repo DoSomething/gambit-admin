@@ -22,6 +22,7 @@ function getUserQuery(userId) {
         firstName
         id
         lastMessagedAt
+        lastName
         mobile
         smsStatus
         source
