@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import { Pager, ProgressBar } from 'react-bootstrap';
 import queryString from 'query-string';
+import { omit } from 'lodash';
 
 function renderPager() {
   const location = window.location;
   const clientQuery = queryString.parse(location.search);
   const currentPage = Number(clientQuery.page) || 1;
-  const url = [location.protocol, '//', location.host, location.pathname].join('');
-  // Exclude current page query parameter to preserve any other query parameters.
-  delete clientQuery.page;
-  const query = queryString.stringify(clientQuery);
+  // Get our current URL, but exclude the page query parameter.
+  const query = queryString.stringify(omit(clientQuery, ['page']));
+  const url = `${[location.protocol, '//', location.host, location.pathname]
+    .join('')}?${query ? `${query}&` : ''}page=`;
 
   return (
     <Pager>
@@ -19,7 +20,7 @@ function renderPager() {
         ? (
           <Pager.Item
             previous
-            href={`${url}?page=${currentPage - 1}&${query}`}
+            href={`${url}${currentPage - 1}`}
           >
             Previous
           </Pager.Item>
@@ -27,7 +28,7 @@ function renderPager() {
         : null}
       <Pager.Item
         next
-        href={`${url}?page=${currentPage + 1}&${query}`}
+        href={`${url}${currentPage + 1}`}
       >
         Next
       </Pager.Item>
