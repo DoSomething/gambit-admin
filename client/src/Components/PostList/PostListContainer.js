@@ -23,6 +23,7 @@ const fields = `
       id
       internalTitle
     }
+    permalink
   }
   source
   status
@@ -110,7 +111,7 @@ const PostListContainer = () => {
                   return (
                     <Row componentClass="tr" key={post.id}>
                       <Col md={2} componentClass="td">
-                        <a href={post.signupUrl}>
+                        <a href={post.signup.permalink}>
                           <Moment format={config.dateFormat}>{post.createdAt}</Moment>
                         </a>
                       </Col>

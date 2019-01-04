@@ -17,6 +17,7 @@ const fields = `
   }
   createdAt
   details
+  permalink
   posts {
     action
     id
