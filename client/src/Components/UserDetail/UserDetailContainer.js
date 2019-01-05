@@ -5,28 +5,15 @@ import { gql } from 'apollo-boost';
 import GraphQLQuery from '../GraphQLQuery';
 import UserDetail from './UserDetail';
 import UserDetailTabs from './UserDetailTabs';
+import { getUserFieldsFragment } from '../../graphql';
 
 const getUserByIdQuery = gql`
   query getUserById($id: String!) {
     user(id: $id) {
-      addrCity
-      addrState
-      addrZip
-      createdAt
-      email
-      firstName
-      id
-      lastMessagedAt
-      lastName
-      mobile
-      smsStatus
-      source
-      votingPlanAttendingWith
-      votingPlanMethodOfTransport
-      votingPlanStatus
-      votingPlanTimeOfDay
+      ...userFields
     }
   }
+  ${getUserFieldsFragment}
 `;
 
 class UserDetailContainer extends React.Component {

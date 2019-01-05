@@ -9,63 +9,44 @@ import ListForm from '../ListForm';
 import Post from '../SignupList/SignupPost';
 import config from '../../config';
 import helpers from '../../helpers';
+import { getPostFieldsFragment } from '../../graphql';
 
 const pageSize = helpers.getDefaultPageSize();
-
-const fields = `
-  id
-  action
-  createdAt
-  quantity
-  signup {
-    id
-    campaign {
-      id
-      internalTitle
-    }
-    permalink
-  }
-  source
-  status
-  text
-  type
-  url
-  user {
-    id
-    firstName
-  }
-`;
 
 const getPostsPageBySourceAndTypeQuery = gql`
   query getPostsPageBySourceAndType($source: String, $type: String, $page: Int) {
     posts(source: $source, type: $type, page: $page, count: ${pageSize}) {
-      ${fields}
+      ...postFields
     }
   }
+  ${getPostFieldsFragment}
 `;
 
 const getPostsPageBySourceQuery = gql`
   query getPostsPageBySource($source: String, $page: Int) {
     posts(source: $source, page: $page, count: ${pageSize}) {
-      ${fields}
+      ...postFields
     }
   }
+  ${getPostFieldsFragment}
 `;
 
 const getPostsPageByTypeQuery = gql`
   query getPostsPageByType($type: String, $page: Int) {
     posts(type: $type, page: $page, count: ${pageSize}) {
-      ${fields}
+      ...postFields
     }
   }
+  ${getPostFieldsFragment}
 `;
 
 const getPostsPageQuery = gql`
   query getPostsPage($page: Int) {
     posts(page: $page, count: ${pageSize}) {
-      ${fields}
+      ...postFields
     }
   }
+  ${getPostFieldsFragment}
 `;
 
 const PostListContainer = () => {
