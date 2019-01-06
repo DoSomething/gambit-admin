@@ -10,7 +10,7 @@ function postLabel(status) {
   } else if (status === 'accepted') {
     style = 'success';
   }
-  return <Label bsStyle={style}>{status.toLowerCase()}</Label>;
+  return <Label bsStyle={style}>{status}</Label>;
 }
 
 const SignupPost = (props) => {
@@ -51,7 +51,7 @@ const SignupPost = (props) => {
         {post.type === 'share-social' ? <span>shared {post.action}</span> : <strong>{post.text}</strong>}
       </ListGroupItem>
       {quantityItem}
-      <ListGroupItem>{postLabel(post.status)}</ListGroupItem>
+      <ListGroupItem>{postLabel(post.status.toLowerCase())}</ListGroupItem>
       {footer}
     </ListGroup>
   );
