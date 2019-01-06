@@ -35,6 +35,7 @@ export const getSignupFieldsFragment = gql`
     createdAt
     details
     id
+    permalink
     posts {
       action
       id
