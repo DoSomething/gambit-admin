@@ -1,12 +1,12 @@
 import React from 'react';
-import Request from 'react-http-request';
 import PropTypes from 'prop-types';
 import { Panel, ProgressBar } from 'react-bootstrap';
-import ListPager from './ListPager';
+import axios from 'axios';
+import queryString from 'query-string';
 
-const queryString = require('query-string');
-const helpers = require('../helpers');
-const config = require('../config');
+import ListPager from './ListPager';
+import helpers from '../helpers';
+import config from '../config';
 
 const pageSize = config.resultsPageSize;
 
@@ -29,60 +29,62 @@ function getPagination(body, skipQueryParam) {
 class HttpRequest extends React.Component {
   constructor(props) {
     super(props);
-    const apiQuery = this.props.query;
-    apiQuery.limit = pageSize;
+    this.state ={
+      isLoading: true,
+    };
+    this.apiQuery = this.props.query;
+    this.apiQuery.limit = pageSize;
     const clientQuery = queryString.parse(window.location.search);
     this.skipCount = Number(clientQuery.skip) || 0;
     if (this.skipCount) {
-      apiQuery.skip = this.skipCount;
+      this.apiQuery.skip = this.skipCount;
     }
-    this.url = helpers.apiUrl(this.props.path, apiQuery);
+  }
+  componentDidMount() {
+    this.setState({ isLoading: true });
+
+    axios.get(helpers.apiUrl(this.props.path), { params: this.apiQuery })
+      .then(res => this.setState({
+        res: res,
+        isLoading: false
+      }))
+      .catch(error => this.setState({
+        error,
+        isLoading: false
+      }));
   }
   render() {
+    if (this.state.isLoading) {
+      return <ProgressBar active now={100} />;
+    }
+    if (this.state.error) {
+      return (
+        <Panel header="Epic fail." bsStyle="danger">
+          {this.state.error.message}
+        </Panel>
+      );
+    }
+    const body = this.state.res.data;
+    const pagination = getPagination(body, this.skipCount);
+    const totalResultCount = pagination ? pagination.totalResultCount : 0;
+    let pager = null;
+    if (totalResultCount && this.props.displayPager) {
+      pager = (
+        <ListPager
+          totalResultCount={totalResultCount}
+          skipCount={pagination.skipCount}
+          pageCount={body.data.length}
+          pageSize={pageSize}
+          description={this.props.description}
+        />
+      );
+    }
     return (
-      <Request
-        url={this.url}
-        method="get"
-        accept="application/json"
-        verbose
-      >
-        {
-          ({ error, result, loading }) => {
-            if (loading) {
-              return <ProgressBar active now={100} />;
-            }
-            if (error) {
-              return (
-                <Panel header="Epic fail." bsStyle="danger">
-                  {error.message}
-                </Panel>
-              );
-            }
-            const body = result.body;
-            const pagination = getPagination(body, this.skipCount);
-            const totalResultCount = pagination ? pagination.totalResultCount : 0;
-            let pager = null;
-            if (totalResultCount && this.props.displayPager) {
-              pager = (
-                <ListPager
-                  totalResultCount={totalResultCount}
-                  skipCount={pagination.skipCount}
-                  pageCount={body.data.length}
-                  pageSize={pageSize}
-                  description={this.props.description}
-                />
-              );
-            }
-            return (
-              <div>
-                {pager}
-                {this.props.children(body)}
-                {totalResultCount > pageSize ? pager : null}
-              </div>
-            );
-          }
-        }
-      </Request>
+      <div>
+        {pager}
+        {this.props.children(body)}
+        {totalResultCount > pageSize ? pager : null}
+      </div>
     );
   }
 }
