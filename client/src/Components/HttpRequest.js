@@ -32,18 +32,19 @@ class HttpRequest extends React.Component {
     this.state ={
       isLoading: true,
     };
-    this.apiQuery = this.props.query;
-    this.apiQuery.limit = pageSize;
-    const clientQuery = queryString.parse(window.location.search);
-    this.skipCount = Number(clientQuery.skip) || 0;
-    if (this.skipCount) {
-      this.apiQuery.skip = this.skipCount;
-    }
   }
   componentDidMount() {
     this.setState({ isLoading: true });
 
-    axios.get(helpers.apiUrl(this.props.path), { params: this.apiQuery })
+    const params = this.props.query;
+    params.limit = pageSize;
+    const clientQuery = queryString.parse(window.location.search);
+    this.skipCount = Number(clientQuery.skip) || 0;
+    if (this.skipCount) {
+      params.skip = this.skipCount;
+    }
+
+    axios.get(helpers.apiUrl(this.props.path), { params })
       .then(res => this.setState({
         res: res,
         isLoading: false
@@ -57,6 +58,7 @@ class HttpRequest extends React.Component {
     if (this.state.isLoading) {
       return <ProgressBar active now={100} />;
     }
+
     if (this.state.error) {
       return (
         <Panel header="Epic fail." bsStyle="danger">
@@ -64,6 +66,7 @@ class HttpRequest extends React.Component {
         </Panel>
       );
     }
+
     const body = this.state.res.data;
     const pagination = getPagination(body, this.skipCount);
     const totalResultCount = pagination ? pagination.totalResultCount : 0;
