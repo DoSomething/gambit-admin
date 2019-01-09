@@ -64,4 +64,3 @@ ListPager.propTypes = {
 };
 
 export default ListPager;
-

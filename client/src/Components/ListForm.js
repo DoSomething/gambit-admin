@@ -19,8 +19,8 @@ function handleFilterChange(filterName, selectedFilterValue) {
   } else {
     clientQuery[filterName] = selectedFilterValue;
   }
-  // We reset skip parameter when switching filters, as pagination would be awkward UX to persist.
-  delete clientQuery.skip;
+  // We reset page parameter when switching filters, as pagination would be awkward UX to persist.
+  delete clientQuery.page;
 
   window.location = `${protocol}//${host}${pathname}?${queryString.stringify(clientQuery)}`;
 }

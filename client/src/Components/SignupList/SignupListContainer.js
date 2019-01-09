@@ -1,54 +1,59 @@
 import React from 'react';
 import { Grid, PageHeader, Table } from 'react-bootstrap';
-import PropTypes from 'prop-types';
+import { gql } from 'apollo-boost';
 import queryString from 'query-string';
-import HttpRequest from '../HttpRequest';
+import GraphQLQuery from '../GraphQLQuery';
 import ListForm from '../ListForm';
 import SignupListItem from './SignupListItem';
 import helpers from '../../helpers';
+import { signupFieldsFragment } from '../../graphql';
 
-const SignupListContainer = ({ userId, displayFilters }) => {
-  const query = { include: 'posts', orderBy: 'id,desc' };
-  if (userId) {
-    query['filter[northstar_id]'] = userId;
+const pageSize = helpers.getDefaultPageSize();
+
+const getSignupsPageBySourceQuery = gql`
+  query getSignupsPageBySource($source: String, $page: Int) {
+    signups(source: $source, page: $page, count: ${pageSize}) {
+      ...signupFields
+    }
   }
-  const filters = displayFilters
-    ? (
+  ${signupFieldsFragment}
+`;
+
+const getSignupsPageQuery = gql`
+  query getSignupsPage($page: Int) {
+    signups(page: $page, count: ${pageSize}) {
+      ...signupFields
+    }
+  }
+  ${signupFieldsFragment}
+`;
+
+const SignupListContainer = () => {
+  const clientQuery = queryString.parse(window.location.search);
+  const source = clientQuery.source;
+  return (
+    <Grid>
       <PageHeader>
         Signups
         <ListForm />
       </PageHeader>
-    )
-    : null;
-
-  return (
-    <Grid>
-      {filters}
-      <HttpRequest
-        path={helpers.getSignupsPath()}
-        query={helpers.getCampaignActivityQuery(queryString.parse(window.location.search), query)}
-        description="signups"
-      >
-        {res => (
-          <Table hover>
-            <tbody>
-              {res.data.map(signup => <SignupListItem signup={signup} key={signup.id} />)}
-            </tbody>
-          </Table>
-        )}
-      </HttpRequest>
+      <GraphQLQuery
+        query={source ? getSignupsPageBySourceQuery : getSignupsPageQuery}
+        variables={{ page: Number(clientQuery.page) || 1, source }}
+        displayPager={true}
+      > 
+        {(res) => {
+          return (
+            <Table hover>
+              <tbody>
+                {res.signups.map(signup => <SignupListItem signup={signup} key={signup.id} />)}
+              </tbody>
+            </Table>
+          );
+        }}
+      </GraphQLQuery>
     </Grid>
   );
-};
-
-SignupListContainer.propTypes = {
-  userId: PropTypes.string,
-  displayFilters: PropTypes.bool,
-};
-
-SignupListContainer.defaultProps = {
-  userId: null,
-  displayFilters: true,
 };
 
 export default SignupListContainer;

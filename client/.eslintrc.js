@@ -12,6 +12,7 @@ module.exports = {
     ],
     'react/jsx-filename-extension': [1, { 'extensions': ['.js', '.jsx'] }],
     'react/prefer-stateless-function': 'off',
+    'jsx-a11y/href-no-hash': 'off',
   },
   env: {
     browser: true,

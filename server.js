@@ -9,11 +9,7 @@ const app = express();
 
 require('dotenv').config();
 
-const config = require('./config/server');
-
-// Setup Gateway client to avoid making a request without an access token.
-// @see https://github.com/DoSomething/gambit-content/pull/1105#discussion_r241143174
-require('./lib/gateway').getClient();
+const config = require('./config/app');
 
 app.set('port', config.port);
 
@@ -27,13 +23,20 @@ app.use(bodyParser.json());
 // parse application/x-www-form-urlencoded Content-Type
 app.use(bodyParser.urlencoded({ extended: true }));
 
-require('./routes')(app);
 
-// All remaining requests return the React app, so it can handle routing.
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, buildPath, 'index.html'));
-});
+// Register routes & start it up!
+(async () => {
+  /* eslint-disable global-require */
+  app.use(await require('./routes/auth')());
+  app.use('/api', require('./routes/api'));
+  /* eslint-enable */
 
-app.listen(app.get('port'), () => {
-  logger.info(`Gambit Admin server running on port ${app.get('port')}`);
-});
+  // All remaining requests return the React app.
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, buildPath, 'index.html'));
+  });
+
+  app.listen(app.get('port'), () => {
+    logger.info(`Gambit Admin server running on port ${app.get('port')}`);
+  });
+})();

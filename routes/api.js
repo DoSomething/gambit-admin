@@ -2,13 +2,22 @@
 
 const express = require('express');
 const logger = require('heroku-logger');
+const lodash = require('lodash');
 
-const contentApi = require('../lib/gambit-campaigns');
+const contentApi = require('../lib/gambit-content');
 const conversations = require('../lib/gambit-conversations');
-const gateway = require('../lib/gateway');
 const helpers = require('../lib/helpers');
 
 const router = express.Router();
+
+// Check authentication.
+router.use('/', (req, res, next) => {
+  const validRoles = ['admin', 'staff'];
+  if (validRoles.includes(lodash.get(req, 'session.passport.user.role'))) {
+    return next();
+  }
+  return res.sendStatus(401);
+});
 
 router.get('/broadcasts', (req, res) => {
   conversations.getBroadcasts(req.query)
@@ -76,33 +85,9 @@ router.post('/messages', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
-router.get('/posts', (req, res) => {
-  gateway.getClient().Rogue.Posts.index(req.query)
-    .then((apiRes) => {
-      req.apiRes = apiRes;
-      req.apiRes.data.forEach((post, index) => {
-        req.apiRes.data[index].signupUrl = helpers.getRogueUrlForSignupId(post.signup_id);
-      });
-      return res.send(req.apiRes);
-    })
-    .catch(err => helpers.sendResponseForError(res, err));
-});
-
 router.get('/rivescript', (req, res) => {
   conversations.getRivescript(req.query)
     .then(apiRes => res.send(apiRes))
-    .catch(err => helpers.sendResponseForError(res, err));
-});
-
-router.get('/signups', (req, res) => {
-  gateway.getClient().Rogue.Signups.index(req.query)
-    .then((apiRes) => {
-      req.apiRes = apiRes;
-      req.apiRes.data.forEach((signup, index) => {
-        req.apiRes.data[index].signupUrl = helpers.getRogueUrlForSignupId(signup.id);
-      });
-      res.send(req.apiRes);
-    })
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
@@ -119,29 +104,8 @@ router.get('/topics/:id', (req, res) => {
 });
 
 router.get('/users/:id', (req, res) => {
-  const userId = req.params.id;
-  return gateway.getClient().Northstar.Users.get(req.params.id)
-    .then((apiRes) => {
-      logger.debug('getUserById success', { userId: apiRes.id });
-      req.apiRes = apiRes;
-      req.apiRes.data.links = {
-        aurora: helpers.getAuroraUrlForUserId(userId),
-        customerIo: helpers.getCustomerIoUrlForUserId(userId),
-      };
-      // TODO: If we didn't find any Conversations, it may because Conversations exist without a
-      // userId, and the Conversation hasn't been updated since Conversations 2.3.1 was released.
-      // @see https://github.com/DoSomething/gambit-conversations/releases/tag/2.3.1
-      return conversations.getConversations(`query={"userId":"${userId}"}`);
-    })
-    .then((getConversationsRes) => {
-      req.apiRes.data.conversations = {};
-      const userConversations = getConversationsRes.data;
-      userConversations.forEach((conversation) => {
-        const platform = conversation.platform;
-        req.apiRes.data.conversations[platform] = conversation;
-      });
-      return res.send(req.apiRes);
-    })
+  return conversations.getConversations(`query={"userId":"${req.params.id}"}`)    
+    .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
