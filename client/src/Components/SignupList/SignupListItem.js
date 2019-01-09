@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, OverlayTrigger, Popover, Row } from 'react-bootstrap';
+import { Col, Label, OverlayTrigger, Popover, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
@@ -8,7 +8,6 @@ import config from '../../config';
 
 const SignupListItem = (props) => {
   const signup = props.signup;
-  const campaign = signup.campaign;
   const posts = signup.posts;
   const user = signup.user;
 
@@ -55,9 +54,18 @@ const SignupListItem = (props) => {
         </a>
       </Col>
       <Col componentClass="td" md={4}>
-        <a href={`/campaigns/${campaign.id}`}>
-          {campaign.internalTitle}
-        </a>
+        {signup.campaign
+          ? (
+            <a href={`/campaigns/${signup.campaign.id}`}>
+              {signup.campaign.internalTitle}
+             </a>
+            )
+          : (
+            <span>
+              Unknown campaign ID: <Label bsStyle="danger">{signup.campaignId}</Label>
+            </span>
+          )}
+
       </Col>
       {userCol}
       <Col componentClass="td">
