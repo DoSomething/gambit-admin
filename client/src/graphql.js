@@ -32,6 +32,7 @@ export const signupFieldsFragment = gql`
       id
       internalTitle
     }
+    campaignId,
     createdAt
     details
     id
