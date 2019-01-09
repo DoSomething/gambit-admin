@@ -6,7 +6,7 @@ import GraphQLQuery from '../GraphQLQuery';
 import ListForm from '../ListForm';
 import SignupListItem from './SignupListItem';
 import helpers from '../../helpers';
-import { getSignupFieldsFragment } from '../../graphql';
+import { signupFieldsFragment } from '../../graphql';
 
 const pageSize = helpers.getDefaultPageSize();
 
@@ -16,7 +16,7 @@ const getSignupsPageBySourceQuery = gql`
       ...signupFields
     }
   }
-  ${getSignupFieldsFragment}
+  ${signupFieldsFragment}
 `;
 
 const getSignupsPageQuery = gql`
@@ -25,7 +25,7 @@ const getSignupsPageQuery = gql`
       ...signupFields
     }
   }
-  ${getSignupFieldsFragment}
+  ${signupFieldsFragment}
 `;
 
 const SignupListContainer = () => {

@@ -4,7 +4,7 @@ import { Table } from 'react-bootstrap';
 import { gql } from 'apollo-boost';
 import GraphQLQuery from '../GraphQLQuery';
 import SignupListItem from '../SignupList/SignupListItem';
-import { getSignupFieldsFragment } from '../../graphql';
+import { signupFieldsFragment } from '../../graphql';
 
 const getSignupsByUserIdQuery = gql`
   query getSignupsByUserId($id: String!) {
@@ -12,7 +12,7 @@ const getSignupsByUserIdQuery = gql`
       ...signupFields
     }
   }
-  ${getSignupFieldsFragment}
+  ${signupFieldsFragment}
 `;
 
 const UserSignups = (props) => {

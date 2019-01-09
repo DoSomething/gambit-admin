@@ -1,6 +1,6 @@
 import { gql } from 'apollo-boost';
 
-export const getPostFieldsFragment = gql`
+export const postFieldsFragment = gql`
   fragment postFields on Post {
     id
     action
@@ -26,7 +26,7 @@ export const getPostFieldsFragment = gql`
   }
 `;
 
-export const getSignupFieldsFragment = gql`
+export const signupFieldsFragment = gql`
   fragment signupFields on Signup {
     campaign {
       id
@@ -55,7 +55,7 @@ export const getSignupFieldsFragment = gql`
   }
 `;
 
-export const getUserFieldsFragment = gql`
+export const userFieldsFragment = gql`
   fragment userFields on User {
     addrCity
     addrState

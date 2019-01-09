@@ -9,7 +9,7 @@ import ListForm from '../ListForm';
 import Post from '../SignupList/SignupPost';
 import config from '../../config';
 import helpers from '../../helpers';
-import { getPostFieldsFragment } from '../../graphql';
+import { postFieldsFragment } from '../../graphql';
 
 const pageSize = helpers.getDefaultPageSize();
 
@@ -19,7 +19,7 @@ const getPostsPageBySourceAndTypeQuery = gql`
       ...postFields
     }
   }
-  ${getPostFieldsFragment}
+  ${postFieldsFragment}
 `;
 
 const getPostsPageBySourceQuery = gql`
@@ -28,7 +28,7 @@ const getPostsPageBySourceQuery = gql`
       ...postFields
     }
   }
-  ${getPostFieldsFragment}
+  ${postFieldsFragment}
 `;
 
 const getPostsPageByTypeQuery = gql`
@@ -37,7 +37,7 @@ const getPostsPageByTypeQuery = gql`
       ...postFields
     }
   }
-  ${getPostFieldsFragment}
+  ${postFieldsFragment}
 `;
 
 const getPostsPageQuery = gql`
@@ -46,7 +46,7 @@ const getPostsPageQuery = gql`
       ...postFields
     }
   }
-  ${getPostFieldsFragment}
+  ${postFieldsFragment}
 `;
 
 const PostListContainer = () => {

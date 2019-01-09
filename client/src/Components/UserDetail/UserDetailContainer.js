@@ -5,7 +5,7 @@ import { gql } from 'apollo-boost';
 import GraphQLQuery from '../GraphQLQuery';
 import UserDetail from './UserDetail';
 import UserDetailTabs from './UserDetailTabs';
-import { getUserFieldsFragment } from '../../graphql';
+import { userFieldsFragment } from '../../graphql';
 
 const getUserByIdQuery = gql`
   query getUserById($id: String!) {
@@ -13,7 +13,7 @@ const getUserByIdQuery = gql`
       ...userFields
     }
   }
-  ${getUserFieldsFragment}
+  ${userFieldsFragment}
 `;
 
 class UserDetailContainer extends React.Component {
