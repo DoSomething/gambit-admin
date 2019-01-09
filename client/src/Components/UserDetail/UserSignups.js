@@ -4,42 +4,23 @@ import { Table } from 'react-bootstrap';
 import { gql } from 'apollo-boost';
 import GraphQLQuery from '../GraphQLQuery';
 import SignupListItem from '../SignupList/SignupListItem';
+import { signupFieldsFragment } from '../../graphql';
 
-/**
- * @param {String} userId
- * @return {Object}
- */
-function getUserSignupsQuery(userId) {
-  return gql`
-    {
-      signupsByUserId(id: "${userId}") {
-        campaign {
-          id
-          internalTitle
-        }
-        createdAt
-        details
-        id
-        posts {
-          action
-          id
-          quantity
-          source
-          status
-          text
-          type
-          url
-        }
-        source
-        whyParticipated
-      }
+const getSignupsByUserIdQuery = gql`
+  query getSignupsByUserId($id: String!) {
+    signupsByUserId(id: $id) {
+      ...signupFields
     }
-  `;
-}
+  }
+  ${signupFieldsFragment}
+`;
 
 const UserSignups = (props) => {
   return (
-    <GraphQLQuery query={getUserSignupsQuery(props.userId)}>
+    <GraphQLQuery
+      query={getSignupsByUserIdQuery}
+      variables={{ id: props.userId }}
+    >
       {res => {
         return (
           <Table>

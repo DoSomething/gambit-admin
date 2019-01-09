@@ -9,88 +9,65 @@ import ListForm from '../ListForm';
 import Post from '../SignupList/SignupPost';
 import config from '../../config';
 import helpers from '../../helpers';
+import { postFieldsFragment } from '../../graphql';
 
 const pageSize = helpers.getDefaultPageSize();
 
-const fields = `
-  id
-  action
-  createdAt
-  quantity
-  signup {
-    id
-    campaign {
-      id
-      internalTitle
+const getPostsPageBySourceAndTypeQuery = gql`
+  query getPostsPageBySourceAndType($source: String, $type: String, $page: Int) {
+    posts(source: $source, type: $type, page: $page, count: ${pageSize}) {
+      ...postFields
     }
   }
-  source
-  status
-  text
-  type
-  url
-  user {
-    id
-    firstName
-  }
+  ${postFieldsFragment}
 `;
 
-function getPostsBySourceAndTypeQuery() {
-  return gql`
-    query getPostsBySource($source: String, $type: String) {
-      posts(source: $source, type: $type, count: ${pageSize}) {
-        ${fields}
-      }
+const getPostsPageBySourceQuery = gql`
+  query getPostsPageBySource($source: String, $page: Int) {
+    posts(source: $source, page: $page, count: ${pageSize}) {
+      ...postFields
     }
-  `;
-}
+  }
+  ${postFieldsFragment}
+`;
 
-function getPostsBySourceQuery() {
-  return gql`
-    query getPostsBySource($source: String) {
-      posts(source: $source, count: ${pageSize}) {
-        ${fields}
-      }
+const getPostsPageByTypeQuery = gql`
+  query getPostsPageByType($type: String, $page: Int) {
+    posts(type: $type, page: $page, count: ${pageSize}) {
+      ...postFields
     }
-  `;
-}
+  }
+  ${postFieldsFragment}
+`;
 
-function getPostsByTypeQuery() {
-  return gql`
-    query getPostsByType($type: String) {
-      posts(type: $type, count: ${pageSize}) {
-        ${fields}
-      }
+const getPostsPageQuery = gql`
+  query getPostsPage($page: Int) {
+    posts(page: $page, count: ${pageSize}) {
+      ...postFields
     }
-  `;
-}
-
-function getAllPostsQuery() {
-  return gql`
-    {
-      posts(count: ${pageSize}) {
-        ${fields}
-      }
-    }
-  `;
-}
+  }
+  ${postFieldsFragment}
+`;
 
 const PostListContainer = () => {
-  let query = getAllPostsQuery();
-  const { source, type } = queryString.parse(window.location.search);
-  const variables = {};
+  const { source, type, page } = queryString.parse(window.location.search);
+  const variables = {
+    page: Number(page) || 1,
+  };
+  let query = getPostsPageQuery;
   if (source && type) {
     variables.source = source;
     variables.type = type;
-    query = getPostsBySourceAndTypeQuery();
+    query = getPostsPageBySourceAndTypeQuery;
   }
   else if (source) {
     variables.source = source;
-    query = getPostsBySourceQuery();
+    query = getPostsPageBySourceQuery;
   } else if (type) {
     variables.type = type;
-    query = getPostsByTypeQuery();
+    query = getPostsPageByTypeQuery;
   }
+
   return (
     <Grid>
       <PageHeader>
@@ -100,6 +77,7 @@ const PostListContainer = () => {
       <GraphQLQuery
         query={query}
         variables={variables}
+        displayPager={true}
       > 
         {res => (
             <Table hover>
@@ -110,7 +88,7 @@ const PostListContainer = () => {
                   return (
                     <Row componentClass="tr" key={post.id}>
                       <Col md={2} componentClass="td">
-                        <a href={post.signupUrl}>
+                        <a href={post.signup.permalink}>
                           <Moment format={config.dateFormat}>{post.createdAt}</Moment>
                         </a>
                       </Col>

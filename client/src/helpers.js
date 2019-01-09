@@ -108,7 +108,7 @@ module.exports = {
     return 'conversations';
   },
   getDefaultPageSize: function getDefaultPageSize() {
-    return 50;
+    return 25;
   },
   getDefaultTopicTriggersPath: function getDefaultTopicTriggersPath() {
     return 'defaultTopicTriggers';

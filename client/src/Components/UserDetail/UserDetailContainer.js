@@ -5,52 +5,33 @@ import { gql } from 'apollo-boost';
 import GraphQLQuery from '../GraphQLQuery';
 import UserDetail from './UserDetail';
 import UserDetailTabs from './UserDetailTabs';
+import { userFieldsFragment } from '../../graphql';
 
-/**
- * @param {String} userId
- * @return {Object}
- */
-function getUserQuery(userId) {
-  return gql`
-    {
-      user(id: "${userId}") {
-        addrCity
-        addrState
-        addrZip
-        createdAt
-        email
-        firstName
-        id
-        lastMessagedAt
-        lastName
-        mobile
-        smsStatus
-        source
-        votingPlanAttendingWith
-        votingPlanMethodOfTransport
-        votingPlanStatus
-        votingPlanTimeOfDay
-      }
+const getUserByIdQuery = gql`
+  query getUserById($id: String!) {
+    user(id: $id) {
+      ...userFields
     }
-  `;
-}
+  }
+  ${userFieldsFragment}
+`;
 
 class UserDetailContainer extends React.Component {
   render() {
     const userId = this.props.match.params.userId;
     return (
       <Grid>
-        <GraphQLQuery query={getUserQuery(userId)}>
-          {res => {
-            const user = res.user;
-            return (
-              <div>
-                <PageHeader>{user.id}</PageHeader>
-                <UserDetail user={user} />
-                <UserDetailTabs userId={user.id} />
-              </div>
-            );
-          }}
+        <GraphQLQuery
+          query={getUserByIdQuery}
+          variables={{ id: userId }}
+        >
+          {res => (
+            <div>
+              <PageHeader>{userId}</PageHeader>
+              <UserDetail user={res.user} />
+              <UserDetailTabs userId={userId} />
+            </div>
+          )}
         </GraphQLQuery>
       </Grid>
     );

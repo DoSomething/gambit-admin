@@ -50,7 +50,7 @@ const SignupListItem = (props) => {
   return (
     <Row componentClass="tr" key={signup.id}>
       <Col componentClass="td" md={2}>
-        <a href={signup.signupUrl}>
+        <a href={signup.permalink}>
           <Moment format={config.dateFormat}>{signup.createdAt}</Moment>
         </a>
       </Col>

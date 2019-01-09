@@ -23,20 +23,6 @@ function getPagination(body, skipQueryParam) {
       totalResultCount: body.meta.pagination.total,
     };
   }
-
-  // Rogue API:
-  if (body && body.meta && body.meta.cursor) {
-    const cursor = body.meta.cursor;
-    const currentPageNumber = cursor.current;
-    const skipCount = currentPageNumber > 1 ? (currentPageNumber - 1) * pageSize : 0;
-    return {
-      skipCount,
-      // TODO: This is a hack until we get a total record count back via API.
-      // @see https://www.pivotaltracker.com/story/show/162461059
-      totalResultCount: cursor.next ? skipCount + (2 * pageSize) : skipCount,
-    };
-  }
-
   return null;
 }
 
