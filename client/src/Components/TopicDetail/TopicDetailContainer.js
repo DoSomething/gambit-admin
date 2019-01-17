@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid } from 'react-bootstrap';
+import { Grid, PageHeader } from 'react-bootstrap';
 import queryString from 'query-string';
-import HttpRequest from '../HttpRequest';
+import GraphQLQuery from '../GraphQLQuery';
 import BroadcastDetail from '../BroadcastDetail/BroadcastDetail';
 import TopicDetail from './TopicDetail';
 import helpers from '../../helpers';
+import { getTopicByIdQuery } from '../../graphql';
 
 function isBroadcast(type) {
   const topicBroadcastTypes = [
@@ -18,17 +19,23 @@ function isBroadcast(type) {
 
 const TopicDetailContainer = props => (
   <Grid>
-    <HttpRequest
-      path={helpers.getTopicByIdPath(props.match.params.topicId)}
-      query={queryString.parse(window.location.search)}
-    >
+      <GraphQLQuery
+        query={getTopicByIdQuery}
+        variables={{id: props.match.params.topicId }}
+        displayPager={false}
+      > 
       {(res) => {
-        if (isBroadcast(res.type)) {
-          return <BroadcastDetail broadcast={res} />;
-        }
-        return <TopicDetail topic={res} />;
+        const topic = res.topic;
+        return (
+          <div>
+            <PageHeader>
+              {topic.name}
+            </PageHeader>
+            <p>{topic.__typename}</p>
+          </div>
+        );
       }}
-    </HttpRequest>
+    </GraphQLQuery>
   </Grid>
 );
 
