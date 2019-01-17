@@ -23,11 +23,13 @@ app.use(bodyParser.json());
 // parse application/x-www-form-urlencoded Content-Type
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 // Register routes & start it up!
 (async () => {
   /* eslint-disable global-require */
-  app.use(await require('./routes/auth')());
+  const graphql = require('./lib/graphql');
+  const schema = await graphql.fetchSchema();
+
+  app.use(await require('./routes/auth')({ schema }));
   app.use('/api', require('./routes/api'));
   /* eslint-enable */
 
