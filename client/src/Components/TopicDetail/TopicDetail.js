@@ -1,6 +1,6 @@
 import React from 'react';
 import { Panel, Grid, PageHeader } from 'react-bootstrap';
-import PropTypes from 'prop-types'; 
+import PropTypes from 'prop-types';
 
 import TemplateList from '../TemplateList/TemplateList';
 import CampaignLink from '../CampaignLink';
