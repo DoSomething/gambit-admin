@@ -5,6 +5,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { Button, Grid, Jumbotron } from 'react-bootstrap';
+import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 
 import Header from './Components/Header';
 import Main from './Components/Main';
@@ -32,9 +33,12 @@ class App extends Component {
         const httpLink = createHttpLink({
           uri: session.config.services.graphQL.url,
         });
+        const fragmentMatcher = new IntrospectionFragmentMatcher({
+          introspectionQueryResultData: session.config.services.graphQL.schema
+        });
         const client = new ApolloClient({
           link: authLink.concat(httpLink),
-          cache: new InMemoryCache(),
+          cache: new InMemoryCache({ fragmentMatcher }),
         });
         this.setState({
           config: session.config,

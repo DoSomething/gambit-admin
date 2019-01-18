@@ -10,7 +10,7 @@ const servicesConfig = require('../config/services');
 const authUrl = servicesConfig.northstar.url;
 const webUrl = appConfig.webUrl || appConfig.appUrl;
 
-module.exports = async () => {
+module.exports = async ({ schema }) => {
   const router = express.Router();
 
   // Wait until we discover OpenID Configuration.
@@ -57,6 +57,7 @@ module.exports = async () => {
         services: {
           graphQL: {
             url: servicesConfig.graphQL.url,
+            schema,
           },
         },
       },
