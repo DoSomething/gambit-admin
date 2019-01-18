@@ -5,33 +5,27 @@ import { Link } from 'react-router-dom';
 import { Panel } from 'react-bootstrap';
 
 const TemplateListItem = (props) => {
-  const data = props.data;
-  let suffix = '';
-  if (data.override) {
-    suffix = '**';
-  }
   const name = props.name;
-  const text = props.data.rendered || props.data.text;
-  const topic = props.data.topic || {};
-  let footer = null;
-  if (topic.id) {
-    footer = (
+  const topic = props.topic || {};
+  const footer = topic.id
+    ? (
       <Panel.Footer>
         Changes topic to <Link to={`/topics/${topic.id}`}>{topic.name}</Link>
       </Panel.Footer>
-    );
-  }
+    )
+    : null;
+
   return (
     <Panel id={name} key={name}>
       <Panel.Heading>
         <ScrollableAnchor id={name}>
           <Panel.Title componentClass="h3">
-            <a href={`#${name}`}>{name}{suffix}</a>
+            <a href={`#${name}`}>{name}</a>
           </Panel.Title>
         </ScrollableAnchor>
       </Panel.Heading>
       <Panel.Body>
-        {text}
+        {props.text}
       </Panel.Body>
       {footer}
     </Panel>
@@ -39,8 +33,9 @@ const TemplateListItem = (props) => {
 };
 
 TemplateListItem.propTypes = {
-  data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  topic: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   name: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
 };
 
 export default TemplateListItem;
