@@ -114,8 +114,7 @@ const BroadcastDetail = (props) => {
         <ContentfulLink entryId={broadcast.id} />
         {helpers.broadcastName(broadcast)}
       </PageHeader>
-      <TemplateListItem name={broadcast.type} data={broadcast.message} />
-      <TemplateList templates={broadcast.templates} />
+      <TemplateListItem name={broadcast.type} text={broadcast.message.text} />
       {renderStats(broadcast)}
       {broadcast.webhook ? <BroadcastWebhook config={broadcast.webhook} /> : null}
     </div>
