@@ -11,6 +11,7 @@ module.exports = {
       'askSubscriptionStatus',
       'askVotingPlanStatus',
       'askYesNo',
+      'broadcast',
       'photoPostBroadcast',
       'textPostBroadcast',
     ],
