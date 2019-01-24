@@ -21,7 +21,7 @@ router.use('/', (req, res, next) => {
 });
 
 router.get('/broadcasts', (req, res) => {
-  contentful.getBroadcasts(req.query)
+  contentful.getBroadcasts(req.query.skip)
     .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });
