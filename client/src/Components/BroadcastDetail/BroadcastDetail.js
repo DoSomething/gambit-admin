@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { PageHeader, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import TemplateList from '../TemplateList/TemplateList';
 import TemplateListItem from '../TemplateList/TemplateListItem';
 import ContentfulLink from '../ContentfulLink';
 import BroadcastWebhook from './BroadcastWebhook';
@@ -114,8 +113,7 @@ const BroadcastDetail = (props) => {
         <ContentfulLink entryId={broadcast.id} />
         {helpers.broadcastName(broadcast)}
       </PageHeader>
-      <TemplateListItem name={broadcast.type} data={broadcast.message} />
-      <TemplateList templates={broadcast.templates} />
+      <TemplateListItem name={broadcast.contentType} text={broadcast.text} />
       {renderStats(broadcast)}
       {broadcast.webhook ? <BroadcastWebhook config={broadcast.webhook} /> : null}
     </div>

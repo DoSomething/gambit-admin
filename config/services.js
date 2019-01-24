@@ -1,6 +1,21 @@
 'use strict';
 
 module.exports = {
+  contentful: {
+    client: {
+      space:  process.env.GAMBIT_CONTENTFUL_SPACE_ID,
+      accessToken: process.env.GAMBIT_CONTENTFUL_ACCESS_TOKEN,
+    },
+    broadcastTypes: [
+      'autoReplyBroadcast',
+      'askSubscriptionStatus',
+      'askVotingPlanStatus',
+      'askYesNo',
+      'broadcast',
+      'photoPostBroadcast',
+      'textPostBroadcast',
+    ],
+  },
   gambitContent: {
     baseUri: process.env.DS_GAMBIT_CAMPAIGNS_API_BASEURI,
     auth: {

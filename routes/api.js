@@ -5,6 +5,7 @@ const logger = require('heroku-logger');
 const lodash = require('lodash');
 
 const contentApi = require('../lib/gambit-content');
+const contentful = require('../lib/contentful');
 const conversations = require('../lib/gambit-conversations');
 const helpers = require('../lib/helpers');
 
@@ -20,7 +21,7 @@ router.use('/', (req, res, next) => {
 });
 
 router.get('/broadcasts', (req, res) => {
-  conversations.getBroadcasts(req.query)
+  contentful.getBroadcasts(req.query.skip)
     .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });
