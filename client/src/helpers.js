@@ -66,10 +66,10 @@ module.exports = {
   getBroadcastByIdPath: function getBroadcastByIdPath(broadcastId) {
     return `${this.getBroadcastsPath()}/${broadcastId}`;
   },
-  getCampaignsByStatus,
-  getContentfulEntriesPath: function getCampaignsPath() {
-    return 'contentfulEntries';
+  getBroadcastsPath: function getBroadcastByIdPath(broadcastId) {
+    return 'broadcasts';
   },
+  getCampaignsByStatus,
   getContentfulUrlForEntryId,
   getConversationByIdPath: function getConversationByIdPath(conversationId) {
     return `${this.getConversationsPath()}/${conversationId}`;

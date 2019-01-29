@@ -76,6 +76,7 @@ const CampaignDetail = (props) => {
 CampaignDetail.propTypes = {
   campaign: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   conversationTriggers: PropTypes.array,
+  webSignupConfirmations: PropTypes.array,
 };
 
 export default CampaignDetail;
