@@ -96,8 +96,8 @@ module.exports = {
   getRivescriptPath: function getRivescriptPath() {
     return 'rivescript';
   },
-  getTopicsPath: function getTopicsPath() {
-    return 'topics';
+  getTopicsByCampaignIdPath: function getTopicsByCampaignIdPath(campaignId) {
+    return `campaigns/${campaignId}/topics`;
   },
   getUserByIdPath: function getUserByIdPath(userId) {
     return `users/${userId}`;

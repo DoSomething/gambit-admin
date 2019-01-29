@@ -67,6 +67,8 @@ const CampaignDetail = (props) => {
             )}
         </tbody>
       </Table>
+      <h3>Topics</h3>
+      <CampaignTopicList campaignId={campaign.id} />
     </div>
   );
 };
