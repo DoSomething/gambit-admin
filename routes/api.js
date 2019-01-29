@@ -38,8 +38,8 @@ router.get('/campaigns', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
-router.get('/campaigns/:id', (req, res) => {
-  contentApi.getCampaignById(req.params.id)
+router.get('/campaigns/:id/topics', (req, res) => {
+  contentful.getCampaignTopics(req.params.id)
     .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });
