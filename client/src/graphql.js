@@ -26,6 +26,45 @@ const textPostCampaignFragment = gql`
   }
 `;
 
+export const getCampaignDetailByCampaignIdQuery = gql`
+  query getCampaignDetailByCampaignId($id: Int!) {
+    campaign(id: $id) {
+      endDate
+      id
+      internalTitle
+    }
+    webSignupConfirmations {
+      campaignId
+      text
+      topic {
+        id
+        name
+      }
+    }
+    conversationTriggers {
+      trigger
+      reply
+      topic {
+        id
+        name
+        ... on AutoReplySignupTopic {
+          ...autoReplySignupCampaign
+        }
+        ... on PhotoPostTopic {
+          ...photoPostCampaign
+        }
+        ... on TextPostTopic {
+          ...textPostCampaign
+        }
+      }
+    }
+  }
+  ${autoReplySignupCampaignFragment}
+  ${photoPostCampaignFragment}
+  ${textPostCampaignFragment}
+
+`
+
 export const getTopicByIdQuery = gql`
   query getTopicById($id: String!) {
     topic(id: $id) {

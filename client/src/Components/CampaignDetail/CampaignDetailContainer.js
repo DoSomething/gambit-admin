@@ -1,23 +1,25 @@
 import React from 'react';
-import { Grid } from 'react-bootstrap';
+import { Grid, PageHeader} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import CampaignDetail from './CampaignDetail';
-import HttpRequest from '../HttpRequest';
+import GraphQLQuery from '../GraphQLQuery';
+import { getCampaignDetailByCampaignIdQuery } from '../../graphql';
 
-const helpers = require('../../helpers');
-
-class CampaignDetailContainer extends React.Component {
-  render() {
-    return (
-      <Grid>
-        <HttpRequest path={helpers.getCampaignByIdPath(this.props.match.params.campaignId)}>
-          {campaign => (<CampaignDetail campaign={campaign} />)}
-        </HttpRequest>
-      </Grid>
-    );
-  }
-}
-
+const CampaignDetailContainer = props => (
+  <GraphQLQuery
+    query={getCampaignDetailByCampaignIdQuery}
+    variables={{id: Number(props.match.params.campaignId) }}
+    displayPager={false}
+  >
+    {res => (
+      <CampaignDetail
+        campaign={res.campaign}
+        conversationTriggers={res.conversationTriggers}
+      />
+    )}
+  </GraphQLQuery>
+);
+  
 CampaignDetailContainer.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({ campaignId: PropTypes.string.isRequired }).isRequired,

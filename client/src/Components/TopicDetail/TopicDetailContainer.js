@@ -17,11 +17,11 @@ function isBroadcast(type) {
 
 const TopicDetailContainer = props => (
   <Grid>
-      <GraphQLQuery
-        query={getTopicByIdQuery}
-        variables={{id: props.match.params.topicId }}
-        displayPager={false}
-      > 
+    <GraphQLQuery
+      query={getTopicByIdQuery}
+      variables={{id: props.match.params.topicId }}
+      displayPager={false}
+    > 
       {res => isBroadcast(res.topic.type)
         ? <BroadcastDetail topic={res.topic} />
         : <TopicDetail topic={res.topic} />}
