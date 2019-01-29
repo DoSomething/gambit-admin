@@ -3,26 +3,6 @@ const querystring = require('querystring');
 const config = require('./config');
 
 /**
- * @param {Object} clientQuery
- * @param {Object} apiQuery
- * @return {Object}
- */
-function getCampaignActivityQuery(clientQuery, apiQuery = {}) {
-  const query = {};
-  if (clientQuery.skip) {
-    // Rogue API expects a page parameter for current page of results.
-    query.page = (clientQuery.skip / config.resultsPageSize) + 1;
-  }
-  if (clientQuery.source) {
-    query['filter[source]'] = clientQuery.source;
-  }
-  if (clientQuery.type) {
-    query['filter[type]'] = clientQuery.type;
-  }
-  return Object.assign(apiQuery, query);
-}
-
-/**
  * @param {Array} defaultTopicTriggers
  * @return {Object}
  */
@@ -86,17 +66,7 @@ module.exports = {
   getBroadcastByIdPath: function getBroadcastByIdPath(broadcastId) {
     return `${this.getBroadcastsPath()}/${broadcastId}`;
   },
-  getBroadcastsPath: function getBroadcastsPath() {
-    return 'broadcasts';
-  },
-  getCampaignActivityQuery,
-  getCampaignByIdPath: function getCampaignByIdPath(campaignId) {
-    return `${this.getCampaignsPath()}/${campaignId}`;
-  },
   getCampaignsByStatus,
-  getCampaignsPath: function getCampaignsPath() {
-    return 'campaigns';
-  },
   getContentfulEntriesPath: function getCampaignsPath() {
     return 'contentfulEntries';
   },
@@ -123,20 +93,11 @@ module.exports = {
   getMessagesPath: function getMessagesPath() {
     return 'messages';
   },
-  getPostsPath: function getPostsPath() {
-    return 'posts';
-  },
   getRivescriptPath: function getRivescriptPath() {
     return 'rivescript';
   },
-  getSignupsPath: function getSignupsPath() {
-    return 'signups';
-  },
   getTopicsPath: function getTopicsPath() {
     return 'topics';
-  },
-  getTopicByIdPath: function getTopicByIdPath(topicId) {
-    return `topics/${topicId}`;
   },
   getUserByIdPath: function getUserByIdPath(userId) {
     return `users/${userId}`;
