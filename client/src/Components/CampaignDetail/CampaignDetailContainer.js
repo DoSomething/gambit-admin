@@ -19,7 +19,7 @@ const CampaignDetailContainer = props => {
             return item.topic && item.topic.campaign && item.topic.campaign.id === campaignId;
           })
           const webSignupConfirmation = res.webSignupConfirmations
-            .find(item => item.campaignId === campaignId);
+            .find(item => item.campaign.id === campaignId);
           return (
             <CampaignDetail
               campaign={res.campaign}

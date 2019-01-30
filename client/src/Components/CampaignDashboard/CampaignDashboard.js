@@ -1,10 +1,9 @@
 import React from 'react';
-import { Grid, PageHeader, Table } from 'react-bootstrap';
-import lodash from 'lodash';
+import { Grid, Table } from 'react-bootstrap';
 import GraphQLQuery from '../GraphQLQuery';
 import ActiveCampaignWithTriggers from './CampaignsWithTriggers/ActiveCampaignWithTriggers';
 import ClosedCampaignWithTriggers from './CampaignsWithTriggers/ClosedCampaignWithTriggers';
-import TriggerListItem from '../TriggerList/TriggerListItem';
+import WebSignupConfirmation from '../WebSignupConfirmation';
 
 import { getCampaignDashboardQuery } from '../../graphql';
 import helpers from '../../helpers';
@@ -33,6 +32,14 @@ const CampaignListContainer = () => (
                     key={campaign.id}
                     campaign={campaign}
                   />))}
+              </tbody>
+            </Table>
+            <h3>Web Signup Confirmations</h3>
+            <Table>
+              <tbody>
+                {res.webSignupConfirmations.map((item) => (
+                  <WebSignupConfirmation webSignupConfirmation={item} displayCampaign={true} />
+                  ))}
               </tbody>
             </Table>
           </div>

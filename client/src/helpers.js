@@ -72,7 +72,7 @@ module.exports = {
   getBroadcastByIdPath: function getBroadcastByIdPath(broadcastId) {
     return `${this.getBroadcastsPath()}/${broadcastId}`;
   },
-  getBroadcastsPath: function getBroadcastByIdPath(broadcastId) {
+  getBroadcastsPath: function getBroadcastsPath(broadcastId) {
     return 'broadcasts';
   },
   getCampaignsByStatus,

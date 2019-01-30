@@ -49,11 +49,12 @@ const conversationTriggers = `
 
 const webSignupConfirmations = `
   webSignupConfirmations {
-    campaignId
+    ${campaignFields}
     text
     topic {
       id
       name
+      __typename
     }
   }
 `;

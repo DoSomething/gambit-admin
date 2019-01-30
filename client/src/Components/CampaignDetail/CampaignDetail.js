@@ -4,12 +4,11 @@ import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import TriggerListItem from '../TriggerList/TriggerListItem';
 import CampaignTopicList from './CampaignTopicList';
-import TopicLink from '../TopicLink';
+import WebSignupConfirmation from '../WebSignupConfirmation';
 const config = require('../../config');
 
 const CampaignDetail = (props) => {
   const campaign = props.campaign;
-  const webSignupConfirmation = props.webSignupConfirmation;
   return (
     <div>
       <PageHeader>
@@ -33,8 +32,8 @@ const CampaignDetail = (props) => {
         <tbody>
           {props.conversationTriggers.length
             ? props.conversationTriggers.map(trigger => (
-                <TriggerListItem trigger={trigger} />
-              ))
+              <TriggerListItem key={trigger.trigger} trigger={trigger} />
+            ))
             : (
               <Row componentClass="tr">
                 <Col componentClass="td">
@@ -47,16 +46,8 @@ const CampaignDetail = (props) => {
       <h3>Web Signup Confirmation</h3>
       <Table>
         <tbody>
-          {webSignupConfirmation
-            ? (
-              <Row componentClass="tr">
-                <Col componentClass="td" md={2} />
-                <Col componentClass="td" md={6}>{webSignupConfirmation.text}</Col>
-                <Col componentClass="td" md={4}>
-                  <TopicLink topic={webSignupConfirmation.topic} />
-                </Col>
-              </Row>
-            )
+          {props.webSignupConfirmation
+            ? <WebSignupConfirmation webSignupConfirmation={props.webSignupConfirmation} />
             : (
               <Row componentClass="tr">
                 <Col componentClass="td">

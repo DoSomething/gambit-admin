@@ -4,7 +4,6 @@ import ScrollableAnchor from 'react-scrollable-anchor';
 import PropTypes from 'prop-types';
 import lodash from 'lodash';
 import TopicLink from '../TopicLink';
-import ContentfulLink from '../ContentfulLink';
 
 const TriggerListItem = (props) => {
   const trigger = props.trigger;

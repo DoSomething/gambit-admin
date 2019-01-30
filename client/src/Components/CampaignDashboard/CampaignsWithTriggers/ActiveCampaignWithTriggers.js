@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Panel, Row, Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 import CampaignLink from '../../CampaignLink';
