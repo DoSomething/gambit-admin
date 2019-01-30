@@ -102,9 +102,6 @@ module.exports = {
   getTopicsByCampaignIdPath: function getTopicsByCampaignIdPath(campaignId) {
     return `campaigns/${campaignId}/topics`;
   },
-  getUserByIdPath: function getUserByIdPath(userId) {
-    return `users/${userId}`;
-  },
 };
 
 module.exports.message = {
