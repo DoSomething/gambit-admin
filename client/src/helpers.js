@@ -86,9 +86,6 @@ module.exports = {
   getDefaultPageSize: function getDefaultPageSize() {
     return 25;
   },
-  getDefaultTopicTriggersPath: function getDefaultTopicTriggersPath() {
-    return 'defaultTopicTriggers';
-  },
   getDraftSubmissionByIdPath: function getDraftSubmissionsPath(draftSubmissionId) {
     return `${this.getDraftSubmissionsPath()}/${draftSubmissionId}`;
   },

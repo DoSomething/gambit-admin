@@ -4,7 +4,6 @@ const express = require('express');
 const logger = require('heroku-logger');
 const lodash = require('lodash');
 
-const contentApi = require('../lib/gambit-content');
 const contentful = require('../lib/contentful');
 const conversations = require('../lib/gambit-conversations');
 const helpers = require('../lib/helpers');
@@ -40,12 +39,6 @@ router.get('/campaigns/:id/topics', (req, res) => {
 
 router.get('/conversations/', (req, res) => {
   conversations.getConversations(req.query)
-    .then(apiRes => res.send(apiRes))
-    .catch(err => helpers.sendResponseForError(res, err));
-});
-
-router.get('/defaultTopicTriggers', (req, res) => {
-  contentApi.getDefaultTopicTriggers()
     .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });
