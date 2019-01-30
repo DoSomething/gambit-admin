@@ -2,16 +2,14 @@ import React from 'react';
 import { Col, PageHeader, Panel, Row, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
+import TriggerListItem from '../TriggerList/TriggerListItem';
 import CampaignTopicList from './CampaignTopicList';
-import TriggerList from '../TriggerList/TriggerListContainer';
 import TopicLink from '../TopicLink';
 const config = require('../../config');
 
 const CampaignDetail = (props) => {
   const campaign = props.campaign;
-  const webSignupConfirmation = props.webSignupConfirmations
-    .find(item => item.campaignId === campaign.id);
-
+  const webSignupConfirmation = props.webSignupConfirmation;
   return (
     <div>
       <PageHeader>
@@ -31,7 +29,21 @@ const CampaignDetail = (props) => {
         </Panel.Body>
       </Panel>
       <h3>Keywords</h3>
-      <TriggerList campaignId={campaign.id} />
+      <Table>
+        <tbody>
+          {props.conversationTriggers.length
+            ? props.conversationTriggers.map(trigger => (
+                <TriggerListItem trigger={trigger} />
+              ))
+            : (
+              <Row componentClass="tr">
+                <Col componentClass="td">
+                  (No keywords)
+                </Col>
+              </Row>
+            )}
+        </tbody>
+      </Table>      
       <h3>Web Signup Confirmation</h3>
       <Table>
         <tbody>

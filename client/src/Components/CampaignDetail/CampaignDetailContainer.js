@@ -3,24 +3,35 @@ import { Grid } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import CampaignDetail from './CampaignDetail';
 import GraphQLQuery from '../GraphQLQuery';
-import { getCampaignByIdQuery } from '../../graphql';
+import { getCampaignDetailByIdQuery } from '../../graphql';
 
-const CampaignDetailContainer = props => (
-  <Grid>
-    <GraphQLQuery
-      query={getCampaignByIdQuery}
-      variables={{id: Number(props.match.params.campaignId) }}
-      displayPager={false}
-    >
-      {res => (
-        <CampaignDetail
-          campaign={res.campaign}
-          webSignupConfirmations={res.webSignupConfirmations}
-        />
-      )}
-    </GraphQLQuery>
-  </Grid>
-);
+const CampaignDetailContainer = props => {
+  const campaignId = Number(props.match.params.campaignId);
+  return (
+    <Grid>
+      <GraphQLQuery
+        query={getCampaignDetailByIdQuery}
+        variables={{ id: campaignId }}
+        displayPager={false}
+      >
+        {res => {
+          const conversationTriggers = res.conversationTriggers.filter((item) => {
+            return item.topic && item.topic.campaign && item.topic.campaign.id === campaignId;
+          })
+          const webSignupConfirmation = res.webSignupConfirmations
+            .find(item => item.campaignId === campaignId);
+          return (
+            <CampaignDetail
+              campaign={res.campaign}
+              conversationTriggers={conversationTriggers}
+              webSignupConfirmation={webSignupConfirmation}
+            />
+          );
+        }}
+      </GraphQLQuery>
+    </Grid>
+  );
+};
   
 CampaignDetailContainer.propTypes = {
   match: PropTypes.shape({

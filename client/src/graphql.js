@@ -26,48 +26,62 @@ const textPostCampaignFragment = gql`
   }
 `;
 
-export const getCampaignByIdQuery = gql`
-  query getCampaignByIdQuery($id: Int!) {
+const conversationTriggers = `
+  conversationTriggers {
+    id
+    trigger
+    reply
+    topic {
+      id
+      name
+      ... on AutoReplySignupTopic {
+        ...autoReplySignupCampaign
+      }
+      ... on PhotoPostTopic {
+        ...photoPostCampaign
+      }
+      ... on TextPostTopic {
+        ...textPostCampaign
+      }
+    }
+  }
+`;
+
+const webSignupConfirmations = `
+  webSignupConfirmations {
+    campaignId
+    text
+    topic {
+      id
+      name
+    }
+  }
+`;
+
+export const getCampaignDashboardQuery = gql`
+  query getCampaignDashboard {
+    ${conversationTriggers}
+    ${webSignupConfirmations}
+  }
+  ${autoReplySignupCampaignFragment}
+  ${photoPostCampaignFragment}
+  ${textPostCampaignFragment}  
+`;
+
+export const getCampaignDetailByIdQuery = gql`
+  query getCampaignDetailById($id: Int!) {
     campaign(id: $id) {
       endDate
       id
       internalTitle
     }
-    webSignupConfirmations {
-      campaignId
-      text
-      topic {
-        id
-        name
-      }
-    }
-  }
-`
-export const getConversationTriggersQuery = gql`
-  query getConversationTriggers {
-    conversationTriggers {
-      id
-      trigger
-      reply
-      topic {
-        id
-        name
-        ... on AutoReplySignupTopic {
-          ...autoReplySignupCampaign
-        }
-        ... on PhotoPostTopic {
-          ...photoPostCampaign
-        }
-        ... on TextPostTopic {
-          ...textPostCampaign
-        }
-      }
-    }
+    ${conversationTriggers}
+    ${webSignupConfirmations}
   }
   ${autoReplySignupCampaignFragment}
   ${photoPostCampaignFragment}
-  ${textPostCampaignFragment}
-`;
+  ${textPostCampaignFragment}  
+`
 
 export const getTopicByIdQuery = gql`
   query getTopicById($id: String!) {

@@ -6,26 +6,26 @@ import ActiveCampaignWithTriggers from './CampaignsWithTriggers/ActiveCampaignWi
 import ClosedCampaignWithTriggers from './CampaignsWithTriggers/ClosedCampaignWithTriggers';
 import TriggerListItem from '../TriggerList/TriggerListItem';
 
-import { getConversationTriggersQuery } from '../../graphql';
+import { getCampaignDashboardQuery } from '../../graphql';
 import helpers from '../../helpers';
 
 const CampaignListContainer = () => (
   <Grid>
     <GraphQLQuery
-      query={getConversationTriggersQuery}
+      query={getCampaignDashboardQuery}
       displayPager={false}
     >
       {(res) => {
         const campaignsByStatus = helpers.getCampaignsByStatus(res.conversationTriggers);
         return (
           <div>
-            <h3>Current campaigns</h3>
+            <h3>Active keywords</h3>
             {Object.values(campaignsByStatus.active).map(campaign => (
               <ActiveCampaignWithTriggers
                 key={campaign.id}
                 campaign={campaign}
               />))}
-            <h3>Closed campaigns</h3>
+            <h3>Closed keywords</h3>
             <Table>
               <tbody>
                 {Object.values(campaignsByStatus.closed).map(campaign => (
