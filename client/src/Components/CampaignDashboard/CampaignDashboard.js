@@ -25,6 +25,16 @@ const CampaignListContainer = () => (
                 key={campaign.id}
                 campaign={campaign}
               />))}
+            <h3>Closed campaigns</h3>
+            <Table>
+              <tbody>
+                {Object.values(campaignsByStatus.closed).map(campaign => (
+                  <ClosedCampaignWithTriggers
+                    key={campaign.id}
+                    campaign={campaign}
+                  />))}
+              </tbody>
+            </Table>
           </div>
         );
       }}
