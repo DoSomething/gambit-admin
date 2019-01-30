@@ -1,15 +1,16 @@
 const lodash = require('lodash');
+const dateFns = require('date-fns');
 const querystring = require('querystring');
 const config = require('./config');
 
 /**
- * @param {Array} defaultTopicTriggers
+ * @param {Array} conversationTriggers
  * @return {Object}
  */
-function getCampaignsByStatus(defaultTopicTriggers) {
+function getCampaignsByStatus(conversationTriggers) {
   const campaignsById = {};
-  // Alphabetize triggers and save campaigns that have topic change triggers.
-  lodash.orderBy(defaultTopicTriggers, 'trigger').forEach((trigger) => {
+  // Alphabetize triggers and save any campaigns that have triggers.
+  lodash.orderBy(conversationTriggers, 'trigger').forEach((trigger) => {
     const topic = trigger.topic;
     const hasCampaign = topic && topic.campaign && topic.campaign.id;
     if (hasCampaign) {
@@ -21,7 +22,12 @@ function getCampaignsByStatus(defaultTopicTriggers) {
       campaignsById[campaign.id] = Object.assign(campaign, { triggers: [trigger] });
     }
   });
-  return lodash.groupBy(Object.values(campaignsById), 'status');
+  return lodash.groupBy(Object.values(campaignsById), (campaign) => {
+    if (campaign.endDate && dateFns.isPast(dateFns.parse(campaign.endDate))) {
+      return 'closed';
+    }
+    return 'active';
+  });
 }
 
 /**

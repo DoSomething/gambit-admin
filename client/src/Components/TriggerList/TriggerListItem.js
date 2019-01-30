@@ -2,30 +2,9 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import ScrollableAnchor from 'react-scrollable-anchor';
 import PropTypes from 'prop-types';
+import lodash from 'lodash';
 import TopicLink from '../TopicLink';
 import ContentfulLink from '../ContentfulLink';
-
-/**
- * @param {Object} topic
- * @return {String}
- */
-function getTemporaryTransitionText(topic) {
-  if (!topic) {
-    return null;
-  }
-  const type = topic.type;
-  const templates = topic.templates;
-  if (type === 'externalPostConfig') {
-    return templates.startExternalPost.text;
-  }
-  if (type === 'photoPostConfig') {
-    return templates.startPhotoPost.text;
-  }
-  if (type === 'textPostConfig') {
-    return templates.askText.text;
-  }
-  return null;
-}
 
 const TriggerListItem = (props) => {
   const trigger = props.trigger;
@@ -37,8 +16,7 @@ const TriggerListItem = (props) => {
         </ScrollableAnchor>
       </Col>
       <Col md={6} componentClass="td">
-        <ContentfulLink entryId={trigger.id} displayRefresh={false} />
-        {trigger.reply || getTemporaryTransitionText(trigger.topic)}
+        {lodash.truncate(trigger.reply, { length: 60 })}
       </Col>
       <Col md={4} componentClass="td">
         {trigger.topic ? <TopicLink topic={trigger.topic} /> : null}

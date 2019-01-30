@@ -16,19 +16,15 @@ const CampaignListContainer = () => (
       displayPager={false}
     >
       {(res) => {
-        const data = lodash.filter(res.conversationTriggers, (trigger) => {
-          const topic = trigger.topic;
-          return topic && topic.campaign;
-        });
-
+        const campaignsByStatus = helpers.getCampaignsByStatus(res.conversationTriggers);
         return (
           <div>
-            <h3>Keywords</h3>
-            <Table>
-              <tbody>
-                {data.map(trigger => <TriggerListItem trigger={trigger} key={trigger.trigger} />)}
-              </tbody>
-            </Table>
+            <h3>Current campaigns</h3>
+            {Object.values(campaignsByStatus.active).map(campaign => (
+              <ActiveCampaignWithTriggers
+                key={campaign.id}
+                campaign={campaign}
+              />))}
           </div>
         );
       }}
