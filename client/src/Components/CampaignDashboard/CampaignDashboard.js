@@ -1,50 +1,38 @@
 import React from 'react';
 import { Grid, PageHeader, Table } from 'react-bootstrap';
-import HttpRequest from '../HttpRequest';
+import lodash from 'lodash';
+import GraphQLQuery from '../GraphQLQuery';
 import ActiveCampaignWithTriggers from './CampaignsWithTriggers/ActiveCampaignWithTriggers';
 import ClosedCampaignWithTriggers from './CampaignsWithTriggers/ClosedCampaignWithTriggers';
-import WebSignupList from './WebSignupList';
-import helpers from '../../helpers';
+import TriggerListItem from '../TriggerList/TriggerListItem';
 
-const webSignupHelpText = 'Users who sign up for the following campaigns over web will receive a SMS confirmation if they have provided their mobile number.';
+import { getConversationTriggersQuery } from '../../graphql';
+import helpers from '../../helpers';
 
 const CampaignListContainer = () => (
   <Grid>
-    <PageHeader>
-      Campaigns
-    </PageHeader>
-    <HttpRequest path={helpers.getDefaultTopicTriggersPath()}>
+    <GraphQLQuery
+      query={getConversationTriggersQuery}
+      displayPager={false}
+    >
       {(res) => {
-        const campaignsByStatus = helpers.getCampaignsByStatus(res);
+        const data = lodash.filter(res.conversationTriggers, (trigger) => {
+          const topic = trigger.topic;
+          return topic && topic.campaign;
+        });
+
         return (
           <div>
-            <h3>Active keywords</h3>
+            <h3>Keywords</h3>
             <Table>
               <tbody>
-                {Object.values(campaignsByStatus.active).map(campaign => (
-                  <ActiveCampaignWithTriggers
-                    key={campaign.id}
-                    campaign={campaign}
-                  />))}
-              </tbody>
-            </Table>
-            <h3>Closed keywords</h3>
-            <Table>
-              <tbody>
-                {Object.values(campaignsByStatus.closed).map(campaign => (
-                  <ClosedCampaignWithTriggers
-                    key={campaign.id}
-                    campaign={campaign}
-                  />))}
+                {data.map(trigger => <TriggerListItem trigger={trigger} key={trigger.trigger} />)}
               </tbody>
             </Table>
           </div>
         );
       }}
-    </HttpRequest>
-    <h3>Web signup confirmations</h3>
-    <p>{webSignupHelpText}</p>
-    <WebSignupList />
+    </GraphQLQuery>
   </Grid>
 );
 
