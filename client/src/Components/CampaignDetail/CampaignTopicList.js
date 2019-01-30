@@ -5,7 +5,7 @@ import TopicLink from '../TopicLink';
 import HttpRequest from '../HttpRequest';
 import helpers from '../../helpers';
 
-const CampaignTopicListContainer = (props) => (
+const CampaignTopicList = (props) => (
   <HttpRequest path={helpers.getTopicsByCampaignIdPath(props.campaignId)}>
     {(res) => {
       if (!res.data.length) {
@@ -26,8 +26,8 @@ const CampaignTopicListContainer = (props) => (
   </HttpRequest>
 );
 
-CampaignTopicListContainer.propTypes = {
-  campaignId: PropTypes.string.isRequired,
+CampaignTopicList.propTypes = {
+  campaignId: PropTypes.number.isRequired,
 };
 
-export default CampaignTopicListContainer;
+export default CampaignTopicList;

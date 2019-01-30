@@ -2,14 +2,17 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import lodash from 'lodash';
-import HttpRequest from '../HttpRequest';
+import GraphQLQuery from '../GraphQLQuery';
 import TriggerListItem from './TriggerListItem';
-import helpers from '../../helpers';
+import { getConversationTriggersQuery } from '../../graphql';
 
 const TriggerListContainer = props => (
-  <HttpRequest path={helpers.getDefaultTopicTriggersPath()}>
+  <GraphQLQuery
+    query={getConversationTriggersQuery}
+    displayPager={false}
+  >
     {(res) => {
-      let data = res;
+      let data = res.conversationTriggers;
       if (props.campaignId) {
         data = lodash.filter(data, (trigger) => {
           const topic = trigger.topic;
@@ -25,7 +28,7 @@ const TriggerListContainer = props => (
         </Table>
       );
     }}
-  </HttpRequest>
+  </GraphQLQuery>
 );
 
 TriggerListContainer.propTypes = {

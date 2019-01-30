@@ -26,8 +26,8 @@ const textPostCampaignFragment = gql`
   }
 `;
 
-export const getCampaignDetailByCampaignIdQuery = gql`
-  query getCampaignDetailByCampaignId($id: Int!) {
+export const getCampaignByIdQuery = gql`
+  query getCampaignByIdQuery($id: Int!) {
     campaign(id: $id) {
       endDate
       id
@@ -41,7 +41,12 @@ export const getCampaignDetailByCampaignIdQuery = gql`
         name
       }
     }
+  }
+`
+export const getConversationTriggersQuery = gql`
+  query getConversationTriggers {
     conversationTriggers {
+      id
       trigger
       reply
       topic {
@@ -62,8 +67,7 @@ export const getCampaignDetailByCampaignIdQuery = gql`
   ${autoReplySignupCampaignFragment}
   ${photoPostCampaignFragment}
   ${textPostCampaignFragment}
-
-`
+`;
 
 export const getTopicByIdQuery = gql`
   query getTopicById($id: String!) {
