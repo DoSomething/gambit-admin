@@ -20,7 +20,7 @@ webSignupConfirmation.propTypes = {
   displayCampaign: PropTypes.bool,
 };
 
-webSignupConfirmation.propTypes = {
+webSignupConfirmation.defaultProps = {
   displayCampaign: false,
 };
 

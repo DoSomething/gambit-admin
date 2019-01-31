@@ -38,8 +38,12 @@ const CampaignListContainer = () => (
             <Table>
               <tbody>
                 {res.webSignupConfirmations.map((item) => (
-                  <WebSignupConfirmation webSignupConfirmation={item} displayCampaign={true} />
-                  ))}
+                  <WebSignupConfirmation
+                    key={item.campaign.id}
+                    webSignupConfirmation={item}
+                    displayCampaign={true}
+                  />
+                ))}
               </tbody>
             </Table>
           </div>
