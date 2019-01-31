@@ -23,11 +23,16 @@ function getCampaignsByStatus(conversationTriggers) {
     }
   });
   return lodash.groupBy(Object.values(campaignsById), (campaign) => {
-    if (campaign.endDate && dateFns.isPast(dateFns.parse(campaign.endDate))) {
-      return 'closed';
-    }
-    return 'active';
+    return module.exports.hasEnded(campaign) ? 'closed' : 'active';
   });
+}
+
+/**
+ * @param {Object} campaign
+ * @return {Boolean}
+ */
+function hasEnded(campaign) {
+  return campaign.endDate && dateFns.isPast(dateFns.parse(campaign.endDate));
 }
 
 /**
@@ -102,6 +107,7 @@ module.exports = {
   getTopicsByCampaignIdPath: function getTopicsByCampaignIdPath(campaignId) {
     return `campaigns/${campaignId}/topics`;
   },
+  hasEnded,
 };
 
 module.exports.message = {
