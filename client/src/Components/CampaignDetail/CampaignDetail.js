@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, PageHeader, Panel, Row, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
-import TriggerListItem from '../TriggerList/TriggerListItem';
+import ConversationTrigger from '../ConversationTrigger';
 import CampaignTopicList from './CampaignTopicList';
 import WebSignupConfirmation from '../WebSignupConfirmation';
 const config = require('../../config');
@@ -32,7 +32,7 @@ const CampaignDetail = (props) => {
         <tbody>
           {props.conversationTriggers.length
             ? props.conversationTriggers.map(trigger => (
-              <TriggerListItem key={trigger.trigger} trigger={trigger} />
+              <ConversationTrigger key={trigger.trigger} trigger={trigger} />
             ))
             : (
               <Row componentClass="tr">

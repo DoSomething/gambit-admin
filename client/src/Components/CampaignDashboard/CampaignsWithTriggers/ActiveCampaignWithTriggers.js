@@ -3,17 +3,16 @@ import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 import CampaignLink from '../../CampaignLink';
-import TriggerListItem from '../../TriggerList/TriggerListItem';
+import ConversationTrigger from '../../ConversationTrigger';
 
-// TODO: Fix warning for TriggerListItem, which is rendering a tr inside of a td.
 const ActiveCampaignWithTriggers = (props) => {
   const campaign = props.campaign;
   return (
     <div>
-      <p><CampaignLink campaign={campaign} /></p>
+      <h4><CampaignLink campaign={campaign} /></h4>
       <Table>
         <tbody>
-          {campaign.triggers.map(item => <TriggerListItem trigger={item} key={item.trigger} />)}
+          {campaign.triggers.map(item => <ConversationTrigger trigger={item} key={item.trigger} />)}
         </tbody>
       </Table>
     </div>
