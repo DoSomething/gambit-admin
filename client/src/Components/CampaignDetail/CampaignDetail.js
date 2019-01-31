@@ -6,6 +6,7 @@ import ConversationTrigger from '../ConversationTrigger';
 import CampaignTopicList from './CampaignTopicList';
 import WebSignupConfirmation from '../WebSignupConfirmation';
 const config = require('../../config');
+const helpers = require('../../helpers');
 
 const CampaignDetail = (props) => {
   const campaign = props.campaign;
@@ -20,7 +21,7 @@ const CampaignDetail = (props) => {
           {campaign.endDate
             ? (
               <span>
-                Ends <Moment format={config.dateFormat}>{campaign.endDate}</Moment>
+                {helpers.hasEnded(campaign) ? 'Ended' : 'Ends'} <Moment format={config.dateFormat}>{campaign.endDate}</Moment>
               </span>
             )
             : <span>(No end date)</span>}

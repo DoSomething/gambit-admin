@@ -2,7 +2,6 @@ import React from 'react';
 import { Col, Grid, PageHeader, Row, Table } from 'react-bootstrap';
 import GraphQLQuery from '../GraphQLQuery';
 import CampaignLink from '../CampaignLink';
-import ConversationTrigger from '../ConversationTrigger';
 import WebSignupConfirmation from '../WebSignupConfirmation';
 
 import { getCampaignDashboardQuery } from '../../graphql';
