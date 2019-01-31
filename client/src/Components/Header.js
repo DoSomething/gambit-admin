@@ -33,9 +33,10 @@ class Header extends React.Component {
           </NavItem>
           <NavDropdown active={activeCampaigns} eventKey={2} title="Campaigns" id="users-nav-dropdown">
             <MenuItem eventKey={2.1} href="/campaigns">Current campaigns</MenuItem>
-            <MenuItem eventKey={2.2} href="/signups">Signups</MenuItem>
-            <MenuItem eventKey={2.3} href="/posts">Posts</MenuItem>
-            <MenuItem eventKey={2.4} href="/draftSubmissions">Draft photo posts</MenuItem>
+            <MenuItem eventKey={2.2} href="/campaigns-ended">Ended campaigns</MenuItem>
+            <MenuItem eventKey={2.3} href="/signups">Signups</MenuItem>
+            <MenuItem eventKey={2.4} href="/posts">Posts</MenuItem>
+            <MenuItem eventKey={2.5} href="/draftSubmissions">Draft photo posts</MenuItem>
           </NavDropdown>
           <NavItem active={pathname.includes('broadcasts')} eventKey={4} href="/broadcasts">
             Broadcasts
