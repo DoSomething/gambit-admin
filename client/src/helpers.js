@@ -1,5 +1,5 @@
 const lodash = require('lodash');
-const dateFns = require('date-fns');
+const moment = require('moment');
 const querystring = require('querystring');
 const config = require('./config');
 
@@ -32,7 +32,7 @@ function getCampaignsByStatus(conversationTriggers) {
  * @return {Boolean}
  */
 function hasEnded(campaign) {
-  return campaign.endDate && dateFns.isPast(dateFns.parse(campaign.endDate));
+  return campaign.endDate && moment().isAfter(campaign.endDate);
 }
 
 /**

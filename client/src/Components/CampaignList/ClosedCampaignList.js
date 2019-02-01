@@ -1,11 +1,13 @@
 import React from 'react';
 import { Col, Grid, PageHeader, Row, Table } from 'react-bootstrap';
+import Moment from 'react-moment';
 import GraphQLQuery from '../GraphQLQuery';
 import CampaignLink from '../CampaignLink';
 import WebSignupConfirmation from '../WebSignupConfirmation';
 
 import { getCampaignDashboardQuery } from '../../graphql';
 import helpers from '../../helpers';
+import config from '../../config';
 
 const CampaignListContainer = () => (
   <Grid>
@@ -29,7 +31,10 @@ const CampaignListContainer = () => (
                     <Col componentClass="td" md={3}>
                       <CampaignLink campaign={campaign} />
                     </Col>
-                    <Col componentClass="td" md={9}>
+                    <Col componentClass="td" md={3}>
+                      Ended <Moment format={config.dateFormat}>{campaign.endDate}</Moment>
+                    </Col>
+                    <Col componentClass="td" md={6}>
                       <ul>
                         {campaign.triggers.map(item => (
                           <li key={item.id}>
@@ -40,6 +45,7 @@ const CampaignListContainer = () => (
                         ))}
                       </ul>
                     </Col>
+
                   </Row>
                 ))}
               </tbody>
