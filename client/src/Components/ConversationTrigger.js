@@ -5,16 +5,18 @@ import lodash from 'lodash';
 import TopicLink from './TopicLink';
 import helpers from '../helpers';
 
+const REPLY_SUMMARY_LENGTH = 60;
+
 const TriggerListItem = (props) => {
   const trigger = props.trigger;
   return (
     <Row componentClass="tr" key={trigger}>
-      <Col md={2} componentClass="td">
+      <Col md={3} componentClass="td">
         <a href={helpers.getContentfulUrlForEntryId(trigger.id)}>
           <strong>{trigger.trigger}</strong>
         </a>
       </Col>
-      <Col md={6} componentClass="td">
+      <Col md={5} componentClass="td">
         <OverlayTrigger
           overlay={(
             <Popover id={trigger.id}>
@@ -23,13 +25,13 @@ const TriggerListItem = (props) => {
           )}
         >
           <p>
-            {lodash.truncate(trigger.reply, { length: 80 })}
+            {lodash.truncate(trigger.reply, { length: REPLY_SUMMARY_LENGTH })}
           </p>
         </OverlayTrigger>
         
       </Col>
       <Col md={4} componentClass="td">
-        {trigger.topic ? <TopicLink topic={trigger.topic} /> : null}
+        {trigger.topic && <TopicLink topic={trigger.topic} />}
       </Col>
     </Row>
   );

@@ -26,10 +26,10 @@ const CampaignListContainer = () => (
                <tbody>
                 {Object.values(triggersByStatus.closed).map(campaign => (
                   <Row componentClass="tr" key={campaign.id}>
-                    <Col componentClass="td" md={4}>
+                    <Col componentClass="td" md={3}>
                       <CampaignLink campaign={campaign} />
                     </Col>
-                    <Col componentClass="td" md={8}>
+                    <Col componentClass="td" md={9}>
                       <ul>
                         {campaign.triggers.map(item => (
                           <li key={item.id}>

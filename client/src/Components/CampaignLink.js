@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const CampaignLink = props => (
-  <Link to={`/campaigns/${props.campaign.id}`}>{props.campaign.internalTitle}</Link>
+const CampaignLink = ({ campaign: { id, internalTitle }}) => (
+  <Link to={`/campaigns/${id}`}>{internalTitle}</Link>
 );
 
 CampaignLink.propTypes = {
