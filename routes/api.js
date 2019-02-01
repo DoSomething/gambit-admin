@@ -4,7 +4,6 @@ const express = require('express');
 const logger = require('heroku-logger');
 const lodash = require('lodash');
 
-const contentApi = require('../lib/gambit-content');
 const contentful = require('../lib/contentful');
 const conversations = require('../lib/gambit-conversations');
 const helpers = require('../lib/helpers');
@@ -32,32 +31,14 @@ router.get('/broadcasts/:id', (req, res) => {
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
-router.get('/campaigns', (req, res) => {
-  contentApi.getCampaigns()
-    .then(apiRes => res.send(apiRes))
-    .catch(err => helpers.sendResponseForError(res, err));
-});
-
-router.get('/campaigns/:id', (req, res) => {
-  contentApi.getCampaignById(req.params.id)
-    .then(apiRes => res.send(apiRes))
-    .catch(err => helpers.sendResponseForError(res, err));
-});
-
-router.get('/contentfulEntries', (req, res) => {
-  contentApi.getContentfulEntries(req.query)
+router.get('/campaigns/:id/topics', (req, res) => {
+  contentful.getCampaignTopics(req.params.id)
     .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });
 
 router.get('/conversations/', (req, res) => {
   conversations.getConversations(req.query)
-    .then(apiRes => res.send(apiRes))
-    .catch(err => helpers.sendResponseForError(res, err));
-});
-
-router.get('/defaultTopicTriggers', (req, res) => {
-  contentApi.getDefaultTopicTriggers()
     .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });
@@ -88,24 +69,6 @@ router.post('/messages', (req, res) => {
 
 router.get('/rivescript', (req, res) => {
   conversations.getRivescript(req.query)
-    .then(apiRes => res.send(apiRes))
-    .catch(err => helpers.sendResponseForError(res, err));
-});
-
-router.get('/topics', (req, res) => {
-  contentApi.getTopics(req.query)
-    .then(apiRes => res.send(apiRes))
-    .catch(err => helpers.sendResponseForError(res, err));
-});
-
-router.get('/topics/:id', (req, res) => {
-  contentApi.getTopicById(req.params.id, req.query)
-    .then(apiRes => res.send(apiRes))
-    .catch(err => helpers.sendResponseForError(res, err));
-});
-
-router.get('/users/:id', (req, res) => {
-  return conversations.getConversations(`query={"userId":"${req.params.id}"}`)    
     .then(apiRes => res.send(apiRes))
     .catch(err => helpers.sendResponseForError(res, err));
 });

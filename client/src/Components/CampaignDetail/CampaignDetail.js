@@ -1,36 +1,73 @@
 import React from 'react';
-import { PageHeader, Panel } from 'react-bootstrap';
+import { Col, PageHeader, Panel, Row, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import Moment from 'react-moment';
+import ConversationTrigger from '../ConversationTrigger';
 import CampaignTopicList from './CampaignTopicList';
-import TriggerList from '../TriggerList/TriggerListContainer';
+import WebSignupConfirmation from '../WebSignupConfirmation';
+import config from '../../config';
+import helpers from '../../helpers';
 
 const CampaignDetail = (props) => {
   const campaign = props.campaign;
   return (
     <div>
-      <PageHeader>{campaign.internalTitle}</PageHeader>
+      <PageHeader>
+        {campaign.internalTitle}
+      </PageHeader>
       <Panel>
         <Panel.Body>
           <p>
-            <strong>Status:</strong> {campaign.status}
+          {campaign.endDate
+            ? (
+              <span>
+                {helpers.hasEnded(campaign) ? 'Ended' : 'Ends'} <Moment format={config.dateFormat}>{campaign.endDate}</Moment>
+              </span>
+            )
+            : <span>(No end date)</span>}
           </p>
         </Panel.Body>
       </Panel>
-      <h2>Keywords</h2>
-      <TriggerList campaignId={campaign.id} />
-      <h2>All topics</h2>
-      <h3>Auto reply</h3>
-      <CampaignTopicList topicType="autoReply" campaign={campaign} />
-      <h3>Photo post</h3>
-      <CampaignTopicList topicType="photoPostConfig" campaign={campaign} />
-      <h3>Text post</h3>
-      <CampaignTopicList topicType="textPostConfig" campaign={campaign} />
+      <h3>Keywords</h3>
+      <Table>
+        <tbody>
+          {props.conversationTriggers.length
+            ? props.conversationTriggers.map(trigger => (
+              <ConversationTrigger key={trigger.trigger} trigger={trigger} />
+            ))
+            : (
+              <Row componentClass="tr">
+                <Col componentClass="td">
+                  (No keywords)
+                </Col>
+              </Row>
+            )}
+        </tbody>
+      </Table>      
+      <h3>Web Signup Confirmation</h3>
+      <Table>
+        <tbody>
+          {props.webSignupConfirmation
+            ? <WebSignupConfirmation webSignupConfirmation={props.webSignupConfirmation} />
+            : (
+              <Row componentClass="tr">
+                <Col componentClass="td">
+                  (No web signup confirmation)
+                </Col>
+              </Row>
+            )}
+        </tbody>
+      </Table>
+      <h3>Topics</h3>
+      <CampaignTopicList campaignId={campaign.id} />
     </div>
   );
 };
 
 CampaignDetail.propTypes = {
   campaign: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  conversationTriggers: PropTypes.array.isRequired,
+  webSignupConfirmation: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 
 export default CampaignDetail;

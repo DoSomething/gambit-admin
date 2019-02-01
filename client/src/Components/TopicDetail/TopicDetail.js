@@ -1,5 +1,5 @@
 import React from 'react';
-import { Panel, Grid, PageHeader } from 'react-bootstrap';
+import { Panel, PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 import TemplateList from '../TemplateList/TemplateList';
@@ -55,7 +55,7 @@ const TopicDetail = (props) => {
   const topic = props.topic;
   const campaignTitle = topic.campaign ? <CampaignLink campaign={topic.campaign} linkDisabled={false} /> : '(None)';
   return (
-    <Grid>
+    <div>
       <PageHeader>{topic.name} <small><br />{topic.__typename}</small></PageHeader>
       <Panel>
         <Panel.Body>
@@ -66,7 +66,7 @@ const TopicDetail = (props) => {
         </Panel.Body>
       </Panel>
       {getTemplates(topic)}
-    </Grid>
+    </div>
   );
 };
 

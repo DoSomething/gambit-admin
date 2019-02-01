@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 /**
- * @param {String} postType
+ * @param {String} type
  */
-function getPostTypeLabel(postType) {
-  if (postType === 'photo') {
+function getLabel(topic) {
+  if (topic.type === 'photoPostConfig' || topic.__typename === 'PhotoPostTopic') {
     return <Label bsStyle="primary">photo</Label>;
-  } else if (postType === 'text') {
+  } else if (topic.type === 'textPostConfig' || topic.__typename === 'TextPostTopic') {
     return <Label bsStyle="info">text</Label>;
   }
   return null;
@@ -18,7 +18,7 @@ function getPostTypeLabel(postType) {
 const TopicLink = (props) => {
   const topic = props.topic;
   return (
-    <Link to={`/topics/${topic.id}`}>{topic.name} {getPostTypeLabel(topic.postType)}</Link>
+    <Link to={`/topics/${topic.id}`}>{topic.name} {getLabel(topic)}</Link>
   );
 };
 
