@@ -26,6 +26,64 @@ const textPostCampaignFragment = gql`
   }
 `;
 
+const conversationTriggers = `
+  conversationTriggers {
+    id
+    trigger
+    reply
+    topic {
+      id
+      name
+      ... on AutoReplySignupTopic {
+        ...autoReplySignupCampaign
+      }
+      ... on PhotoPostTopic {
+        ...photoPostCampaign
+      }
+      ... on TextPostTopic {
+        ...textPostCampaign
+      }
+    }
+  }
+`;
+
+const webSignupConfirmations = `
+  webSignupConfirmations {
+    ${campaignFields}
+    text
+    topic {
+      id
+      name
+      __typename
+    }
+  }
+`;
+
+export const getCampaignDashboardQuery = gql`
+  query getCampaignDashboard {
+    ${conversationTriggers}
+    ${webSignupConfirmations}
+  }
+  ${autoReplySignupCampaignFragment}
+  ${photoPostCampaignFragment}
+  ${textPostCampaignFragment}  
+`;
+
+export const getCampaignDetailByIdQuery = gql`
+  query getCampaignDetailById($id: Int!) {
+    campaign(id: $id) {
+      endDate
+      id
+      internalTitle
+    }
+    ${conversationTriggers}
+    ${webSignupConfirmations}
+  }
+  ${autoReplySignupCampaignFragment}
+  ${photoPostCampaignFragment}
+  ${textPostCampaignFragment}  
+`
+
 export const getTopicByIdQuery = gql`
   query getTopicById($id: String!) {
     topic(id: $id) {

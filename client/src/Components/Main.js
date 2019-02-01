@@ -7,7 +7,8 @@ import BroadcastDetail from './BroadcastDetail/BroadcastDetailContainer';
 import BroadcastList from './BroadcastList/BroadcastListContainer';
 import BroadcastReplyList from './BroadcastDetail/BroadcastReplyList';
 import CampaignDetail from './CampaignDetail/CampaignDetailContainer';
-import CampaignDashboard from './CampaignDashboard/CampaignDashboard';
+import ActiveCampaignList from './CampaignList/ActiveCampaignList';
+import ClosedCampaignList from './CampaignList/ClosedCampaignList';
 import ConversationRequest from './ConversationRequest';
 import DraftSubmissionDetail from './DraftSubmissionDetail/DraftSubmissionDetailContainer';
 import DraftSubmissionList from './DraftSubmissionList/DraftSubmissionListContainer';
@@ -24,7 +25,8 @@ const Main = () => (
       <Route path="/broadcasts/:broadcastId" component={BroadcastDetail} />
       <Route path="/broadcasts" component={BroadcastList} />
       <Route path="/campaigns/:campaignId" component={CampaignDetail} />
-      <Route path="/campaigns" component={CampaignDashboard} />
+      <Route path="/campaigns" component={ActiveCampaignList} />
+      <Route path="/campaigns-ended" component={ClosedCampaignList} />
       <Route path="/draftSubmissions/:draftSubmissionId" component={DraftSubmissionDetail} />
       <Route path="/draftSubmissions" component={DraftSubmissionList} />
       <Route path="/posts" component={PostList} />
@@ -32,7 +34,7 @@ const Main = () => (
       <Route path="/requests" component={Home} />
       <Route path="/signups" component={SignupList} />
       <Route path="/topics/:topicId" component={TopicDetail} />
-      <Route path="/topics" component={CampaignDashboard} />
+      <Route path="/topics" component={ActiveCampaignList} />
       <Route path="/triggers" component={AdminDashboard} />
       <Route path="/users/:userId" component={UserDetail} />
       <Route path="/users" component={UserList} />

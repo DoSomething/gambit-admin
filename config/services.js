@@ -16,13 +16,6 @@ module.exports = {
       'textPostBroadcast',
     ],
   },
-  gambitContent: {
-    baseUri: process.env.DS_GAMBIT_CAMPAIGNS_API_BASEURI,
-    auth: {
-      header: 'x-gambit-api-key',
-      key: process.env.DS_GAMBIT_CAMPAIGNS_API_KEY,
-    },
-  },
   gambitConversations: {
     auth: {
       name: process.env.DS_GAMBIT_CONVERSATIONS_API_BASIC_AUTH_NAME,

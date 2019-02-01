@@ -10,7 +10,8 @@ import helpers from '../../helpers';
 const UserDetailTabs = (props) => {
   return (
     <HttpRequest
-      path={helpers.getUserByIdPath(props.userId)}
+      path={helpers.getConversationsPath()}
+      query={{ query: `{"userId":"${props.userId}"}` }}
       displayPager={false}
     >
       {res => {

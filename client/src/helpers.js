@@ -1,35 +1,16 @@
 const lodash = require('lodash');
+const moment = require('moment');
 const querystring = require('querystring');
 const config = require('./config');
 
 /**
- * @param {Object} clientQuery
- * @param {Object} apiQuery
+ * @param {Array} conversationTriggers
  * @return {Object}
  */
-function getCampaignActivityQuery(clientQuery, apiQuery = {}) {
-  const query = {};
-  if (clientQuery.skip) {
-    // Rogue API expects a page parameter for current page of results.
-    query.page = (clientQuery.skip / config.resultsPageSize) + 1;
-  }
-  if (clientQuery.source) {
-    query['filter[source]'] = clientQuery.source;
-  }
-  if (clientQuery.type) {
-    query['filter[type]'] = clientQuery.type;
-  }
-  return Object.assign(apiQuery, query);
-}
-
-/**
- * @param {Array} defaultTopicTriggers
- * @return {Object}
- */
-function getCampaignsByStatus(defaultTopicTriggers) {
+function getCampaignsByStatus(conversationTriggers) {
   const campaignsById = {};
-  // Alphabetize triggers and save campaigns that have topic change triggers.
-  lodash.orderBy(defaultTopicTriggers, 'trigger').forEach((trigger) => {
+  // Alphabetize triggers and save any campaigns that have triggers.
+  lodash.orderBy(conversationTriggers, 'trigger').forEach((trigger) => {
     const topic = trigger.topic;
     const hasCampaign = topic && topic.campaign && topic.campaign.id;
     if (hasCampaign) {
@@ -41,7 +22,17 @@ function getCampaignsByStatus(defaultTopicTriggers) {
       campaignsById[campaign.id] = Object.assign(campaign, { triggers: [trigger] });
     }
   });
-  return lodash.groupBy(Object.values(campaignsById), 'status');
+  return lodash.groupBy(Object.values(campaignsById), (campaign) => {
+    return module.exports.hasEnded(campaign) ? 'closed' : 'active';
+  });
+}
+
+/**
+ * @param {Object} campaign
+ * @return {Boolean}
+ */
+function hasEnded(campaign) {
+  return campaign.endDate && moment().isAfter(campaign.endDate);
 }
 
 /**
@@ -86,20 +77,10 @@ module.exports = {
   getBroadcastByIdPath: function getBroadcastByIdPath(broadcastId) {
     return `${this.getBroadcastsPath()}/${broadcastId}`;
   },
-  getBroadcastsPath: function getBroadcastsPath() {
+  getBroadcastsPath: function getBroadcastsPath(broadcastId) {
     return 'broadcasts';
   },
-  getCampaignActivityQuery,
-  getCampaignByIdPath: function getCampaignByIdPath(campaignId) {
-    return `${this.getCampaignsPath()}/${campaignId}`;
-  },
   getCampaignsByStatus,
-  getCampaignsPath: function getCampaignsPath() {
-    return 'campaigns';
-  },
-  getContentfulEntriesPath: function getCampaignsPath() {
-    return 'contentfulEntries';
-  },
   getContentfulUrlForEntryId,
   getConversationByIdPath: function getConversationByIdPath(conversationId) {
     return `${this.getConversationsPath()}/${conversationId}`;
@@ -109,9 +90,6 @@ module.exports = {
   },
   getDefaultPageSize: function getDefaultPageSize() {
     return 25;
-  },
-  getDefaultTopicTriggersPath: function getDefaultTopicTriggersPath() {
-    return 'defaultTopicTriggers';
   },
   getDraftSubmissionByIdPath: function getDraftSubmissionsPath(draftSubmissionId) {
     return `${this.getDraftSubmissionsPath()}/${draftSubmissionId}`;
@@ -123,24 +101,13 @@ module.exports = {
   getMessagesPath: function getMessagesPath() {
     return 'messages';
   },
-  getPostsPath: function getPostsPath() {
-    return 'posts';
-  },
   getRivescriptPath: function getRivescriptPath() {
     return 'rivescript';
   },
-  getSignupsPath: function getSignupsPath() {
-    return 'signups';
+  getTopicsByCampaignIdPath: function getTopicsByCampaignIdPath(campaignId) {
+    return `campaigns/${campaignId}/topics`;
   },
-  getTopicsPath: function getTopicsPath() {
-    return 'topics';
-  },
-  getTopicByIdPath: function getTopicByIdPath(topicId) {
-    return `topics/${topicId}`;
-  },
-  getUserByIdPath: function getUserByIdPath(userId) {
-    return `users/${userId}`;
-  },
+  hasEnded,
 };
 
 module.exports.message = {
