@@ -5,8 +5,8 @@ import Moment from 'react-moment';
 import ConversationTrigger from '../ConversationTrigger';
 import CampaignTopicList from './CampaignTopicList';
 import WebSignupConfirmation from '../WebSignupConfirmation';
-const config = require('../../config');
-const helpers = require('../../helpers');
+import config from '../../config';
+import helpers from '../../helpers';
 
 const CampaignDetail = (props) => {
   const campaign = props.campaign;
@@ -66,8 +66,8 @@ const CampaignDetail = (props) => {
 
 CampaignDetail.propTypes = {
   campaign: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  conversationTriggers: PropTypes.array,
-  webSignupConfirmations: PropTypes.array,
+  conversationTriggers: PropTypes.array.isRequired,
+  webSignupConfirmation: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 
 export default CampaignDetail;

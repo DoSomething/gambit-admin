@@ -3,7 +3,7 @@ import { Col, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import TopicLink from './TopicLink';
 
-const webSignupConfirmation = (props) => (
+const WebSignupConfirmation = (props) => (
   <Row componentClass="tr">
     <Col componentClass="td" md={2}>
       {props.displayCampaign ? props.webSignupConfirmation.campaign.internalTitle : null}
@@ -15,13 +15,13 @@ const webSignupConfirmation = (props) => (
   </Row>
 );
 
-webSignupConfirmation.propTypes = {
+WebSignupConfirmation.propTypes = {
   webSignupConfirmation: PropTypes.object.isRequired,
   displayCampaign: PropTypes.bool,
 };
 
-webSignupConfirmation.defaultProps = {
+WebSignupConfirmation.defaultProps = {
   displayCampaign: false,
 };
 
-export default webSignupConfirmation;
+export default WebSignupConfirmation;

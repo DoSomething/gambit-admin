@@ -23,7 +23,7 @@ const CampaignListContainer = () => (
           <div>
             <h2>Keywords</h2>
             {Object.values(triggersByStatus.active).map(campaign => (
-              <div>
+              <div key={campaign.id}>
                 <h3><CampaignLink campaign={campaign} /></h3>
                 <Table>
                   <tbody>
