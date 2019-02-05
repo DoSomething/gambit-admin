@@ -3,8 +3,9 @@ import { PageHeader } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import TemplateListItem from '../TemplateList/TemplateListItem';
 import ContentfulLink from '../ContentfulLink';
-import BroadcastStats from './BroadcastStats';
+import BroadcastStatsContainer from './BroadcastStats';
 import BroadcastWebhook from './BroadcastWebhook';
+import TopicTemplates from '../TopicDetail/TopicTemplates';
 
 const helpers = require('../../helpers');
 
@@ -12,11 +13,10 @@ const BroadcastDetail = ({ broadcast }) => (
   <div>
     <PageHeader>
       <ContentfulLink entryId={broadcast.id} />
-      {helpers.broadcastName(broadcast)}
+      {broadcast.name}
     </PageHeader>
     <TemplateListItem name={broadcast.contentType} text={broadcast.text} />
-    {broadcast.stats ? <BroadcastStats stats={broadcast.stats} /> : null}
-    {broadcast.webhook ? <BroadcastWebhook config={broadcast.webhook} /> : null}
+    <TopicTemplates topic={broadcast} />
   </div>
 );
 

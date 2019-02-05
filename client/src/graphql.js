@@ -82,7 +82,35 @@ export const getCampaignDetailByIdQuery = gql`
   ${autoReplySignupCampaignFragment}
   ${photoPostCampaignFragment}
   ${textPostCampaignFragment}  
-`
+`;
+
+export const getBroadcastByIdQuery = gql`
+  query getBroadcastById($id: String!) {
+    broadcast(id: $id) {
+      id
+      name
+      text
+      contentType
+      attachments {
+        url
+      }
+      ... on AskSubscriptionStatusBroadcastTopic {
+        saidActive
+        saidActiveTopic {
+          id
+          name
+        }
+        saidLess
+        saidLessTopic {
+          id
+          name
+        }
+        saidNeedMoreInfo
+        invalidAskSubscriptionStatusResponse
+      }
+    }
+  }
+`;
 
 export const getTopicByIdQuery = gql`
   query getTopicById($id: String!) {
