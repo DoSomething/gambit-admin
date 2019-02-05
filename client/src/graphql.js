@@ -8,6 +8,14 @@ const campaignFields = `
   }
 `;
 
+const topicFields = `
+  topic {
+    id
+    name
+    __typename
+  }
+`;
+
 const autoReplySignupCampaignFragment = gql`
   fragment autoReplySignupCampaign on AutoReplySignupTopic {
     ${campaignFields}
@@ -51,11 +59,7 @@ const webSignupConfirmations = `
   webSignupConfirmations {
     ${campaignFields}
     text
-    topic {
-      id
-      name
-      __typename
-    }
+    ${topicFields}
   }
 `;
 
@@ -120,6 +124,15 @@ export const getBroadcastByIdQuery = gql`
           id
           name
         }
+      }
+      ... on AutoReplyBroadcast {
+        ${topicFields}
+      }
+      ... on PhotoPostBroadcast {
+        ${topicFields}
+      }
+      ... on TextPostBroadcast {
+        ${topicFields}
       }
     }
   }

@@ -12,7 +12,11 @@ const BroadcastDetail = ({ broadcast }) => (
       <ContentfulLink entryId={broadcast.id} />
       {broadcast.name}
     </PageHeader>
-    <TemplateListItem name={broadcast.contentType} text={broadcast.text} />
+    <TemplateListItem
+      name={broadcast.contentType}
+      text={broadcast.text}
+      topic={broadcast.topic} 
+     />
     <TopicTemplates topic={broadcast} />
     <BroadcastStats broadcastId={broadcast.id} />
   </div>
