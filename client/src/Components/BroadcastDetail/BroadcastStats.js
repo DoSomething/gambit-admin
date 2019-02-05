@@ -3,96 +3,70 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Table } from 'react-bootstrap';
 
-function percent(value, total) {
+/**
+ * @param {Number} value
+ * @param {Number} total
+ * @return {String}
+ */
+function formatPercentage(value, total) {
   const result = ((value / total) * 100).toFixed(1);
   return `${result}%`;
 }
 
-/**
- * @param {string} label
- * @param {number} count
- */
-function MacroStats({ name, label, count, total }) {
-  let data = count;
-  let url = `${window.location.pathname}/${name}`;
-  if (!count) {
-    data = 0;
-    url = '#';
-  }
-  const rate = percent(data, total);
-
-  return (
-    <tr>
-      <td><Link to={url}>{label}</Link></td>
-      <td><Link to={url}>{data.toLocaleString()}</Link></td>
-      <td><Link to={url}>{rate}</Link></td>
-    </tr>
-  );
-}
-
-MacroStats.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  count: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-};
-
-/**
- * @param {object} stats
- */
-function renderMacros(stats) {
-  const macros = stats.inbound.macros;
-  const totalReplyCount = stats.outbound.total;
-
-  const data = Object.keys(stats.inbound.macros).map((macro) => {
-    const currentMacroCount = macros[macro];
-    return (
-      <MacroStats
-        key={macro}
-        name={macro}
-        label={macro}
-        count={currentMacroCount}
-        total={totalReplyCount}
-      />
-    );
-  });
-
-  return (
-    <Table striped>
-      <tbody>
-        {data}
-      </tbody>
-    </Table>
-  );
-}
-
 const BroadcastStats = ({ stats }) => {
   const header = <h2>Stats</h2>;
-  const totalOutbound = stats.outbound.total;
-  if (totalOutbound === 0) {
+
+  if (stats.outbound.total === 0) {
     return (
       <div>
         {header}
-        <p>No messages found.</p>
+        <p>No outbound messages found.</p>
       </div>
     );
   }
-  const totalInboundStr = <strong>{stats.inbound.total.toLocaleString()}</strong>;
-  const totalOutboundStr = <strong>{totalOutbound.toLocaleString()}</strong>;
-  const rate = percent(stats.inbound.total, totalOutbound);
+
   return (
     <div>
-      <h2>Stats</h2>
+      {header}
       <h4>
-        Sent {totalOutboundStr} messages, received {totalInboundStr} responses. <small>{rate}</small>
+        Sent <strong>{stats.outbound.total.toLocaleString()}</strong> messages, received <strong>{stats.inbound.total.toLocaleString()}</strong> responses. <small>{formatPercentage(stats.inbound.total, stats.outbound.total)}</small>
       </h4>
-      {totalOutbound > 0 ? renderMacros(stats) : null}
+      <Table striped>
+        <tbody>
+          {Object.keys(stats.inbound.macros).sort().map((macro) => {
+            const currentMacroCount = stats.inbound.macros[macro];
+            const url = `${window.location.pathname}/${macro}`;
+            return (
+              <tr key={macro}>
+                <td>
+                  <Link to={url}>
+                    {macro}
+                  </Link>
+                </td>
+                <td>
+                  <Link to={url}>
+                    {currentMacroCount.toLocaleString()}
+                  </Link>
+                </td>
+                <td>
+                  <Link to={url}>
+                    {formatPercentage(currentMacroCount, stats.outbound.total)}
+                  </Link>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
     </div>
   );
 };
 
 BroadcastStats.propTypes = {
-  stats: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  stats: PropTypes.shape({
+    inbound: PropTypes.object,
+    outbound: PropTypes.object,
+  }).isRequired,
 };
 
 export default BroadcastStats;

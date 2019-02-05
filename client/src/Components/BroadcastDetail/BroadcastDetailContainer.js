@@ -9,7 +9,7 @@ const BroadcastDetailContainer = props => (
   <Grid>
     <GraphQLQuery
       query={getBroadcastByIdQuery}
-      variables={{id: props.match.params.broadcastId }}
+      variables={{ id: props.match.params.broadcastId }}
       displayPager={false}
     > 
        {res => <BroadcastDetail broadcast={res.broadcast} />}
@@ -19,7 +19,7 @@ const BroadcastDetailContainer = props => (
 
 BroadcastDetailContainer.propTypes = {
   match: PropTypes.shape({
-    params: PropTypes.shape({ topicId: PropTypes.string.isRequired }).isRequired,
+    params: PropTypes.shape({ broadcastId: PropTypes.string.isRequired }).isRequired,
   }).isRequired,
 };
 
