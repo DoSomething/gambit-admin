@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Grid } from 'react-bootstrap';
 import HttpRequest from '../HttpRequest';
 import BroadcastStats from './BroadcastStats';
+import BroadcastWebhook from './BroadcastWebhook';
 import helpers from '../../helpers';
 
 const BroadcastStatsContainer = ({ broadcastId}) => (
@@ -10,7 +11,12 @@ const BroadcastStatsContainer = ({ broadcastId}) => (
     <HttpRequest
       path={helpers.getBroadcastByIdPath(broadcastId)}
     >
-      {res => <BroadcastStats stats={res.data.stats} />}
+      {res => (
+        <div>
+          <BroadcastStats stats={res.data.stats} />
+          <BroadcastWebhook config={res.data.webhook} />
+        </div>
+      )}
     </HttpRequest>
   </Grid>
 );
