@@ -95,6 +95,7 @@ export const getBroadcastByIdQuery = gql`
         url
       }
       ... on AskSubscriptionStatusBroadcastTopic {
+        invalidAskSubscriptionStatusResponse
         saidActive
         saidActiveTopic {
           id
@@ -106,7 +107,19 @@ export const getBroadcastByIdQuery = gql`
           name
         }
         saidNeedMoreInfo
-        invalidAskSubscriptionStatusResponse
+      }
+      ... on AskYesNoBroadcastTopic {
+        invalidAskYesNoResponse
+        saidNo
+        saidNoTopic {
+          id
+          name
+        }
+        saidYes
+        saidYesTopic {
+          id
+          name
+        }
       }
     }
   }

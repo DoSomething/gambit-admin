@@ -19,6 +19,19 @@ const TopicTemplates = ({ topic }) => {
     );
   }
 
+  if (type === 'AskYesNoBroadcastTopic') {
+    return (
+      <TemplateList
+        topic={topic}
+        templates={[
+          'saidYes',
+          'saidNo',
+          'invalidAskYesNoResponse',
+        ]} 
+      />
+    );
+  }
+
   if (type === 'AutoReplyTopic' || type === 'AutoReplySignupTopic') {
     return (
       <TemplateList
