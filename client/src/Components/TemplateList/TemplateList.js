@@ -15,8 +15,12 @@ const TemplateList = (props) => {
 };
 
 TemplateList.propTypes = {
-  templates: PropTypes.array.isRequired,
+  templates: PropTypes.array,
   topic: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+};
+
+TemplateList.defaultProps = {
+  templates: []
 };
 
 export default TemplateList;
