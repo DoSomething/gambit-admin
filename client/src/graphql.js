@@ -8,6 +8,14 @@ const campaignFields = `
   }
 `;
 
+const topicFields = `
+  topic {
+    id
+    name
+    __typename
+  }
+`;
+
 const autoReplySignupCampaignFragment = gql`
   fragment autoReplySignupCampaign on AutoReplySignupTopic {
     ${campaignFields}
@@ -51,11 +59,7 @@ const webSignupConfirmations = `
   webSignupConfirmations {
     ${campaignFields}
     text
-    topic {
-      id
-      name
-      __typename
-    }
+    ${topicFields}
   }
 `;
 
@@ -82,7 +86,57 @@ export const getCampaignDetailByIdQuery = gql`
   ${autoReplySignupCampaignFragment}
   ${photoPostCampaignFragment}
   ${textPostCampaignFragment}  
-`
+`;
+
+export const getBroadcastByIdQuery = gql`
+  query getBroadcastById($id: String!) {
+    broadcast(id: $id) {
+      id
+      name
+      text
+      contentType
+      attachments {
+        url
+      }
+      ... on AskSubscriptionStatusBroadcastTopic {
+        invalidAskSubscriptionStatusResponse
+        saidActive
+        saidActiveTopic {
+          id
+          name
+        }
+        saidLess
+        saidLessTopic {
+          id
+          name
+        }
+        saidNeedMoreInfo
+      }
+      ... on AskYesNoBroadcastTopic {
+        invalidAskYesNoResponse
+        saidNo
+        saidNoTopic {
+          id
+          name
+        }
+        saidYes
+        saidYesTopic {
+          id
+          name
+        }
+      }
+      ... on AutoReplyBroadcast {
+        ${topicFields}
+      }
+      ... on PhotoPostBroadcast {
+        ${topicFields}
+      }
+      ... on TextPostBroadcast {
+        ${topicFields}
+      }
+    }
+  }
+`;
 
 export const getTopicByIdQuery = gql`
   query getTopicById($id: String!) {
