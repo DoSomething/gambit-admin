@@ -112,6 +112,23 @@ export const getBroadcastByIdQuery = gql`
         }
         saidNeedMoreInfo
       }
+      ... on AskVotingPlanStatusBroadcastTopic {
+        saidNotVoting
+        saidNotVotingTopic {
+          id
+          name
+        }
+        saidVoted
+        saidVotedTopic {
+          id
+          name
+        }
+        saidCantVote
+        saidCantVoteTopic {
+          id
+          name
+        }
+      }
       ... on AskYesNoBroadcastTopic {
         invalidAskYesNoResponse
         saidNo

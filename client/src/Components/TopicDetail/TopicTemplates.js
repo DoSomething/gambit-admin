@@ -9,6 +9,11 @@ const typeTemplateMap = {
     'saidNeedMoreInfo',
     'invalidAskSubscriptionStatusResponse',
   ],
+  AskVotingPlanStatusBroadcastTopic: [
+    'saidNotVoting',
+    'saidVoted',
+    'saidCantVote',
+  ],
   AskYesNoBroadcastTopic: [
     'saidYes',
     'saidNo',
