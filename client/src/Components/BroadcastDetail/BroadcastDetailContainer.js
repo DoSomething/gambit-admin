@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from 'react-bootstrap';
-import queryString from 'query-string';
-import HttpRequest from '../HttpRequest';
+import GraphQLQuery from '../GraphQLQuery';
 import BroadcastDetail from './BroadcastDetail';
-import helpers from '../../helpers';
+import { getBroadcastByIdQuery } from '../../graphql';
 
 const BroadcastDetailContainer = props => (
   <Grid>
-    <HttpRequest
-      path={helpers.getBroadcastByIdPath(props.match.params.broadcastId)}
-      query={queryString.parse(window.location.search)}
-    >
-      {res => <BroadcastDetail broadcast={res.data} />}
-    </HttpRequest>
+    <GraphQLQuery
+      query={getBroadcastByIdQuery}
+      variables={{ id: props.match.params.broadcastId }}
+      displayPager={false}
+    > 
+       {res => <BroadcastDetail broadcast={res.broadcast} />}
+    </GraphQLQuery>
   </Grid>
 );
 
