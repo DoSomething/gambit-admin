@@ -3,11 +3,22 @@ import PropTypes from 'prop-types';
 import TemplateList from '../TemplateList/TemplateList';
 
 const typeTemplateMap = {
+  AskMultipleChoiceBroadcastTopic: [
+    'saidFirstChoice',
+    'saidSecondChoice',
+    'saidThirdChoice',
+    'invalidAskMultipleChoiceResponse',
+  ],
   AskSubscriptionStatusBroadcastTopic: [
     'saidActive',
     'saidLess',
     'saidNeedMoreInfo',
     'invalidAskSubscriptionStatusResponse',
+  ],
+  AskVotingPlanStatusBroadcastTopic: [
+    'saidNotVoting',
+    'saidVoted',
+    'saidCantVote',
   ],
   AskYesNoBroadcastTopic: [
     'saidYes',
