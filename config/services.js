@@ -7,10 +7,11 @@ module.exports = {
       accessToken: process.env.GAMBIT_CONTENTFUL_ACCESS_TOKEN,
     },
     broadcastTypes: [
-      'autoReplyBroadcast',
+      'askMultipleChoice',
       'askSubscriptionStatus',
       'askVotingPlanStatus',
       'askYesNo',
+      'autoReplyBroadcast',
       'broadcast',
       'photoPostBroadcast',
       'textPostBroadcast',
