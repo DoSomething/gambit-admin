@@ -98,6 +98,24 @@ export const getBroadcastByIdQuery = gql`
       attachments {
         url
       }
+      ... on AskMultipleChoiceBroadcastTopic {
+        invalidAskMultipleChoiceResponse
+        saidFirstChoice
+        saidFirstChoiceTopic {
+          id
+          name
+        }
+        saidSecondChoice
+        saidSecondChoiceTopic {
+          id
+          name
+        }
+        saidThirdChoice
+        saidThirdChoiceTopic {
+          id
+          name
+        }
+      }
       ... on AskSubscriptionStatusBroadcastTopic {
         invalidAskSubscriptionStatusResponse
         saidActive
