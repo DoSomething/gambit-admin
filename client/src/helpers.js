@@ -3,6 +3,19 @@ const moment = require('moment');
 const querystring = require('querystring');
 const config = require('./config');
 
+function getActiveWebSignupConfirmations(webSignupConfirmations) {
+  return webSignupConfirmations
+    .filter((item) => {
+      // TODO: Send item.transition once it's updated in GraphQL
+      const hasCampaign = module.exports.transitionHasCampaign(item.topic);
+      return hasCampaign && !module.exports.hasEnded(item.campaign);
+    });
+}
+
+function transitionHasCampaign(transition) {
+  return transition && transition.topic && transition.topic.campaign;
+}
+
 /**
  * @param {Array} conversationTriggers
  * @return {Object}
@@ -11,7 +24,7 @@ function getCampaignsByStatus(conversationTriggers) {
   const campaignsById = {};
   // Alphabetize triggers and save any campaigns that have triggers.
   lodash.orderBy(conversationTriggers, 'trigger').forEach((trigger) => {
-    const topic = trigger.topic;
+    const topic = trigger.response && trigger.response.topic ? trigger.response.topic : null;
     const hasCampaign = topic && topic.campaign && topic.campaign.id;
     if (hasCampaign) {
       const campaign = topic.campaign;
@@ -74,6 +87,7 @@ module.exports = {
     const result = `${endpoint}?${queryString}`;
     return result;
   },
+  getActiveWebSignupConfirmations,
   getBroadcastByIdPath: function getBroadcastByIdPath(broadcastId) {
     return `${this.getBroadcastsPath()}/${broadcastId}`;
   },
@@ -108,6 +122,7 @@ module.exports = {
     return `campaigns/${campaignId}/topics`;
   },
   hasEnded,
+  transitionHasCampaign,
 };
 
 module.exports.message = {

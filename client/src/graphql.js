@@ -1,6 +1,12 @@
 import { gql } from 'apollo-boost';
 
-const campaignFields = `
+const contentfulCampaignFields = `
+  legacyCampaign {
+    campaignId
+  }
+`;
+
+const rogueCampaignFields = `
   campaign {
     id
     endDate
@@ -16,21 +22,62 @@ const topicFields = `
   }
 `;
 
-const autoReplySignupCampaignFragment = gql`
-  fragment autoReplySignupCampaign on AutoReplySignupTopic {
-    ${campaignFields}
+const campaignTransitionTypes = `
+  ...autoReplyCampaignTransition
+  ...photoPostCampaignTransition
+  ...textPostCampaignTransition
+`;
+
+const campaignTransitionFields = `
+  id
+  text
+`;
+
+const campaignTopicTransitionFragments = `
+  fragment autoReplyCampaignTransition on AutoReplyTransition {
+    ${campaignTransitionFields}
+    topic {
+      id
+      contentType
+      ...autoReplyCampaign
+    }
+  }
+  fragment photoPostCampaignTransition on PhotoPostTransition {
+    ${campaignTransitionFields}
+    topic {
+      id
+      contentType
+      ...photoPostCampaign
+    }
+  }
+  fragment textPostCampaignTransition on TextPostTransition {
+    ${campaignTransitionFields}
+    topic {
+      id
+      contentType
+      ...textPostCampaign
+    }
+  }
+`;
+
+const autoReplyCampaignFragment = gql`
+  fragment autoReplyCampaign on AutoReplyTopic {
+    ${contentfulCampaignFields}
+    ${rogueCampaignFields}
   }
 `;
 
 const photoPostCampaignFragment = gql`
   fragment photoPostCampaign on PhotoPostTopic {
-    ${campaignFields}
+    ${contentfulCampaignFields}
+    ${rogueCampaignFields}
   }
 `;
 
 const textPostCampaignFragment = gql`
   fragment textPostCampaign on TextPostTopic {
-    ${campaignFields}
+    ${contentfulCampaignFields}
+    ${rogueCampaignFields}
   }
 `;
 
@@ -38,28 +85,26 @@ const conversationTriggers = `
   conversationTriggers {
     id
     trigger
-    reply
-    topic {
+    response {
       id
-      name
-      ... on AutoReplySignupTopic {
-        ...autoReplySignupCampaign
+      ... on AskMultipleChoiceBroadcastTopic {
+        id
+        text
       }
-      ... on PhotoPostTopic {
-        ...photoPostCampaign
+      ... on FaqAnswerTopic {
+        text
       }
-      ... on TextPostTopic {
-        ...textPostCampaign
-      }
+      ${campaignTransitionTypes}
     }
   }
 `;
 
 const webSignupConfirmations = `
   webSignupConfirmations {
-    ${campaignFields}
-    text
-    ${topicFields}
+    ${rogueCampaignFields}
+    topic {
+      ${campaignTransitionTypes}
+    }
   }
 `;
 
@@ -68,9 +113,10 @@ export const getCampaignDashboardQuery = gql`
     ${conversationTriggers}
     ${webSignupConfirmations}
   }
-  ${autoReplySignupCampaignFragment}
+  ${autoReplyCampaignFragment}
   ${photoPostCampaignFragment}
-  ${textPostCampaignFragment}  
+  ${textPostCampaignFragment}
+  ${campaignTopicTransitionFragments}
 `;
 
 export const getCampaignDetailByIdQuery = gql`
@@ -83,7 +129,7 @@ export const getCampaignDetailByIdQuery = gql`
     ${conversationTriggers}
     ${webSignupConfirmations}
   }
-  ${autoReplySignupCampaignFragment}
+  ${autoReplyCampaignFragment}
   ${photoPostCampaignFragment}
   ${textPostCampaignFragment}  
 `;
@@ -188,13 +234,13 @@ export const getTopicByIdQuery = gql`
         saidYes
         saidYesTopic {
           id
-          ...autoReplySignupCampaign
+          ...autoReplyCampaign
           ...photoPostCampaign
           ...textPostCampaign
         }
       }
-      ... on AutoReplySignupTopic {
-        ...autoReplySignupCampaign
+      ... on AutoReplyTopic {
+        ...autoReplyCampaign
         autoReply
       }
       ... on AutoReplyTopic {
@@ -221,7 +267,7 @@ export const getTopicByIdQuery = gql`
       }
     }
   }
-  ${autoReplySignupCampaignFragment}
+  ${autoReplyCampaignFragment}
   ${photoPostCampaignFragment}
   ${textPostCampaignFragment}
 `;

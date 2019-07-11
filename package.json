@@ -3,8 +3,8 @@
   "version": "3.1.1",
   "private": true,
   "engines": {
-    "node": "8.11.1",
-    "npm": "5.7.1"
+    "node": "8.16.0",
+    "npm": "6.4.1"
   },
   "dependencies": {
     "babel-core": "6.14.0",
@@ -13,8 +13,8 @@
     "dotenv": "^4.0.0",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
-    "heroku-logger": "^0.3.1",
-    "lodash": "^4.17.10",
+    "heroku-logger": "^0.3.3",
+    "lodash": "^4.17.14",
     "openid-client": "^2.4.5",
     "passport": "^0.4.0",
     "superagent": "^3.8.3"
