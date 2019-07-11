@@ -18,7 +18,11 @@ const CampaignListContainer = () => (
       {(res) => {
         const triggersByStatus = helpers.getCampaignsByStatus(res.conversationTriggers);
         const webSignupConfirmations = res.webSignupConfirmations
-          .filter(item => !helpers.hasEnded(item.campaign));
+          .filter((item) => {
+            const transition = item.topic || null;
+            const hasCampaign = transition && transition.topic && transition.topic.campaign;
+            return hasCampaign && !helpers.hasEnded(item.campaign);
+          });
         return (
           <div>
             <h2>Keywords</h2>

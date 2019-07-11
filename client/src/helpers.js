@@ -11,7 +11,7 @@ function getCampaignsByStatus(conversationTriggers) {
   const campaignsById = {};
   // Alphabetize triggers and save any campaigns that have triggers.
   lodash.orderBy(conversationTriggers, 'trigger').forEach((trigger) => {
-    const topic = trigger.topic;
+    const topic = trigger.response && trigger.response.topic ? trigger.response.topic : null;
     const hasCampaign = topic && topic.campaign && topic.campaign.id;
     if (hasCampaign) {
       const campaign = topic.campaign;
