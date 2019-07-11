@@ -8,8 +8,6 @@ function getActiveWebSignupConfirmations(webSignupConfirmations) {
     .filter((item) => {
       // TODO: Send item.transition once it's updated in GraphQL
       const hasCampaign = module.exports.transitionHasCampaign(item.topic);
-      console.log(item.campaign);
-
       return hasCampaign && !module.exports.hasEnded(item.campaign);
     });
 }
