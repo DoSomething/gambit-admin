@@ -3,6 +3,21 @@ const moment = require('moment');
 const querystring = require('querystring');
 const config = require('./config');
 
+function getActiveWebSignupConfirmations(webSignupConfirmations) {
+  return webSignupConfirmations
+    .filter((item) => {
+      // TODO: Send item.transition once it's updated in GraphQL
+      const hasCampaign = module.exports.transitionHasCampaign(item.topic);
+      console.log(item.campaign);
+
+      return hasCampaign && !module.exports.hasEnded(item.campaign);
+    });
+}
+
+function transitionHasCampaign(transition) {
+  return transition && transition.topic && transition.topic.campaign;
+}
+
 /**
  * @param {Array} conversationTriggers
  * @return {Object}
@@ -74,6 +89,7 @@ module.exports = {
     const result = `${endpoint}?${queryString}`;
     return result;
   },
+  getActiveWebSignupConfirmations,
   getBroadcastByIdPath: function getBroadcastByIdPath(broadcastId) {
     return `${this.getBroadcastsPath()}/${broadcastId}`;
   },
@@ -108,6 +124,7 @@ module.exports = {
     return `campaigns/${campaignId}/topics`;
   },
   hasEnded,
+  transitionHasCampaign,
 };
 
 module.exports.message = {
