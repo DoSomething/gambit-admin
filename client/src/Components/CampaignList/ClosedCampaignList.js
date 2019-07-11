@@ -18,8 +18,7 @@ const CampaignListContainer = () => (
     >
       {(res) => {
         const triggersByStatus = helpers.getCampaignsByStatus(res.conversationTriggers);
-        const webSignupConfirmations = res.webSignupConfirmations
-          .filter(item => helpers.hasEnded(item.campaign));
+        const inactiveWebSignupConfirmations = helpers.filterWebSignupConfirmations(res.webSignupConfirmations, false);
         return (
           <div>
             <h2>Keywords</h2>
@@ -53,8 +52,8 @@ const CampaignListContainer = () => (
             <h2>Web Signup Confirmations</h2>
             <Table>
               <tbody>
-                {webSignupConfirmations.length
-                  ? webSignupConfirmations.map((item) => (
+                {inactiveWebSignupConfirmations.length
+                  ? inactiveWebSignupConfirmations.map((item) => (
                     <WebSignupConfirmation
                       key={item.campaign.id}
                       webSignupConfirmation={item}

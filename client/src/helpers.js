@@ -3,12 +3,16 @@ const moment = require('moment');
 const querystring = require('querystring');
 const config = require('./config');
 
-function getActiveWebSignupConfirmations(webSignupConfirmations) {
+function filterWebSignupConfirmations(webSignupConfirmations, active = true) {
   return webSignupConfirmations
     .filter((item) => {
       // TODO: Send item.transition once it's updated in GraphQL
       const hasCampaign = module.exports.transitionHasCampaign(item.topic);
-      return hasCampaign && !module.exports.hasEnded(item.campaign);
+      if (active) {
+        return hasCampaign && !module.exports.hasEnded(item.campaign);
+      } else {
+        return hasCampaign && module.exports.hasEnded(item.campaign);
+      }
     });
 }
 
@@ -87,7 +91,7 @@ module.exports = {
     const result = `${endpoint}?${queryString}`;
     return result;
   },
-  getActiveWebSignupConfirmations,
+  filterWebSignupConfirmations,
   getBroadcastByIdPath: function getBroadcastByIdPath(broadcastId) {
     return `${this.getBroadcastsPath()}/${broadcastId}`;
   },
