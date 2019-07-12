@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import lodash from 'lodash';
 import TemplateListItem from './TemplateListItem';
 
 const TemplateList = (props) => {
+  console.log(props.topic)
   const topicTemplates = props.templates.map((templateName) => (
     <TemplateListItem
-      key={templateName}
-      name={templateName}
-      text={props.topic[templateName]}
-      topic={props.topic[`${templateName}Topic`]}
+      key={templateName[0]}
+      name={templateName[0]}
+      text={lodash.get(props.topic, templateName[1] || templateName[0]) || 'N/A'}
+      topic={lodash.get(props.topic, templateName[2])}
     />
   ));
   return <div>{topicTemplates}</div>;
