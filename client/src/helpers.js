@@ -3,24 +3,62 @@ const moment = require('moment');
 const querystring = require('querystring');
 const config = require('./config');
 
-function getActiveWebSignupConfirmations(webSignupConfirmations) {
+
+
+/**
+ * Filters web signup confirmations with active or inactive campaigns
+ * @param {Array} webSignupConfirmations
+ * @param {Boolean} active
+ */
+function filterWebSignupConfirmations(webSignupConfirmations, active = true) {
   return webSignupConfirmations
     .filter((item) => {
       // TODO: Send item.transition once it's updated in GraphQL
       const hasCampaign = module.exports.transitionHasCampaign(item.topic);
-      return hasCampaign && !module.exports.hasEnded(item.campaign);
+      if (hasCampaign) {
+        return active ? !module.exports.hasEnded(item.campaign) : module.exports.hasEnded(item.campaign);
+      }
+      return false;
     });
 }
 
+/**
+ * Checks if the transition has a campaign property
+ * @param {Object} transition
+ */
 function transitionHasCampaign(transition) {
   return transition && transition.topic && transition.topic.campaign;
+}
+
+/**
+ * Checks if the transition has a campaign property that matches the given campaignId
+ * @param {Object} transition
+ * @param {Number} campaignId
+ */
+function transitionHasThisCampaign(transition, campaignId) {
+  return transition &&
+         transition.topic &&
+         transition.topic.campaign &&
+         transition.topic.campaign.id === campaignId;
+}
+
+/**
+ * Returns only the triggers that match the campaignId
+ * @param {Array} conversationTriggers
+ * @param {Number} campaignId
+ */
+function findTriggersByCampaignId(conversationTriggers = [], campaignId) {
+  return conversationTriggers.filter((trigger) => {
+    // TODO: Send trigger.transition once it's updated in GraphQL
+    return module.exports.transitionHasThisCampaign(trigger.response, campaignId);
+  });
 }
 
 /**
  * @param {Array} conversationTriggers
  * @return {Object}
  */
-function getCampaignsByStatus(conversationTriggers) {
+function getTriggersByCampaignStatus(conversationTriggers) {
   const campaignsById = {};
   // Alphabetize triggers and save any campaigns that have triggers.
   lodash.orderBy(conversationTriggers, 'trigger').forEach((trigger) => {
@@ -32,7 +70,7 @@ function getCampaignsByStatus(conversationTriggers) {
         campaignsById[campaign.id].triggers.push(trigger);
         return;
       }
-      campaignsById[campaign.id] = Object.assign(campaign, { triggers: [trigger] });
+      campaignsById[campaign.id] = Object.assign({}, campaign, { triggers: [trigger] });
     }
   });
   return lodash.groupBy(Object.values(campaignsById), (campaign) => {
@@ -87,14 +125,15 @@ module.exports = {
     const result = `${endpoint}?${queryString}`;
     return result;
   },
-  getActiveWebSignupConfirmations,
+  findTriggersByCampaignId,
+  filterWebSignupConfirmations,
   getBroadcastByIdPath: function getBroadcastByIdPath(broadcastId) {
     return `${this.getBroadcastsPath()}/${broadcastId}`;
   },
   getBroadcastsPath: function getBroadcastsPath(broadcastId) {
     return 'broadcasts';
   },
-  getCampaignsByStatus,
+  getTriggersByCampaignStatus,
   getContentfulUrlForEntryId,
   getConversationByIdPath: function getConversationByIdPath(conversationId) {
     return `${this.getConversationsPath()}/${conversationId}`;
@@ -123,6 +162,7 @@ module.exports = {
   },
   hasEnded,
   transitionHasCampaign,
+  transitionHasThisCampaign,
 };
 
 module.exports.message = {

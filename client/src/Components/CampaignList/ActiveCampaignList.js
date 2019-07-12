@@ -16,8 +16,8 @@ const CampaignListContainer = () => (
       displayPager={false}
     >
       {(res) => {
-        const triggersByStatus = helpers.getCampaignsByStatus(res.conversationTriggers);
-        const activeWebSignupConfirmations = helpers.getActiveWebSignupConfirmations(res.webSignupConfirmations);
+        const triggersByStatus = helpers.getTriggersByCampaignStatus(res.conversationTriggers);
+        const activeWebSignupConfirmations = helpers.filterWebSignupConfirmations(res.webSignupConfirmations);
         return (
           <div>
             <h2>Keywords</h2>

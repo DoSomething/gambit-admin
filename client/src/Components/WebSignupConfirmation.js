@@ -11,9 +11,9 @@ const WebSignupConfirmation = ({ displayCampaign, webSignupConfirmation })  => (
         ? <strong><CampaignLink campaign={webSignupConfirmation.campaign} /></strong>
         : null}
     </Col>
-    <Col componentClass="td" md={5}>{webSignupConfirmation.text}</Col>
+    <Col componentClass="td" md={5}>{webSignupConfirmation.topic ? webSignupConfirmation.topic.text : ''}</Col>
     <Col componentClass="td" md={4}>
-      <TopicLink topic={webSignupConfirmation.topic} />
+      <TopicLink topic={webSignupConfirmation.topic ? webSignupConfirmation.topic.topic : {}} />
     </Col>
   </Row>
 );
