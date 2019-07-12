@@ -152,64 +152,50 @@ export const getBroadcastByIdQuery = gql`
       }
       ... on AskMultipleChoiceBroadcastTopic {
         invalidAskMultipleChoiceResponse
-        saidFirstChoice
-        saidFirstChoiceTopic {
-          id
-          name
+        saidFirstChoiceTransition {
+          ${campaignTransitionTypes}
         }
-        saidSecondChoice
-        saidSecondChoiceTopic {
-          id
-          name
+        saidSecondChoiceTransition {
+          ${campaignTransitionTypes}
         }
-        saidThirdChoice
-        saidThirdChoiceTopic {
-          id
-          name
+        saidThirdChoiceTransition {
+          ${campaignTransitionTypes}
+        }
+        saidFourthChoiceTransition {
+          ${campaignTransitionTypes}
+        }
+        saidFifthChoiceTransition {
+          ${campaignTransitionTypes}
         }
       }
       ... on AskSubscriptionStatusBroadcastTopic {
         invalidAskSubscriptionStatusResponse
-        saidActive
-        saidActiveTopic {
-          id
-          name
+        saidActiveTransition {
+          ...autoReplyCampaignTransition
         }
-        saidLess
-        saidLessTopic {
-          id
-          name
+        saidLessTransition {
+          ...autoReplyCampaignTransition
         }
         saidNeedMoreInfo
       }
       ... on AskVotingPlanStatusBroadcastTopic {
-        saidNotVoting
-        saidNotVotingTopic {
-          id
-          name
+        saidNotVotingTransition {
+          ${campaignTransitionTypes}
         }
-        saidVoted
-        saidVotedTopic {
-          id
-          name
+        saidVotedTransition {
+          ${campaignTransitionTypes}
         }
-        saidCantVote
-        saidCantVoteTopic {
-          id
-          name
+        saidCantVoteTransition {
+          ${campaignTransitionTypes}
         }
       }
       ... on AskYesNoBroadcastTopic {
         invalidAskYesNoResponse
-        saidNo
-        saidNoTopic {
-          id
-          name
+        saidYesTransition {
+          ${campaignTransitionTypes}
         }
-        saidYes
-        saidYesTopic {
-          id
-          name
+        saidNoTransition {
+          ${campaignTransitionTypes}
         }
       }
       ... on AutoReplyBroadcast {
@@ -223,6 +209,10 @@ export const getBroadcastByIdQuery = gql`
       }
     }
   }
+  ${autoReplyCampaignFragment}
+  ${photoPostCampaignFragment}
+  ${textPostCampaignFragment}
+  ${campaignTopicTransitionFragments}
 `;
 
 export const getTopicByIdQuery = gql`
