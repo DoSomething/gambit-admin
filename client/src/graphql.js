@@ -38,6 +38,7 @@ const campaignTopicTransitionFragments = `
     ${campaignTransitionFields}
     topic {
       id
+      name
       contentType
       ...autoReplyCampaign
     }
@@ -46,6 +47,7 @@ const campaignTopicTransitionFragments = `
     ${campaignTransitionFields}
     topic {
       id
+      name
       contentType
       ...photoPostCampaign
     }
@@ -54,6 +56,7 @@ const campaignTopicTransitionFragments = `
     ${campaignTransitionFields}
     topic {
       id
+      name
       contentType
       ...textPostCampaign
     }
@@ -89,9 +92,11 @@ const conversationTriggers = `
       id
       ... on AskMultipleChoiceBroadcastTopic {
         id
+        name
         text
       }
       ... on FaqAnswerTopic {
+        name
         text
       }
       ${campaignTransitionTypes}
@@ -131,7 +136,8 @@ export const getCampaignDetailByIdQuery = gql`
   }
   ${autoReplyCampaignFragment}
   ${photoPostCampaignFragment}
-  ${textPostCampaignFragment}  
+  ${textPostCampaignFragment}
+  ${campaignTopicTransitionFragments}
 `;
 
 export const getBroadcastByIdQuery = gql`
