@@ -31,10 +31,34 @@ function transitionHasCampaign(transition) {
 }
 
 /**
+ * Checks if the transition has a campaign property that matches the given campaignId
+ * @param {Object} transition
+ * @param {Number} campaignId
+ */
+function transitionHasThisCampaign(transition, campaignId) {
+  return transition &&
+         transition.topic &&
+         transition.topic.campaign &&
+         transition.topic.campaign.id === campaignId;
+}
+
+/**
+ * Returns only the triggers that match the campaignId
+ * @param {Array} conversationTriggers
+ * @param {Number} campaignId
+ */
+function findTriggersByCampaignId(conversationTriggers = [], campaignId) {
+  return conversationTriggers.filter((trigger) => {
+    // TODO: Send trigger.transition once it's updated in GraphQL
+    return module.exports.transitionHasThisCampaign(trigger.response, campaignId);
+  });
+}
+
+/**
  * @param {Array} conversationTriggers
  * @return {Object}
  */
-function getCampaignsByStatus(conversationTriggers) {
+function getTriggersByCampaignStatus(conversationTriggers) {
   const campaignsById = {};
   // Alphabetize triggers and save any campaigns that have triggers.
   lodash.orderBy(conversationTriggers, 'trigger').forEach((trigger) => {
@@ -46,7 +70,7 @@ function getCampaignsByStatus(conversationTriggers) {
         campaignsById[campaign.id].triggers.push(trigger);
         return;
       }
-      campaignsById[campaign.id] = Object.assign(campaign, { triggers: [trigger] });
+      campaignsById[campaign.id] = Object.assign({}, campaign, { triggers: [trigger] });
     }
   });
   return lodash.groupBy(Object.values(campaignsById), (campaign) => {
@@ -101,6 +125,7 @@ module.exports = {
     const result = `${endpoint}?${queryString}`;
     return result;
   },
+  findTriggersByCampaignId,
   filterWebSignupConfirmations,
   getBroadcastByIdPath: function getBroadcastByIdPath(broadcastId) {
     return `${this.getBroadcastsPath()}/${broadcastId}`;
@@ -108,7 +133,7 @@ module.exports = {
   getBroadcastsPath: function getBroadcastsPath(broadcastId) {
     return 'broadcasts';
   },
-  getCampaignsByStatus,
+  getTriggersByCampaignStatus,
   getContentfulUrlForEntryId,
   getConversationByIdPath: function getConversationByIdPath(conversationId) {
     return `${this.getConversationsPath()}/${conversationId}`;
@@ -137,6 +162,7 @@ module.exports = {
   },
   hasEnded,
   transitionHasCampaign,
+  transitionHasThisCampaign,
 };
 
 module.exports.message = {

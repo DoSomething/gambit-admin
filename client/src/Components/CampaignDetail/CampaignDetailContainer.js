@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import CampaignDetail from './CampaignDetail';
 import GraphQLQuery from '../GraphQLQuery';
 import { getCampaignDetailByIdQuery } from '../../graphql';
+import helpers from '../../helpers';
 
 const CampaignDetailContainer = props => {
   const campaignId = Number(props.match.params.campaignId);
@@ -15,9 +16,7 @@ const CampaignDetailContainer = props => {
         displayPager={false}
       >
         {res => {
-          const conversationTriggers = res.conversationTriggers.filter((item) => {
-            return item.topic && item.topic.campaign && item.topic.campaign.id === campaignId;
-          })
+          const conversationTriggers = helpers.findTriggersByCampaignId(res.conversationTriggers, campaignId);
           const webSignupConfirmation = res.webSignupConfirmations
             .find(item => item.campaign.id === campaignId);
           return (
@@ -32,7 +31,7 @@ const CampaignDetailContainer = props => {
     </Grid>
   );
 };
-  
+
 CampaignDetailContainer.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({ campaignId: PropTypes.string.isRequired }).isRequired,
