@@ -4,7 +4,8 @@ import lodash from 'lodash';
 import TemplateListItem from './TemplateListItem';
 
 const TemplateList = (props) => {
-  console.log(props.topic)
+  // TODO: Move template logic to helper so the TemplateList doesn't
+  // have to know anything about how to access the correct values
   const topicTemplates = props.templates.map((templateName) => (
     <TemplateListItem
       key={templateName[0]}
