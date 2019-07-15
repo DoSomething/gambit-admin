@@ -196,28 +196,23 @@ export const getTopicByIdQuery = gql`
       name
       contentType
       ... on AskYesNoBroadcastTopic {
+        text
         invalidAskYesNoResponse
-        saidNo
-        saidNoTopic {
-          id
+        saidNoTransition {
+          ${campaignTransitionTypes}
         }
-        saidYes
-        saidYesTopic {
-          id
-          ...autoReplyCampaign
-          ...photoPostCampaign
-          ...textPostCampaign
+        saidYesTransition {
+          ${campaignTransitionTypes}
         }
       }
       ... on AutoReplyTopic {
-        ...autoReplyCampaign
-        autoReply
-      }
-      ... on AutoReplyTopic {
+        ${contentfulCampaignFields}
+        ${rogueCampaignFields}
         autoReply
       }
       ... on PhotoPostTopic {
-        ...photoPostCampaign
+        ${contentfulCampaignFields}
+        ${rogueCampaignFields}
         askCaption
         askPhoto
         askQuantity
@@ -231,12 +226,14 @@ export const getTopicByIdQuery = gql`
         startPhotoPostAutoReply
       }
       ... on TextPostTopic {
-        ...textPostCampaign
+        ${contentfulCampaignFields}
+        ${rogueCampaignFields}
         invalidText
         completedTextPost
       }
     }
   }
+  ${campaignTopicTransitionFragments}
 `;
 
 export const postFieldsFragment = gql`
