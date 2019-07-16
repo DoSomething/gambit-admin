@@ -1,6 +1,12 @@
 import { gql } from 'apollo-boost';
 
-const campaignFields = `
+const contentfulCampaignFields = `
+  legacyCampaign {
+    campaignId
+  }
+`;
+
+const rogueCampaignFields = `
   campaign {
     id
     endDate
@@ -13,24 +19,44 @@ const topicFields = `
     id
     name
     __typename
+    ${contentfulCampaignFields}
+    ${rogueCampaignFields}
   }
 `;
 
-const autoReplySignupCampaignFragment = gql`
-  fragment autoReplySignupCampaign on AutoReplySignupTopic {
-    ${campaignFields}
+const transitionTopicFields = `
+  topic {
+    id
+    name
+    __typename
+    ${contentfulCampaignFields}
+    ${rogueCampaignFields}
   }
 `;
 
-const photoPostCampaignFragment = gql`
-  fragment photoPostCampaign on PhotoPostTopic {
-    ${campaignFields}
-  }
+const campaignTransitionTypes = `
+  ...autoReplyCampaignTransition
+  ...photoPostCampaignTransition
+  ...textPostCampaignTransition
 `;
 
-const textPostCampaignFragment = gql`
-  fragment textPostCampaign on TextPostTopic {
-    ${campaignFields}
+const campaignTransitionFields = `
+  id
+  text
+`;
+
+const campaignTopicTransitionFragments = `
+  fragment autoReplyCampaignTransition on AutoReplyTransition {
+    ${campaignTransitionFields}
+    ${transitionTopicFields}
+  }
+  fragment photoPostCampaignTransition on PhotoPostTransition {
+    ${campaignTransitionFields}
+    ${transitionTopicFields}
+  }
+  fragment textPostCampaignTransition on TextPostTransition {
+    ${campaignTransitionFields}
+    ${transitionTopicFields}
   }
 `;
 
@@ -38,28 +64,28 @@ const conversationTriggers = `
   conversationTriggers {
     id
     trigger
-    reply
-    topic {
+    response {
       id
-      name
-      ... on AutoReplySignupTopic {
-        ...autoReplySignupCampaign
+      ... on AskMultipleChoiceBroadcastTopic {
+        id
+        name
+        text
       }
-      ... on PhotoPostTopic {
-        ...photoPostCampaign
+      ... on FaqAnswerTopic {
+        name
+        text
       }
-      ... on TextPostTopic {
-        ...textPostCampaign
-      }
+      ${campaignTransitionTypes}
     }
   }
 `;
 
 const webSignupConfirmations = `
   webSignupConfirmations {
-    ${campaignFields}
-    text
-    ${topicFields}
+    ${rogueCampaignFields}
+    topic {
+      ${campaignTransitionTypes}
+    }
   }
 `;
 
@@ -68,9 +94,7 @@ export const getCampaignDashboardQuery = gql`
     ${conversationTriggers}
     ${webSignupConfirmations}
   }
-  ${autoReplySignupCampaignFragment}
-  ${photoPostCampaignFragment}
-  ${textPostCampaignFragment}  
+  ${campaignTopicTransitionFragments}
 `;
 
 export const getCampaignDetailByIdQuery = gql`
@@ -83,9 +107,7 @@ export const getCampaignDetailByIdQuery = gql`
     ${conversationTriggers}
     ${webSignupConfirmations}
   }
-  ${autoReplySignupCampaignFragment}
-  ${photoPostCampaignFragment}
-  ${textPostCampaignFragment}  
+  ${campaignTopicTransitionFragments}
 `;
 
 export const getBroadcastByIdQuery = gql`
@@ -100,68 +122,61 @@ export const getBroadcastByIdQuery = gql`
       }
       ... on AskMultipleChoiceBroadcastTopic {
         invalidAskMultipleChoiceResponse
-        saidFirstChoice
-        saidFirstChoiceTopic {
-          id
-          name
+        saidFirstChoiceTransition {
+          ${campaignTransitionTypes}
         }
-        saidSecondChoice
-        saidSecondChoiceTopic {
-          id
-          name
+        saidSecondChoiceTransition {
+          ${campaignTransitionTypes}
         }
-        saidThirdChoice
-        saidThirdChoiceTopic {
-          id
-          name
+        saidThirdChoiceTransition {
+          ${campaignTransitionTypes}
+        }
+        saidFourthChoiceTransition {
+          ${campaignTransitionTypes}
+        }
+        saidFifthChoiceTransition {
+          ${campaignTransitionTypes}
         }
       }
       ... on AskSubscriptionStatusBroadcastTopic {
         invalidAskSubscriptionStatusResponse
-        saidActive
-        saidActiveTopic {
-          id
-          name
+        saidActiveTransition {
+          ...autoReplyCampaignTransition
         }
-        saidLess
-        saidLessTopic {
-          id
-          name
+        saidLessTransition {
+          ...autoReplyCampaignTransition
         }
         saidNeedMoreInfo
       }
       ... on AskVotingPlanStatusBroadcastTopic {
-        saidNotVoting
-        saidNotVotingTopic {
-          id
-          name
+        saidNotVotingTransition {
+          ${campaignTransitionTypes}
         }
-        saidVoted
-        saidVotedTopic {
-          id
-          name
+        saidVotedTransition {
+          ${campaignTransitionTypes}
         }
-        saidCantVote
-        saidCantVoteTopic {
-          id
-          name
+        saidCantVoteTransition {
+          ${campaignTransitionTypes}
         }
       }
       ... on AskYesNoBroadcastTopic {
         invalidAskYesNoResponse
-        saidNo
-        saidNoTopic {
-          id
-          name
+        saidYesTransition {
+          ${campaignTransitionTypes}
         }
-        saidYes
-        saidYesTopic {
-          id
-          name
+        saidNoTransition {
+          ${campaignTransitionTypes}
         }
       }
       ... on AutoReplyBroadcast {
-        ${topicFields}
+        topic {
+          id
+          name
+          autoReply
+          __typename
+          ${contentfulCampaignFields}
+          ${rogueCampaignFields}
+        }
       }
       ... on PhotoPostBroadcast {
         ${topicFields}
@@ -171,6 +186,7 @@ export const getBroadcastByIdQuery = gql`
       }
     }
   }
+  ${campaignTopicTransitionFragments}
 `;
 
 export const getTopicByIdQuery = gql`
@@ -180,28 +196,23 @@ export const getTopicByIdQuery = gql`
       name
       contentType
       ... on AskYesNoBroadcastTopic {
+        text
         invalidAskYesNoResponse
-        saidNo
-        saidNoTopic {
-          id
+        saidNoTransition {
+          ${campaignTransitionTypes}
         }
-        saidYes
-        saidYesTopic {
-          id
-          ...autoReplySignupCampaign
-          ...photoPostCampaign
-          ...textPostCampaign
+        saidYesTransition {
+          ${campaignTransitionTypes}
         }
-      }
-      ... on AutoReplySignupTopic {
-        ...autoReplySignupCampaign
-        autoReply
       }
       ... on AutoReplyTopic {
+        ${contentfulCampaignFields}
+        ${rogueCampaignFields}
         autoReply
       }
       ... on PhotoPostTopic {
-        ...photoPostCampaign
+        ${contentfulCampaignFields}
+        ${rogueCampaignFields}
         askCaption
         askPhoto
         askQuantity
@@ -215,15 +226,14 @@ export const getTopicByIdQuery = gql`
         startPhotoPostAutoReply
       }
       ... on TextPostTopic {
-        ...textPostCampaign
+        ${contentfulCampaignFields}
+        ${rogueCampaignFields}
         invalidText
         completedTextPost
       }
     }
   }
-  ${autoReplySignupCampaignFragment}
-  ${photoPostCampaignFragment}
-  ${textPostCampaignFragment}
+  ${campaignTopicTransitionFragments}
 `;
 
 export const postFieldsFragment = gql`

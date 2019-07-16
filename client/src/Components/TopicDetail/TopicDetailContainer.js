@@ -21,9 +21,9 @@ const TopicDetailContainer = props => (
       query={getTopicByIdQuery}
       variables={{id: props.match.params.topicId }}
       displayPager={false}
-    > 
-      {res => isBroadcast(res.topic.type)
-        ? <BroadcastDetail topic={res.topic} />
+    >
+      {res => isBroadcast(res.topic.contentType)
+        ? <BroadcastDetail broadcast={res.topic} />
         : <TopicDetail topic={res.topic} />}
     </GraphQLQuery>
   </Grid>
