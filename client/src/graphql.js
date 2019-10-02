@@ -303,6 +303,7 @@ export const userFieldsFragment = gql`
     id
     lastMessagedAt
     mobilePreview
+    permalink
     smsStatus
     source
     votingPlanAttendingWith
