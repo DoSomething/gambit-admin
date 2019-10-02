@@ -22,6 +22,9 @@ In a terminal:
 # Initial setup
 npm install
 
+# Copy default .env file & fill in secrets:
+cp .env.example && vi .env
+
 # Start the server
 npm start
 ```
