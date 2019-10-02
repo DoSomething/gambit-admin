@@ -298,12 +298,11 @@ export const userFieldsFragment = gql`
     addrState
     addrZip
     createdAt
-    email
-    firstName
+    displayName
+    emailPreview
     id
     lastMessagedAt
-    lastName
-    mobile
+    mobilePreview
     smsStatus
     source
     votingPlanAttendingWith
