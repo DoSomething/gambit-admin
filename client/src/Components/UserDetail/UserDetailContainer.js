@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, PageHeader } from 'react-bootstrap';
+import { Grid, PageHeader, Button } from 'react-bootstrap';
 import { gql } from 'apollo-boost';
 import GraphQLQuery from '../GraphQLQuery';
 import UserDetail from './UserDetail';
@@ -25,13 +25,21 @@ class UserDetailContainer extends React.Component {
           query={getUserByIdQuery}
           variables={{ id: userId }}
         >
-          {res => (
-            <div>
-              <PageHeader>{userId}</PageHeader>
-              <UserDetail user={res.user} />
-              <UserDetailTabs userId={userId} />
-            </div>
-          )}
+          {res => {
+            const linkToAurora = (
+              <div className="pull-right">
+                <Button href={res.user.permalink}>View in Aurora</Button>
+              </div>
+            );
+
+            return (
+              <div>
+                <PageHeader>{userId} {linkToAurora}</PageHeader>
+                <UserDetail user={res.user} />
+                <UserDetailTabs userId={userId} />
+              </div>
+            );
+          }}
         </GraphQLQuery>
       </Grid>
     );
