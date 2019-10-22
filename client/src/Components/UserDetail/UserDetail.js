@@ -14,15 +14,15 @@ const UserDetail = (props) => {
       <Panel.Body>
         <Row>
           <Col sm={6}>
-            <strong>Name:</strong> {user.firstName} {user.lastName}
+            <strong>Name:</strong> {user.displayName}
           </Col>
           <Col sm={6}>
-            <strong>Mobile:</strong> {user.mobile}
+            <strong>Mobile:</strong> {user.mobilePreview}
           </Col>
         </Row>
         <Row>
           <Col sm={6}>
-            <strong>Email:</strong> {user.email}
+            <strong>Email:</strong> {user.emailPreview}
           </Col>
           <Col sm={6}>
             <strong>SMS status:</strong> {user.smsStatus}
