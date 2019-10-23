@@ -53,7 +53,7 @@ const HttpRequest = function (props) {
     return function cleanup() {
       return true;
     };
-  }, [isLoading]);
+  }, []);
 
   if (isLoading) {
     return <ProgressBar active now={100} />;
