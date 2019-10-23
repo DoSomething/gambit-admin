@@ -41,13 +41,19 @@ const HttpRequest = function (props) {
 
   useEffect(() => {
     axios.get(helpers.apiUrl(props.path), { params })
-      .then(res => setHttpResponse(res))
-      .catch(error => setHttpError(error));
+      .then((res) => {
+        setHttpResponse(res);
+        setIsLoading(false);
+       })
+      .catch((error) => {
+        setHttpError(error);
+        setIsLoading(false);
+      });
 
     return function cleanup() {
-      setIsLoading(false);
+      return true;
     };
-  });
+  }, [isLoading]);
 
   if (isLoading) {
     return <ProgressBar active now={100} />;
