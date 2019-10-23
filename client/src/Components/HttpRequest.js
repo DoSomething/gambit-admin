@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Panel, ProgressBar } from 'react-bootstrap';
 import axios from 'axios';
@@ -26,70 +26,63 @@ function getPagination(body, skipQueryParam) {
   return null;
 }
 
-class HttpRequest extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state ={
-      isLoading: true,
+const HttpRequest = function (props) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [httpError, setHttpError] = useState(null);
+  const [httpResponse, setHttpResponse] = useState(null);
+
+  const params = props.query;
+  params.limit = pageSize;
+  const clientQuery = queryString.parse(window.location.search);
+  const skipCount = Number(clientQuery.skip) || 0;
+  if (skipCount) {
+    params.skip = this.skipCount;
+  }
+
+  useEffect(() => {
+    axios.get(helpers.apiUrl(props.path), { params })
+      .then(res => setHttpResponse(res))
+      .catch(error => setHttpError(error));
+
+    return function cleanup() {
+      setIsLoading(false);
     };
+  });
+
+  if (isLoading) {
+    return <ProgressBar active now={100} />;
   }
-  componentDidMount() {
-    this.setState({ isLoading: true });
 
-    const params = this.props.query;
-    params.limit = pageSize;
-    const clientQuery = queryString.parse(window.location.search);
-    this.skipCount = Number(clientQuery.skip) || 0;
-    if (this.skipCount) {
-      params.skip = this.skipCount;
-    }
-
-    axios.get(helpers.apiUrl(this.props.path), { params })
-      .then(res => this.setState({
-        res: res,
-        isLoading: false
-      }))
-      .catch(error => this.setState({
-        error,
-        isLoading: false
-      }));
-  }
-  render() {
-    if (this.state.isLoading) {
-      return <ProgressBar active now={100} />;
-    }
-
-    if (this.state.error) {
-      return (
-        <Panel header="Epic fail." bsStyle="danger">
-          {this.state.error.message}
-        </Panel>
-      );
-    }
-
-    const body = this.state.res.data;
-    const pagination = getPagination(body, this.skipCount);
-    const totalResultCount = pagination ? pagination.totalResultCount : 0;
-    let pager = null;
-    if (totalResultCount && this.props.displayPager) {
-      pager = (
-        <ListPager
-          totalResultCount={totalResultCount}
-          skipCount={pagination.skipCount}
-          pageCount={body.data.length}
-          pageSize={pageSize}
-          description={this.props.description}
-        />
-      );
-    }
+  if (httpError) {
     return (
-      <div>
-        {pager}
-        {this.props.children(body)}
-        {totalResultCount > pageSize ? pager : null}
-      </div>
+      <Panel header="Epic fail." bsStyle="danger">
+        {httpError.message}
+      </Panel>
     );
   }
+
+  const body = httpResponse.data;
+  const pagination = getPagination(body, skipCount);
+  const totalResultCount = pagination ? pagination.totalResultCount : 0;
+  let pager = null;
+  if (totalResultCount && props.displayPager) {
+    pager = (
+      <ListPager
+        totalResultCount={totalResultCount}
+        skipCount={pagination.skipCount}
+        pageCount={body.data.length}
+        pageSize={pageSize}
+        description={props.description}
+      />
+    );
+  }
+  return (
+    <div>
+      {pager}
+      {props.children(body)}
+      {totalResultCount > pageSize ? pager : null}
+    </div>
+  );
 }
 
 HttpRequest.propTypes = {
