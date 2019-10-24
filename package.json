@@ -1,6 +1,6 @@
 {
   "name": "gambit-admin-server",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "private": true,
   "engines": {
     "node": "8.16.0",
