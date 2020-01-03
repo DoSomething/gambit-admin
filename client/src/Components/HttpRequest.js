@@ -33,10 +33,12 @@ const HttpRequest = function (props) {
 
   const params = props.query;
   params.limit = pageSize;
+
   const clientQuery = queryString.parse(window.location.search);
   const skipCount = Number(clientQuery.skip) || 0;
+
   if (skipCount) {
-    params.skip = this.skipCount;
+    params.skip = skipCount;
   }
 
   useEffect(() => {
