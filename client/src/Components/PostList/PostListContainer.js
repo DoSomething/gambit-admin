@@ -84,11 +84,11 @@ const PostListContainer = () => {
               <tbody>
                 {res.posts.map((post) => {
                   const user = post.user;
-                  const campaign = post.signup.campaign;
+                  const campaign = post.signup ? post.signup.campaign : {};
                   return (
                     <Row componentClass="tr" key={post.id}>
                       <Col md={2} componentClass="td">
-                        <a href={post.signup.permalink}>
+                        <a href={post.signup ? post.signup.permalink : '#'}>
                           <Moment format={config.dateFormat}>{post.createdAt}</Moment>
                         </a>
                       </Col>
