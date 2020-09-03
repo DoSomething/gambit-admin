@@ -19,7 +19,7 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-react": "^7.15.1",
     "graphql": "^14.5.8",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "query-string": "^5.1.1",
