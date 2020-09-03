@@ -1,7 +1,5 @@
 # dependencies
 /node_modules
-client/build
-client/node_modules
 
 # testing
 /coverage
