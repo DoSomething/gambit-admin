@@ -16,7 +16,7 @@ app.set('port', config.port);
 const buildPath = config.buildPath;
 
 // Priority serve any static files.
-app.use(express.static(path.join(__dirname, buildPath)));
+app.use(express.static(path.resolve(__dirname, buildPath)));
 
 // parse application/json Content-Type
 app.use(bodyParser.json());
@@ -35,10 +35,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
   // All remaining requests return the React app.
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, buildPath, 'index.html'));
+    res.sendFile(path.resolve(__dirname, buildPath, 'index.html'));
   });
 
   app.listen(app.get('port'), () => {
-    logger.info(`Gambit Admin running on port ${app.get('port')}`);
+    logger.info(`Gambit Admin server running on port ${app.get('port')}`);
   });
 })();
