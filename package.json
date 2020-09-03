@@ -52,7 +52,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "start": "node server",
+    "start": "node app",
     "lint": "eslint --ext=.js .",
     "heroku-postbuild": "npm run build",
     "start:client": "react-scripts start",

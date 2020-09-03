@@ -9,7 +9,7 @@ const app = express();
 
 require('dotenv').config();
 
-const config = require('./config/app');
+const config = require('./server/config/app');
 
 app.set('port', config.port);
 
@@ -26,11 +26,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Register routes & start it up!
 (async () => {
   /* eslint-disable global-require */
-  const graphql = require('./lib/graphql');
+  const graphql = require('./server/lib/graphql');
   const schema = await graphql.fetchSchema();
 
-  app.use(await require('./routes/auth')({ schema }));
-  app.use('/api', require('./routes/api'));
+  app.use(await require('./server/routes/auth')({ schema }));
+  app.use('/api', require('./server/routes/api'));
   /* eslint-enable */
 
   // All remaining requests return the React app.
@@ -39,6 +39,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
   });
 
   app.listen(app.get('port'), () => {
-    logger.info(`Gambit Admin server running on port ${app.get('port')}`);
+    logger.info(`Gambit Admin running on port ${app.get('port')}`);
   });
 })();
