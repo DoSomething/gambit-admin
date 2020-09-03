@@ -14,7 +14,7 @@
     "express": "^4.17.1",
     "express-session": "^1.16.2",
     "heroku-logger": "^0.3.3",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "openid-client": "^2.5.0",
     "passport": "^0.4.0",
     "superagent": "^3.8.3"
