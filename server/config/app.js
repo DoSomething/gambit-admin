@@ -14,7 +14,7 @@ module.exports = {
    *
    * @type {String}
    */
-  buildPath: 'client/build',
+  buildPath: 'build',
 
   /**
    * The port that server traffic should be served from.

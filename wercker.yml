@@ -1,7 +1,5 @@
-box: node:8.16.0
+box: node:12
 box: node
 build:
   steps:
-    - script:
-      name: install server and client
-      code: npm run install-all
+    - npm-install
