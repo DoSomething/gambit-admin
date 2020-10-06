@@ -306,6 +306,7 @@ export const userFieldsFragment = gql`
     permalink
     smsStatus
     source
+    votingMethod
     votingPlanAttendingWith
     votingPlanMethodOfTransport
     votingPlanStatus
