@@ -3,12 +3,13 @@ import { Col, Panel, Row } from 'react-bootstrap';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import lodash from 'lodash';
-import VotingPlan from './VotingPlan';
+import UserVotingInfo from './UserVotingInfo';
 import helpers from '../../helpers';
 import config from '../../config';
 
 const UserDetail = (props) => {
   const user = props.user;
+
   return (
     <Panel>
       <Panel.Body>
@@ -47,7 +48,7 @@ const UserDetail = (props) => {
             </Moment> {user.source ? `via ${helpers.formatSource(user.source)}` : null}
           </Col>
           <Col sm={6}>
-            <strong>Voting plan:</strong> <VotingPlan user={user} />
+            <UserVotingInfo user={user} />
           </Col>
         </Row>
       </Panel.Body>
