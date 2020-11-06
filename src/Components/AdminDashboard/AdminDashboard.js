@@ -14,15 +14,25 @@ const AdminDashboard = () => (
     >
       {(res) => {
         const rows = lodash.orderBy(res.data.topics.random, 'trigger')
-          .map((trigger) => {
-            const desc = trigger.reply.length ? trigger.reply : `@ ${trigger.redirect}`;
-            return (
+          .map((trigger) => (
               <Row componentClass="tr" key={trigger.trigger}>
-                <Col componentClass="td"><strong>{trigger.trigger}</strong></Col>
-                <Col componentClass="td">{desc}</Col>
+                <Col componentClass="td">
+                  {trigger.contentfulId ? (
+                    <a href={helpers.getContentfulUrlForEntryId(trigger.contentfulId)}>
+                      {trigger.trigger}
+                    </a>
+                    ) : (
+                    <>
+                      {trigger.trigger}
+                    </>
+                   )}
+                </Col>
+                <Col componentClass="td">
+                  {!trigger.redirect ? trigger.reply : `@ ${trigger.redirect}`}
+                </Col>
               </Row>
-            );
-          });
+            )
+          );
 
         return (
           <div>
