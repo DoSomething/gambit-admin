@@ -60,7 +60,7 @@ const AdminDashboard = () => (
             </Panel>
 
             { parsedTopics.filter(topic => topic.topicName !== 'random').map(topic => (
-              <Panel>
+              <Panel key={topic.topicName}>
                 <Panel.Heading>
                   <Panel.Title toggle>{topic.topicName}</Panel.Title>
                 </Panel.Heading>
