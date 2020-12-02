@@ -80,6 +80,12 @@ const AdminDashboard = () => (
                 </Panel.Collapse>
               </Panel>
             )) }
+            
+            <Panel>
+              <Panel.Body>
+                <a href="https://github.com/DoSomething/gambit/blob/944a764fa40170547b97ebf5dd1edd9d0d19a637/config/lib/bad-words.js">Bad Words List</a>      
+              </Panel.Body>
+            </Panel>
           </div>
         );
       }}
