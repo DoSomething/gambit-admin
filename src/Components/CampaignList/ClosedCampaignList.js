@@ -3,7 +3,6 @@ import { Col, Grid, PageHeader, Row, Table } from 'react-bootstrap';
 import Moment from 'react-moment';
 import GraphQLQuery from '../GraphQLQuery';
 import CampaignLink from '../CampaignLink';
-import WebSignupConfirmation from '../WebSignupConfirmation';
 
 import { getCampaignDashboardQuery } from '../../graphql';
 import helpers from '../../helpers';
@@ -18,11 +17,13 @@ const CampaignListContainer = () => (
     >
       {(res) => {
         const triggersByStatus = helpers.getTriggersByCampaignStatus(res.conversationTriggers);
-        const inactiveWebSignupConfirmations = helpers.filterWebSignupConfirmations(res.webSignupConfirmations, false);
+
         return (
-          <div>
+          <>
             <h2>Keywords</h2>
+
             <p>If a user sends one of these keywords, they will receive a message indicating the campaign is no longer available.</p>
+
             <Table>
                <tbody>
                 {Object.values(triggersByStatus.closed).map(campaign => (
@@ -49,27 +50,7 @@ const CampaignListContainer = () => (
                 ))}
               </tbody>
             </Table>
-            <h2>Web Signup Confirmations</h2>
-            <Table>
-              <tbody>
-                {inactiveWebSignupConfirmations.length
-                  ? inactiveWebSignupConfirmations.map((item) => (
-                    <WebSignupConfirmation
-                      key={item.campaign.id}
-                      webSignupConfirmation={item}
-                      displayCampaign={true}
-                    />
-                  ))
-                  : (
-                    <Row componentClass="tr">
-                      <Col componentClass="td">
-                        No web signup confirmations found for any ended campaigns.
-                      </Col>
-                    </Row>
-                  )}
-              </tbody>
-            </Table>
-          </div>
+          </>
         );
       }}
     </GraphQLQuery>
