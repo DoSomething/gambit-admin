@@ -3,25 +3,6 @@ const moment = require('moment');
 const querystring = require('querystring');
 const config = require('./config');
 
-
-
-/**
- * Filters web signup confirmations with active or inactive campaigns
- * @param {Array} webSignupConfirmations
- * @param {Boolean} active
- */
-function filterWebSignupConfirmations(webSignupConfirmations, active = true) {
-  return webSignupConfirmations
-    .filter((item) => {
-      // TODO: Send item.transition once it's updated in GraphQL
-      const hasCampaign = module.exports.transitionHasCampaign(item.topic);
-      if (hasCampaign) {
-        return active ? !module.exports.hasEnded(item.campaign) : module.exports.hasEnded(item.campaign);
-      }
-      return false;
-    });
-}
-
 /**
  * Checks if the transition has a campaign property
  * @param {Object} transition
@@ -126,7 +107,6 @@ module.exports = {
     return result;
   },
   findTriggersByCampaignId,
-  filterWebSignupConfirmations,
   getBroadcastByIdPath: function getBroadcastByIdPath(broadcastId) {
     return `${this.getBroadcastsPath()}/${broadcastId}`;
   },

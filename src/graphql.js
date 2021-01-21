@@ -80,19 +80,9 @@ const conversationTriggers = `
   }
 `;
 
-const webSignupConfirmations = `
-  webSignupConfirmations {
-    ${rogueCampaignFields}
-    topic {
-      ${campaignTransitionTypes}
-    }
-  }
-`;
-
 export const getCampaignDashboardQuery = gql`
   query getCampaignDashboard {
     ${conversationTriggers}
-    ${webSignupConfirmations}
   }
   ${campaignTopicTransitionFragments}
 `;
@@ -105,7 +95,6 @@ export const getCampaignDetailByIdQuery = gql`
       internalTitle
     }
     ${conversationTriggers}
-    ${webSignupConfirmations}
   }
   ${campaignTopicTransitionFragments}
 `;
