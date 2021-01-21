@@ -1,4 +1,5 @@
 module.exports = {
+  // TODO: Update me (this config no longer exists)
   extends: '@dosomething/eslint-config/nodejs/8.x',
   globals: {
     app: true
