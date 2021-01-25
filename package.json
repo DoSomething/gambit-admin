@@ -1,9 +1,9 @@
 {
-  "name": "gambit-admin-server",
+  "name": "gambit-admin",
   "version": "3.3.3",
   "private": true,
   "engines": {
-    "node": "12.x",
+    "node": "12.20.1",
     "npm": "6.x"
   },
   "proxy": "http://localhost:3000/",
