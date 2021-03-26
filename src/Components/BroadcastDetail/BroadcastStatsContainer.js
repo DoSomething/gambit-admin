@@ -14,7 +14,7 @@ const BroadcastStatsContainer = ({ broadcastId}) => (
       {res => (
         <div>
           <BroadcastStats stats={res.data.stats} />
-          <BroadcastWebhook config={res.data.webhook} />
+          <BroadcastWebhook broadcastId={broadcastId} url={res.data.webhook.url} />
         </div>
       )}
     </HttpRequest>

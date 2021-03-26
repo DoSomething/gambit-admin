@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Panel } from 'react-bootstrap';
 
-const BroadcastWebhook = props => (
+const BroadcastWebhook = ({ broadcastId, url }) => (
   <Panel>
     <Panel.Heading>
       <Panel.Title toggle>Settings</Panel.Title>
@@ -10,10 +10,16 @@ const BroadcastWebhook = props => (
     <Panel.Collapse>
       <Panel.Body>
         <p>
-          <code>{props.config.url}</code>
+          <code>{url}</code>
         </p>
         <pre>
-          <code>{JSON.stringify(props.config.body, null, 2)}</code>
+          <code>{`{
+  "broadcastId": "${broadcastId}",
+  "userId": "{{customer.id}}",
+  "addrState": {% if customer.addr_state != blank %}"{{customer.addr_state}}"{% else %}null{% endif %},
+  "mobile": "{{customer.phone}}",
+  "smsStatus": "{{customer.sms_status}}"
+}`}</code>
         </pre>
       </Panel.Body>
     </Panel.Collapse>
@@ -21,7 +27,8 @@ const BroadcastWebhook = props => (
 );
 
 BroadcastWebhook.propTypes = {
-  config: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  url: PropTypes.string.isRequired,
+  broadcastId: PropTypes.string.isRequired,
 };
 
 export default BroadcastWebhook;
